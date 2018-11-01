@@ -1,0 +1,3 @@
+C:/Users/thomas.mcgillicuddy/Desktop/TandenEngine/TandenEngine/cmake-build-debug/CMakeFiles/TandenEngine.dir
+C:/Users/thomas.mcgillicuddy/Desktop/TandenEngine/TandenEngine/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Users/thomas.mcgillicuddy/Desktop/TandenEngine/TandenEngine/cmake-build-debug/CMakeFiles/rebuild_cache.dir

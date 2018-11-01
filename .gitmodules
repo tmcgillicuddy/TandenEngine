@@ -1,0 +1,3 @@
+[submodule "TandenEngine/Source/Core/Math"]
+	path = TandenEngine/Source/Core/Math
+	url = https://github.com/tmcgillicuddy/nilsmath.git

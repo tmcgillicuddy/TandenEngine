@@ -1,0 +1,22 @@
+//
+// Created by thomas.mcgillicuddy on 10/21/2018.
+//
+
+#include "GameObject.h"
+#include "./Components/Transform.h"
+
+GameObject::GameObject() {
+    AddComponent<Transform>();
+}
+
+GameObject::~GameObject() {
+
+}
+
+void GameObject::Update() { //Run each component's update function
+    std::cout<<"Updating GameObject \n";
+    for (const auto &component : mComponents) {
+        if(component.get() != nullptr)
+            component->Update();
+    }
+}
