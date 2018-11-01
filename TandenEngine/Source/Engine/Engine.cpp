@@ -23,7 +23,8 @@ namespace TandenEngine {
             //Process Events
             EventSystem::ProcessEvents();
 
-            //Update all registered physics components
+            //Update all registered physics objects
+            PhysicsSystem::PhysicsUpdate();
 
             //Update all the loaded scenes
             for (const auto &scene : mLoadedScenes) {

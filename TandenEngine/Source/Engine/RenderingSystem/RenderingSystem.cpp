@@ -10,7 +10,7 @@ namespace TandenEngine {
 
     void RenderingSystem::Draw() {
         for (const auto &rend : mRenderers) {
-            return rend->Draw();
+            rend->Draw();
         }
     }
 
