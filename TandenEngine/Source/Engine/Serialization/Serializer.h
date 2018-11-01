@@ -16,7 +16,10 @@
 
 namespace TandenEngine {
 
-    class Serializer {
+    class Serializer
+    {
+    private:
+        static const std::string mFileBreak;
     public:
         static ProjectSettings * CreateProject(std::string projectName);
         static void SaveProject(ProjectSettings * projectSettings); //Saves the entire project file (references to resources)
