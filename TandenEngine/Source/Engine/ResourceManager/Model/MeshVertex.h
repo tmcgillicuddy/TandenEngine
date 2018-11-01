@@ -5,7 +5,7 @@
 #ifndef HWENGINE_MESHVERTEX_H
 #define HWENGINE_MESHVERTEX_H
 
-#include "../Math/NilsMath.h"
+#include "../../../Core/Math/NilsMath.h"
 
 namespace TandenEngine {
 
