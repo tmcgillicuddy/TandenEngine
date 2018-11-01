@@ -7,13 +7,16 @@
 
 #include "../Math/NilsMath.h"
 
-class MeshVertex {
-private:
-    Vector3 mPos;
-    Vector2 mUV;
-    Vector3 mNormal;
-    Vector3 mTangent;
-};
+namespace TandenEngine {
 
+    class MeshVertex {
+    private:
+        Vector3 mPos;
+        Vector2 mUV;
+        Vector3 mNormal;
+        Vector3 mTangent;
+    };
+
+}
 
 #endif //HWENGINE_MESHVERTEX_H

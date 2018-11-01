@@ -5,10 +5,15 @@
 #include "Renderer.h"
 #include "../../RenderingSystem/RenderingSystem.h"
 #include <iostream>
-void Renderer::Update() {
 
-}
+namespace TandenEngine {
 
-void Renderer::Register() {
-    RenderingSystem::RegisterRenderer(this);
+    void Renderer::Update() {
+
+    }
+
+    void Renderer::Register() {
+        RenderingSystem::RegisterRenderer(this);
+    }
+
 }

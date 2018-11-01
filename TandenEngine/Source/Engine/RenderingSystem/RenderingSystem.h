@@ -9,15 +9,18 @@
 
 #include "../Entity/Components/Renderer.h"
 
-class RenderingSystem {
+namespace TandenEngine {
 
-    static std::vector<Renderer*> mRenderers;
+    class RenderingSystem {
 
-public:
-    static void Draw();
+        static std::vector<Renderer *> mRenderers;
 
-    static void RegisterRenderer(Renderer * newRenderer);
-};
+    public:
+        static void Draw();
 
+        static void RegisterRenderer(Renderer *newRenderer);
+    };
+
+}
 
 #endif //HWENGINE_RENDERINGSYSTEM_H

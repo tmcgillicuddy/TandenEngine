@@ -10,28 +10,31 @@
 #include "../EventSystem/EventSystem.h"
 #include "../EventSystem/Events/KeyboardEvent.h"
 
-struct Key
-{
-    bool state = false;
-};
+namespace TandenEngine {
+
+    struct Key {
+        bool state = false;
+    };
 
 
-class Keyboard {
-    friend class Input;
+    class Keyboard {
+        friend class Input;
 
-public:
-    void UpdateKeyboard();
+    public:
+        void UpdateKeyboard();
 
-private:
-    void FlushKeyboard();
-    void DetectKeyChanges();
+    private:
+        void FlushKeyboard();
 
-protected:
-    Key mKeys[101];
-    Key mPrevKeys[101];
-    Key mKeysDown[101];
-    Key mKeysUp[101];
-};
+        void DetectKeyChanges();
 
+    protected:
+        Key mKeys[101];
+        Key mPrevKeys[101];
+        Key mKeysDown[101];
+        Key mKeysUp[101];
+    };
+
+}
 
 #endif //HWENGINE_KEYBOARD_H

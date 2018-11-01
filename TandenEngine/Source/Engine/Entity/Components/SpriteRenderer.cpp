@@ -4,6 +4,10 @@
 
 #include "SpriteRenderer.h"
 
-void SpriteRenderer::Draw() {
+namespace TandenEngine {
+
+    void SpriteRenderer::Draw() {
+
+    }
 
 }

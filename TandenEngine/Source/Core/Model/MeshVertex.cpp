@@ -3,3 +3,7 @@
 //
 
 #include "MeshVertex.h"
+
+namespace TandenEngine {
+
+}

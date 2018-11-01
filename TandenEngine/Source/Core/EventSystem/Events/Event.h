@@ -5,20 +5,21 @@
 #ifndef HWENGINE_EVENT_H
 #define HWENGINE_EVENT_H
 
+namespace TandenEngine {
 
-class Event {
-public:
-    enum EventType
-    {
-        INPUT
+    class Event {
+    public:
+        enum EventType {
+            INPUT
+        };
+
+        EventType mType;
+
+        Event(EventType);
+
+
     };
 
-    EventType mType;
-
-    Event(EventType);
-
-
-};
-
+}
 
 #endif //HWENGINE_EVENT_H

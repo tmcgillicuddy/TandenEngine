@@ -4,15 +4,19 @@
 
 #include "Transform.h"
 
-Transform::Transform() {
+namespace TandenEngine {
 
-}
+    Transform::Transform() {
 
-Transform::~Transform() {
+    }
 
-}
+    Transform::~Transform() {
 
-void Transform::Update() {
-    std::cout<<"Updating Transform \n";
+    }
+
+    void Transform::Update() {
+        std::cout << "Updating Transform \n";
+
+    }
 
 }

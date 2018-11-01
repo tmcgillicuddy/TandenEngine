@@ -7,12 +7,18 @@
 
 #include "Component.h"
 
-class Renderer : public Component {
-friend class RenderingSystem;
-    virtual void Draw() {};
-    void Update() override;
-    void Register() override;
-};
+namespace TandenEngine {
 
+    class Renderer : public Component {
+        friend class RenderingSystem;
+
+        virtual void Draw() {};
+
+        void Update() override;
+
+        void Register() override;
+    };
+
+}
 
 #endif //HWENGINE_RENDERER_H

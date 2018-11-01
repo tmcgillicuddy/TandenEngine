@@ -7,11 +7,15 @@
 
 #include "Events/Event.h"
 
-class EventListener {
-    friend class EventSystem;
-private:
-    virtual void ProcessEvent(Event*)=0;
-};
+namespace TandenEngine {
 
+    class EventListener {
+        friend class EventSystem;
+
+    private:
+        virtual void ProcessEvent(Event *) = 0;
+    };
+
+}
 
 #endif //HWENGINE_EVENTLISTENER_H

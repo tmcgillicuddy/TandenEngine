@@ -12,19 +12,25 @@
 #include "Events/Event.h"
 #include "EventListener.h"
 
-class EventSystem {
-private:
-    static std::queue<Event*> mEvents; //Current Events to process
-    static std::vector<EventListener*> mListeners; //Current listeners
+namespace TandenEngine {
 
-public:
-    EventSystem();
-    static bool RegisterListener(EventListener*);
-    static bool DeregisterListener(EventListener*);
+    class EventSystem {
+    private:
+        static std::queue<Event *> mEvents; //Current Events to process
+        static std::vector<EventListener *> mListeners; //Current listeners
 
-    static void ProcessEvents(); //Processes events on the queue
+    public:
+        EventSystem();
 
-    static void AddEvent(Event*);
-};
+        static bool RegisterListener(EventListener *);
+
+        static bool DeregisterListener(EventListener *);
+
+        static void ProcessEvents(); //Processes events on the queue
+
+        static void AddEvent(Event *);
+    };
+
+}
 
 #endif //HWENGINE_EVENTSYSTEM_H

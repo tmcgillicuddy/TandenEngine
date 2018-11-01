@@ -4,6 +4,10 @@
 
 #include "KeyboardEvent.h"
 
-KeyboardEvent::KeyboardEvent(int val) : Event(Event::INPUT) {
-    mVal = val;
+namespace TandenEngine {
+
+    KeyboardEvent::KeyboardEvent(int val) : Event(Event::INPUT) {
+        mVal = val;
+    }
+
 }

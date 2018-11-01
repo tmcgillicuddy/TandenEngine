@@ -10,25 +10,28 @@
 #include "../Core/EventSystem/EventSystem.h"
 #include "./RenderingSystem/RenderingSystem.h"
 #include "./Entity/Scene.h"
+namespace TandenEngine {
+    
+    class Engine : public EventListener {
+    private:
+        bool exitStatus = 0;
 
-class Engine : public EventListener {
-private:
-    bool exitStatus = 0;
+        void ProcessEvent(Event *) override;
 
-    void ProcessEvent(Event*) override;
+        void ProcessEventKeyboard(KeyboardEvent *);
 
-    void ProcessEventKeyboard(KeyboardEvent *);
+        std::vector<Scene *> mLoadedScenes;
 
-    std::vector<Scene*> mLoadedScenes;
+    public:
+        Engine();
 
-public:
-    Engine();
+        void StartEngine();
 
-    void StartEngine();
-    void RunEngine();
-    void StopEngine();
+        void RunEngine();
 
-};
+        void StopEngine();
 
+    };
 
+}
 #endif //HWENGINE_ENGINE_H

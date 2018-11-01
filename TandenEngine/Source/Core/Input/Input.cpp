@@ -4,8 +4,12 @@
 
 #include "Input.h"
 
-Keyboard Input::mKeyboard;
+namespace TandenEngine {
 
-void Input::GetInput() {
-    mKeyboard.UpdateKeyboard();
+    Keyboard Input::mKeyboard;
+
+    void Input::GetInput() {
+        mKeyboard.UpdateKeyboard();
+    }
+
 }

@@ -3,3 +3,6 @@
 //
 
 #include "EventListener.h"
+
+namespace TandenEngine {
+}

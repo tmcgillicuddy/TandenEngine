@@ -9,9 +9,12 @@
 
 #include "MeshVertex.h"
 
-class Model {
-    std::vector<MeshVertex> mVertexBuffer;
-};
+namespace TandenEngine {
 
+    class Model {
+        std::vector<MeshVertex> mVertexBuffer;
+    };
+
+}
 
 #endif //HWENGINE_MODEL_H

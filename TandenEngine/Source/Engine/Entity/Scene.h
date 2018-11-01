@@ -11,17 +11,22 @@
 //HWEngine Classes
 #include "GameObject.h"
 
-class Scene {
-private:
-std::vector<std::unique_ptr<GameObject>> mGameObjects;
-public:
-GameObject * CreateGameObject();
-bool DestroyGameObject();
-GameObject * FindGameObject();
+namespace TandenEngine {
 
-void Update();
+    class Scene {
+    private:
+        std::vector<std::unique_ptr<GameObject>> mGameObjects;
+    public:
+        GameObject *CreateGameObject();
 
-};
+        bool DestroyGameObject();
 
+        GameObject *FindGameObject();
+
+        void Update();
+
+    };
+
+}
 
 #endif //HWENGINE_SCENE_H

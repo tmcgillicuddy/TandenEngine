@@ -7,9 +7,12 @@
 
 #include "Renderer.h"
 
-class SpriteRenderer : public Renderer {
-    void Draw() override;
-};
+namespace TandenEngine {
 
+    class SpriteRenderer : public Renderer {
+        void Draw() override;
+    };
+
+}
 
 #endif //HWENGINE_SPRITERENDERER_H

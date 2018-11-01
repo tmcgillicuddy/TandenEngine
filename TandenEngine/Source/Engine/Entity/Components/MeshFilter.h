@@ -7,9 +7,12 @@
 
 #include "../../../Core/Model/Model.h"
 
-class MeshFilter {
-    Model * mModelResource;
-};
+namespace TandenEngine {
 
+    class MeshFilter {
+        Model *mModelResource;
+    };
+
+}
 
 #endif //HWENGINE_MESHFILTER_H

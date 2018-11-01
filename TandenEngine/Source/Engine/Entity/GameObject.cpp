@@ -5,18 +5,22 @@
 #include "GameObject.h"
 #include "./Components/Transform.h"
 
-GameObject::GameObject() {
-    AddComponent<Transform>();
-}
+namespace TandenEngine {
 
-GameObject::~GameObject() {
-
-}
-
-void GameObject::Update() { //Run each component's update function
-    std::cout<<"Updating GameObject \n";
-    for (const auto &component : mComponents) {
-        if(component.get() != nullptr)
-            component->Update();
+    GameObject::GameObject() {
+        AddComponent<Transform>();
     }
+
+    GameObject::~GameObject() {
+
+    }
+
+    void GameObject::Update() { //Run each component's update function
+        std::cout << "Updating GameObject \n";
+        for (const auto &component : mComponents) {
+            if (component.get() != nullptr)
+                component->Update();
+        }
+    }
+
 }

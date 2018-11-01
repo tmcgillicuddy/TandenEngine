@@ -10,10 +10,13 @@
 
 #include "SceneSettings.h"
 
-class ProjectSettings {
-    std::string projectName;
-    std::vector<SceneSettings> sceneFiles;
-};
+namespace TandenEngine {
 
+    class ProjectSettings {
+        std::string projectName;
+        std::vector<SceneSettings> sceneFiles;
+    };
+
+}
 
 #endif //HWENGINE_PROJECTSETTINGS_H

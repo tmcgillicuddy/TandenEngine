@@ -6,14 +6,16 @@
 #define HWENGINE_INPUT_H
 
 #include "Keyboard.h"
-class Input {
-private:
-    static Keyboard mKeyboard;
-public:
-    static void GetInput();
-};
 
+namespace TandenEngine {
 
+    class Input {
+    private:
+        static Keyboard mKeyboard;
+    public:
+        static void GetInput();
+    };
 
+}
 
 #endif //HWENGINE_INPUT_H

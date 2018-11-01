@@ -8,14 +8,20 @@
 #include "Renderer.h"
 #include "MeshFilter.h"
 
-class MeshRenderer : public Renderer {
-public:
-    MeshRenderer();
-    ~MeshRenderer();
-    void Draw() override;
-private:
-    MeshFilter * mpMesh{}; //Pointer to mesh component to draw (must be on the same gameobject)
-};
+namespace TandenEngine {
 
+    class MeshRenderer : public Renderer {
+    public:
+        MeshRenderer();
+
+        ~MeshRenderer();
+
+        void Draw() override;
+
+    private:
+        MeshFilter *mpMesh{}; //Pointer to mesh component to draw (must be on the same gameobject)
+    };
+
+}
 
 #endif //HWENGINE_MESHRENDERER_H

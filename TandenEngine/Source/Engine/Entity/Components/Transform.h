@@ -10,15 +10,19 @@
 #include "Component.h"
 #include "../../../Core/Math/Vector3.h"
 
-class Transform :  public  Component{
-public:
-    Vector3 position;
+namespace TandenEngine {
 
-    Transform();
-    ~Transform();
+    class Transform : public Component {
+    public:
+        Vector3 position;
 
-    void Update() override;
-};
+        Transform();
 
+        ~Transform();
+
+        void Update() override;
+    };
+
+}
 
 #endif //HWENGINE_TRANSFORM_H

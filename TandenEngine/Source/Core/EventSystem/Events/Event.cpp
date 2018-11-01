@@ -4,6 +4,10 @@
 
 #include "Event.h"
 
-Event::Event(Event::EventType type) {
-    mType = type;
+namespace TandenEngine {
+
+    Event::Event(Event::EventType type) {
+        mType = type;
+    }
+
 }

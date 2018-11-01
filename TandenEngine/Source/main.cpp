@@ -3,7 +3,7 @@
 #include "./Engine/Engine.h"
 
 int main() {
-    Engine * theEngine = new Engine();
+    TandenEngine::Engine * theEngine = new TandenEngine::Engine();
 
     theEngine->StartEngine(); //Initialize all systems and load resources
 

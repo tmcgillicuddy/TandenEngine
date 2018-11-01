@@ -4,14 +4,19 @@
 
 #include "MeshRenderer.h"
 #include <iostream>
-MeshRenderer::MeshRenderer() {
 
-}
+namespace TandenEngine {
 
-MeshRenderer::~MeshRenderer() {
+    MeshRenderer::MeshRenderer() {
 
-}
+    }
 
-void MeshRenderer::Draw() {
-    std::cout<< "Drawing Mesh Renderer\n";
+    MeshRenderer::~MeshRenderer() {
+
+    }
+
+    void MeshRenderer::Draw() {
+        std::cout << "Drawing Mesh Renderer\n";
+    }
+
 }

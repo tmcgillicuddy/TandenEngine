@@ -7,12 +7,15 @@
 
 #include "Event.h"
 
-class KeyboardEvent : public Event {
-public:
-    int mVal;
+namespace TandenEngine {
 
-    KeyboardEvent(int val);
-};
+    class KeyboardEvent : public Event {
+    public:
+        int mVal;
 
+        KeyboardEvent(int val);
+    };
+
+}
 
 #endif //HWENGINE_KEYBOARDEVENT_H

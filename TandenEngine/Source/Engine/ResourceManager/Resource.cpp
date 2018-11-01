@@ -3,3 +3,7 @@
 //
 
 #include "Resource.h"
+
+namespace TandenEngine {
+
+}

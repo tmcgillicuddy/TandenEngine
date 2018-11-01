@@ -5,10 +5,12 @@
 #ifndef HWENGINE_METADATA_H
 #define HWENGINE_METADATA_H
 
+namespace TandenEngine {
 
-class MetaData {
+    class MetaData {
 
-};
+    };
 
+}
 
 #endif //HWENGINE_METADATA_H
