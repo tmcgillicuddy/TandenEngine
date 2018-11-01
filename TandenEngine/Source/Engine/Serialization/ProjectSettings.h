@@ -8,15 +8,21 @@
 #include <string>
 #include <vector>
 
+
 #include "../ResourceManager/Resource.h"
-#include "../ResourceManager/SceneSettings.h"
 
 namespace TandenEngine {
 
     class ProjectSettings {
+        friend class Serializer;
+        const std::string mExtension = ".project";
         std::string mProjectName;
-        std::vector<SceneSettings> mSceneFiles;
         std::vector<Resource> mResourceFiles;
+
+    public:
+        void AddResource(Resource newResouce);
+
+        void PrintProjectInfo();
     };
 
 }

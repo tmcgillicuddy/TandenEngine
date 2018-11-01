@@ -8,15 +8,23 @@
 #include <vector>
 #include <iostream>
 
-//HWEngine Classes
+//Tanden Engine Classes
 #include "GameObject.h"
+#include "../ResourceManager/SceneSettings.h"
 
 namespace TandenEngine {
 
     class Scene {
     private:
         std::vector<std::unique_ptr<GameObject>> mGameObjects;
+
+        SceneSettings * mSceneSettings;
+
     public:
+
+        Scene(); //Just create a new scene (generates scene setting file)
+        Scene(SceneSettings*); //Create scene from scene settings file
+
         GameObject *CreateGameObject();
 
         bool DestroyGameObject();

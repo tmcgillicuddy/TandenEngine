@@ -13,6 +13,7 @@
 #include "./RenderingSystem/RenderingSystem.h"
 #include "./PhysicsSystem/PhysicsSystem.h"
 #include "./Serialization/ProjectSettings.h"
+#include "./Serialization/Serializer.h"
 #include "./Entity/Scene.h"
 
 namespace TandenEngine {
@@ -27,7 +28,7 @@ namespace TandenEngine {
 
         std::string mProjectDirectory; //Directory to project folder
 
-        ProjectSettings mProjectSettings; //The instances project settings
+        ProjectSettings * mProjectSettings; //The instances project settings
 
         std::vector<Scene *> mLoadedScenes;
 

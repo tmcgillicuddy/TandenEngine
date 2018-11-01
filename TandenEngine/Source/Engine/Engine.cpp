@@ -10,7 +10,13 @@
 namespace TandenEngine {
 
     void Engine::StartEngine() {
+        std::cout<< "Please specify Project File directory: ";
+        std::cin >> mProjectDirectory;
+        mProjectSettings = Serializer::LoadProject(mProjectDirectory);
 
+        mProjectSettings->PrintProjectInfo(); //Display the info to make sure it's correct
+
+        system("pause");
     }
 
     void Engine::RunEngine() {

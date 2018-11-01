@@ -12,7 +12,10 @@
 namespace TandenEngine {
 
     class SceneSettings : public Resource {
-        std::string mSceneName;
+        friend class Scene;
+        std::string mSceneName = "Untitled";
+        SceneSettings() : Resource(".scene"){}
+
     };
 
 }
