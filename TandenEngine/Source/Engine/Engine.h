@@ -5,11 +5,14 @@
 #ifndef HWENGINE_ENGINE_H
 #define HWENGINE_ENGINE_H
 
+#include <string>
+
 #include "../Core/Timer/Timer.h"
 #include "../Core/Input/Input.h"
 #include "../Core/EventSystem/EventSystem.h"
 #include "./RenderingSystem/RenderingSystem.h"
 #include "./PhysicsSystem/PhysicsSystem.h"
+#include "./Serialization/ProjectSettings.h"
 #include "./Entity/Scene.h"
 
 namespace TandenEngine {
@@ -21,6 +24,10 @@ namespace TandenEngine {
         void ProcessEvent(Event *) override;
 
         void ProcessEventKeyboard(KeyboardEvent *);
+
+        std::string mProjectDirectory; //Directory to project folder
+
+        ProjectSettings mProjectSettings; //The instances project settings
 
         std::vector<Scene *> mLoadedScenes;
 

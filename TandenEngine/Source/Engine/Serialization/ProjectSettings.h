@@ -8,13 +8,15 @@
 #include <string>
 #include <vector>
 
-#include "SceneSettings.h"
+#include "../ResourceManager/Resource.h"
+#include "../ResourceManager/SceneSettings.h"
 
 namespace TandenEngine {
 
     class ProjectSettings {
-        std::string projectName;
-        std::vector<SceneSettings> sceneFiles;
+        std::string mProjectName;
+        std::vector<SceneSettings> mSceneFiles;
+        std::vector<Resource> mResourceFiles;
     };
 
 }

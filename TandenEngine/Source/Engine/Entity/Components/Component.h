@@ -12,6 +12,8 @@ namespace TandenEngine {
         virtual void Update() {};
 
         virtual void Register() {};
+
+        virtual void Serialize() {};
     };
 
 }
