@@ -6,6 +6,11 @@
 namespace TandenEngine {
 
     Resource * ResourceManager::GenerateResourceFromMetaData(MetaData *metaData) {
+        //switch (metaData->mFileType)
+        //{
+        //    default:
+        //        break;
+        //}
         return nullptr;
     }
 }

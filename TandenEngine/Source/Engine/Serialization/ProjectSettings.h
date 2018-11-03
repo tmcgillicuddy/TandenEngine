@@ -9,7 +9,7 @@
 #include <vector>
 
 
-#include "../ResourceManager/Resource.h"
+#include "../ResourceManager/Resources/Resource.h"
 
 namespace TandenEngine {
 

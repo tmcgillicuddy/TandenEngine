@@ -5,7 +5,7 @@
 #ifndef TANDENENGINE_RESOURCEMANAGER_H
 #define TANDENENGINE_RESOURCEMANAGER_H
 
-#include "./Resource.h"
+#include "Resources/Resource.h"
 namespace TandenEngine {
     class ResourceManager {
     public:

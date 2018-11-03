@@ -8,10 +8,11 @@
 #include <vector>
 
 #include "MeshVertex.h"
+#include "../Resource.h"
 
 namespace TandenEngine {
 
-    class Model {
+    class Model : public Resource{
         std::vector<MeshVertex> mVertexBuffer;
     };
 

@@ -7,7 +7,7 @@
 
 #include <string>
 
-#include "./MetaData.h"
+#include "../MetaData.h"
 
 namespace TandenEngine {
 

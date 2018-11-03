@@ -9,21 +9,18 @@
 #include <iostream>
 
 //Tanden Engine Classes
-#include "GameObject.h"
-#include "../ResourceManager/SceneSettings.h"
+#include "../../Entity/GameObject.h"
+#include "./Resource.h"
 
 namespace TandenEngine {
 
-    class Scene {
+    class Scene : public Resource {
     private:
         std::vector<std::unique_ptr<GameObject>> mGameObjects;
-
-        SceneSettings * mSceneSettings;
 
     public:
 
         Scene(); //Just create a new scene (generates scene setting file)
-        Scene(SceneSettings*); //Create scene from scene settings file
 
         GameObject *CreateGameObject();
 
