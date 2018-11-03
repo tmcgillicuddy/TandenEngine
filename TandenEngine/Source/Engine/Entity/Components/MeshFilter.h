@@ -5,7 +5,7 @@
 #ifndef HWENGINE_MESHFILTER_H
 #define HWENGINE_MESHFILTER_H
 
-#include "../../ResourceManager/Model/Model.h"
+#include "../../ResourceManager/Resources/Model/Model.h"
 
 namespace TandenEngine {
 

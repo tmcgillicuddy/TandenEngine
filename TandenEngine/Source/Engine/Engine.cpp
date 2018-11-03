@@ -59,6 +59,7 @@ namespace TandenEngine {
         auto *testGO = newScene->CreateGameObject(); //TODO remove these tests
         testGO->AddComponent<MeshRenderer>(); //TODO remove these tests
         mLoadedScenes.emplace_back(newScene); //TODO remove these tests
+        mProjectSettings->AddResource(*newScene);
     }
 
     void Engine::ProcessEvent(Event *theEvent) {

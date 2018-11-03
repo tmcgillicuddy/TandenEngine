@@ -26,15 +26,8 @@ namespace TandenEngine {
         }
     }
 
-    Scene::Scene() {
-        mSceneSettings = new SceneSettings();
+    Scene::Scene() : Resource(".scene") {
 
-    }
-
-    Scene::Scene(SceneSettings * settings) {
-        mSceneSettings = settings;
-
-        //Create all objects in the settings
     }
 
 }

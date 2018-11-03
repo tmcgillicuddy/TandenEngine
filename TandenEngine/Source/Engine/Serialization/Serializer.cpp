@@ -150,9 +150,9 @@ namespace TandenEngine {
                     MetaData * newMeta = new MetaData();
                     fileStream >> newMeta->mFileDir;
                     fileStream >> newMeta->mFileType; //TODO error check for missing data
-
+                    fileStream >> newMeta->mGuid;
                     //Generate resource from meta data
-                    auto newResouce = ResourceManager::GenerateResourceFromMetaData(newMeta);
+                    Resource * newResouce = ResourceManager::GenerateResourceFromMetaData(newMeta);
 
                     parentSettings->mResourceFiles.emplace_back(newResouce);
                 }
