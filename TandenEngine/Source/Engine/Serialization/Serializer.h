@@ -13,7 +13,7 @@
 #include "ProjectSettings.h"
 #include "../ResourceManager/SceneSettings.h"
 #include "../ResourceManager/PrefabSettings.h"
-
+#include "../ResourceManager/ResourceManager.h"
 #include "../Entity/Scene.h"
 
 namespace TandenEngine {

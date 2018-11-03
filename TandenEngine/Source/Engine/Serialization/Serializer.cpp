@@ -118,16 +118,14 @@ namespace TandenEngine {
 
         if (!fileStream.is_open()) {
             std::cout<< "Error Loading Project Settings File\n";
-        } else //File exists
+        }
+        else //File exists
         {
             std::cout<< "Found Project Settings File\n";
             fileStream >> loadedProj->mProjectName;
             //Load the resources for the assets folder
             std::string assetDir = projectDir + "\\Assets\\";
             GetMetaDataAtDir(loadedProj, assetDir);
-
-
-
         }
         fileStream.close();
 
@@ -141,32 +139,26 @@ namespace TandenEngine {
         {
             name = p.path().u8string();
             if(name.substr(name.find_last_of(".") + 1) == "meta") {
-                std::cout << name << std::endl;
+                std::ifstream fileStream;
+                fileStream.open(name);
+                if (!fileStream.is_open()) {
+                    std::cout<< "Error opening meta data\n";
+                }
+                else
+                {
+                    //Create meta data object from file
+                    MetaData * newMeta = new MetaData();
+                    fileStream >> newMeta->mFileDir;
+                    fileStream >> newMeta->mFileType; //TODO error check for missing data
+
+                    //Generate resource from meta data
+                    auto newResouce = ResourceManager::GenerateResourceFromMetaData(newMeta);
+
+                    parentSettings->mResourceFiles.emplace_back(newResouce);
+                }
             }
 
         }
-
-        //WIN32_FIND_DATA search_data;
-//
-        //memset(&search_data, 0, sizeof(WIN32_FIND_DATA));
-//
-        //HANDLE handle = FindFirstFile((dir).c_str(), &search_data);
-//
-        //while(handle != INVALID_HANDLE_VALUE)
-        //{
-        //    if((search_data.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) != 0) //If the file is a directory
-        //    {
-        //        // Call our function again to search in this sub-directory
-        //        std::cout<<"Found a directory\n";
-        //        std::string newDir = (CHAR)"./" + search_data.cFileName;
-        //        GetMetaDataAtDir(parentSettings, newDir);
-        //    } else {
-        //        printf("Found file: %s\r\n", search_data.cFileName);
-//
-        //        if (FindNextFile(handle, &search_data) == FALSE)
-        //            break;
-        //    }
-        //}
     }
 
 }
