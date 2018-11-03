@@ -9,6 +9,7 @@
 #include <fstream>
 #include <windows.h>
 #include <filesystem>
+#include<stdio.h>
 
 #include "ProjectSettings.h"
 #include "../ResourceManager/ResourceManager.h"

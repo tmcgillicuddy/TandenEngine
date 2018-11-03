@@ -153,8 +153,13 @@ namespace TandenEngine {
                     fileStream >> newMeta->mGuid;
                     //Generate resource from meta data
                     Resource * newResouce = ResourceManager::GenerateResourceFromMetaData(newMeta);
-
-                    parentSettings->mResourceFiles.emplace_back(newResouce);
+                    if(newResouce != nullptr) {
+                        parentSettings->AddResource(*newResouce);
+                    } else
+                    {
+                        std::cout<<"Couldn't generate resource from meta data: " << name << std::endl;
+                        std::remove(name.c_str());
+                    }
                 }
             }
 

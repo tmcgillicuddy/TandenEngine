@@ -19,6 +19,16 @@ namespace TandenEngine {
         else
             std::cout<<"Error Loading Project Start Engine\n";
 
+
+        //ADD TEST DATA TODO REMOVE THESE
+        auto *newScene = new Scene(); //TODO remove these tests
+        auto *testGO = newScene->CreateGameObject(); //TODO remove these tests
+        testGO->AddComponent<MeshRenderer>(); //TODO remove these tests
+        mLoadedScenes.emplace_back(newScene); //TODO remove these tests
+        std::cout<<"Start Main\n";
+
+        mProjectSettings->AddResource(*newScene);
+
         system("pause");
     }
 
@@ -55,11 +65,6 @@ namespace TandenEngine {
 
     Engine::Engine() {
         EventSystem::RegisterListener(this);
-        auto *newScene = new Scene(); //TODO remove these tests
-        auto *testGO = newScene->CreateGameObject(); //TODO remove these tests
-        testGO->AddComponent<MeshRenderer>(); //TODO remove these tests
-        mLoadedScenes.emplace_back(newScene); //TODO remove these tests
-        mProjectSettings->AddResource(*newScene);
     }
 
     void Engine::ProcessEvent(Event *theEvent) {
