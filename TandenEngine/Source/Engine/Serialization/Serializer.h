@@ -7,6 +7,7 @@
 
 #include <string>
 #include <fstream>
+#include <windows.h>
 
 #include "ProjectSettings.h"
 #include "../ResourceManager/SceneSettings.h"
@@ -21,7 +22,7 @@ namespace TandenEngine {
     private:
         static const std::string mFileBreak;
     public:
-        static ProjectSettings * CreateProject(std::string projectName);
+        static void CreateProject(std::string projectName, std::string path);
         static void SaveProject(ProjectSettings * projectSettings); //Saves the entire project file (references to resources)
         static ProjectSettings * LoadProject(std::string projectDir); //Loads the entire project file from a file path
 

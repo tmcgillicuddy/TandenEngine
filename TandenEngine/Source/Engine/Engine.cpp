@@ -14,7 +14,7 @@ namespace TandenEngine {
         std::cin >> mProjectDirectory;
         mProjectSettings = Serializer::LoadProject(mProjectDirectory);
 
-        mProjectSettings->PrintProjectInfo(); //Display the info to make sure it's correct
+        //mProjectSettings->PrintProjectInfo(); //Display the info to make sure it's correct
 
         system("pause");
     }
