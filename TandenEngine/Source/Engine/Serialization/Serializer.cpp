@@ -123,27 +123,50 @@ namespace TandenEngine {
             std::cout<< "Found Project Settings File\n";
             fileStream >> loadedProj->mProjectName;
             //Load the resources for the assets folder
-            std::string assetDirc = projectDir + "\\Assets\\*.meta";
+            std::string assetDir = projectDir + "\\Assets\\";
+            GetMetaDataAtDir(loadedProj, assetDir);
 
-            WIN32_FIND_DATA search_data;
-
-            memset(&search_data, 0, sizeof(WIN32_FIND_DATA));
-
-            HANDLE handle = FindFirstFile(assetDirc.c_str(), &search_data);
-
-            while(handle != INVALID_HANDLE_VALUE)
-            {
-                printf("Found file: %s\r\n", search_data.cFileName);
-
-                if(FindNextFile(handle, &search_data) == FALSE)
-                    break;
-            }
 
 
         }
         fileStream.close();
 
         return loadedProj;
+    }
+
+    void Serializer::GetMetaDataAtDir(ProjectSettings *parentSettings, std::string dir) {
+        std::string extension = "*.meta"; //Extension for meta data
+        std::string name;
+        for (auto & p : std::filesystem::recursive_directory_iterator(dir))
+        {
+            name = p.path().u8string();
+            if(name.substr(name.find_last_of(".") + 1) == "meta") {
+                std::cout << name << std::endl;
+            }
+
+        }
+
+        //WIN32_FIND_DATA search_data;
+//
+        //memset(&search_data, 0, sizeof(WIN32_FIND_DATA));
+//
+        //HANDLE handle = FindFirstFile((dir).c_str(), &search_data);
+//
+        //while(handle != INVALID_HANDLE_VALUE)
+        //{
+        //    if((search_data.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) != 0) //If the file is a directory
+        //    {
+        //        // Call our function again to search in this sub-directory
+        //        std::cout<<"Found a directory\n";
+        //        std::string newDir = (CHAR)"./" + search_data.cFileName;
+        //        GetMetaDataAtDir(parentSettings, newDir);
+        //    } else {
+        //        printf("Found file: %s\r\n", search_data.cFileName);
+//
+        //        if (FindNextFile(handle, &search_data) == FALSE)
+        //            break;
+        //    }
+        //}
     }
 
 }

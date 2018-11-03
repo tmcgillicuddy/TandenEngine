@@ -8,6 +8,7 @@
 #include <string>
 #include <fstream>
 #include <windows.h>
+#include <filesystem>
 
 #include "ProjectSettings.h"
 #include "../ResourceManager/SceneSettings.h"
@@ -21,6 +22,8 @@ namespace TandenEngine {
     {
     private:
         static const std::string mFileBreak;
+
+        static void GetMetaDataAtDir(ProjectSettings * parentSettings, std::string dir); //Will run through a directory and it's subdirectories to get any meta data
     public:
         static void CreateProject(std::string projectName, std::string path);
         static ProjectSettings * LoadProject(std::string projectDir); //Loads the entire project file from a file path
