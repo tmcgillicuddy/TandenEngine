@@ -23,7 +23,6 @@ namespace TandenEngine {
         static const std::string mFileBreak;
     public:
         static void CreateProject(std::string projectName, std::string path);
-        static void SaveProject(ProjectSettings * projectSettings); //Saves the entire project file (references to resources)
         static ProjectSettings * LoadProject(std::string projectDir); //Loads the entire project file from a file path
 
         static void SaveScene(Scene sceneSettings); //Save the scene to the a scene settings file

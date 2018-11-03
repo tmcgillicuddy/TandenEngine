@@ -10,8 +10,6 @@ namespace  TandenEngine {
 
     void ProjectSettings::AddResource(TandenEngine::Resource newResouce) {
         mResourceFiles.emplace_back(newResouce);
-
-        Serializer::SaveProject(this);
     }
 
     void ProjectSettings::PrintProjectInfo() {

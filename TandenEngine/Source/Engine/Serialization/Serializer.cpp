@@ -41,8 +41,32 @@ namespace TandenEngine {
              ERROR_ALREADY_EXISTS == GetLastError())
          {
              //Populate the project settings folder
-             std::string folderPath = path + "\\" + projectName + "\\ProjectSettings";
-             //SaveProject(newProj);
+             std::string folderPath = path + "\\" + projectName + "\\ProjectSettings\\";
+             //Project file
+             {
+                 ProjectSettings *projectSettings = new ProjectSettings();
+                 //Setup object
+                 projectSettings->mProjectName = projectName;
+
+                 //Write to file
+                 std::ofstream fileStream;
+                 fileStream.open(folderPath + "ProjectSettings" + projectSettings->mExtension);
+
+                 //Write Project settings to file
+
+                 fileStream << projectSettings->mProjectName << "\n";
+
+                 fileStream << mFileBreak;
+
+                 //Resource info
+
+                 for (auto const &resource : projectSettings->mResourceFiles) {
+
+                     fileStream << mFileBreak;
+                 }
+
+                 fileStream.close();
+             }
          }
          else
          {
@@ -51,28 +75,6 @@ namespace TandenEngine {
          }
 
      }
-
-    void Serializer::SaveProject(ProjectSettings * projectSettings) {
-        std::ofstream fileStream;
-
-        fileStream.open(projectSettings->mProjectName + projectSettings->mExtension);
-
-        //Project file info
-
-        fileStream << projectSettings->mProjectName << "\n";
-
-        fileStream << mFileBreak;
-
-        //Resource info
-
-        for (auto const &resource : projectSettings->mResourceFiles)
-        {
-
-            fileStream << mFileBreak;
-        }
-
-        fileStream.close();
-    }
 
     ProjectSettings * Serializer::LoadProject(std::string projectDir) {
         std::cout<< "Loading from " << projectDir << std::endl;
@@ -105,29 +107,43 @@ namespace TandenEngine {
             std::string newName;
             std::cin >> newName;
             CreateProject(newName, projectDir);
+            projectDir = projectDir + newName; //Make sure to adjust the project directory
         }
 
-        //ProjectSettings *loadedProj;
-        std::ifstream fileStream;
-        fileStream.open(projectDir);
-        if (!fileStream.is_open()) {
+        ProjectSettings *loadedProj = new ProjectSettings();
 
+        std::ifstream fileStream;
+
+        fileStream.open(projectDir + "\\ProjectSettings\\ProjectSettings" + loadedProj->mExtension);
+
+        if (!fileStream.is_open()) {
+            std::cout<< "Error Loading Project Settings File\n";
         } else //File exists
         {
-           // loadedProj = new ProjectSettings();
-            //fileStream >> loadedProj->mProjectName;
-            //Load the resources for the project file
-            std::string input;
-            while (fileStream >> input) {
-                std::cout << "New Resource\n";
-                while (fileStream >> input && input != mFileBreak) {
-                    std::cout << input << std::endl;
-                }
+            std::cout<< "Found Project Settings File\n";
+            fileStream >> loadedProj->mProjectName;
+            //Load the resources for the assets folder
+            std::string assetDirc = projectDir + "\\Assets\\*.meta";
+
+            WIN32_FIND_DATA search_data;
+
+            memset(&search_data, 0, sizeof(WIN32_FIND_DATA));
+
+            HANDLE handle = FindFirstFile(assetDirc.c_str(), &search_data);
+
+            while(handle != INVALID_HANDLE_VALUE)
+            {
+                printf("Found file: %s\r\n", search_data.cFileName);
+
+                if(FindNextFile(handle, &search_data) == FALSE)
+                    break;
             }
+
+
         }
         fileStream.close();
 
-        return nullptr;
+        return loadedProj;
     }
 
 }
