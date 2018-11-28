@@ -17,10 +17,10 @@ namespace TandenEngine {
         friend class Serializer;
         const std::string mExtension = ".project";
         std::string mProjectName;
-        std::vector<Resource> mResourceFiles;
+        std::vector<Resource*> mResourceFiles;
 
     public:
-        void AddResource(Resource newResouce);
+        void AddResource(Resource * newResouce);
 
         void PrintProjectInfo();
     };

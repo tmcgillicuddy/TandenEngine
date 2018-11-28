@@ -27,7 +27,7 @@ namespace TandenEngine {
         mLoadedScenes.emplace_back(newScene); //TODO remove these tests
         std::cout<<"Start Main\n";
 
-        mProjectSettings->AddResource(*newScene);
+        mProjectSettings->AddResource(newScene);
 
         system("pause");
     }
@@ -61,6 +61,7 @@ namespace TandenEngine {
 
     void Engine::StopEngine() {
         std::cout << "Closing Engine\n";
+        Serializer::SaveProjectResources(mProjectSettings);
     }
 
     Engine::Engine() {

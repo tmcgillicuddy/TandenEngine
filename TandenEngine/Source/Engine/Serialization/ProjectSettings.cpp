@@ -8,7 +8,7 @@
 
 namespace  TandenEngine {
 
-    void ProjectSettings::AddResource(TandenEngine::Resource newResouce) {
+    void ProjectSettings::AddResource(Resource * newResouce) {
         mResourceFiles.emplace_back(newResouce);
     }
 

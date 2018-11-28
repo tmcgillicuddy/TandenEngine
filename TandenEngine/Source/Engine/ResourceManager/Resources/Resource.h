@@ -13,11 +13,10 @@ namespace TandenEngine {
 
     class Resource {
     public:
-        Resource( const std::string ext ) :mFileExtension(ext){}
-
-    protected:
-        const std::string mFileExtension;
+        Resource( const std::string ext ){}
         MetaData * mMetaData;
+    protected:
+
     };
 
 }
