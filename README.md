@@ -2,6 +2,6 @@
 
 setup git submodules:
 
-run: git submodules init
+run: git submodule init
 
-run: git submodules update
+run: git submodule update
