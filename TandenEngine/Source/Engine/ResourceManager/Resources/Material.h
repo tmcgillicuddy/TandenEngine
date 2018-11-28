@@ -10,7 +10,8 @@
 namespace TandenEngine {
 
     class Material : public Resource {
-
+    public:
+        Material();
     };
 
 }

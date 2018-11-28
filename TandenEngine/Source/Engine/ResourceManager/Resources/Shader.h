@@ -10,7 +10,8 @@
 namespace TandenEngine {
 
     class Shader : public Resource{
-
+    public:
+        Shader();
     };
 
 }

@@ -3,3 +3,7 @@
 //
 
 #include "Shader.h"
+
+TandenEngine::Shader::Shader(): Resource(DataType::SHADER) {
+
+}

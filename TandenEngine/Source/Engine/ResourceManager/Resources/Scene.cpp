@@ -26,7 +26,7 @@ namespace TandenEngine {
         }
     }
 
-    Scene::Scene() : Resource(".scene") {
+    Scene::Scene() : Resource(DataType::SCENE) {
 
     }
 

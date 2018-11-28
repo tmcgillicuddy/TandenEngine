@@ -10,7 +10,8 @@
 namespace TandenEngine {
 
     class AudioClip : public Resource {
-
+    public:
+        AudioClip();
     };
 
 }

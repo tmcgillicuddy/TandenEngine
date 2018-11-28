@@ -13,10 +13,9 @@ namespace TandenEngine {
 
     class Resource {
     public:
-        Resource( const std::string ext ){}
-        MetaData * mMetaData;
+        explicit Resource(DataType type){ mResourceType = type; }
     protected:
-
+        DataType mResourceType;
     };
 
 }

@@ -6,4 +6,7 @@
 
 namespace TandenEngine {
 
+    Model::Model():Resource(DataType::MODEL) {
+
+    }
 }

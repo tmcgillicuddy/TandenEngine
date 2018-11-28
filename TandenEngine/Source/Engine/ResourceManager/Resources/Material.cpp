@@ -3,3 +3,7 @@
 //
 
 #include "Material.h"
+
+TandenEngine::Material::Material():Resource(DataType::MATERIAL) {
+
+}

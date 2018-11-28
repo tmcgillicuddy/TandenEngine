@@ -149,7 +149,7 @@ namespace TandenEngine {
                     //Create meta data object from file
                     MetaData * newMeta = new MetaData();
                     fileStream >> newMeta->mFileDir;
-                    fileStream >> newMeta->mFileType; //TODO error check for missing data
+                    //fileStream >> newMeta->mFileType; //TODO error check for missing data
                     fileStream >> newMeta->mGuid;
                     //Generate resource from meta data
                     Resource * newResouce = ResourceManager::GenerateResourceFromMetaData(newMeta);
@@ -169,11 +169,11 @@ namespace TandenEngine {
     void Serializer::SaveProjectResources(const ProjectSettings *projectSettings) {
         for (Resource * resource : projectSettings->mResourceFiles)
         {
-            MetaData * metaData = resource->mMetaData;
-            if(metaData == nullptr) //Make new meta data
-            {
-                metaData = new MetaData();
-            }
+            //MetaData * metaData = resource->mMetaData;
+            //if(metaData == nullptr) //Make new meta data
+            //{
+            //    metaData = new MetaData();
+            //}
 
             
         }

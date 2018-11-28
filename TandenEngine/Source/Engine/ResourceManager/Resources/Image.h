@@ -10,7 +10,8 @@
 namespace TandenEngine {
 
     class Image : public Resource {
-
+    public:
+        Image();
     };
 
 }

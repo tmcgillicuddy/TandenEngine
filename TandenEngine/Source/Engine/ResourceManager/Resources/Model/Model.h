@@ -13,6 +13,8 @@
 namespace TandenEngine {
 
     class Model : public Resource{
+    public:
+        Model();
         std::vector<MeshVertex> mVertexBuffer;
     };
 

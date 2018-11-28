@@ -3,3 +3,7 @@
 //
 
 #include "Image.h"
+
+TandenEngine::Image::Image(): Resource(DataType::IMAGE) {
+
+}
