@@ -1,3 +1,9 @@
 [submodule "TandenEngine/Source/Core/Math"]
 	path = TandenEngine/Source/Core/Math
 	url = https://github.com/tmcgillicuddy/nilsmath.git
+[submodule "TandenEngine/Libraries/GLFW"]
+	path = TandenEngine/Libraries/GLFW
+	url = https://github.com/glfw/glfw.git
+[submodule "TandenEngine/Libraries/GLM"]
+	path = TandenEngine/Libraries/GLM
+	url = https://github.com/g-truc/glm.git
