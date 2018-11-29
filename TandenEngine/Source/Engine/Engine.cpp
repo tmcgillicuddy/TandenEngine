@@ -12,7 +12,9 @@ namespace TandenEngine {
     void Engine::StartEngine() {
         std::cout<< "Please specify Project File directory: ";
         std::cin >> mProjectDirectory;
+
         mProjectSettings = Serializer::LoadProject(mProjectDirectory);
+        ResourceManager::ImportAssetsFolder();
 
         if(mProjectSettings != nullptr)
             mProjectSettings->PrintProjectInfo(); //Display the info to make sure it's correct
@@ -27,7 +29,7 @@ namespace TandenEngine {
         mLoadedScenes.emplace_back(newScene); //TODO remove these tests
         std::cout<<"Start Main\n";
 
-        mProjectSettings->AddResource(newScene);
+        ResourceManager::AddResource(newScene);
 
         system("pause");
     }
@@ -61,7 +63,7 @@ namespace TandenEngine {
 
     void Engine::StopEngine() {
         std::cout << "Closing Engine\n";
-        Serializer::SaveProjectResources(mProjectSettings);
+        ResourceManager::SaveProjectResources();
     }
 
     Engine::Engine() {

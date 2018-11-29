@@ -12,10 +12,13 @@
 namespace TandenEngine {
 
     class Resource {
+        friend class ResourceManager;
     public:
         explicit Resource(DataType type){ mResourceType = type; }
-    protected:
+        std::string GenerateFileName();
+    private:
         DataType mResourceType;
+        std::string fileName;
     };
 
 }

@@ -7,6 +7,7 @@
 namespace TandenEngine {
 
     const std::string Serializer::mFileBreak  = "=======================\n";
+    std::string Serializer::mProjectDir;
 
      void Serializer::CreateProject(std::string projectName = "Untitled Project", std::string path = "./") {
         std::cout<<"Creating Project\n";
@@ -57,13 +58,6 @@ namespace TandenEngine {
                  fileStream << projectSettings->mProjectName << "\n";
 
                  fileStream << mFileBreak;
-
-                 //Resource info
-
-                 for (auto const &resource : projectSettings->mResourceFiles) {
-
-                     fileStream << mFileBreak;
-                 }
 
                  fileStream.close();
              }
@@ -129,6 +123,8 @@ namespace TandenEngine {
         }
         fileStream.close();
 
+        mProjectDir = projectDir;
+
         return loadedProj;
     }
 
@@ -154,7 +150,7 @@ namespace TandenEngine {
                     //Generate resource from meta data
                     Resource * newResouce = ResourceManager::GenerateResourceFromMetaData(newMeta);
                     if(newResouce != nullptr) {
-                        parentSettings->AddResource(newResouce);
+                        ResourceManager::AddResource(newResouce, newMeta);
                     } else
                     {
                         std::cout<<"Couldn't generate resource from meta data: " << name << std::endl;
@@ -166,18 +162,16 @@ namespace TandenEngine {
         }
     }
 
-    void Serializer::SaveProjectResources(const ProjectSettings *projectSettings) {
-        for (Resource * resource : projectSettings->mResourceFiles)
-        {
-            //MetaData * metaData = resource->mMetaData;
-            //if(metaData == nullptr) //Make new meta data
-            //{
-            //    metaData = new MetaData();
-            //}
+    bool Serializer::WriteString(std::string path, std::string data) {
 
-            
-        }
+        std::cout<<"Writing File";
+        std::fstream newFile;
+
+        newFile.open(path, std::fstream::out);
+
+        newFile << data;
+
+        newFile.close();
+        return true;
     }
-
-
 }

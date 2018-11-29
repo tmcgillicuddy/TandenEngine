@@ -5,6 +5,9 @@
 #include "ResourceManager.h"
 namespace TandenEngine {
 
+    std::vector<Resource *> ResourceManager::mResourceFiles;
+    std::vector<MetaData*> ResourceManager::mMetaData;
+
     Resource * ResourceManager::GenerateResourceFromMetaData(MetaData *metaData) {
         Resource * newResource = nullptr;
         switch (metaData->mFileType)
@@ -31,5 +34,40 @@ namespace TandenEngine {
                 break;
         }
         return newResource;
+    }
+
+    void ResourceManager::ImportAssetsFolder() {
+        std::vector<std::string> filePaths;
+        //Get list of all file paths from existing meta files
+        for(MetaData * data : mMetaData)
+        {
+            filePaths.emplace_back(data->mFileDir);
+        }
+        //Get all files that are not of type .meta
+
+
+        //Create new meta file for any filepath that isn't part of the filePaths vector
+
+
+    }
+
+    void ResourceManager::AddResource(Resource *newResouce, MetaData *newMetaData) {
+        mResourceFiles.emplace_back(newResouce);
+        mMetaData.emplace_back(newMetaData);
+    }
+
+    void ResourceManager::AddResource(Resource *newResouce) {
+        MetaData * newData = new MetaData();
+
+        newData->mFileType = newResouce->mResourceType;
+        newData->mFileDir = Serializer::mProjectDir +"/Assets/"+ newResouce->fileName+".meta";
+
+        Serializer::WriteString(newData->mFileDir, newData->ConvertToString());
+
+        mResourceFiles.emplace_back(newResouce);
+    }
+
+    void ResourceManager::SaveProjectResources() {
+
     }
 }

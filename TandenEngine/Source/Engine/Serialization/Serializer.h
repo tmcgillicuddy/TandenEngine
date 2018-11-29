@@ -21,12 +21,12 @@ namespace TandenEngine {
     {
     private:
         static const std::string mFileBreak;
-
         static void GetMetaDataAtDir(ProjectSettings * parentSettings, std::string dir); //Will run through a directory and it's subdirectories to get any meta data
     public:
+        static std::string mProjectDir;
         static void CreateProject(std::string projectName, std::string path);
         static ProjectSettings * LoadProject(std::string projectDir); //Loads the entire project file from a file path
-        static void SaveProjectResources(const ProjectSettings * projectSettings);
+        static bool WriteString(std::string path, std::string data);
     };
 
 }
