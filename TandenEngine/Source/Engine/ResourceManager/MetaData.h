@@ -25,8 +25,6 @@ namespace TandenEngine {
         std::string mFileDir;
         uint32_t mGuid;
 
-
-
         DataType mFileType;
     };
 }

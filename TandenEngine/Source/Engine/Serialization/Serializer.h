@@ -26,7 +26,6 @@ namespace TandenEngine {
     public:
         static void CreateProject(std::string projectName, std::string path);
         static ProjectSettings * LoadProject(std::string projectDir); //Loads the entire project file from a file path
-        static void SaveProjectResources(const ProjectSettings * projectSettings);
     };
 
 }
