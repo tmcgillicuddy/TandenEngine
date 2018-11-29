@@ -27,7 +27,8 @@ namespace TandenEngine {
     }
 
     Scene::Scene() : Resource(DataType::SCENE) {
-
+        fileName = "UntitledScene";
+        mResourceType = DataType::SCENE;
     }
 
 }

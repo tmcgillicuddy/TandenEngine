@@ -145,7 +145,9 @@ namespace TandenEngine {
                     //Create meta data object from file
                     MetaData * newMeta = new MetaData();
                     fileStream >> newMeta->mFileDir;
-                    //fileStream >> newMeta->mFileType; //TODO error check for missing data
+                    int inputEnum;
+                    fileStream >> inputEnum; //TODO error check for missing data
+                    newMeta->mFileType = (DataType)inputEnum;
                     fileStream >> newMeta->mGuid;
                     //Generate resource from meta data
                     Resource * newResouce = ResourceManager::GenerateResourceFromMetaData(newMeta);
@@ -164,7 +166,6 @@ namespace TandenEngine {
 
     bool Serializer::WriteString(std::string path, std::string data) {
 
-        std::cout<<"Writing File";
         std::fstream newFile;
 
         newFile.open(path, std::fstream::out);

@@ -10,24 +10,31 @@ namespace TandenEngine {
 
     Resource * ResourceManager::GenerateResourceFromMetaData(MetaData *metaData) {
         Resource * newResource = nullptr;
+        std::cout<<metaData->mFileType;
         switch (metaData->mFileType)
         {
             case DataType::SCENE:
-                newResource = new Model();
+                std::cout<<"Creating Scene";
+                newResource = new Scene();
                 break;
             case DataType::MATERIAL:
+                std::cout<<"Creating Material";
                 newResource = new Material();
                 break;
             case DataType::MODEL:
+                std::cout<<"Creating Model";
                 newResource = new Model();
                 break;
             case DataType::AUDIO:
+                std::cout<<"Creating Audio";
                 newResource = new AudioClip();
                 break;
             case DataType::IMAGE:
+                std::cout<<"Creating Image";
                 newResource = new Image();
                 break;
             case DataType::SHADER:
+                std::cout<<"Creating Shader";
                 newResource = new Shader();
                 break;
             default:
@@ -58,7 +65,7 @@ namespace TandenEngine {
 
     void ResourceManager::AddResource(Resource *newResouce) {
         MetaData * newData = new MetaData();
-
+        std::cout<<newResouce->mResourceType;
         newData->mFileType = newResouce->mResourceType;
         newData->mFileDir = Serializer::mProjectDir +"/Assets/"+ newResouce->fileName+".meta";
 
