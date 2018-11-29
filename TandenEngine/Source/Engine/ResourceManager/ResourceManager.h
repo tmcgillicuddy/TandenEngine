@@ -11,6 +11,7 @@
 #include "Resources/Image.h"
 #include "Resources/Prefab.h"
 #include "Resources/AudioClip.h"
+#include "Resources/Scene.h"
 #include "Resources/Model/Model.h"
 #include "../Serialization/Serializer.h"
 

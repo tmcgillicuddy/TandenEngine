@@ -10,13 +10,13 @@
 namespace TandenEngine {
     enum DataType
     {
-        SCENE,
-        PREFAB,
-        MATERIAL,
-        MODEL,
-        AUDIO,
-        IMAGE,
-        SHADER
+        SCENE = 10,
+        PREFAB = 1,
+        MATERIAL = 2,
+        MODEL = 3,
+        AUDIO = 4,
+        IMAGE = 5,
+        SHADER = 6
     };
 
     class MetaData {

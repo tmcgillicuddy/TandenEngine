@@ -16,7 +16,6 @@ namespace TandenEngine {
     public:
         explicit Resource(DataType type){ mResourceType = type; }
         std::string GenerateFileName();
-    private:
         DataType mResourceType;
         std::string fileName;
     };
