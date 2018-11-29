@@ -12,7 +12,7 @@
 #include "Resources/Prefab.h"
 #include "Resources/AudioClip.h"
 #include "Resources/Model/Model.h"
-#include "../Serialization/ProjectSettings.h"
+#include "../Serialization/Serializer.h"
 
 namespace TandenEngine {
     class ResourceManager {

@@ -30,6 +30,8 @@ namespace TandenEngine {
         std::cout<<"Start Main\n";
 
         ResourceManager::AddResource(newScene);
+
+        system("pause");
     }
 
     void Engine::RunEngine() {

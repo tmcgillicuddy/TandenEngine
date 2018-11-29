@@ -11,6 +11,7 @@ namespace TandenEngine {
     enum DataType
     {
         SCENE,
+        PREFAB,
         MATERIAL,
         MODEL,
         AUDIO,
@@ -26,6 +27,8 @@ namespace TandenEngine {
         uint32_t mGuid;
 
         DataType mFileType;
+
+        std::string ConvertToString();
     };
 }
 

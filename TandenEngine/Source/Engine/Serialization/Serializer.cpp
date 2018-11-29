@@ -7,6 +7,7 @@
 namespace TandenEngine {
 
     const std::string Serializer::mFileBreak  = "=======================\n";
+    std::string Serializer::mProjectDir;
 
      void Serializer::CreateProject(std::string projectName = "Untitled Project", std::string path = "./") {
         std::cout<<"Creating Project\n";
@@ -122,6 +123,8 @@ namespace TandenEngine {
         }
         fileStream.close();
 
+        mProjectDir = projectDir;
+
         return loadedProj;
     }
 
@@ -157,5 +160,18 @@ namespace TandenEngine {
             }
 
         }
+    }
+
+    bool Serializer::WriteString(std::string path, std::string data) {
+
+        std::cout<<"Writing File";
+        std::fstream newFile;
+
+        newFile.open(path, std::fstream::out);
+
+        newFile << data;
+
+        newFile.close();
+        return true;
     }
 }
