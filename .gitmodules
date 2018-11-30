@@ -7,3 +7,6 @@
 [submodule "TandenEngine/Libraries/GLM"]
 	path = TandenEngine/Libraries/GLM
 	url = https://github.com/g-truc/glm.git
+[submodule "TandenEngine/Libraries/Boost/UUID"]
+	path = TandenEngine/Libraries/Boost/UUID
+	url = https://github.com/boostorg/uuid
