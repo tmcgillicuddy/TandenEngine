@@ -12,7 +12,7 @@
 #include <iostream>
 
 #include "ProjectSettings.h"
-#include "../ResourceManager/ResourceManager.h"
+
 
 namespace TandenEngine {
 

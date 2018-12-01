@@ -7,6 +7,8 @@
 #include <algorithm>
 #include <iterator>
 
+#include "../ResourceManager/ResourceManager.h"
+
 namespace TandenEngine {
 
     const std::string Serializer::mFileBreak  = "=======================\n";

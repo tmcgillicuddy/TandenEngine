@@ -58,22 +58,18 @@ namespace TandenEngine {
 
     }
 
-    void ResourceManager::AddResource(Resource *newResouce, MetaData *newMetaData) {
-        mResourceFiles.emplace_back(newResouce);
+    void ResourceManager::AddResource(Resource *newResource, MetaData *newMetaData) {
+        mResourceFiles.emplace_back(newResource);
         mMetaData.emplace_back(newMetaData);
     }
 
-    void ResourceManager::AddResource(Resource *newResouce) {
+    void ResourceManager::AddResource(Resource *newResource) {
         MetaData * newData = new MetaData();
-        newData->mFileType = newResouce->mResourceType;
-        newData->mFileDir = Serializer::mProjectDir +"/Assets/"+ newResouce->fileName+".meta";
+        newData->mFileType = newResource->mResourceType;
+        newData->mFileDir = Serializer::mProjectDir +"/Assets/"+ newResource->GenerateFileName();
 
-        Serializer::WriteString(newData->mFileDir, newData->ConvertToString());
+        Serializer::WriteStringToAssetFolder(newResource->fileName + ".meta", newData->ConvertToString());
 
-        mResourceFiles.emplace_back(newResouce);
-    }
-
-    void ResourceManager::SaveProjectResources() {
-
+        mResourceFiles.emplace_back(newResource);
     }
 }

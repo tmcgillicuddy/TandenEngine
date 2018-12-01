@@ -17,6 +17,8 @@ namespace TandenEngine {
         virtual void Register() {}; //Registering function some special components have (see renderer and physics component)
 
         virtual std::string ToString()=0; //Conversion function to go from the component to a serializable string
+
+        virtual std::unique_ptr<Component> Clone()=0;
     };
 
 }
