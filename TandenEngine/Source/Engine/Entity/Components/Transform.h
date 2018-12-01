@@ -15,6 +15,8 @@ namespace TandenEngine {
     class Transform : public Component {
     public:
         Vector3 position;
+        Vector3 rotation;
+        Vector3 scale;
 
         Transform();
 
@@ -23,6 +25,8 @@ namespace TandenEngine {
         void Update() override;
 
         std::string ToString() override;
+
+        Transform * ConvertFromString(std::string); //Takes in some string data and will output a transform object
     };
 
 }

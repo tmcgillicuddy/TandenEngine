@@ -20,7 +20,8 @@ namespace TandenEngine {
     }
 
     std::string MeshRenderer::ToString() {
-        return std::string();
+        std::string data = "MeshRenderer\n";
+        return data;
     }
 
 }

@@ -1,7 +1,6 @@
 //
 // Created by thomas.mcgillicuddy on 10/31/2018.
 //
-
 #ifndef HWENGINE_SERIALIZER_H
 #define HWENGINE_SERIALIZER_H
 
@@ -27,6 +26,8 @@ namespace TandenEngine {
         static void CreateProject(std::string projectName, std::string path);
         static ProjectSettings * LoadProject(std::string projectDir); //Loads the entire project file from a file path
         static bool WriteString(std::string path, std::string data);
+
+        static std::vector<std::string> SeperateString(std::string input);
     };
 
 }
