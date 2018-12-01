@@ -8,10 +8,6 @@
 
 namespace TandenEngine {
 
-    void Renderer::Update() {
-
-    }
-
     void Renderer::Register() {
         RenderingSystem::RegisterRenderer(this);
     }

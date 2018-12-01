@@ -3,6 +3,7 @@
 //
 
 #include "Transform.h"
+#include "../../Serialization/Serializer.h"
 
 namespace TandenEngine {
 
@@ -20,7 +21,25 @@ namespace TandenEngine {
     }
 
     std::string Transform::ToString() {
-        return std::string();
+        std::string data = "Transform\n";
+        data += "Pos: " + std::to_string(position.x) + " " + std::to_string(position.y) + " " + std::to_string(position.z) + '\n';
+        data += "Rot: " + std::to_string(rotation.x) + " " + std::to_string(rotation.y) + " " + std::to_string(rotation.z)+ '\n';
+        data += "Scale: " + std::to_string(scale.x) + " " + std::to_string(scale.y) + " " + std::to_string(scale.z)+ '\n';
+        return data;
+    }
+
+    Transform * Transform::ConvertFromString(std::string data) {
+        Transform * newComp = new Transform();
+        float x,y,z;
+
+        std::vector<std::string> dataOutput = Serializer::SeperateString(data);
+
+        for(auto word: dataOutput)
+        {
+            std::cout<<word <<std::endl;
+        }
+
+        return newComp;
     }
 
 }

@@ -10,8 +10,9 @@ namespace  TandenEngine {
     void PhysicsComponent::Register() {
         PhysicsSystem::RegisterPhysicsObject(this);
     }
-    
+
     std::string PhysicsComponent::ToString() {
-        return std::string();
+        std::string data = "PhysicsComponent\n";
+        return data;
     }
 }

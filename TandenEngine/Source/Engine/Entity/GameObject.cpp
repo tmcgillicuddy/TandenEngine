@@ -23,4 +23,13 @@ namespace TandenEngine {
         }
     }
 
+    std::string GameObject::ToString() {
+        std::string data = mName + "\n";
+        for (const auto &component : mComponents)
+        {
+            data += component->ToString();
+        }
+        return data;
+    }
+
 }

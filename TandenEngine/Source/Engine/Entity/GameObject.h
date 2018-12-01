@@ -19,6 +19,7 @@ namespace TandenEngine {
 
     class GameObject { //Game Objects always have at least a transform component
     private:
+        std::string mName;
         std::vector<std::unique_ptr<Component>> mComponents; //TODO Use map instead of vector
 
     public:
@@ -63,6 +64,8 @@ namespace TandenEngine {
         };
 
         void Update();
+
+        std::string ToString();
     };
 
 }

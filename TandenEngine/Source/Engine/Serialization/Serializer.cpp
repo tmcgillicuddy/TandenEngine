@@ -3,6 +3,9 @@
 //
 
 #include "Serializer.h"
+#include <sstream>
+#include <algorithm>
+#include <iterator>
 
 namespace TandenEngine {
 
@@ -11,12 +14,12 @@ namespace TandenEngine {
 
      void Serializer::CreateProject(std::string projectName = "Untitled Project", std::string path = "./") {
         std::cout<<"Creating Project\n";
-
+        std::cout<<path;
         //Create Base Project Folder
          if (CreateDirectory((path + "\\" + projectName).c_str(), NULL) ||
              ERROR_ALREADY_EXISTS == GetLastError())
          {
-             // CopyFile(...)
+
          }
          else
          {
@@ -100,6 +103,7 @@ namespace TandenEngine {
             std::cout << "New project name? ";
             std::string newName;
             std::cin >> newName;
+            projectDir = "./";
             CreateProject(newName, projectDir);
             projectDir = projectDir + newName; //Make sure to adjust the project directory
         }
@@ -174,5 +178,15 @@ namespace TandenEngine {
 
         newFile.close();
         return true;
+    }
+
+    std::vector<std::string> Serializer::SeperateString(std::string input) {
+         std::vector<std::string> output;
+
+        std::istringstream iss(input);
+        for(std::string input; iss >> input; )
+            output.push_back(input);
+
+        return output;
     }
 }
