@@ -19,4 +19,8 @@ namespace TandenEngine {
 
     }
 
+    std::string Transform::ToString() {
+        return std::string();
+    }
+
 }

@@ -14,6 +14,8 @@ namespace  TandenEngine {
         virtual void PhysicsUpdate() {};
     public:
         void Register() override;
+
+        std::string ToString() override;
     };
 
 }
