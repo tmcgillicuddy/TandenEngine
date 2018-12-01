@@ -19,6 +19,8 @@ namespace TandenEngine {
         virtual std::string ToString()=0; //Conversion function to go from the component to a serializable string
 
         virtual std::unique_ptr<Component> Clone()=0;
+
+        virtual Component* ConvertFromString(std::string input)=0;
     };
 
 }

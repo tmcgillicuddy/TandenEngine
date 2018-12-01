@@ -15,4 +15,8 @@ namespace TandenEngine {
         return data;
     }
 
+    Component *SpriteRenderer::ConvertFromString(std::string input) {
+        return NULL;
+    }
+
 }
