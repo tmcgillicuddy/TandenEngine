@@ -6,10 +6,10 @@
 #define HWENGINE_MESHFILTER_H
 
 #include "../../ResourceManager/Resources/Model/Model.h"
-
+#include "Component.h"
 namespace TandenEngine {
 
-    class MeshFilter {
+    class MeshFilter : public Component {
         Model *mModelResource;
     };
 

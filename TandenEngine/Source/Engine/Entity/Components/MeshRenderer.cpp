@@ -19,4 +19,8 @@ namespace TandenEngine {
         std::cout << "Drawing Mesh Renderer\n";
     }
 
+    std::string MeshRenderer::ToString() {
+        return std::string();
+    }
+
 }

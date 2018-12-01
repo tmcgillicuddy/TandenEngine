@@ -11,6 +11,8 @@ namespace TandenEngine {
 
     class SpriteRenderer : public Renderer {
         void Draw() override;
+
+        std::string ToString();
     };
 
 }

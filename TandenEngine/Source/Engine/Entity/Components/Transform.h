@@ -21,6 +21,8 @@ namespace TandenEngine {
         ~Transform();
 
         void Update() override;
+
+        std::string ToString() override;
     };
 
 }

@@ -10,4 +10,8 @@ namespace TandenEngine {
 
     }
 
+    std::string SpriteRenderer::ToString() {
+        return std::string();
+    }
+
 }

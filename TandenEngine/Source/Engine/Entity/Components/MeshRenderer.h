@@ -18,6 +18,7 @@ namespace TandenEngine {
 
         void Draw() override;
 
+        std::string ToString() override;
     private:
         MeshFilter *mpMesh{}; //Pointer to mesh component to draw (must be on the same gameobject)
     };
