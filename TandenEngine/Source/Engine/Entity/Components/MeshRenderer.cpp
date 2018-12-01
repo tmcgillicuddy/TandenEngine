@@ -24,4 +24,8 @@ namespace TandenEngine {
         return data;
     }
 
+    std::unique_ptr<Component> MeshRenderer::Clone() {
+        return std::unique_ptr<MeshRenderer>(this);
+    }
+
 }

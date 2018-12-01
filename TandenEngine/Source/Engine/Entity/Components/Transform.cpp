@@ -42,4 +42,8 @@ namespace TandenEngine {
         return newComp;
     }
 
+    std::unique_ptr <Component> Transform::Clone() {
+        return std::unique_ptr<Transform>(this);
+    }
+
 }
