@@ -25,8 +25,8 @@ namespace TandenEngine {
 
         static void ImportAssetsFolder(); //Generate new meta data for any files in the assets folder
 
-        static void AddResource(Resource * newResouce, MetaData* newMetaData);
-        static void AddResource(Resource * newResouce); //When making a resource and need to generate new meta data
+        static void AddResource(Resource * newResouce, MetaData* newMetaData); //When adding a resource that was generated from meta data
+        static void AddResource(Resource * newResouce); //When adding a NEW resource and need to generate new meta data (discovered new file, new scene/prefab/material file created and saved)
         static void SaveProjectResources();
 
     };

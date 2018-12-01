@@ -22,13 +22,15 @@ namespace TandenEngine {
 
         Scene(); //Just create a new scene (generates scene setting file)
 
-        GameObject *CreateGameObject();
+        GameObject *CreateGameObject(); //Creates a new game object in scene
 
-        bool DestroyGameObject();
+        bool DestroyGameObject(); //Destroys game object in scene
 
-        GameObject *FindGameObject();
+        GameObject *FindGameObject(); //Finds game object in scene
 
-        void Update();
+        void Update(); //Base update function
+
+        void SaveScene(); //Saves scene to scene file (creates if non existent)
 
     };
 

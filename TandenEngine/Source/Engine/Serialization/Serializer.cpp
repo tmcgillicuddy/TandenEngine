@@ -10,7 +10,7 @@
 namespace TandenEngine {
 
     const std::string Serializer::mFileBreak  = "=======================\n";
-    std::string Serializer::mProjectDir;
+    std::string Serializer::mProjectDir, Serializer::mAssetDir, Serializer::mProjectSettingDir;
 
      void Serializer::CreateProject(std::string projectName = "Untitled Project", std::string path = "./") {
         std::cout<<"Creating Project\n";
@@ -128,6 +128,8 @@ namespace TandenEngine {
         fileStream.close();
 
         mProjectDir = projectDir;
+        mAssetDir = projectDir + "\\Assets\\";
+        mProjectSettingDir = projectDir + "\\ProjectSettings\\";
 
         return loadedProj;
     }
@@ -188,5 +190,16 @@ namespace TandenEngine {
             output.push_back(input);
 
         return output;
+    }
+
+    bool Serializer::WriteStringToAssetFolder(std::string path, std::string data) {
+        std::fstream newFile;
+
+        newFile.open(mAssetDir+ path, std::fstream::out);
+
+        newFile << data;
+
+        newFile.close();
+        return true;
     }
 }

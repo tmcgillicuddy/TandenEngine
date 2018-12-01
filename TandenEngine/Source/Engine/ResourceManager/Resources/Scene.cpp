@@ -3,6 +3,7 @@
 //
 
 #include "Scene.h"
+#include "../../Serialization/Serializer.h"
 
 namespace TandenEngine {
 
@@ -29,6 +30,18 @@ namespace TandenEngine {
     Scene::Scene() : Resource(DataType::SCENE) {
         fileName = "UntitledScene";
         mResourceType = DataType::SCENE;
+    }
+
+    void Scene::SaveScene() {
+        std::string data = fileName + "\n";
+
+        for (const auto &gO : mGameObjects)
+        {
+            data += gO->ToString();
+            data += "-----\n";
+        }
+
+        Serializer::WriteStringToAssetFolder(fileName+".scene", data);
     }
 
 }
