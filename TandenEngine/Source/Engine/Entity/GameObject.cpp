@@ -28,6 +28,7 @@ namespace TandenEngine {
         for (const auto &component : mComponents)
         {
             data += component->ToString();
+            data += "---\n";
         }
         return data;
     }
