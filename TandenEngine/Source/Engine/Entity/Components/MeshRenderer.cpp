@@ -28,4 +28,8 @@ namespace TandenEngine {
         return std::unique_ptr<MeshRenderer>(this);
     }
 
+    Component *MeshRenderer::ConvertFromString(std::string input) {
+        return NULL;
+    }
+
 }

@@ -28,7 +28,7 @@ namespace TandenEngine {
         return data;
     }
 
-    Transform * Transform::ConvertFromString(std::string data) {
+    Component * Transform::ConvertFromString(std::string data) {
         Transform * newComp = new Transform();
         float x,y,z;
 
