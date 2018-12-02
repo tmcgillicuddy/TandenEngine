@@ -18,8 +18,9 @@
 namespace TandenEngine {
     class ResourceManager {
     private:
-        static std::vector<Resource*> mResourceFiles;
-        static std::vector<MetaData*> mMetaData;
+        static std::vector<Resource*> mResourceFiles; //Loaded resource files
+        static std::vector<MetaData*> mLoadedMetaData; //Loaded meta data files for loaded scenes
+        static std::vector<MetaData*> mMetaData; //All meta data files in project
     public:
         static Resource* GenerateResourceFromMetaData(MetaData * metaData);
 
@@ -27,8 +28,7 @@ namespace TandenEngine {
 
         static void AddResource(Resource * newResouce, MetaData* newMetaData); //When adding a resource that was generated from meta data
         static void AddResource(Resource * newResouce); //When adding a NEW resource and need to generate new meta data (discovered new file, new scene/prefab/material file created and saved)
-        static void SaveProjectResources();
-
+        static void AddMetaData(MetaData * newMetaData); //Adds to the meta data vector to track loaded files
     };
 }
 

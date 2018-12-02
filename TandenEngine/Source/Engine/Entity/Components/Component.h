@@ -10,14 +10,30 @@
 
 namespace TandenEngine {
 
+    enum ComponentType
+    {
+        TRANSFORM = 0,
+        MESHFILTER = 1,
+        MESHRENDERER = 2,
+        PHYSICSCOMPONENT = 3,
+        RENDERER = 4,
+        SPRITERENDERER = 5
+    };
+
     class Component {
     public:
+        ComponentType mType;
         virtual void Update()=0; //Base update function for all components
 
         virtual void Register() {}; //Registering function some special components have (see renderer and physics component)
 
-        virtual std::string ToString()=0; //Conversion function to go from the component to a serializable string
+        virtual std::string ToString(); //Conversion function to go from the component to a serializable string
+
+        virtual std::unique_ptr<Component> Clone()=0;
+
+        virtual Component* ConvertFromString(std::vector<std::string> input)=0;
     };
+
 
 }
 

@@ -13,6 +13,7 @@ namespace TandenEngine {
         void Draw() override;
 
         std::string ToString();
+        Component * ConvertFromString(std::vector<std::string> input) override; //Takes in some string data and will output a sprite renderer object
     };
 
 }

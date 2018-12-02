@@ -12,7 +12,7 @@
 #include <iostream>
 
 #include "ProjectSettings.h"
-#include "../ResourceManager/ResourceManager.h"
+
 
 namespace TandenEngine {
 
@@ -27,6 +27,7 @@ namespace TandenEngine {
         static ProjectSettings * LoadProject(std::string projectDir); //Loads the entire project file from a file path
         static bool WriteString(std::string path, std::string data);
         static bool WriteStringToAssetFolder(std::string path, std::string data);
+        static std::string GetFileData(std::string path);
 
         static std::vector<std::string> SeperateString(std::string input);
     };

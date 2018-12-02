@@ -26,7 +26,9 @@ namespace TandenEngine {
 
         std::string ToString() override;
 
-        Transform * ConvertFromString(std::string); //Takes in some string data and will output a transform object
+        Component * ConvertFromString(std::vector<std::string> input) override; //Takes in some string data and will output a transform object
+
+        std::unique_ptr<Component> Clone() override;
     };
 
 }

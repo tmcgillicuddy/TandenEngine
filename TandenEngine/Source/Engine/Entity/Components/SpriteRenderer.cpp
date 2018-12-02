@@ -11,8 +11,13 @@ namespace TandenEngine {
     }
 
     std::string SpriteRenderer::ToString() {
-        std::string data = "SpriteRenderer\n";
+        std::string data = Component::ToString(); //Call the base to string function
+        //Add component specific attributes
         return data;
+    }
+
+    Component *SpriteRenderer::ConvertFromString(std::vector<std::string> input) {
+        return NULL;
     }
 
 }

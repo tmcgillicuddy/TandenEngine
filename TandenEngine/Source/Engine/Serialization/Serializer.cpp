@@ -7,6 +7,8 @@
 #include <algorithm>
 #include <iterator>
 
+#include "../ResourceManager/ResourceManager.h"
+
 namespace TandenEngine {
 
     const std::string Serializer::mFileBreak  = "=======================\n";
@@ -150,15 +152,16 @@ namespace TandenEngine {
                 {
                     //Create meta data object from file
                     MetaData * newMeta = new MetaData();
-                    fileStream >> newMeta->mFileDir;
+                    std::getline(fileStream, newMeta->mFileDir);
+                    //fileStream >> newMeta->mGuid;
                     int inputEnum;
                     fileStream >> inputEnum; //TODO error check for missing data
                     newMeta->mFileType = (DataType)inputEnum;
-                    fileStream >> newMeta->mGuid;
-                    //Generate resource from meta data
+                    //Test generate resource from meta data
                     Resource * newResouce = ResourceManager::GenerateResourceFromMetaData(newMeta);
                     if(newResouce != nullptr) {
-                        ResourceManager::AddResource(newResouce, newMeta);
+                        //Add meta data to resource manager to track
+                        ResourceManager::AddMetaData(newMeta);
                     } else
                     {
                         std::cout<<"Couldn't generate resource from meta data: " << name << std::endl;
@@ -184,10 +187,15 @@ namespace TandenEngine {
 
     std::vector<std::string> Serializer::SeperateString(std::string input) {
          std::vector<std::string> output;
-
-        std::istringstream iss(input);
-        for(std::string input; iss >> input; )
-            output.push_back(input);
+        std::stringstream ss(input);
+        std::string item;
+        while (std::getline(ss, item, '\n')) {
+            if (item.length() > 0) {
+                std::stringstream iss(item);
+                for(std::string item; iss >> item; )
+                    output.push_back(item);
+            }
+        }
 
         return output;
     }
@@ -201,5 +209,19 @@ namespace TandenEngine {
 
         newFile.close();
         return true;
+    }
+
+    std::string Serializer::GetFileData(std::string path) {
+         std::ifstream newFile;
+         newFile.open(path);
+
+         std::string data = "", input;
+        while(std::getline(newFile,input)) //Read ALL the data to the output string
+        {
+            data += input + '\n';
+        }
+        newFile.close();
+
+        return data;
     }
 }

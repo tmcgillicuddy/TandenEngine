@@ -6,4 +6,8 @@
 
 namespace TandenEngine {
 
+    std::string Component::ToString() {
+        std::string data = std::to_string(static_cast<int>(mType)) +'\n';
+        return data;
+    }
 }

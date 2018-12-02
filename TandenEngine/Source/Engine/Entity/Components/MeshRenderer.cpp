@@ -8,7 +8,7 @@
 namespace TandenEngine {
 
     MeshRenderer::MeshRenderer() {
-
+        mType = ComponentType::MESHRENDERER;
     }
 
     MeshRenderer::~MeshRenderer() {
@@ -20,8 +20,19 @@ namespace TandenEngine {
     }
 
     std::string MeshRenderer::ToString() {
-        std::string data = "MeshRenderer\n";
+        std::string data = Component::ToString(); //Call the base to string function
+        //Add component specific attributes
         return data;
+    }
+
+    std::unique_ptr<Component> MeshRenderer::Clone() {
+        return std::unique_ptr<MeshRenderer>(this);
+    }
+
+    Component *MeshRenderer::ConvertFromString(std::vector<std::string> input) {
+        MeshRenderer * newComp = new MeshRenderer();
+
+        return newComp;
     }
 
 }
