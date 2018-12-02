@@ -32,6 +32,8 @@ namespace TandenEngine {
         static void GenerateNewMetaData(Resource * newResource); //Makes meta data but doesn't allocate the resource
 
         static std::vector<std::string> GetAllFoundResourceFiles(); //Returns a list of all the resource file there are already meta data for
+
+        static ResourceType CheckExtensionSupported(std::string); //Checks if input extension is supported by any resource and returns the resource type it would be
     };
 }
 

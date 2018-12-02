@@ -14,7 +14,7 @@
 #include "./PhysicsSystem/PhysicsSystem.h"
 #include "./Serialization/ProjectSettings.h"
 #include "./Serialization/Serializer.h"
-#include "ResourceManager/Resources/Scene.h"
+#include "ResourceManager/ResourceManager.h"
 
 namespace TandenEngine {
 

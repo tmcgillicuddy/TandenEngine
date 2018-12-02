@@ -101,4 +101,23 @@ namespace TandenEngine {
 
         return files;
     }
+
+    ResourceType ResourceManager::CheckExtensionSupported(std::string extension) {
+        if(Scene::CheckIfSupported(extension))
+            return ResourceType::SCENE;
+        if(Prefab::CheckIfSupported(extension))
+            return ResourceType::PREFAB;
+        if(Material::CheckIfSupported(extension))
+            return ResourceType::MATERIAL;
+        if(Image::CheckIfSupported(extension))
+            return ResourceType::IMAGE;
+        if(Model::CheckIfSupported(extension))
+            return ResourceType::MODEL;
+        if(Shader::CheckIfSupported(extension))
+            return ResourceType::SHADER;
+        if(AudioClip::CheckIfSupported(extension))
+            return ResourceType::AUDIO;
+
+        return ResourceType::INVALID;
+    }
 }

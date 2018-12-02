@@ -22,6 +22,8 @@ namespace TandenEngine {
         void CreatePrefab(GameObject * sourceGO);
         void UpdatePrefab(GameObject * sourceGO);
         void SavePrefab();
+        static bool CheckIfSupported(std::string extension);
+
     };
 
 }

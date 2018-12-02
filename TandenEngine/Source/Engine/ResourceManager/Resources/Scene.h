@@ -34,6 +34,8 @@ namespace TandenEngine {
 
         void SaveScene(); //Saves scene to scene file (creates if non existent)
 
+        static bool CheckIfSupported(std::string extension);
+
     };
 
 }
