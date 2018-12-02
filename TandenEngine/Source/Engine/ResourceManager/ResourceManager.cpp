@@ -12,31 +12,31 @@ namespace TandenEngine {
         Resource * newResource = nullptr;
         switch (metaData->mFileType)
         {
-            case DataType::SCENE:
+            case ResourceType::SCENE:
                 std::cout<<"Creating Scene\n";
                 newResource = new Scene(metaData);
                 break;
-            case DataType::PREFAB:
+            case ResourceType::PREFAB:
                 std::cout<<"Creating Prefab\n";
                 newResource = new Prefab();
                 break;
-            case DataType::MATERIAL:
+            case ResourceType::MATERIAL:
                 std::cout<<"Creating Material\n";
                 newResource = new Material();
                 break;
-            case DataType::MODEL:
+            case ResourceType::MODEL:
                 std::cout<<"Creating Model\n";
                 newResource = new Model();
                 break;
-            case DataType::AUDIO:
+            case ResourceType::AUDIO:
                 std::cout<<"Creating Audio\n";
                 newResource = new AudioClip();
                 break;
-            case DataType::IMAGE:
+            case ResourceType::IMAGE:
                 std::cout<<"Creating Image\n";
                 newResource = new Image();
                 break;
-            case DataType::SHADER:
+            case ResourceType::SHADER:
                 std::cout<<"Creating Shader\n";
                 newResource = new Shader();
                 break;
@@ -79,5 +79,14 @@ namespace TandenEngine {
 
     void ResourceManager::AddMetaData(MetaData *newMetaData) {
         mMetaData.emplace_back(newMetaData);
+    }
+
+    void ResourceManager::GenerateNewMetaData(Resource *newResource) {
+        MetaData * newData = new MetaData();
+        newData->mFileName = newResource->fileName;
+        newData->mFileType = newResource->mResourceType;
+        newData->mFileDir = Serializer::mProjectDir +"/Assets/"+ newResource->GenerateFileName();
+
+        Serializer::WriteStringToAssetFolder(newResource->fileName + ".meta", newData->ConvertToString());
     }
 }

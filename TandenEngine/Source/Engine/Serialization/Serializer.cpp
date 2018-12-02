@@ -156,7 +156,7 @@ namespace TandenEngine {
                     //fileStream >> newMeta->mGuid;
                     int inputEnum;
                     fileStream >> inputEnum; //TODO error check for missing data
-                    newMeta->mFileType = (DataType)inputEnum;
+                    newMeta->mFileType = (ResourceType)inputEnum;
                     //Test generate resource from meta data
                     Resource * newResouce = ResourceManager::GenerateResourceFromMetaData(newMeta);
                     if(newResouce != nullptr) {

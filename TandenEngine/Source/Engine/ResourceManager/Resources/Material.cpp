@@ -3,7 +3,20 @@
 //
 
 #include "Material.h"
+#include "../ResourceManager.h"
 
-TandenEngine::Material::Material():Resource(DataType::MATERIAL) {
+namespace TandenEngine {
 
+    Material::Material() : Resource(ResourceType::MATERIAL) {
+        fileName = "UntitledMaterial";
+        mResourceType = ResourceType::MATERIAL;
+    }
+
+    void Material::SaveMaterial() {
+        std::string data = fileName + "\n";
+
+
+        Serializer::WriteStringToAssetFolder(fileName+".material", data);
+        ResourceManager::GenerateNewMetaData(this);
+    }
 }

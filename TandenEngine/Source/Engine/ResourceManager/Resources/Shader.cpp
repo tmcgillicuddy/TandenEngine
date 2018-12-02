@@ -4,6 +4,6 @@
 
 #include "Shader.h"
 
-TandenEngine::Shader::Shader(): Resource(DataType::SHADER) {
+TandenEngine::Shader::Shader(): Resource(ResourceType::SHADER) {
 
 }

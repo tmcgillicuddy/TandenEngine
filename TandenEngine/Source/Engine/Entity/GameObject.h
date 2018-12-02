@@ -20,7 +20,7 @@ namespace TandenEngine {
     class GameObject { //Game Objects always have at least a transform component
         friend class Prefab;
     private:
-        std::string mName = "Test Object";
+        std::string mName = "Test_Object";
         std::vector<std::unique_ptr<Component>> mComponents; //TODO Use map instead of vector
 
     public:

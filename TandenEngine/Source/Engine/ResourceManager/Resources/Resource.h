@@ -8,15 +8,16 @@
 #include <string>
 
 #include "../MetaData.h"
+#include "../../Serialization/Serializer.h"
 
 namespace TandenEngine {
 
     class Resource {
         friend class ResourceManager;
     public:
-        explicit Resource(DataType type){ mResourceType = type; }
+        explicit Resource(ResourceType type){ mResourceType = type; }
         std::string GenerateFileName();
-        DataType mResourceType;
+        ResourceType mResourceType;
         std::string fileName;
     };
 

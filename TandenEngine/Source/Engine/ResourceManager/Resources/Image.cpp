@@ -4,6 +4,6 @@
 
 #include "Image.h"
 
-TandenEngine::Image::Image(): Resource(DataType::IMAGE) {
+TandenEngine::Image::Image(): Resource(ResourceType::IMAGE) {
 
 }

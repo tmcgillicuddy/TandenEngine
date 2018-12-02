@@ -4,6 +4,6 @@
 
 #include "AudioClip.h"
 
-TandenEngine::AudioClip::AudioClip():Resource(DataType::AUDIO) {
+TandenEngine::AudioClip::AudioClip():Resource(ResourceType::AUDIO) {
 
 }

@@ -8,7 +8,7 @@
 #include <string>
 
 namespace TandenEngine {
-    enum DataType
+    enum ResourceType
     {
         SCENE = 1,
         PREFAB = 2,
@@ -26,7 +26,7 @@ namespace TandenEngine {
         std::string mFileDir, mFileName;
         uint32_t mGuid;
 
-        DataType mFileType;
+        ResourceType mFileType;
 
         std::string ConvertToString();
     };
