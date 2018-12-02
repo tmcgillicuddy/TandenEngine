@@ -12,7 +12,8 @@ namespace  TandenEngine {
     }
 
     std::string PhysicsComponent::ToString() {
-        std::string data = "PhysicsComponent\n";
+        std::string data = Component::ToString(); //Call the base to string function
+        //Add component specific attributes
         return data;
     }
 

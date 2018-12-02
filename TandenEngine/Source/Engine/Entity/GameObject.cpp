@@ -39,31 +39,47 @@ namespace TandenEngine {
         for(auto i=1; i < data.size(); ++i) //Run through every component in the gameobject and generate a new component for it
         {
             //Get component data
-            std::vector<std::string> endData;
-            endData.emplace_back(data[i]);
-            std::string type = data[i];
-            ++i;
-            while(i < data.size() && data[i] != "---") //Until the end of this object
-            {
-                endData.emplace_back(data[i]); //Add it to the object
+            if(data[i] != "-----") {
+                std::vector<std::string> endData;
+                endData.emplace_back(data[i]);
+                ComponentType type = (ComponentType) std::stoi(data[i]);
                 ++i;
-            }
-
-            //Make a new component
-            Component * newComp = nullptr;
-            if (type == "Transform")
-            {
-                newComp = new Transform();
-                newComp->ConvertFromString(endData);
-            }
-            else if(type == "MeshRenderer")
-            {
-                newComp = new MeshRenderer();
-                newComp->ConvertFromString(endData);
-            }
-
-            if(newComp != nullptr) {
-                mComponents.emplace_back(newComp);
+                while (i < data.size() && data[i] != "---") //Until the end of this object
+                {
+                    endData.emplace_back(data[i]); //Add it to the object
+                    ++i;
+                }
+                //Make a new component
+                Component *newComp = nullptr;
+                switch (type) {
+                    case ComponentType::TRANSFORM:
+                        newComp = new Transform();
+                        newComp->ConvertFromString(endData);
+                        break;
+                    case ComponentType::MESHRENDERER:
+                        newComp = new MeshRenderer();
+                        newComp->ConvertFromString(endData);
+                        break;
+                    case ComponentType::MESHFILTER:
+                        newComp = new MeshRenderer(); //TODO Change
+                        newComp->ConvertFromString(endData);
+                        break;
+                    case ComponentType::SPRITERENDERER:
+                        newComp = new MeshRenderer(); //TODO Change
+                        newComp->ConvertFromString(endData);
+                        break;
+                    case ComponentType::PHYSICSCOMPONENT:
+                        newComp = new MeshRenderer(); //TODO Change
+                        newComp->ConvertFromString(endData);
+                        break;
+                    case ComponentType::RENDERER:
+                        newComp = new MeshRenderer(); //TODO Change
+                        newComp->ConvertFromString(endData);
+                        break;
+                }
+                if (newComp != nullptr) {
+                    mComponents.emplace_back(newComp);
+                }
             }
         }
     }
