@@ -226,6 +226,62 @@ namespace TandenEngine {
     }
 
     void Serializer::ImportFiles() {
+        //Load up any existing meta files
         GetMetaDataAtDir(mAssetDir);
+
+        //Discover any new files and generate new meta data for them (if supported)
+        std::vector<std::string> exsistingFiles = ResourceManager::GetAllFoundResourceFiles();
+        CheckDir(exsistingFiles, mAssetDir);
+    }
+
+    void Serializer::CheckDir(std::vector<std::string> knownFiles, std::string dir) {
+        std::string extension = "*.meta"; //Extension for meta data
+        std::string name;
+        for (auto & p : std::filesystem::recursive_directory_iterator(dir))
+        {
+            name = p.path().u8string();
+            bool isCovered = false; //Flag to know if meta file for this resource already exists
+            if(name.substr(name.find_last_of(".") + 1) != "meta") {
+                //std::cout<<"Non meta file!! " << name << std::endl;
+                for(auto metaName : knownFiles)
+                {
+                    if(name.compare(metaName) == 0) {
+                        isCovered = true;
+                        break;
+                    }
+                }
+
+                if(!isCovered)
+                {
+                    std::cout<<"NON COVERED FILE!! " << name << std::endl;
+                }
+                //std::ifstream fileStream;
+                //fileStream.open(name);
+                //if (!fileStream.is_open()) {
+                //    std::cout<< "Error opening meta data\n";
+                //}
+                //else
+                //{
+                //    //Create meta data object from file
+                //    MetaData * newMeta = new MetaData();
+                //    std::getline(fileStream, newMeta->mFileDir);
+                //    //fileStream >> newMeta->mGuid;
+                //    int inputEnum;
+                //    fileStream >> inputEnum; //TODO error check for missing data
+                //    newMeta->mFileType = (ResourceType)inputEnum;
+                //    //Test generate resource from meta data
+                //    Resource * newResouce = ResourceManager::GenerateResourceFromMetaData(newMeta);
+                //    if(newResouce != nullptr) {
+                //        //Add meta data to resource manager to track
+                //        ResourceManager::AddMetaData(newMeta);
+                //    } else
+                //    {
+                //        std::cout<<"Couldn't generate resource from meta data: " << name << std::endl;
+                //        std::remove(name.c_str());
+                //    }
+                //}
+            }
+
+        }
     }
 }
