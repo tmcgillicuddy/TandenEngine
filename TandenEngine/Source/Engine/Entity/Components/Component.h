@@ -20,7 +20,7 @@ namespace TandenEngine {
 
         virtual std::unique_ptr<Component> Clone()=0;
 
-        virtual Component* ConvertFromString(std::string input)=0;
+        virtual Component* ConvertFromString(std::vector<std::string> input)=0;
     };
 
 }

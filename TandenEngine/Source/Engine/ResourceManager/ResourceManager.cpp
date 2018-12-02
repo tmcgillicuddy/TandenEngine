@@ -10,7 +10,6 @@ namespace TandenEngine {
 
     Resource * ResourceManager::GenerateResourceFromMetaData(MetaData *metaData) {
         Resource * newResource = nullptr;
-        std::cout<< static_cast<int>(metaData->mFileType);
         switch (metaData->mFileType)
         {
             case DataType::SCENE:

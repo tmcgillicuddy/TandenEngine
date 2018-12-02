@@ -53,15 +53,14 @@ namespace TandenEngine {
         for(auto i=1; i < dataLines.size(); ++i) //Run through every object in the scene and generate a new gameobject for it
         {
             std::vector<std::string> goData;
-            std::cout<<dataLines[i];
             goData.emplace_back(dataLines[i]);
             ++i;
-            std::cout<<"Starting to Read Go data";
-            while(dataLines[i] != "----") //Until the end of this object
+            while(i < dataLines.size() && dataLines[i] != "----") //Until the end of this object
             {
                 goData.emplace_back(dataLines[i]); //Add it to the object
                 ++i;
             }
+            std::cout<<"Starting to send Go data";
             GameObject * newGo = new GameObject();
             newGo->GenerateFromData(goData);
             mGameObjects.emplace_back(newGo);

@@ -187,20 +187,14 @@ namespace TandenEngine {
 
     std::vector<std::string> Serializer::SeperateString(std::string input) {
          std::vector<std::string> output;
-        std::string tempString = "";
-        char inputChar = input[0];
-        for(int i=0; i < input.length(); ++i)
-        {
-            tempString = "";
-            inputChar = input[i];
-            while(inputChar != ' ' || inputChar != '\n')
-            {
-                tempString += inputChar;
-                ++i;
-                inputChar = input[i];
+        std::stringstream ss(input);
+        std::string item;
+        while (std::getline(ss, item, '\n')) {
+            if (item.length() > 0) {
+                std::stringstream iss(item);
+                for(std::string item; iss >> item; )
+                    output.push_back(item);
             }
-            std::cout << tempString;
-            output.emplace_back(tempString);
         }
 
         return output;
@@ -224,7 +218,7 @@ namespace TandenEngine {
          std::string data = "", input;
         while(std::getline(newFile,input)) //Read ALL the data to the output string
         {
-            data += input;
+            data += input + '\n';
         }
         newFile.close();
 

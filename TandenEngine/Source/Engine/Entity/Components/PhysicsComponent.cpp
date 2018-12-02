@@ -16,7 +16,7 @@ namespace  TandenEngine {
         return data;
     }
 
-    Component *PhysicsComponent::ConvertFromString(std::string input) {
+    Component *PhysicsComponent::ConvertFromString(std::vector<std::string>) {
         return NULL;
     }
 }

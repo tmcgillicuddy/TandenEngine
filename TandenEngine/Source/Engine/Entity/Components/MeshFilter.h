@@ -14,7 +14,7 @@ namespace TandenEngine {
         Model *mModelResource;
 
     public:
-        Component * ConvertFromString(std::string input) override; //Takes in some string data and will output a Mesh Filter object
+        Component * ConvertFromString(std::vector<std::string> input) override; //Takes in some string data and will output a Mesh Filter object
     };
 
 }

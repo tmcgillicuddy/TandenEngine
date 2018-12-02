@@ -39,13 +39,13 @@ namespace TandenEngine {
         for(auto i=1; i < data.size(); ++i) //Run through every component in the gameobject and generate a new component for it
         {
             //Get component data
-            std::string endData = "";
-            endData += data[i];
+            std::vector<std::string> endData;
+            endData.emplace_back(data[i]);
             std::string type = data[i];
             ++i;
-            while(data[i] != "---") //Until the end of this object
+            while(i < data.size() && data[i] != "---") //Until the end of this object
             {
-                endData += data[i]; //Add it to the object
+                endData.emplace_back(data[i]); //Add it to the object
                 ++i;
             }
 

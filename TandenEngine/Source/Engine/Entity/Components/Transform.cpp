@@ -28,13 +28,11 @@ namespace TandenEngine {
         return data;
     }
 
-    Component * Transform::ConvertFromString(std::string data) {
+    Component * Transform::ConvertFromString(std::vector<std::string> data) {
         Transform * newComp = new Transform();
         float x,y,z;
 
-        std::vector<std::string> dataOutput = Serializer::SeperateString(data);
-
-        for(auto word: dataOutput)
+        for(auto word : data)
         {
             std::cout<<word <<std::endl;
         }
