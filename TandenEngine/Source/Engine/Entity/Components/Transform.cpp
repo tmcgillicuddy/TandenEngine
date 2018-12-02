@@ -8,7 +8,7 @@
 namespace TandenEngine {
 
     Transform::Transform() {
-
+        mType = ComponentType::TRANSFORM;
     }
 
     Transform::~Transform() {
@@ -21,7 +21,8 @@ namespace TandenEngine {
     }
 
     std::string Transform::ToString() {
-        std::string data = "Transform\n";
+        std::string data = Component::ToString(); //Call the base to string function
+        //Add component specific attributes
         data += "Pos: " + std::to_string(position.x) + " " + std::to_string(position.y) + " " + std::to_string(position.z) + '\n';
         data += "Rot: " + std::to_string(rotation.x) + " " + std::to_string(rotation.y) + " " + std::to_string(rotation.z)+ '\n';
         data += "Scale: " + std::to_string(scale.x) + " " + std::to_string(scale.y) + " " + std::to_string(scale.z)+ '\n';
@@ -34,9 +35,8 @@ namespace TandenEngine {
 
         for(auto word : data)
         {
-            std::cout<<word <<std::endl;
+            //std::cout<<word <<std::endl;
         }
-
         return newComp;
     }
 
