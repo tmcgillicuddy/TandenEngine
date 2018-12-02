@@ -22,6 +22,8 @@ namespace TandenEngine {
 
         Scene(); //Just create a new scene (generates scene setting file)
 
+        Scene(MetaData* inputMeta);
+
         GameObject *CreateGameObject(); //Creates a new game object in scene
 
         bool DestroyGameObject(); //Destroys game object in scene

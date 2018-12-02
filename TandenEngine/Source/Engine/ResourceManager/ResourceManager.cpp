@@ -10,31 +10,35 @@ namespace TandenEngine {
 
     Resource * ResourceManager::GenerateResourceFromMetaData(MetaData *metaData) {
         Resource * newResource = nullptr;
-        std::cout<<metaData->mFileType;
+        std::cout<< static_cast<int>(metaData->mFileType);
         switch (metaData->mFileType)
         {
             case DataType::SCENE:
-                std::cout<<"Creating Scene";
-                newResource = new Scene();
+                std::cout<<"Creating Scene\n";
+                newResource = new Scene(metaData);
+                break;
+            case DataType::PREFAB:
+                std::cout<<"Creating Prefab\n";
+                newResource = new Prefab();
                 break;
             case DataType::MATERIAL:
-                std::cout<<"Creating Material";
+                std::cout<<"Creating Material\n";
                 newResource = new Material();
                 break;
             case DataType::MODEL:
-                std::cout<<"Creating Model";
+                std::cout<<"Creating Model\n";
                 newResource = new Model();
                 break;
             case DataType::AUDIO:
-                std::cout<<"Creating Audio";
+                std::cout<<"Creating Audio\n";
                 newResource = new AudioClip();
                 break;
             case DataType::IMAGE:
-                std::cout<<"Creating Image";
+                std::cout<<"Creating Image\n";
                 newResource = new Image();
                 break;
             case DataType::SHADER:
-                std::cout<<"Creating Shader";
+                std::cout<<"Creating Shader\n";
                 newResource = new Shader();
                 break;
             default:
@@ -65,11 +69,16 @@ namespace TandenEngine {
 
     void ResourceManager::AddResource(Resource *newResource) {
         MetaData * newData = new MetaData();
+        newData->mFileName = newResource->fileName;
         newData->mFileType = newResource->mResourceType;
         newData->mFileDir = Serializer::mProjectDir +"/Assets/"+ newResource->GenerateFileName();
 
         Serializer::WriteStringToAssetFolder(newResource->fileName + ".meta", newData->ConvertToString());
 
         mResourceFiles.emplace_back(newResource);
+    }
+
+    void ResourceManager::AddMetaData(MetaData *newMetaData) {
+        mMetaData.emplace_back(newMetaData);
     }
 }

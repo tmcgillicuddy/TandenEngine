@@ -3,7 +3,8 @@
 //
 
 #include "GameObject.h"
-#include "./Components/Transform.h"
+#include "Components/Transform.h"
+#include "Components/MeshRenderer.h"
 
 namespace TandenEngine {
 
@@ -31,6 +32,40 @@ namespace TandenEngine {
             data += "---\n";
         }
         return data;
+    }
+
+    void GameObject::GenerateFromData(std::vector<std::string> data) {
+        mName = data[0]; //First string is always the name
+        for(auto i=1; i < data.size(); ++i) //Run through every component in the gameobject and generate a new component for it
+        {
+            //Get component data
+            std::string endData = "";
+            endData += data[i];
+            std::string type = data[i];
+            ++i;
+            while(data[i] != "---") //Until the end of this object
+            {
+                endData += data[i]; //Add it to the object
+                ++i;
+            }
+
+            //Make a new component
+            Component * newComp = nullptr;
+            if (type == "Transform")
+            {
+                newComp = new Transform();
+                newComp->ConvertFromString(endData);
+            }
+            else if(type == "MeshRenderer")
+            {
+                newComp = new MeshRenderer();
+                newComp->ConvertFromString(endData);
+            }
+
+            if(newComp != nullptr) {
+                mComponents.emplace_back(newComp);
+            }
+        }
     }
 
 }
