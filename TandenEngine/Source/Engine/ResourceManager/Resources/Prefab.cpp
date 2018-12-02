@@ -51,4 +51,8 @@ namespace TandenEngine {
         CreatePrefab(templateGo); //Copy that gameobject's info normally
     }
 
+    bool Prefab::CheckIfSupported(std::string extension) {
+        return (extension == ".prefab");
+    }
+
 }

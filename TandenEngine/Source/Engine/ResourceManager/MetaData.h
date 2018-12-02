@@ -16,7 +16,8 @@ namespace TandenEngine {
         MODEL = 4,
         AUDIO = 5,
         IMAGE = 6,
-        SHADER = 7
+        SHADER = 7,
+        INVALID=1000
     };
 
     class MetaData {

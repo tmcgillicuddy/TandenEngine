@@ -68,4 +68,8 @@ namespace TandenEngine {
 
     }
 
+    bool Scene::CheckIfSupported(std::string extension) {
+       return (extension == ".scene");
+    }
+
 }

@@ -19,4 +19,8 @@ namespace TandenEngine {
         Serializer::WriteStringToAssetFolder(fileName+".material", data);
         ResourceManager::GenerateNewMetaData(this);
     }
+
+    bool Material::CheckIfSupported(std::string extension) {
+        return (extension == ".material");
+    }
 }
