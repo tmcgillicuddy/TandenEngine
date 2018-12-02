@@ -9,4 +9,8 @@ namespace TandenEngine {
     Model::Model():Resource(ResourceType::MODEL) {
 
     }
+
+    bool Model::CheckIfSupported(std::string extension) {
+        return (extension == ".fbx" || extension == ".obj");
+    }
 }

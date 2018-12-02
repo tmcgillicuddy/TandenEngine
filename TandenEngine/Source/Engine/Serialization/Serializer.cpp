@@ -237,7 +237,9 @@ namespace TandenEngine {
     void Serializer::CheckDir(std::vector<std::string> knownFiles, std::string dir) {
         std::string extension = "*.meta"; //Extension for meta data
         std::string name;
-        for (auto & p : std::filesystem::recursive_directory_iterator(dir))
+        std::string tempDir = dir;
+        std::replace(tempDir.begin(),tempDir.end(),'/','\\');
+        for (auto & p : std::filesystem::recursive_directory_iterator(tempDir))
         {
             name = p.path().u8string();
             bool isCovered = false; //Flag to know if meta file for this resource already exists
@@ -253,7 +255,14 @@ namespace TandenEngine {
 
                 if(!isCovered)
                 {
-                    std::cout<<"NON COVERED FILE!! " << name << std::endl;
+                    std::string extension = p.path().extension().string(); //Gets the file's extension
+                    ResourceType resourceType = ResourceManager::CheckExtensionSupported(extension);
+                    if(resourceType != ResourceType::INVALID) {
+                        std::cout << "Generating Meta Data " << static_cast<int>(resourceType) << std::endl;
+                    } else
+                    {
+                        std::cout << name << " is an invalid file type\n";
+                    }
                 }
                 //std::ifstream fileStream;
                 //fileStream.open(name);
