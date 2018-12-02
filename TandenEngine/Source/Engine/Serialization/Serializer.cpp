@@ -123,9 +123,7 @@ namespace TandenEngine {
         {
             std::cout<< "Found Project Settings File\n";
             fileStream >> loadedProj->mProjectName;
-            //Load the resources for the assets folder
-            std::string assetDir = projectDir + "\\Assets\\";
-            GetMetaDataAtDir(loadedProj, assetDir);
+
         }
         fileStream.close();
 
@@ -133,10 +131,12 @@ namespace TandenEngine {
         mAssetDir = projectDir + "\\Assets\\";
         mProjectSettingDir = projectDir + "\\ProjectSettings\\";
 
+        ImportFiles();
+
         return loadedProj;
     }
 
-    void Serializer::GetMetaDataAtDir(ProjectSettings *parentSettings, std::string dir) {
+    void Serializer::GetMetaDataAtDir(std::string dir) {
         std::string extension = "*.meta"; //Extension for meta data
         std::string name;
         for (auto & p : std::filesystem::recursive_directory_iterator(dir))
@@ -223,5 +223,9 @@ namespace TandenEngine {
         newFile.close();
 
         return data;
+    }
+
+    void Serializer::ImportFiles() {
+        GetMetaDataAtDir(mAssetDir);
     }
 }

@@ -18,6 +18,7 @@ namespace TandenEngine {
         std::vector<std::unique_ptr<Component>> mComponents; //TODO Use map instead of vector
     public:
         Prefab();
+        Prefab(MetaData* metaData);
         void CreatePrefab(GameObject * sourceGO);
         void UpdatePrefab(GameObject * sourceGO);
         void SavePrefab();

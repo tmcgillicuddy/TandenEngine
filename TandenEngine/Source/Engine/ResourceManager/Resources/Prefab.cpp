@@ -42,4 +42,13 @@ namespace TandenEngine {
 
     }
 
+    Prefab::Prefab(MetaData *metaData): Resource(ResourceType::PREFAB) {
+        mResourceType = ResourceType::PREFAB;
+        std::string data = Serializer::GetFileData(metaData->mFileDir);
+        std::vector<std::string> dataLines = Serializer::SeperateString(data);
+        GameObject * templateGo = new GameObject();
+        templateGo->GenerateFromData(dataLines); //Create a template gameobject from the meta data normally
+        CreatePrefab(templateGo); //Copy that gameobject's info normally
+    }
+
 }
