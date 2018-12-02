@@ -67,6 +67,8 @@ namespace TandenEngine {
         void Update();
 
         std::string ToString();
+
+        void GenerateFromData(std::vector<std::string> data);
     };
 
 }

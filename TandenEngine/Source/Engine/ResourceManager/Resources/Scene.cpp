@@ -44,4 +44,29 @@ namespace TandenEngine {
         Serializer::WriteStringToAssetFolder(fileName+".scene", data);
     }
 
+    Scene::Scene(MetaData *inputMeta) : Resource(DataType::SCENE) {
+        mResourceType = DataType::SCENE;
+        std::string data = Serializer::GetFileData(inputMeta->mFileDir);
+        std::vector<std::string> dataLines = Serializer::SeperateString(data);
+        fileName = dataLines[0];
+
+        for(auto i=1; i < dataLines.size(); ++i) //Run through every object in the scene and generate a new gameobject for it
+        {
+            std::vector<std::string> goData;
+            std::cout<<dataLines[i];
+            goData.emplace_back(dataLines[i]);
+            ++i;
+            std::cout<<"Starting to Read Go data";
+            while(dataLines[i] != "----") //Until the end of this object
+            {
+                goData.emplace_back(dataLines[i]); //Add it to the object
+                ++i;
+            }
+            GameObject * newGo = new GameObject();
+            newGo->GenerateFromData(goData);
+            mGameObjects.emplace_back(newGo);
+        }
+
+    }
+
 }
