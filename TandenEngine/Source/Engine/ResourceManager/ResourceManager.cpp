@@ -89,4 +89,16 @@ namespace TandenEngine {
 
         Serializer::WriteStringToAssetFolder(newResource->fileName + ".meta", newData->ConvertToString());
     }
+
+    std::vector<std::string> ResourceManager::GetAllFoundResourceFiles() {
+        std::vector<std::string> files;
+        for(auto file : mMetaData)
+        {
+            std::string tempName = file->mFileDir;
+            std::replace(tempName.begin(),tempName.end(),'/','\\');
+            files.emplace_back(tempName);
+        }
+
+        return files;
+    }
 }

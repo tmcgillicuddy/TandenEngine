@@ -30,6 +30,7 @@ namespace TandenEngine {
         static std::string GetFileData(std::string path); //Returns All the data in a file as one string
 
         static void ImportFiles();
+        static void CheckDir(std::vector<std::string> knownFiles, std::string dir);
 
         static std::vector<std::string> SeperateString(std::string input);
     };

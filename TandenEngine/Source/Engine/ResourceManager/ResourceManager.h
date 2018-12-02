@@ -30,6 +30,8 @@ namespace TandenEngine {
         static void AddResource(Resource * newResouce); //When adding a NEW resource and need to generate new meta data (discovered new file, new scene/prefab/material file created and saved)
         static void AddMetaData(MetaData * newMetaData); //Adds to the meta data vector to track loaded files
         static void GenerateNewMetaData(Resource * newResource); //Makes meta data but doesn't allocate the resource
+
+        static std::vector<std::string> GetAllFoundResourceFiles(); //Returns a list of all the resource file there are already meta data for
     };
 }
 

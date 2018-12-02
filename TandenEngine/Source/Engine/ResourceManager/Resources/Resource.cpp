@@ -17,7 +17,7 @@ namespace TandenEngine {
                 newName += ".prefab";
                 break;
             case ResourceType::MATERIAL:
-                newName += ".mat";
+                newName += ".material";
                 break;
         }
 
