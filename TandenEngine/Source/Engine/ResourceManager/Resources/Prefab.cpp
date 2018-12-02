@@ -4,6 +4,7 @@
 
 #include "Prefab.h"
 #include "../../Serialization/Serializer.h"
+#include "../ResourceManager.h"
 
 namespace TandenEngine {
 
@@ -29,12 +30,12 @@ namespace TandenEngine {
         }
 
         Serializer::WriteStringToAssetFolder(fileName+".prefab", data);
-
+        ResourceManager::GenerateNewMetaData(this);
     }
 
-    Prefab::Prefab(): Resource(DataType::PREFAB) {
+    Prefab::Prefab(): Resource(ResourceType::PREFAB) {
         fileName = "UntitledPrefab";
-        mResourceType = DataType::PREFAB;
+        mResourceType = ResourceType::PREFAB;
     }
 
     void Prefab::UpdatePrefab(GameObject *sourceGO) {

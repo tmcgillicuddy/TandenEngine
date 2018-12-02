@@ -27,9 +27,9 @@ namespace TandenEngine {
         }
     }
 
-    Scene::Scene() : Resource(DataType::SCENE) {
+    Scene::Scene() : Resource(ResourceType::SCENE) {
         fileName = "UntitledScene";
-        mResourceType = DataType::SCENE;
+        mResourceType = ResourceType::SCENE;
     }
 
     void Scene::SaveScene() {
@@ -44,8 +44,8 @@ namespace TandenEngine {
         Serializer::WriteStringToAssetFolder(fileName+".scene", data);
     }
 
-    Scene::Scene(MetaData *inputMeta) : Resource(DataType::SCENE) {
-        mResourceType = DataType::SCENE;
+    Scene::Scene(MetaData *inputMeta) : Resource(ResourceType::SCENE) {
+        mResourceType = ResourceType::SCENE;
         std::string data = Serializer::GetFileData(inputMeta->mFileDir);
         std::vector<std::string> dataLines = Serializer::SeperateString(data);
         fileName = dataLines[0];
