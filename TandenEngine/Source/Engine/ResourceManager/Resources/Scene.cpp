@@ -4,6 +4,7 @@
 
 #include "Scene.h"
 #include "../../Serialization/Serializer.h"
+#include "../ResourceManager.h"
 
 namespace TandenEngine {
 
@@ -42,10 +43,11 @@ namespace TandenEngine {
         }
 
         Serializer::WriteStringToAssetFolder(fileName+".scene", data);
+        ResourceManager::GenerateNewMetaData(this);
     }
 
     Scene::Scene(MetaData *inputMeta) : Resource(ResourceType::SCENE) {
-        mResourceType = ResourceType::SCENE;
+        mResourceType = ResourceType::PREFAB;
         std::string data = Serializer::GetFileData(inputMeta->mFileDir);
         std::vector<std::string> dataLines = Serializer::SeperateString(data);
         fileName = dataLines[0];
