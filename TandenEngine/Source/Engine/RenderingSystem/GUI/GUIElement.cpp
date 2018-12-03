@@ -3,3 +3,16 @@
 //
 
 #include "GUIElement.h"
+#include "GUISystem.h"
+
+namespace TandenEngine {
+
+    void GUIElement::RegisterGUI() {
+        GUISystem::RegisterGUIElement(this);
+    }
+
+    GUIElement::GUIElement() {
+        RegisterGUI();
+    }
+
+}
