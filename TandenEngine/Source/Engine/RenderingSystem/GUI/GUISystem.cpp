@@ -4,11 +4,13 @@
 
 #include "GUISystem.h"
 #include "imgui.h"
+
 namespace TandenEngine
 {
     std::vector<GUIElement *> GUISystem::mGuiElements;
 
     void GUISystem::DrawGUI() {
+
         for (const auto &element: mGuiElements)
         {
             element->DrawGUI();
