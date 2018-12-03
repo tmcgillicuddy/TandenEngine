@@ -9,4 +9,8 @@ namespace TandenEngine {
     Font::Font() {
         mResourceType = ResourceType::FONT;
     }
+
+    bool Font::CheckIfSupported(std::string extension) {
+        return (extension == ".ttf");
+    }
 }
