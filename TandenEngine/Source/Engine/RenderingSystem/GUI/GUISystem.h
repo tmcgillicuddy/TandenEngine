@@ -5,10 +5,22 @@
 #ifndef TANDENENGINE_GUISYSTEM_H
 #define TANDENENGINE_GUISYSTEM_H
 
-namespace TandenEngine {
-    class GUISystem {
+#include <vector>
 
+#include "GUIElement.h"
+
+namespace TandenEngine {
+
+    class GUISystem {
+        static std::vector<GUIElement*> mGuiElements;
+
+    public:
+
+        static void DrawGUI();
+
+        static void RegisterGUIElement(GUIElement * newElement);
     };
+
 }
 
 #endif //TANDENENGINE_GUISYSTEM_H
