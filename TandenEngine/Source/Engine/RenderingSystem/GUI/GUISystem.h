@@ -28,6 +28,5 @@ namespace TandenEngine {
             static void RegisterGUIElement(GUIElement *newElement); //Register the GUI elements
         };
     }
-}
 
 #endif //TANDENENGINE_GUISYSTEM_H
