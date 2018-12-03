@@ -17,6 +17,7 @@ namespace TandenEngine {
         AUDIO = 5,
         IMAGE = 6,
         SHADER = 7,
+        FONT = 8,
         INVALID=1000
     };
 

@@ -4,10 +4,14 @@
 
 #include "AudioClip.h"
 
-TandenEngine::AudioClip::AudioClip():Resource(ResourceType::AUDIO) {
+namespace TandenEngine {
 
-}
+    AudioClip::AudioClip() {
+        mResourceType = ResourceType::AUDIO;
+    }
 
-bool TandenEngine::AudioClip::CheckIfSupported(std::string extension) {
-    return (extension == ".wav" || extension == ".mp3");
+    bool AudioClip::CheckIfSupported(std::string extension) {
+        return (extension == ".wav" || extension == ".mp3");
+    }
+
 }
