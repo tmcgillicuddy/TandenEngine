@@ -39,18 +39,7 @@ namespace TandenEngine {
         glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
         GLFWwindow* window = glfwCreateWindow(800, 600, "Vulkan window", nullptr, nullptr);
 
-
-
-
-
-        //ADD TEST DATA TODO REMOVE THESE
-        auto *newScene = new Scene(); //TODO remove these tests
-        auto *testGO = newScene->CreateGameObject(); //TODO remove these tests
-        testGO->AddComponent<MeshRenderer>(); //TODO remove these tests
-        mLoadedScenes.emplace_back(newScene); //TODO remove these tests
         std::cout<<"Start Main\n";
-
-        ResourceManager::AddResource(newScene);
 
         system("pause");
         glfwDestroyWindow(window);
