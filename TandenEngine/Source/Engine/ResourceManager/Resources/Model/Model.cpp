@@ -6,8 +6,8 @@
 
 namespace TandenEngine {
 
-    Model::Model():Resource(ResourceType::MODEL) {
-
+    Model::Model() {
+        mResourceType = ResourceType::MODEL;
     }
 
     bool Model::CheckIfSupported(std::string extension) {
