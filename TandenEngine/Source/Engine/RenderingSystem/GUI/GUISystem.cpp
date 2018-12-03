@@ -4,6 +4,7 @@
 
 #include "GUISystem.h"
 #include "imgui.h"
+<<<<<<< HEAD
 
 namespace TandenEngine {
     namespace GUI {
@@ -15,14 +16,6 @@ namespace TandenEngine {
             for (const auto &element: mGuiElements) {
                 element->DrawGUI();
             }
-            //ImGui::EndFrame(); //Marks end of gui element allocation
-            //ImGui::Render(); //Generate vertex buffers of the elements
-            //ImDrawData* draw_data = ImGui::GetDrawData(); //Get that rendered data
-            //Draw the data to back buffer
-        }
-
-        void GUISystem::RegisterGUIElement(GUIElement *newElement) {
-            mGuiElements.emplace_back(newElement);
         }
 
         void GUISystem::InitGUISystem() {
