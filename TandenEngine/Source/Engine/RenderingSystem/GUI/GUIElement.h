@@ -5,10 +5,14 @@
 #ifndef TANDENENGINE_GUIELEMENT_H
 #define TANDENENGINE_GUIELEMENT_H
 
+#include "imgui.h"
+
 namespace TandenEngine {
     class GUIElement {
     public:
+        GUIElement();
         virtual void DrawGUI()=0;
+        void RegisterGUI();
     };
 }
 
