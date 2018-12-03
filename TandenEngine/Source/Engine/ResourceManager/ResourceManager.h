@@ -13,6 +13,7 @@
 #include "Resources/AudioClip.h"
 #include "Resources/Scene.h"
 #include "Resources/Model/Model.h"
+#include "Resources/Font.h"
 #include "../Serialization/Serializer.h"
 
 namespace TandenEngine {

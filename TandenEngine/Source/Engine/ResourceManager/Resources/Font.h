@@ -11,6 +11,7 @@ namespace TandenEngine {
     class Font : public Resource {
     public:
         Font();
+        static bool CheckIfSupported(std::string extension);
     };
 }
 

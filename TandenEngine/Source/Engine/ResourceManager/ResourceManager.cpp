@@ -117,6 +117,8 @@ namespace TandenEngine {
             return ResourceType::SHADER;
         if(AudioClip::CheckIfSupported(extension))
             return ResourceType::AUDIO;
+        if(Font::CheckIfSupported(extension))
+            return ResourceType::FONT;
 
         return ResourceType::INVALID;
     }
