@@ -1,4 +1,4 @@
-# Tenden Engine
+# Tanden Engine
 
 setup git submodules:
 
