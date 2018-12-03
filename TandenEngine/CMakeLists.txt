@@ -24,3 +24,6 @@ find_package(Vulkan REQUIRED)
 
 #Link the SDK using GLFW's macros
 target_link_libraries(TandenEngine ${VULKAN_LIBRARY})
+
+#Add imgui library
+include_directories("Libraries/imgui")
