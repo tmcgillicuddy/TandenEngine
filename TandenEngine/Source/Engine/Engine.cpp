@@ -37,12 +37,15 @@ namespace TandenEngine {
 
         std::cout<<"Start Main\n";
 
+
         //ADD TEST DATA TODO REMOVE THESE
         auto *newScene = new Scene(); //TODO remove these tests
         auto *testGO = newScene->CreateGameObject(); //TODO remove these tests
         testGO->AddComponent<MeshRenderer>(); //TODO remove these tests
         mLoadedScenes.emplace_back(newScene); //TODO remove these tests
         newScene->SaveScene();
+
+
 
 
         system("pause");
