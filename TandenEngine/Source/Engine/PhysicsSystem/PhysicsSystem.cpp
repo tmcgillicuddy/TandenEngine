@@ -26,8 +26,25 @@ namespace TandenEngine {
         mColliders.emplace_back(newObject);
     }
 
+
+    // https://developer.mozilla.org/en-US/docs/Games/Techniques/3D_collision_detection
+    // TODO how do i get the variables specifically in boxColliders?
     void PhysicsSystem::CollisionUpdate(){
-        // TODO how2checkPhysx
+        int n = mColliders.size();
+        for(int i = 0; i < n; ++i) {
+            for(int j = i + 1; j < n; ++j) {
+                /*
+                if(mColliders[i]->minX <= mColliders[j]->maxX && mColliders[i]->maxX >= mColliders[j]->minX) {
+                    if(mColliders[i]->minY <= mColliders[j]->maxY && mColliders[i]->maxY >= mColliders[j]->minY) {
+                        if(mColliders[i]->minY <= mColliders[j]->maxY && mColliders[i]->maxY >= mColliders[j]->minY) {
+                            # TRIGGERED
+                        }
+                    }
+                }
+                */
+                // # not triggered
+            }
+        }
     }
 
 }

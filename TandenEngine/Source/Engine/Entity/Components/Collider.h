@@ -16,6 +16,7 @@ namespace TandenEngine {
 
             void Update() {};
 
+            int whatever = 0;
 
     };
 
