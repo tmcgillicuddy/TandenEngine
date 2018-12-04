@@ -25,7 +25,6 @@ namespace TandenEngine {
         PollWindowEvents();
 
         //Swap buffers
-
     }
 
     void RenderingSystem::RegisterRenderer(Renderer *newRenderer) {
