@@ -18,6 +18,10 @@ namespace TandenEngine {
             }
         }
 
+        void GUISystem::RegisterGUIElement(GUIElement *newElement) {
+            mGuiElements.emplace_back(newElement);
+        }
+
         void GUISystem::InitGUISystem() {
             std::cout<< "Initing GUI System\n";
             ImGui::CreateContext();

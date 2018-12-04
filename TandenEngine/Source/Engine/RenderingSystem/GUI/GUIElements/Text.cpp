@@ -9,7 +9,9 @@ namespace TandenEngine
     namespace GUI
     {
         void Text::DrawGUI() {
-            ImGui::ShowDemoWindow();
+
+            //ImGui::ShowDemoWindow();
+
         }
 
         Text::Text(std::string input) {

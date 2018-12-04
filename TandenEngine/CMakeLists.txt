@@ -25,6 +25,7 @@ file(GLOB_RECURSE TANDEN_SOURCE "Source/*.h" "Source/*.cpp")
 #Put all the source file dirs into their proper place
 add_executable(TandenEngine ${TANDEN_SOURCE} ${IMGUI_SOURCES})
 
+
 #GLFW Build through CMake (Loads and links Vulkan as well)
 add_subdirectory("Libraries/GLFW")
 
@@ -36,3 +37,4 @@ find_package(Vulkan REQUIRED)
 
 #Link the SDK using GLFW's macros
 target_link_libraries(TandenEngine ${VULKAN_LIBRARY})
+
