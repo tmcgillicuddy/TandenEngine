@@ -21,6 +21,8 @@ namespace TandenEngine {
 
             static void InitGUISystem(); //Init the GUI system
 
+            static void ShutDownGuiSystem();
+
             static void DrawGUI(); //Draw GUI elements
 
             static void RegisterGUIElement(GUIElement *newElement); //Register the GUI elements

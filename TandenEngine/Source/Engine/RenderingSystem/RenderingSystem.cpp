@@ -14,12 +14,17 @@ namespace TandenEngine {
     Window*  RenderingSystem::testWindow;
 
     void RenderingSystem::Draw() {
+        //Draw gameobject renderers
         for (const auto &rend : mRenderers) {
             rend->Draw();
         }
 
+        //Draw GUI Elements
+        GUI::GUISystem::DrawGUI();
+
         PollWindowEvents();
 
+        //Swap buffers
     }
 
     void RenderingSystem::RegisterRenderer(Renderer *newRenderer) {
@@ -32,6 +37,8 @@ namespace TandenEngine {
         InitGLFW();
         InitVulkan();
         InitWindow(800, 600, "eat my ass");
+
+        GUI::GUISystem::InitGUISystem();
     }
 
     void RenderingSystem::InitGLFW()
@@ -107,6 +114,8 @@ namespace TandenEngine {
 
     void RenderingSystem::Cleanup()
     {
+
+        GUI::GUISystem::ShutDownGuiSystem();
 
         vkDestroyInstance(VulkanInstance, nullptr);
 
