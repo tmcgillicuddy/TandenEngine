@@ -7,20 +7,25 @@
 
 #include <vector>
 
-#include "GUIElement.h"
+#include "imgui.h"
+#include "imgui_internal.h"
+#include "GUIElements/GUIElement.h"
 
 namespace TandenEngine {
+    namespace GUI {
+        class GUISystem {
+            static std::vector<GUIElement *> mGuiElements; //List of gui elements
 
-    class GUISystem {
-        static std::vector<GUIElement*> mGuiElements;
+            static ImGuiIO& io; //ImGui io struct, filled with Tanden data
+        public:
 
-    public:
+            static void InitGUISystem(); //Init the GUI system
 
-        static void DrawGUI();
+            static void DrawGUI(); //Draw GUI elements
 
-        static void RegisterGUIElement(GUIElement * newElement);
-    };
-
+            static void RegisterGUIElement(GUIElement *newElement); //Register the GUI elements
+        };
+    }
 }
 
 #endif //TANDENENGINE_GUISYSTEM_H
