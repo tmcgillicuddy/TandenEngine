@@ -34,9 +34,7 @@ namespace TandenEngine {
 
         RenderingSystem::InitSystem();
 
-
         std::cout<<"Start Main\n";
-
 
         //ADD TEST DATA TODO REMOVE THESE
         auto *newScene = new Scene(); //TODO remove these tests
@@ -44,9 +42,6 @@ namespace TandenEngine {
         testGO->AddComponent<MeshRenderer>(); //TODO remove these tests
         mLoadedScenes.emplace_back(newScene); //TODO remove these tests
         newScene->SaveScene();
-
-
-
 
         system("pause");
 

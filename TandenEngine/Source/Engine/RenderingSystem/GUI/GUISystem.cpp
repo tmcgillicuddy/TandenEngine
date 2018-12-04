@@ -13,6 +13,7 @@ namespace TandenEngine {
 
         void GUISystem::DrawGUI() {
             //ImGui::NewFrame(); //Marks beginning of gui element allocation
+
             for (const auto &element: mGuiElements) {
                 element->DrawGUI();
             }
@@ -37,5 +38,9 @@ namespace TandenEngine {
         void GUISystem::ShutDownGuiSystem() {
             // Shutdown
             ImGui::DestroyContext();
+        }
+
+        void GUISystem::ShutDownGuiSystem() {
+
         }
     }

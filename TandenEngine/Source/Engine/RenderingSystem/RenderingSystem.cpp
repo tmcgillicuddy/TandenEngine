@@ -25,7 +25,6 @@ namespace TandenEngine {
         PollWindowEvents();
 
         //Swap buffers
-        PollWindowEvents();
 
     }
 
@@ -41,7 +40,6 @@ namespace TandenEngine {
         InitWindow(800, 600, "eat my ass");
 
         GUI::GUISystem::InitGUISystem();
-
     }
 
     void RenderingSystem::InitGLFW()
@@ -117,6 +115,8 @@ namespace TandenEngine {
 
     void RenderingSystem::Cleanup()
     {
+        GUI::GUISystem::ShutDownGuiSystem();
+
         GUI::GUISystem::ShutDownGuiSystem();
 
         vkDestroyInstance(VulkanInstance, nullptr);
