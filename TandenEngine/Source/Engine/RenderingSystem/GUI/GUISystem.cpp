@@ -44,6 +44,7 @@ namespace TandenEngine {
         }
 
         void GUISystem::ShutDownGuiSystem() {
-
+            // Shutdown
+            ImGui::DestroyContext();
         }
     }
