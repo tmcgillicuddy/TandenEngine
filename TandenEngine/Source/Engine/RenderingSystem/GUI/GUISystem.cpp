@@ -10,7 +10,7 @@ namespace TandenEngine {
         std::vector<GUIElement *> GUISystem::mGuiElements;
 
         void GUISystem::DrawGUI() {
-
+            //ImGui::ShowDemoWindow();
             for (const auto &element: mGuiElements) {
                 element->DrawGUI();
             }
@@ -22,6 +22,10 @@ namespace TandenEngine {
 
         void GUISystem::InitGUISystem() {
             ImGui::CreateContext();
+        }
+
+        void GUISystem::ShutDownGuiSystem() {
+
         }
     }
 }
