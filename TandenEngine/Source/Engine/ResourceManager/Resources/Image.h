@@ -12,6 +12,8 @@ namespace TandenEngine {
     class Image : public Resource {
     public:
         Image();
+        static bool CheckIfSupported(std::string extension);
+
     };
 
 }

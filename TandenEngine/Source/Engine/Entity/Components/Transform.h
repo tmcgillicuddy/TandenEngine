@@ -15,12 +15,20 @@ namespace TandenEngine {
     class Transform : public Component {
     public:
         Vector3 position;
+        Vector3 rotation;
+        Vector3 scale;
 
         Transform();
 
         ~Transform();
 
         void Update() override;
+
+        std::string ToString() override;
+
+        Component * ConvertFromString(std::vector<std::string> input) override; //Takes in some string data and will output a transform object
+
+        std::unique_ptr<Component> Clone() override;
     };
 
 }

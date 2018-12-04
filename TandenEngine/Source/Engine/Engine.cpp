@@ -8,12 +8,12 @@
 #include "Entity/Components/Transform.h"
 //Vulkan Test
 #define GLFW_INCLUDE_VULKAN
-#include <GLFW/glfw3.h>
+#include "../../Libraries/GLFW/include/GLFW/glfw3.h"
 
 #define GLM_FORCE_RADIANS
 #define GLM_FORCE_DEPTH_ZERO_TO_ONE
-#include <glm/vec4.hpp>
-#include <glm/mat4x4.hpp>
+#include "../../Libraries/GLM/glm/vec4.hpp"
+#include "../../Libraries/GLM/glm/mat4x4.hpp"
 
 
 
@@ -31,43 +31,19 @@ namespace TandenEngine {
         else
             std::cout<<"Error Loading Project Start Engine\n";
 
+        RenderingSystem::InitSystem();
 
 
-        //create test window
-        glfwInit();
-
-        glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
-        GLFWwindow* window = glfwCreateWindow(800, 600, "Vulkan window", nullptr, nullptr);
-
-        uint32_t extensionCount = 0;
-        vkEnumerateInstanceExtensionProperties(nullptr, &extensionCount, nullptr);
-
-        std::cout << extensionCount << " extensions supported" << std::endl;
-
-        glm::mat4 matrix;
-        glm::vec4 vec;
-        auto test = matrix * vec;
-
-        while(!glfwWindowShouldClose(window)) {
-            glfwPollEvents();
-        }
-
-        glfwDestroyWindow(window);
-
-        glfwTerminate();
-
-
+        std::cout<<"Start Main\n";
 
         //ADD TEST DATA TODO REMOVE THESE
         auto *newScene = new Scene(); //TODO remove these tests
         auto *testGO = newScene->CreateGameObject(); //TODO remove these tests
         testGO->AddComponent<MeshRenderer>(); //TODO remove these tests
         mLoadedScenes.emplace_back(newScene); //TODO remove these tests
-        std::cout<<"Start Main\n";
+        newScene->SaveScene();
 
-        ResourceManager::AddResource(newScene);
 
-        system("pause");
     }
 
     void Engine::RunEngine() {
@@ -99,7 +75,9 @@ namespace TandenEngine {
 
     void Engine::StopEngine() {
         std::cout << "Closing Engine\n";
-        ResourceManager::SaveProjectResources();
+
+        RenderingSystem::Cleanup();
+
     }
 
     Engine::Engine() {

@@ -14,6 +14,9 @@ namespace  TandenEngine {
         virtual void PhysicsUpdate() {};
     public:
         void Register() override;
+
+        std::string ToString() override;
+        Component * ConvertFromString(std::vector<std::string>) override; //Takes in some string data and will output a physicsComponent object
     };
 
 }

@@ -11,4 +11,13 @@ namespace  TandenEngine {
         PhysicsSystem::RegisterPhysicsObject(this);
     }
 
+    std::string PhysicsComponent::ToString() {
+        std::string data = Component::ToString(); //Call the base to string function
+        //Add component specific attributes
+        return data;
+    }
+
+    Component *PhysicsComponent::ConvertFromString(std::vector<std::string>) {
+        return NULL;
+    }
 }

@@ -10,14 +10,14 @@ namespace TandenEngine {
 
         switch(mResourceType)
         {
-            case DataType::SCENE:
+            case ResourceType::SCENE:
                 newName += ".scene";
                 break;
-            case DataType::PREFAB:
+            case ResourceType::PREFAB:
                 newName += ".prefab";
                 break;
-            case DataType::MATERIAL:
-                newName += ".mat";
+            case ResourceType::MATERIAL:
+                newName += ".material";
                 break;
         }
 

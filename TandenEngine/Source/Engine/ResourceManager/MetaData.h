@@ -8,25 +8,27 @@
 #include <string>
 
 namespace TandenEngine {
-    enum DataType
+    enum ResourceType
     {
-        SCENE,
-        PREFAB,
-        MATERIAL,
-        MODEL,
-        AUDIO,
-        IMAGE,
-        SHADER
+        SCENE = 1,
+        PREFAB = 2,
+        MATERIAL = 3,
+        MODEL = 4,
+        AUDIO = 5,
+        IMAGE = 6,
+        SHADER = 7,
+        FONT = 8,
+        INVALID=1000
     };
 
     class MetaData {
         friend class Serilizer;
     public: //TODO make private
         MetaData() {mGuid = reinterpret_cast<uint32_t>(this); }
-        std::string mFileDir;
+        std::string mFileDir, mFileName;
         uint32_t mGuid;
 
-        DataType mFileType;
+        ResourceType mFileType;
 
         std::string ConvertToString();
     };

@@ -12,11 +12,14 @@ namespace TandenEngine {
     class Renderer : public Component {
         friend class RenderingSystem;
 
-        virtual void Draw() {};
+        virtual void Draw()=0;
 
-        void Update() override;
+        void Update() {};
 
         void Register() override;
+
+        std::string ToString() override {return std::string();};
+        Component * ConvertFromString(std::vector<std::string>) override { return NULL;}; //Takes in some string data and will output a renderer object
     };
 
 }

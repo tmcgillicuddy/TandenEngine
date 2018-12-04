@@ -12,6 +12,9 @@ namespace TandenEngine {
     class Material : public Resource {
     public:
         Material();
+        void SaveMaterial();
+        static bool CheckIfSupported(std::string extension);
+
     };
 
 }
