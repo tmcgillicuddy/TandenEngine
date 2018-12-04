@@ -32,19 +32,20 @@ namespace TandenEngine {
             std::cout<<"Error Loading Project Start Engine\n";
 
 
+        RenderingSystem::InitSystem();
 
-        //create test window
-        glfwInit();
-
-        glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
-        GLFWwindow* window = glfwCreateWindow(800, 600, "Vulkan window", nullptr, nullptr);
-
+        //ADD TEST DATA TODO REMOVE THESE
+        auto *newScene = new Scene(); //TODO remove these tests
+        auto *testGO = newScene->CreateGameObject(); //TODO remove these tests
+        testGO->AddComponent<MeshRenderer>(); //TODO remove these tests
+        mLoadedScenes.emplace_back(newScene); //TODO remove these tests
         std::cout<<"Start Main\n";
 
-        system("pause");
-        glfwDestroyWindow(window);
+        ResourceManager::AddResource(newScene);
 
-        glfwTerminate();
+
+        system("pause");
+
     }
 
     void Engine::RunEngine() {
@@ -76,6 +77,9 @@ namespace TandenEngine {
 
     void Engine::StopEngine() {
         std::cout << "Closing Engine\n";
+
+        RenderingSystem::Cleanup();
+
     }
 
     Engine::Engine() {
