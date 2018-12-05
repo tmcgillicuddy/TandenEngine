@@ -6,6 +6,7 @@
 #include "Engine.h"
 #include "Entity/Components/MeshRenderer.h"
 #include "Entity/Components/Transform.h"
+#include "Entity/Components/BoxCollider.h"
 //Vulkan Test
 #define GLFW_INCLUDE_VULKAN
 #include "../../Libraries/GLFW/include/GLFW/glfw3.h"
@@ -31,24 +32,23 @@ namespace TandenEngine {
         else
             std::cout<<"Error Loading Project Start Engine\n";
 
-
         RenderingSystem::InitSystem();
 
-<<<<<<< HEAD
-=======
+
         std::cout<<"Start Main\n";
 
->>>>>>> 9949ff049a91c7bc254c1247e311112fe9b0d162
         //ADD TEST DATA TODO REMOVE THESE
         auto *newScene = new Scene(); //TODO remove these tests
         auto *testGO = newScene->CreateGameObject(); //TODO remove these tests
+        auto *testGO1 = newScene->CreateGameObject(); //TODO remove these tests
+        auto *testGO2 = newScene->CreateGameObject(); //TODO remove these tests
         testGO->AddComponent<MeshRenderer>(); //TODO remove these tests
+        testGO->AddComponent<BoxCollider>(); //TODO remove these tests
+        testGO1->AddComponent<BoxCollider>(); //TODO remove these tests
+        testGO2->AddComponent<BoxCollider>(); //TODO remove these tests
         mLoadedScenes.emplace_back(newScene); //TODO remove these tests
         newScene->SaveScene();
 
-
-
-        system("pause");
 
     }
 

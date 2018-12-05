@@ -28,7 +28,6 @@ namespace TandenEngine {
             mGuid = reinterpret_cast<uint32_t>(this);
             mFileType = ResourceType::INVALID;
         }
-		
         std::string mFileDir, mFileName;
         uint32_t mGuid;
 
