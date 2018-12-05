@@ -33,7 +33,10 @@ namespace TandenEngine {
     // TODO how do i get the variables specifically in boxColliders?
     // TODO I assume I can get reference to the objects at the position (to avoid having to access each time), given the above
     void PhysicsSystem::CollisionUpdate(){
+
+
         int n = mColliders.size();
+
         for(int i = 0; i < n; ++i) {
             for(int j = i + 1; j < n; ++j) {
                 /*

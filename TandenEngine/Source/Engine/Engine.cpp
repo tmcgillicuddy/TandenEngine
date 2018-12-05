@@ -6,6 +6,7 @@
 #include "Engine.h"
 #include "Entity/Components/MeshRenderer.h"
 #include "Entity/Components/Transform.h"
+#include "Entity/Components/BoxCollider.h"
 //Vulkan Test
 #define GLFW_INCLUDE_VULKAN
 #include "../../Libraries/GLFW/include/GLFW/glfw3.h"
@@ -40,6 +41,7 @@ namespace TandenEngine {
         auto *newScene = new Scene(); //TODO remove these tests
         auto *testGO = newScene->CreateGameObject(); //TODO remove these tests
         testGO->AddComponent<MeshRenderer>(); //TODO remove these tests
+        testGO->AddComponent<BoxCollider>(); //TODO remove these tests
         mLoadedScenes.emplace_back(newScene); //TODO remove these tests
         newScene->SaveScene();
 

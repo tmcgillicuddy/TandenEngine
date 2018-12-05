@@ -8,8 +8,16 @@
 
 namespace  TandenEngine {
 
-    void BoxCollider::Register() {
-        PhysicsSystem::RegisterColliderObject(this);
+    BoxCollider::BoxCollider() {
+        mType = ComponentType::BOXCOLLIDER;
+    }
+
+    BoxCollider::~BoxCollider() {
+
+    }
+
+    void BoxCollider::Update() {
+        std::cout << "Updating Box Collider\n";
     }
 
     std::string BoxCollider::ToString() {
@@ -18,7 +26,13 @@ namespace  TandenEngine {
         return data;
     }
 
-    Component *BoxCollider::ConvertFromString(std::vector<std::string>) {
-        return NULL;
+    std::unique_ptr<Component> BoxCollider::Clone() {
+        return std::unique_ptr<BoxCollider>(this);
+    }
+
+    Component *BoxCollider::ConvertFromString(std::vector<std::string> input) {
+        BoxCollider * newComp = new BoxCollider();
+
+        return newComp;
     }
 }
