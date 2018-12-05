@@ -53,8 +53,6 @@ namespace TandenEngine {
 
         static void PollWindowEvents();                                                         //maintain during engine runs
 
-        static Window* testWindow;
-
     public:
         static void Draw();
 

@@ -28,7 +28,7 @@ namespace TandenEngine {
         }
     }
 
-    Scene::Scene() : Resource(ResourceType::SCENE) {
+
 
     Scene::Scene() {
         fileName = "UntitledScene";
@@ -48,7 +48,7 @@ namespace TandenEngine {
         ResourceManager::GenerateNewMetaData(this);
     }
 
-    Scene::Scene(MetaData *inputMeta) : Resource(ResourceType::SCENE) {
+    Scene::Scene(MetaData *inputMeta) {
 
         mResourceType = ResourceType::PREFAB;
         std::string data = Serializer::GetFileData(inputMeta->mFileDir);
