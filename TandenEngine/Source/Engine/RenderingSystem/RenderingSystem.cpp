@@ -2,6 +2,7 @@
 // Created by thomas.mcgillicuddy on 10/31/2018.
 //
 
+#include <GLFW/glfw3.h>
 #include "RenderingSystem.h"
 
 
@@ -14,14 +15,15 @@ namespace TandenEngine {
 
     std::vector<Renderer *> RenderingSystem::mRenderers;
 
-    Window*  RenderingSystem::testWindow;
+    Window* RenderingSystem::testWindow;
 
     VkPhysicalDevice RenderingSystem::physicalDevice;
     VkDevice RenderingSystem::logicalDevice;
     VkQueue RenderingSystem::gfxQueue;
     VkSurfaceKHR RenderingSystem::windowSurface;
 
-    void RenderingSystem::Draw() {
+    void RenderingSystem::Draw()
+    {
         //Draw gameobject renderers
         for (const auto &rend : mRenderers) {
             rend->Draw();
@@ -34,10 +36,10 @@ namespace TandenEngine {
 
     }
 
-    void RenderingSystem::RegisterRenderer(Renderer *newRenderer) {
+    void RenderingSystem::RegisterRenderer(Renderer *newRenderer)
+    {
         mRenderers.emplace_back(newRenderer);
     }
-
 
     void RenderingSystem::InitSystem()
     {
@@ -61,10 +63,10 @@ namespace TandenEngine {
     void RenderingSystem::InitVulkan()
     {
         InitVKInstance();
+        InitWindowSurface();
         SelectPhysicalDevice();
         InitLogicalDevice();
     }
-
 
     void RenderingSystem::InitVKInstance()
     {
@@ -202,6 +204,13 @@ namespace TandenEngine {
 
     }
 
+    void RenderingSystem::InitWindowSurface()
+    {
+     //   if (glfwCreateWindowSurface(VulkanInstance, testWindow->GetWindowRef(), nullptr, &windowSurface) != VK_SUCCESS) {
+     //       throw std::runtime_error("failed to create window surface!");
+     //   }
+    }
+
     bool RenderingSystem::SuitableDevice(VkPhysicalDevice targetDevice)
     {
         QueueFamilyIndices indices = findQueueFamilies(targetDevice);
@@ -209,7 +218,6 @@ namespace TandenEngine {
         return indices.isComplete();
 
     }
-
 
     void RenderingSystem::InitWindow(int windowWidth, int windowHeight, std::string windowName)
     {
@@ -221,16 +229,12 @@ namespace TandenEngine {
 
     }
 
-
-
     void RenderingSystem::PollWindowEvents()
     {
         if (!glfwWindowShouldClose(testWindow->GetWindowRef())) {
             glfwPollEvents();
         }
     }
-
-
 
     void RenderingSystem::Cleanup()
     {

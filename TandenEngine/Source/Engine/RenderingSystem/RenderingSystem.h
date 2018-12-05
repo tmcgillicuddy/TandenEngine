@@ -46,8 +46,8 @@ namespace TandenEngine {
             static void SelectPhysicalDevice();                                                 //polling and selecting a graphics card to use
             static bool SuitableDevice(VkPhysicalDevice targetDevice);                          //checking if a graphics card is suitable
             static QueueFamilyIndices findQueueFamilies(VkPhysicalDevice device);               //checking queue families of graphics card so VK can send events through it
-
-            static void InitLogicalDevice();
+            static void InitWindowSurface();                                                    //creating surface for window instance
+            static void InitLogicalDevice();                                                    //initialize logical device to interact with graphics card
 
         static void InitWindow(int windowWidth, int windowHeight, std::string windowName);      // init window instance
 
