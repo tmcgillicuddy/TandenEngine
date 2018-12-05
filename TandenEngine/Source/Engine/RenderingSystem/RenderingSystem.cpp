@@ -114,6 +114,7 @@ namespace TandenEngine {
 
     void RenderingSystem::Cleanup()
     {
+        GUI::GUISystem::ShutDownGuiSystem();
 
         GUI::GUISystem::ShutDownGuiSystem();
 

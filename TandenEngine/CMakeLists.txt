@@ -11,12 +11,15 @@ set(GLFW_BUILD_DOCS OFF CACHE BOOL "" FORCE)
 set(GLFW_BUILD_TESTS OFF CACHE BOOL "" FORCE)
 set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
 
-
 #Add imgui library
 include_directories("Libraries/imgui")
 set(IMGUI_DIR "Libraries/imgui")
 set(IMGUI_SOURCES ${IMGUI_DIR}/imgui.cpp ${IMGUI_DIR}/imgui_demo.cpp ${IMGUI_DIR}/imgui_draw.cpp ${IMGUI_DIR}/imgui_widgets.cpp)
 
+#Add glfw headers
+include_directories("Libraries/GLFW/include")
+
+#Get all the source and header files from the main source code dir
 file(GLOB_RECURSE TANDEN_SOURCE "Source/*.h" "Source/*.cpp")
 
 #Put all the source file dirs into their proper place
