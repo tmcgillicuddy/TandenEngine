@@ -26,6 +26,7 @@ namespace TandenEngine {
         }
 
         void GUISystem::InitGUISystem() {
+            std::cout<< "Initing GUI System\n";
             ImGui::CreateContext();
             io = &ImGui::GetIO();
 
