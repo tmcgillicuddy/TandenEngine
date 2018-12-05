@@ -5,14 +5,6 @@
 #include "Image.h"
 namespace TandenEngine {
 
-TandenEngine::Image::Image(): Resource(ResourceType::IMAGE) {
-
-}
-
-bool TandenEngine::Image::CheckIfSupported(std::string extension) {
-    return (extension == ".jpg"||extension == ".png");
-}
-
     Image::Image() {
         mResourceType = ResourceType::IMAGE;
     }

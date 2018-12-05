@@ -20,7 +20,6 @@ namespace TandenEngine {
     //struct to check if graphics card can actually handle Vulkan queues
     struct QueueFamilyIndices {
         std::optional<uint32_t> graphicsFamily;
-
         bool isComplete() {return graphicsFamily.has_value();}
     };
 
@@ -35,6 +34,7 @@ namespace TandenEngine {
         static VkSurfaceKHR windowSurface;                  //surface of window
         static std::vector<Renderer *> mRenderers;          //vector of renderers
         static Window* testWindow;                          //window instance (just one for now)
+
 
         //init
         static void InitGLFW();
@@ -52,8 +52,6 @@ namespace TandenEngine {
         static void InitWindow(int windowWidth, int windowHeight, std::string windowName);      // init window instance
 
         static void PollWindowEvents();                                                         //maintain during engine runs
-
-        static Window* testWindow;
 
     public:
         static void Draw();
