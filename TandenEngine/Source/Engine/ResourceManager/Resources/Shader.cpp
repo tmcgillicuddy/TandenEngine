@@ -5,7 +5,6 @@
 #include "Shader.h"
 namespace TandenEngine {
 
-
     Shader::Shader(){
         mResourceType = ResourceType::SHADER;
     }

@@ -4,7 +4,6 @@
 
 #include "AudioClip.h"
 
-
 namespace TandenEngine {
 
     AudioClip::AudioClip() {

@@ -7,6 +7,8 @@
 
 namespace TandenEngine {
 
+    Material::Material() : Resource(ResourceType::MATERIAL) {
+
     Material::Material(){
         fileName = "UntitledMaterial";
         mResourceType = ResourceType::MATERIAL;
