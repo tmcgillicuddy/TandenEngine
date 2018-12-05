@@ -5,7 +5,6 @@
 #include "Image.h"
 namespace TandenEngine {
 
-
     Image::Image() {
         mResourceType = ResourceType::IMAGE;
     }
