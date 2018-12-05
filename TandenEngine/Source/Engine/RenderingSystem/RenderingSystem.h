@@ -10,7 +10,6 @@
 #include <vulkan/vulkan.h>
 #include "../Entity/Components/Renderer.h"
 #include "GLFW/glfw3.h"
-
 #include "GUI/GUISystem.h"
 
 namespace TandenEngine {

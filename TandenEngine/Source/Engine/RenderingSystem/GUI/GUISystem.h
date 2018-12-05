@@ -16,7 +16,7 @@ namespace TandenEngine {
         class GUISystem {
             static std::vector<GUIElement *> mGuiElements; //List of gui elements
             static ImGuiIO* io; //ImGui io struct, filled with Tanden data
-            
+
         public:
 
             static void InitGUISystem(); //Init the GUI system

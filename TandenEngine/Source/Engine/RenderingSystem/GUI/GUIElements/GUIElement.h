@@ -6,6 +6,7 @@
 #define TANDENENGINE_GUIELEMENT_H
 
 #include <string>
+#include <iostream>
 
 #include "imgui.h"
 
