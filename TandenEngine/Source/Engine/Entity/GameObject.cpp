@@ -76,6 +76,7 @@ namespace TandenEngine {
                         newComp = new MeshRenderer(); //TODO Change
                         newComp->ConvertFromString(endData);
                         break;
+
                     case ComponentType::COLLIDER:
                         newComp = new MeshRenderer(); //TODO Change
                         newComp->ConvertFromString(endData);
