@@ -42,7 +42,7 @@ namespace TandenEngine {
 
     }
 
-    Prefab::Prefab(MetaData *metaData) {
+    Prefab::Prefab(MetaData *metaData){
         mResourceType = ResourceType::PREFAB;
         std::string data = Serializer::GetFileData(metaData->mFileDir);
         std::vector<std::string> dataLines = Serializer::SeperateString(data);

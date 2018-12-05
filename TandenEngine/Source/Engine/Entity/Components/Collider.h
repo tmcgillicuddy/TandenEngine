@@ -6,17 +6,29 @@
 #define TANDENENGINE_COLLIDER_H
 
 #include "Component.h"
+#include "../../../Core/Math/Vector3.h"
+#include <iostream>
 
 namespace TandenEngine {
 
     class Collider : public Component {
         public:
+            friend class PhysicsSystem;
+
             Collider() {};
             ~Collider() {};
 
-            void Update() {};
+            virtual void Update() {};
 
-            int whatever = 0;
+        // TODO inherit form base GameObj transform
+        Vector3 mPosition;
+        Vector3 mRotation;
+        Vector3 mSize;
+
+        void Register() override;
+
+        std::string ToString() override {return std::string();};
+        Component * ConvertFromString(std::vector<std::string>) override { return NULL;}; //Takes in some string data and will output a Collider object
 
     };
 

@@ -9,6 +9,7 @@
 
 #include "../Entity/Components/PhysicsComponent.h"
 #include "../Entity/Components/Collider.h"
+#include "../Entity/Components/BoxCollider.h"
 
 namespace TandenEngine {
 
