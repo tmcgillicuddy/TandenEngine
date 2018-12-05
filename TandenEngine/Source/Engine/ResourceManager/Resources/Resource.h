@@ -15,7 +15,9 @@ namespace TandenEngine {
     class Resource {
         friend class ResourceManager;
     public:
+
         explicit Resource(ResourceType type){ mResourceType = type; }
+
         std::string GenerateFileName();
         ResourceType mResourceType;
         std::string fileName;

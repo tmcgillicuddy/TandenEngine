@@ -21,11 +21,14 @@ namespace TandenEngine {
     VkQueue RenderingSystem::gfxQueue;
     VkSurfaceKHR RenderingSystem::windowSurface;
 
-
     void RenderingSystem::Draw() {
+        //Draw gameobject renderers
         for (const auto &rend : mRenderers) {
             rend->Draw();
         }
+
+        //Draw GUI Elements
+        GUI::GUISystem::DrawGUI();
 
         PollWindowEvents();
 
@@ -41,6 +44,8 @@ namespace TandenEngine {
         InitGLFW();
         InitVulkan();
         InitWindow(800, 600, "eat my ass");
+
+        GUI::GUISystem::InitGUISystem();
     }
 
     void RenderingSystem::InitGLFW()
@@ -63,6 +68,7 @@ namespace TandenEngine {
 
     void RenderingSystem::InitVKInstance()
     {
+
         //create instance
         VkApplicationInfo appInfo = {};
         appInfo.sType = VK_STRUCTURE_TYPE_APPLICATION_INFO;
@@ -201,9 +207,8 @@ namespace TandenEngine {
         QueueFamilyIndices indices = findQueueFamilies(targetDevice);
 
         return indices.isComplete();
+
     }
-
-
 
 
     void RenderingSystem::InitWindow(int windowWidth, int windowHeight, std::string windowName)
@@ -234,6 +239,12 @@ namespace TandenEngine {
         vkDestroyInstance(VulkanInstance, nullptr);
 
         vkDestroyDevice(logicalDevice, nullptr);
+
+        GUI::GUISystem::ShutDownGuiSystem();
+
+        GUI::GUISystem::ShutDownGuiSystem();
+
+        vkDestroyInstance(VulkanInstance, nullptr);
 
         glfwDestroyWindow(testWindow->GetWindowRef());
 

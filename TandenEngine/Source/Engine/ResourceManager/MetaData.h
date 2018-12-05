@@ -17,6 +17,7 @@ namespace TandenEngine {
         AUDIO = 5,
         IMAGE = 6,
         SHADER = 7,
+        FONT = 8,
         INVALID=1000
     };
 
@@ -24,6 +25,12 @@ namespace TandenEngine {
         friend class Serilizer;
     public: //TODO make private
         MetaData() {mGuid = reinterpret_cast<uint32_t>(this); }
+		
+        MetaData() {
+            mGuid = reinterpret_cast<uint32_t>(this);
+            mFileType = ResourceType::INVALID;
+        }
+		
         std::string mFileDir, mFileName;
         uint32_t mGuid;
 

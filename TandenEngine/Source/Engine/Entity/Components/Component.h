@@ -17,7 +17,9 @@ namespace TandenEngine {
         MESHRENDERER = 2,
         PHYSICSCOMPONENT = 3,
         RENDERER = 4,
-        SPRITERENDERER = 5
+
+        SPRITERENDERER = 5,
+        COLLIDER = 6
     };
 
     class Component {

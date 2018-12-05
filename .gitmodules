@@ -10,3 +10,7 @@
 [submodule "TandenEngine/Libraries/Boost/UUID"]
 	path = TandenEngine/Libraries/Boost/UUID
 	url = https://github.com/boostorg/uuid
+[submodule "TandenEngine/Libraries/imgui"]
+	path = TandenEngine/Libraries/imgui
+	url = https://github.com/ocornut/imgui
+

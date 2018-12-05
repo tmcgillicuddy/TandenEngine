@@ -12,6 +12,8 @@
 #include "../Entity/Components/Renderer.h"
 #include "../../../Libraries/GLFW/include/GLFW/glfw3.h"
 #include <optional>
+#include "GLFW/glfw3.h"
+#include "GUI/GUISystem.h"
 
 namespace TandenEngine {
 
@@ -51,16 +53,16 @@ namespace TandenEngine {
 
         static void PollWindowEvents();                                                         //maintain during engine runs
 
+        static Window* testWindow;
 
     public:
         static void Draw();
 
         static void RegisterRenderer(Renderer *newRenderer);
 
-        //init
+
         static void InitSystem();
 
-        //cleanup
         static void Cleanup();
 
     };
