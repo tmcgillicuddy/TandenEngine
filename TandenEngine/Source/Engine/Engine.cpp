@@ -40,8 +40,12 @@ namespace TandenEngine {
         //ADD TEST DATA TODO REMOVE THESE
         auto *newScene = new Scene(); //TODO remove these tests
         auto *testGO = newScene->CreateGameObject(); //TODO remove these tests
+        auto *testGO1 = newScene->CreateGameObject(); //TODO remove these tests
+        auto *testGO2 = newScene->CreateGameObject(); //TODO remove these tests
         testGO->AddComponent<MeshRenderer>(); //TODO remove these tests
         testGO->AddComponent<BoxCollider>(); //TODO remove these tests
+        testGO1->AddComponent<BoxCollider>(); //TODO remove these tests
+        testGO2->AddComponent<BoxCollider>(); //TODO remove these tests
         mLoadedScenes.emplace_back(newScene); //TODO remove these tests
         newScene->SaveScene();
 

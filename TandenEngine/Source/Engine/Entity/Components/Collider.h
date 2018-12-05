@@ -18,9 +18,7 @@ namespace TandenEngine {
             Collider() {};
             ~Collider() {};
 
-            virtual void Update() {
-                std::cout << "Fucking Let's GOOOOOOO" << std::endl;
-            };
+            virtual void Update() {};
 
         // TODO inherit form base GameObj transform
         Vector3 mPosition;

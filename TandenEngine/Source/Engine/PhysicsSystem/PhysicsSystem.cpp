@@ -37,6 +37,8 @@ namespace TandenEngine {
 
         int n = mColliders.size();
 
+        std::cout << mColliders[0]->mSize.x << " " << mColliders[0]->mSize.y << " " << mColliders[0]->mSize.z << std::endl;
+
         for(int i = 0; i < n; ++i) {
             for(int j = i + 1; j < n; ++j) {
                 /*
