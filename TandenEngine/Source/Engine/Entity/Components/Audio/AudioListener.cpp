@@ -8,6 +8,5 @@ namespace TandenEngine
 {
 
     AudioListener::AudioListener() {
-
     }
 }

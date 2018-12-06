@@ -14,7 +14,6 @@ namespace  TandenEngine {
     }
 
     BoxCollider::~BoxCollider() {
-
     }
 
     void BoxCollider::Update() {
