@@ -16,7 +16,6 @@ namespace TandenEngine {
             mComponents.push_back(comp->Clone());
         }
 
-
         SavePrefab();
         //TODO destroy source go and replace with prefab reference
     }
@@ -39,7 +38,6 @@ namespace TandenEngine {
     }
 
     void Prefab::UpdatePrefab(GameObject *sourceGO) {
-
     }
 
     Prefab::Prefab(MetaData *metaData){

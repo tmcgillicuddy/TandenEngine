@@ -18,7 +18,6 @@ namespace TandenEngine {
             static ImGuiIO* io; //ImGui io struct, filled with Tanden data
 
         public:
-
             static void InitGUISystem(); //Init the GUI system
 
             static void ShutDownGuiSystem();

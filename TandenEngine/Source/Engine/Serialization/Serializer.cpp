@@ -21,7 +21,6 @@ namespace TandenEngine {
          if (CreateDirectory((path + "\\" + projectName).c_str(), NULL) ||
              ERROR_ALREADY_EXISTS == GetLastError())
          {
-
          }
          else
          {
@@ -72,7 +71,6 @@ namespace TandenEngine {
              // Failed to create directory.
              std::cout<<"Error creating project settings folder\n";
          }
-
      }
 
     ProjectSettings * Serializer::LoadProject(std::string projectDir) {
@@ -123,7 +121,6 @@ namespace TandenEngine {
         {
             std::cout<< "Found Project Settings File\n";
             fileStream >> loadedProj->mProjectName;
-
         }
         fileStream.close();
 
@@ -169,12 +166,10 @@ namespace TandenEngine {
                     }
                 }
             }
-
         }
     }
 
     bool Serializer::WriteString(std::string path, std::string data) {
-
         std::fstream newFile;
 
         newFile.open(path, std::fstream::out);
@@ -290,7 +285,6 @@ namespace TandenEngine {
                 //    }
                 //}
             }
-
         }
     }
 }

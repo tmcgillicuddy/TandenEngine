@@ -14,7 +14,6 @@ namespace TandenEngine {
         Material();
         void SaveMaterial();
         static bool CheckIfSupported(std::string extension);
-
     };
 
 }
