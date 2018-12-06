@@ -5,7 +5,7 @@
 #ifndef HWENGINE_RENDERER_H
 #define HWENGINE_RENDERER_H
 
-#include "Component.h"
+#include "../Component.h"
 
 namespace TandenEngine {
 

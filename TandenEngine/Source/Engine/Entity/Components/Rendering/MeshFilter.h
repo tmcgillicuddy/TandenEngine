@@ -5,8 +5,8 @@
 #ifndef HWENGINE_MESHFILTER_H
 #define HWENGINE_MESHFILTER_H
 
-#include "../../ResourceManager/Resources/Model/Model.h"
-#include "Component.h"
+#include "../../../ResourceManager/Resources/Model/Model.h"
+#include "../Component.h"
 namespace TandenEngine {
 
     class MeshFilter : public Component {

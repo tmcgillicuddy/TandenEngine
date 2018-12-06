@@ -12,7 +12,6 @@ namespace TandenEngine {
     }
 
     MeshRenderer::~MeshRenderer() {
-
     }
 
     void MeshRenderer::Draw() {

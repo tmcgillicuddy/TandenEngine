@@ -5,7 +5,7 @@
 #ifndef TANDENENGINE_SPHERECOLLIDER_H
 #define TANDENENGINE_SPHERECOLLIDER_H
 
-#include "../../../Core/Math/NilsMath.h"
+#include "../../../../Core/Math/NilsMath.h"
 #include "Collider.h"
 
 namespace TandenEngine {
@@ -17,7 +17,6 @@ namespace TandenEngine {
 
         SphereCollider( Vector3 position, float radius) {
             mPosition = position, mRadius = radius;
-
         }
 
         Vector3 mPosition;
@@ -27,7 +26,6 @@ namespace TandenEngine {
 
         std::string ToString() override;
         Component * ConvertFromString(std::vector<std::string>) override; //Takes in some string data and will output a physicsComponent object
-
     };
 
 }

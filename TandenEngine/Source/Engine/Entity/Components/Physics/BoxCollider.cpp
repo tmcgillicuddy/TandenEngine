@@ -3,7 +3,7 @@
 //
 
 #include "BoxCollider.h"
-#include "../../PhysicsSystem/PhysicsSystem.h"
+#include "../../../PhysicsSystem/PhysicsSystem.h"
 
 
 namespace  TandenEngine {
@@ -14,7 +14,6 @@ namespace  TandenEngine {
     }
 
     BoxCollider::~BoxCollider() {
-
     }
 
     void BoxCollider::Update() {

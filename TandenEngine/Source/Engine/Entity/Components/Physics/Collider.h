@@ -5,8 +5,8 @@
 #ifndef TANDENENGINE_COLLIDER_H
 #define TANDENENGINE_COLLIDER_H
 
-#include "Component.h"
-#include "../../../Core/Math/Vector3.h"
+#include "../Component.h"
+#include "Vector3.h"
 #include <iostream>
 
 namespace TandenEngine {
@@ -29,7 +29,6 @@ namespace TandenEngine {
 
         std::string ToString() override {return std::string();};
         Component * ConvertFromString(std::vector<std::string>) override { return NULL;}; //Takes in some string data and will output a Collider object
-
     };
 
 }

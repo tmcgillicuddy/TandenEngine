@@ -7,9 +7,9 @@
 
 #include <vector>
 
-#include "../Entity/Components/PhysicsComponent.h"
-#include "../Entity/Components/Collider.h"
-#include "../Entity/Components/BoxCollider.h"
+#include "../Entity/Components/Physics/PhysicsComponent.h"
+#include "../Entity/Components/Physics/Collider.h"
+#include "../Entity/Components/Physics/BoxCollider.h"
 
 namespace TandenEngine {
 
