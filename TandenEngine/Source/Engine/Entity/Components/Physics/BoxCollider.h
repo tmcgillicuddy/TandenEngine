@@ -5,7 +5,7 @@
 #ifndef TANDENENGINE_BOXCOLLIDER_H
 #define TANDENENGINE_BOXCOLLIDER_H
 
-#include "../../../Core/Math/NilsMath.h"
+#include "../../../../Core/Math/NilsMath.h"
 #include "Collider.h"
 
 namespace TandenEngine {

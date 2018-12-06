@@ -5,7 +5,7 @@
 #ifndef TANDENENGINE_LIGHTCOMPONENT_H
 #define TANDENENGINE_LIGHTCOMPONENT_H
 
-#include "Component.h"
+#include "../Component.h"
 
 namespace TandenEngine {
     class LightComponent : public Component {

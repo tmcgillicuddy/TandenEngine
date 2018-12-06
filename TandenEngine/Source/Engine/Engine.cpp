@@ -4,9 +4,9 @@
 
 #include <iostream>
 #include "Engine.h"
-#include "Entity/Components/MeshRenderer.h"
+#include "Entity/Components/Rendering/MeshRenderer.h"
 #include "Entity/Components/Transform.h"
-#include "Entity/Components/BoxCollider.h"
+#include "Entity/Components/Physics/BoxCollider.h"
 //Vulkan Test
 #define GLFW_INCLUDE_VULKAN
 #include "../../Libraries/GLFW/include/GLFW/glfw3.h"

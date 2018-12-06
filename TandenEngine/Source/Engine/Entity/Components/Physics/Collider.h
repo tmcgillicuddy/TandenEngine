@@ -5,8 +5,8 @@
 #ifndef TANDENENGINE_COLLIDER_H
 #define TANDENENGINE_COLLIDER_H
 
-#include "Component.h"
-#include "../../../Core/Math/Vector3.h"
+#include "../Component.h"
+#include "Vector3.h"
 #include <iostream>
 
 namespace TandenEngine {
