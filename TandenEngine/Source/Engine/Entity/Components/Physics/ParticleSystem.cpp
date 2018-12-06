@@ -6,9 +6,6 @@
 
 namespace TandenEngine
 {
-
-
     ParticleSystem::ParticleSystem() {
-
     }
 }

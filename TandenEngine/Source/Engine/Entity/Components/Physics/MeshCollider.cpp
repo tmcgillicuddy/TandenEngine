@@ -6,8 +6,6 @@
 
 namespace TandenEngine
 {
-
     MeshCollider::MeshCollider() {
-
     }
 }

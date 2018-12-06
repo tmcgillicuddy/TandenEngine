@@ -11,7 +11,6 @@ namespace TandenEngine {
     class AudioListener : public Component {
     public:
         AudioListener();
-
     };
 }
 

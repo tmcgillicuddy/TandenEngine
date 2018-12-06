@@ -12,6 +12,5 @@ namespace TandenEngine {
     public:
         Camera();
     };
-
 }
 #endif //TANDENENGINE_CAMERA_H

@@ -13,6 +13,5 @@ namespace TandenEngine {
     public:
         CapsuleCollider();
     };
-
 }
 #endif //TANDENENGINE_CAPSULECOLLIDER_H

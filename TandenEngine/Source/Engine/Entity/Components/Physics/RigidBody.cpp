@@ -7,6 +7,5 @@
 namespace TandenEngine {
 
     RigidBody::RigidBody() {
-
     }
 }

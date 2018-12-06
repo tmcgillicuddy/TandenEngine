@@ -13,6 +13,5 @@ namespace TandenEngine {
     public:
         ParticleSystem();
     };
-
 }
 #endif //TANDENENGINE_PARTICLESYSTEM_H

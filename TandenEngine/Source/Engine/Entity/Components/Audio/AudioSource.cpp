@@ -8,10 +8,8 @@ namespace TandenEngine
 {
 
 AudioSource::AudioSource() {
-
 }
 
     AudioSource::~AudioSource() {
-
     }
 }

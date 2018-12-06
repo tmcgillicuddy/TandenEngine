@@ -7,7 +7,6 @@
 namespace TandenEngine {
 
     void SpriteRenderer::Draw() {
-
     }
 
     std::string SpriteRenderer::ToString() {
@@ -19,5 +18,4 @@ namespace TandenEngine {
     Component *SpriteRenderer::ConvertFromString(std::vector<std::string> input) {
         return NULL;
     }
-
 }

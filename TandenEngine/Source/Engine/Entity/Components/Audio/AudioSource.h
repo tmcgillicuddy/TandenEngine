@@ -13,9 +13,7 @@ namespace TandenEngine {
     public:
         AudioSource();
         ~AudioSource();
-
     };
-
 }
 
 #endif //TANDENENGINE_AUDIOSOURCE_H

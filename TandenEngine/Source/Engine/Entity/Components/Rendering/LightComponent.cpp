@@ -8,10 +8,8 @@ namespace TandenEngine
 {
 
     void LightComponent::Update() {
-
     }
 
     void LightComponent::Register() {
-
     }
 }

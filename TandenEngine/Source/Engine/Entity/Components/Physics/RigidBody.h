@@ -13,7 +13,6 @@ namespace TandenEngine {
     public:
         RigidBody();
     };
-
 }
 
 #endif //TANDENENGINE_RIGIDBODY_H

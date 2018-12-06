@@ -17,7 +17,6 @@ namespace TandenEngine {
 
             BoxCollider( Vector3 position, Vector3 rotation, Vector3 size) {
                 mPosition = position, mRotation = rotation, mSize = size;
-
             }
 
             void Update() override;
@@ -30,7 +29,6 @@ namespace TandenEngine {
 
             std::string ToString() override;
             Component * ConvertFromString(std::vector<std::string>) override; //Takes in some string data and will output a BoxCollider object
-
     };
 
 }

@@ -13,6 +13,5 @@ namespace TandenEngine {
     public:
         MeshCollider();
     };
-
 }
 #endif //TANDENENGINE_MESHCOLLIDER_H
