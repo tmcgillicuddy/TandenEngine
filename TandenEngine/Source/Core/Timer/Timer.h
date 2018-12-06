@@ -14,7 +14,6 @@ private:
 
 public:
     static void WaitForFrameTime();
-
 };
 
 

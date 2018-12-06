@@ -9,5 +9,4 @@ namespace TandenEngine {
     KeyboardEvent::KeyboardEvent(int val) : Event(Event::INPUT) {
         mVal = val;
     }
-
 }

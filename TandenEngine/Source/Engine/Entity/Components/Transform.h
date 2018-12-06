@@ -30,7 +30,6 @@ namespace TandenEngine {
 
         std::unique_ptr<Component> Clone() override;
     };
-
 }
 
 #endif //HWENGINE_TRANSFORM_H

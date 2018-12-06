@@ -17,7 +17,6 @@ namespace TandenEngine {
         Model();
         std::vector<MeshVertex> mVertexBuffer;
         static bool CheckIfSupported(std::string extension);
-
     };
 
 }
