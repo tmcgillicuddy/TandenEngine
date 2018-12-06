@@ -5,7 +5,7 @@
 #ifndef TANDENENGINE_PHYSICSCOMPONENT_H
 #define TANDENENGINE_PHYSICSCOMPONENT_H
 
-#include "Component.h"
+#include "../Component.h"
 
 namespace  TandenEngine {
 

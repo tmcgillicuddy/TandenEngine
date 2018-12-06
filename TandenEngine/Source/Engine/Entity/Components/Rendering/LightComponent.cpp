@@ -3,15 +3,13 @@
 //
 
 #include "LightComponent.h"
-#include "../../RenderingSystem/RenderingSystem.h"
+#include "../../../RenderingSystem/RenderingSystem.h"
 namespace TandenEngine
 {
 
     void LightComponent::Update() {
-
     }
 
     void LightComponent::Register() {
-
     }
 }

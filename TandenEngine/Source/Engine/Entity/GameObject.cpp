@@ -4,7 +4,7 @@
 
 #include "GameObject.h"
 #include "Components/Transform.h"
-#include "Components/MeshRenderer.h"
+#include "Components/Rendering/MeshRenderer.h"
 
 namespace TandenEngine {
 
