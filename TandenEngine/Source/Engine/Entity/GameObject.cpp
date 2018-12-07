@@ -3,8 +3,7 @@
 //
 
 #include "GameObject.h"
-#include "Components/Transform.h"
-#include "Components/Rendering/MeshRenderer.h"
+#include "Components/ComponentHeader.h"
 
 namespace TandenEngine {
 
@@ -76,7 +75,19 @@ namespace TandenEngine {
                         newComp->ConvertFromString(endData);
                         break;
                     case ComponentType::BOXCOLLIDER:
-                        newComp = new MeshRenderer(); //TODO Change
+                        newComp = new BoxCollider(); //TODO Change
+                        newComp->ConvertFromString(endData);
+                        break;
+                    case ComponentType::SPHERECOLLIDER:
+                        newComp = new SphereCollider(); //TODO Change
+                        newComp->ConvertFromString(endData);
+                        break;
+                    case ComponentType::MESHCOLLIDER:
+                      //  newComp = new MeshCollider(); //TODO Change
+                        newComp->ConvertFromString(endData);
+                        break;
+                    case ComponentType::CAPSULECOLLIDER:
+                    //    newComp = new CapsuleCollider(); //TODO Change
                         newComp->ConvertFromString(endData);
                         break;
                 }

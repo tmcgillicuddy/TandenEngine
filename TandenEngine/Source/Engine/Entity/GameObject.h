@@ -12,7 +12,7 @@
 #include <algorithm>
 #include <iostream>
 
-//HWEngine classes
+//Tanden Engine classes
 #include "Components/Component.h"
 
 namespace TandenEngine {

@@ -23,7 +23,15 @@ namespace TandenEngine {
         RENDERER = 4,
         SPRITERENDERER = 5,
         BOXCOLLIDER = 6,
-        SPHERECOLLIDER = 7
+        SPHERECOLLIDER = 7,
+        MESHCOLLIDER = 8,
+        CAPSULECOLLIDER = 9,
+        AUDIOLISTENER = 10,
+        AUDIOSOURCE = 11,
+        PARTICLESYSTEM = 12,
+        RIGIDBODY = 13,
+        CAMERA = 14,
+        LIGHTCOMPONENT = 15
     };
 
     class Component {
