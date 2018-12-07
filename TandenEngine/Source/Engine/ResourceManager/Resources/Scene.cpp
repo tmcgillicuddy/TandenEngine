@@ -65,11 +65,9 @@ namespace TandenEngine {
             newGo->GenerateFromData(goData);
             mGameObjects.emplace_back(newGo);
         }
-
     }
 
     bool Scene::CheckIfSupported(std::string extension) {
        return (extension == ".scene");
     }
-
 }

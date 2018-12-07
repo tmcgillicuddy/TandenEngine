@@ -58,7 +58,6 @@ namespace TandenEngine {
 
         //Create new meta file for any filepath that isn't part of the filePaths vector
 
-
     }
 
     void ResourceManager::AddResource(Resource *newResource, MetaData *newMetaData) {

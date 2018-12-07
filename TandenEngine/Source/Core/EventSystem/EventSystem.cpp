@@ -10,7 +10,6 @@ namespace TandenEngine {
     std::vector<EventListener *> EventSystem::mListeners;
 
     EventSystem::EventSystem() {
-
     }
 
     bool EventSystem::RegisterListener(EventListener *newListener) {

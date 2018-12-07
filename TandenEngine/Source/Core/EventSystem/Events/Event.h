@@ -16,8 +16,6 @@ namespace TandenEngine {
         EventType mType;
 
         Event(EventType);
-
-
     };
 
 }

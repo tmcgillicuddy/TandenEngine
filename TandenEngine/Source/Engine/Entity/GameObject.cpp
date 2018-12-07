@@ -13,7 +13,6 @@ namespace TandenEngine {
     }
 
     GameObject::~GameObject() {
-
     }
 
     void GameObject::Update() { //Run each component's update function
