@@ -10,6 +10,7 @@
 #include "../Entity/Components/Physics/PhysicsComponent.h"
 #include "../Entity/Components/Physics/Collider.h"
 #include "../Entity/Components/Physics/BoxCollider.h"
+#include "../Entity/Components/Physics/SphereCollider.h"
 
 namespace TandenEngine {
 
@@ -25,6 +26,7 @@ namespace TandenEngine {
         static void RegisterPhysicsObject(PhysicsComponent * newObject);
         static void RegisterColliderObject(Collider * newObject);
     };
+
 
 }
 

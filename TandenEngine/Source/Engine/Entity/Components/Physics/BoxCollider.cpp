@@ -10,14 +10,13 @@ namespace  TandenEngine {
 
     BoxCollider::BoxCollider() {
         mType = ComponentType::BOXCOLLIDER;
-        mPosition = Vector3(0, 0, 0), mRotation = Vector3(0, 0, 0), mSize = Vector3(1, 1, 1);
     }
 
     BoxCollider::~BoxCollider() {
     }
 
     void BoxCollider::Update() {
-        //std::cout << "Updating Box Collider\n";
+        std::cout << "Updating Box Collider\n";
     }
 
     std::string BoxCollider::ToString() {

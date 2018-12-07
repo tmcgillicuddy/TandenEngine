@@ -34,13 +34,19 @@ namespace TandenEngine {
     // TODO I assume I can get reference to the objects at the position (to avoid having to access each time), given the above
     void PhysicsSystem::CollisionUpdate(){
 
+        // TODO recaclculate bounding volumes of colliders (relative to base transform) at the start
 
         int n = mColliders.size();
 
-        std::cout << mColliders[0]->mSize.x << " " << mColliders[0]->mSize.y << " " << mColliders[0]->mSize.z << std::endl;
+        Collider *colA, *colB;
+
+        //std::cout << mColliders[0]->mSize.x << " " << mColliders[0]->mSize.y << " " << mColliders[0]->mSize.z << std::endl;
 
         for(int i = 0; i < n; ++i) {
             for(int j = i + 1; j < n; ++j) {
+
+
+
                 /*
                 //AABB Boxes
                 if((mColliders[i]->mPosition.x - mSize.x/2) <= (mColliders[j]->mPosition.x + mSize.x/2) && (mColliders[i]->mPosition.x + mSize.x/2) >= (mColliders[j]->mPosition.x - mSize.x/2)) {

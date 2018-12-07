@@ -32,6 +32,7 @@ namespace TandenEngine {
         Component *AddComponent() {
             auto newComp = mComponents.emplace_back(std::make_unique<T>()).get();
             newComp->Register(); //Run register func (if overloaded)
+            newComp->SetBaseComponent(this);
             return newComp;
         };
 

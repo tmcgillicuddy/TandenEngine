@@ -8,7 +8,11 @@
 #include <string>
 #include <vector>
 
+
 namespace TandenEngine {
+
+    class GameObject;
+    class Transform;
 
     enum ComponentType
     {
@@ -18,11 +22,13 @@ namespace TandenEngine {
         PHYSICSCOMPONENT = 3,
         RENDERER = 4,
         SPRITERENDERER = 5,
-        BOXCOLLIDER = 6
+        BOXCOLLIDER = 6,
+        SPHERECOLLIDER = 7
     };
 
     class Component {
     public:
+
         ComponentType mType;
         virtual void Update()=0; //Base update function for all components
 
@@ -33,6 +39,11 @@ namespace TandenEngine {
         virtual std::unique_ptr<Component> Clone()=0;
 
         virtual Component* ConvertFromString(std::vector<std::string> input)=0;
+
+        GameObject *mParentObject;
+        Transform *mTransform;
+
+        void SetBaseComponent(GameObject* gameObj) { mParentObject = gameObj; };
     };
 
 

@@ -8,8 +8,19 @@
 
 namespace  TandenEngine {
 
-    void SphereCollider::Register() {
-        PhysicsSystem::RegisterColliderObject(this);
+    SphereCollider::SphereCollider() {
+        mType = ComponentType::SPHERECOLLIDER;
+    }
+
+    SphereCollider::~SphereCollider() {
+    }
+
+    void SphereCollider::Update() {
+        std::cout << "Updating Sphere Collider\n";
+    }
+
+    std::unique_ptr<Component> SphereCollider::Clone() {
+        return std::unique_ptr<SphereCollider>(this);
     }
 
     std::string SphereCollider::ToString() {
