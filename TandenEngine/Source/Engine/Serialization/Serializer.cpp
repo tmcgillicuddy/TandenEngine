@@ -239,7 +239,6 @@ namespace TandenEngine {
             name = p.path().u8string();
             bool isCovered = false; //Flag to know if meta file for this resource already exists
             if(name.substr(name.find_last_of(".") + 1) != "meta") {
-                //std::cout<<"Non meta file!! " << name << std::endl;
                 for(auto metaName : knownFiles)
                 {
                     if(name.compare(metaName) == 0) {
@@ -254,6 +253,7 @@ namespace TandenEngine {
                     ResourceType resourceType = ResourceManager::CheckExtensionSupported(extension);
                     if(resourceType != ResourceType::INVALID) {
                         std::cout << "Generating Meta Data " << static_cast<int>(resourceType) << std::endl;
+                        ResourceManager::GenerateNewMetaData(p.path().filename().string(), resourceType);
                     } else
                     {
                         std::cout << name << " is an invalid file type\n";

@@ -121,4 +121,16 @@ namespace TandenEngine {
 
         return ResourceType::INVALID;
     }
+
+    void ResourceManager::GenerateNewMetaData(std::string path, ResourceType type) {
+        MetaData * newData = new MetaData();
+        size_t lastindex = path.find_last_of(".");
+        std::string fileName = path.substr(0, lastindex);
+        newData->mFileName = fileName;
+        newData->mFileType = type;
+        newData->mFileDir = Serializer::mProjectDir +"/Assets/"+ path;
+
+        Serializer::WriteStringToAssetFolder(fileName + ".meta", newData->ConvertToString());
+
+    }
 }
