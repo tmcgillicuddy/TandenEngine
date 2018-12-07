@@ -9,7 +9,7 @@
 
 namespace TandenEngine {
 namespace GUI {
-    class ColorEditor : GUIElement{
+    class ColorEditor : public GUIElement{
     };
 }
 }

@@ -7,4 +7,20 @@
 namespace TandenEngine {
     CapsuleCollider::CapsuleCollider() {
     }
+
+    void CapsuleCollider::Update() {
+    }
+
+    std::unique_ptr<Component> CapsuleCollider::Clone() {
+        return std::unique_ptr<Component>();
+    }
+
+    std::string CapsuleCollider::ToString() {
+        return "";
+    }
+
+    Component *CapsuleCollider::ConvertFromString(std::vector<std::string> input) {
+        return nullptr;
+    }
+
 }

@@ -3,3 +3,9 @@
 //
 
 #include "IntSlider.h"
+
+namespace TandenEngine {
+    namespace GUI {
+
+    }
+}

@@ -9,7 +9,7 @@
 
 namespace TandenEngine {
     namespace GUI {
-        class Button : GUIElement{
+        class Button : public GUIElement {
         };
     }
 }

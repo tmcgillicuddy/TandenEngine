@@ -38,11 +38,9 @@ namespace TandenEngine {
         mLoadedScenes.emplace_back(newScene); //TODO remove these tests
 
         std::cout<<"Start Main\n";
-
     }
 
     void Engine::RunEngine() {
-
         while (!exitStatus) {
             std::cout << "Running Loop \n";
             //Get input
@@ -72,7 +70,6 @@ namespace TandenEngine {
         std::cout << "Closing Engine\n";
 
         RenderingSystem::Cleanup();
-
     }
 
     Engine::Engine() {

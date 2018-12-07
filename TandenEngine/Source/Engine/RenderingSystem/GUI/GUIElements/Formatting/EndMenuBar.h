@@ -9,7 +9,7 @@
 
 namespace TandenEngine {
     namespace GUI {
-        class EndMenuBar : GUIElement {
+        class EndMenuBar : public GUIElement {
         };
     }
 }

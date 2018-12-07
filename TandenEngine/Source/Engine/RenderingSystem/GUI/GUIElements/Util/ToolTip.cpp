@@ -3,3 +3,9 @@
 //
 
 #include "ToolTip.h"
+
+namespace TandenEngine {
+    namespace GUI {
+
+    }
+}
