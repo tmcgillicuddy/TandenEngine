@@ -18,7 +18,6 @@ namespace TandenEngine {
     }
 
     void Collider::Update() {
-
     }
 
 }

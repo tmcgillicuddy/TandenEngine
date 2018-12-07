@@ -10,7 +10,6 @@
 namespace TandenEngine {
     class LightComponent : public Component {
     public:
-
         //Component Overrides
         void Update() override;
         std::unique_ptr<Component> Clone() override;

@@ -11,7 +11,6 @@ namespace TandenEngine
     }
 
     void AudioListener::Update() {
-
     }
 
     std::unique_ptr<Component> AudioListener::Clone() {

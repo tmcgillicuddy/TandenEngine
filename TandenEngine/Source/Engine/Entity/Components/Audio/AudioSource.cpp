@@ -14,7 +14,6 @@ namespace TandenEngine
     }
 
     void AudioSource::Update() {
-
     }
 
     std::unique_ptr<Component> AudioSource::Clone() {

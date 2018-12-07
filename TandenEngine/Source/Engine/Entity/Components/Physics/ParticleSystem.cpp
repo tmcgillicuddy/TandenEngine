@@ -10,7 +10,6 @@ namespace TandenEngine
     }
 
     void ParticleSystem::Update() {
-
     }
 
     std::unique_ptr<Component> ParticleSystem::Clone() {

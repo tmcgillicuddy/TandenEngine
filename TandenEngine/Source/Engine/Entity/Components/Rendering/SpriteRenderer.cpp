@@ -20,7 +20,6 @@ namespace TandenEngine {
     }
 
     void SpriteRenderer::Update() {
-
     }
 
     std::unique_ptr<Component> SpriteRenderer::Clone() {

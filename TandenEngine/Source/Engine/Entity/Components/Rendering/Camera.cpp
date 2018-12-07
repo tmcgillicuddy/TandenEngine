@@ -11,7 +11,6 @@ namespace TandenEngine
     }
 
     void Camera::Update() {
-
     }
 
     std::unique_ptr<Component> Camera::Clone() {

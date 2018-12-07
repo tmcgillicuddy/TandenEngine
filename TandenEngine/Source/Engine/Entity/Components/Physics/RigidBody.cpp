@@ -10,7 +10,6 @@ namespace TandenEngine {
     }
 
     void RigidBody::Update() {
-
     }
 
     std::unique_ptr<Component> RigidBody::Clone() {
