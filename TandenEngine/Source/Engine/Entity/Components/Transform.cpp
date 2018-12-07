@@ -8,6 +8,7 @@
 namespace TandenEngine {
 
     Transform::Transform() {
+        std::cout << "Transform";
         mType = ComponentType::TRANSFORM;
     }
 

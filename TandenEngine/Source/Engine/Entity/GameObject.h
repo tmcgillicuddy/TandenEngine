@@ -38,20 +38,11 @@ namespace TandenEngine {
 
         template<typename T>
         Component *GetComponent() {
-            for (auto &component : mComponents) {
+            for (const auto &component : mComponents) {
                 if (dynamic_cast<T *>(component.get()) != nullptr)
                     return component.get();
             }
             return nullptr;
-        };
-
-        template<typename T>
-        Component *FindComponent() {
-            for (const auto &component : mComponents) {
-                std::cout<<component->mType;
-                if (dynamic_cast<T *>(component.get()) != nullptr)
-                    return component.get();
-            }
         };
 
         template<typename T>

@@ -23,8 +23,6 @@ namespace TandenEngine {
 
             virtual void Update() {};
 
-            Transform* mTransform;
-
             void Register() override;
 
             std::string ToString() override {return std::string();};

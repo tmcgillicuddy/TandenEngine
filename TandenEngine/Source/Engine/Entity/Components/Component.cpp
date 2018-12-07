@@ -3,6 +3,9 @@
 //
 
 #include "Component.h"
+#include "../GameObject.h"
+#include "Transform.h"
+#include <iostream>
 
 namespace TandenEngine {
 
@@ -13,5 +16,6 @@ namespace TandenEngine {
 
     void Component::SetBaseComponent(GameObject *gameObj) {
         mParentObject = gameObj;
+        mTransform = dynamic_cast<Transform*>(mParentObject->GetComponent<Transform>());
     }
 }

@@ -2,8 +2,8 @@
 // Created by thomas.mcgillicuddy on 10/21/2018.
 //
 
-#ifndef HWENGINE_COMPONENT_H
-#define HWENGINE_COMPONENT_H
+#ifndef TANDENENGINE_COMPONENT_H
+#define TANDENENGINE_COMPONENT_H
 
 #include <string>
 #include <vector>
@@ -56,4 +56,4 @@ namespace TandenEngine {
 
 }
 
-#endif //HWENGINE_COMPONENT_H
+#endif //TANDENENGINE_COMPONENT_H
