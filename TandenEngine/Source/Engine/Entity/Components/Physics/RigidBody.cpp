@@ -17,10 +17,10 @@ namespace TandenEngine {
     }
 
     std::string RigidBody::ToString() {
-        return PhysicsComponent::ToString();
+        return "";
     }
 
     Component *RigidBody::ConvertFromString(std::vector<std::string> input) {
-        return PhysicsComponent::ConvertFromString(input);
+        return nullptr;
     }
 }

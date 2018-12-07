@@ -16,11 +16,11 @@ namespace TandenEngine {
     }
 
     std::string CapsuleCollider::ToString() {
-        return Collider::ToString();
+        return "";
     }
 
     Component *CapsuleCollider::ConvertFromString(std::vector<std::string> input) {
-        return Collider::ConvertFromString(input);
+        return nullptr;
     }
 
 }

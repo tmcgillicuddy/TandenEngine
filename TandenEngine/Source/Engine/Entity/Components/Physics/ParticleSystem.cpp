@@ -17,10 +17,10 @@ namespace TandenEngine
     }
 
     std::string ParticleSystem::ToString() {
-        return PhysicsComponent::ToString();
+        return "";
     }
 
     Component *ParticleSystem::ConvertFromString(std::vector<std::string> input) {
-        return PhysicsComponent::ConvertFromString(input);
+        return nullptr;
     }
 }

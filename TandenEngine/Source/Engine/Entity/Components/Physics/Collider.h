@@ -21,14 +21,9 @@ namespace TandenEngine {
             Collider();
             ~Collider() {};
 
-            void Update() override;
-
+            //Component Overrides
             void Register() override;
-
-            std::string ToString() override {return std::string();};
-            Component * ConvertFromString(std::vector<std::string>) override { return NULL;}; //Takes in some string data and will output a Collider object
     };
-
 }
 
 
