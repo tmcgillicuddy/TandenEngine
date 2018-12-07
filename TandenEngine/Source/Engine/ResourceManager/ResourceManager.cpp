@@ -40,6 +40,10 @@ namespace TandenEngine {
                 std::cout<<"Creating Shader\n";
                 newResource = new Shader();
                 break;
+            case ResourceType::FONT:
+                std::cout<<"Creating Font\n";
+                newResource = new Font();
+                break;
             default:
                 break;
         }
@@ -57,7 +61,6 @@ namespace TandenEngine {
 
 
         //Create new meta file for any filepath that isn't part of the filePaths vector
-
     }
 
     void ResourceManager::AddResource(Resource *newResource, MetaData *newMetaData) {
@@ -131,6 +134,5 @@ namespace TandenEngine {
         newData->mFileDir = Serializer::mProjectDir +"/Assets/"+ path;
 
         Serializer::WriteStringToAssetFolder(fileName + ".meta", newData->ConvertToString());
-
     }
 }

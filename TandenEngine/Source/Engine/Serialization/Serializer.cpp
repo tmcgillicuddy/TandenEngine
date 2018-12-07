@@ -135,7 +135,7 @@ namespace TandenEngine {
 
     void Serializer::GetMetaDataAtDir(std::string dir) {
         std::string extension = "*.meta"; //Extension for meta data
-        std::string name;
+        std::string name, junk;
         for (auto & p : std::filesystem::recursive_directory_iterator(dir))
         {
             name = p.path().u8string();
@@ -150,7 +150,9 @@ namespace TandenEngine {
                     //Create meta data object from file
                     MetaData * newMeta = new MetaData();
                     std::getline(fileStream, newMeta->mFileDir);
-                    //fileStream >> newMeta->mGuid;
+                    fileStream >> newMeta->mGuid;
+                    std::getline(fileStream, junk);
+                    std::cout<<newMeta->mGuid;
                     int inputEnum;
                     fileStream >> inputEnum; //TODO error check for missing data
                     newMeta->mFileType = (ResourceType)inputEnum;
