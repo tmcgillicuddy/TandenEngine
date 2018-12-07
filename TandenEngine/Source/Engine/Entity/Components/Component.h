@@ -28,7 +28,6 @@ namespace TandenEngine {
 
     class Component {
     public:
-
         ComponentType mType;
         virtual void Update()=0; //Base update function for all components
 
