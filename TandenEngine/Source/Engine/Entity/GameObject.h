@@ -12,7 +12,7 @@
 #include <algorithm>
 #include <iostream>
 
-//HWEngine classes
+//Tanden Engine classes
 #include "Components/Component.h"
 
 namespace TandenEngine {
@@ -42,14 +42,7 @@ namespace TandenEngine {
                 if (dynamic_cast<T *>(component.get()) != nullptr)
                     return component.get();
             }
-        };
-
-        template<typename T>
-        Component *FindComponent() {
-            for (const auto &component : mComponents) {
-                if (dynamic_cast<T *>(component.get()) != nullptr)
-                    return component.get();
-            }
+            return nullptr;
         };
 
         template<typename T>
@@ -70,6 +63,8 @@ namespace TandenEngine {
         std::string ToString();
 
         void GenerateFromData(std::vector<std::string> data);
+
+        void SelectComponenet(ComponentType type, std::vector<std::string> data);
     };
 
 }

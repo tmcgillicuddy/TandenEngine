@@ -9,6 +9,7 @@
 namespace  TandenEngine {
 
     SphereCollider::SphereCollider() {
+        std::cout << "Sphere";
         mType = ComponentType::SPHERECOLLIDER;
     }
 
