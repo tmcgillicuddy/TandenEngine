@@ -47,54 +47,58 @@ namespace TandenEngine {
                     endData.emplace_back(data[i]); //Add it to the object
                     ++i;
                 }
-                //Make a new component
-                Component *newComp = nullptr;
-                switch (type) {
-                    case ComponentType::TRANSFORM:
-                        newComp = new Transform();
-                        newComp->ConvertFromString(endData);
-                        break;
-                    case ComponentType::MESHRENDERER:
-                        newComp = new MeshRenderer();
-                        newComp->ConvertFromString(endData);
-                        break;
-                    case ComponentType::MESHFILTER:
-                        newComp = new MeshRenderer(); //TODO Change
-                        newComp->ConvertFromString(endData);
-                        break;
-                    case ComponentType::SPRITERENDERER:
-                        newComp = new MeshRenderer(); //TODO Change
-                        newComp->ConvertFromString(endData);
-                        break;
-                    case ComponentType::PHYSICSCOMPONENT:
-                        newComp = new MeshRenderer(); //TODO Change
-                        newComp->ConvertFromString(endData);
-                        break;
-                    case ComponentType::RENDERER:
-                        newComp = new MeshRenderer(); //TODO Change
-                        newComp->ConvertFromString(endData);
-                        break;
-                    case ComponentType::BOXCOLLIDER:
-                        newComp = new BoxCollider(); //TODO Change
-                        newComp->ConvertFromString(endData);
-                        break;
-                    case ComponentType::SPHERECOLLIDER:
-                        newComp = new SphereCollider(); //TODO Change
-                        newComp->ConvertFromString(endData);
-                        break;
-                    case ComponentType::MESHCOLLIDER:
-                      //  newComp = new MeshCollider(); //TODO Change
-                        newComp->ConvertFromString(endData);
-                        break;
-                    case ComponentType::CAPSULECOLLIDER:
-                    //    newComp = new CapsuleCollider(); //TODO Change
-                        newComp->ConvertFromString(endData);
-                        break;
-                }
-                if (newComp != nullptr) {
-                    mComponents.emplace_back(newComp);
-                }
+                SelectComponenet(type, endData);
             }
+        }
+    }
+
+    void GameObject::SelectComponenet(ComponentType type, std::vector<std::string> endData) {
+       //Make a new component
+        Component *newComp = nullptr;
+        switch (type) {
+            case ComponentType::TRANSFORM:
+                newComp = new Transform();
+                newComp->ConvertFromString(endData);
+                break;
+            case ComponentType::MESHRENDERER:
+                newComp = new MeshRenderer();
+                newComp->ConvertFromString(endData);
+                break;
+            case ComponentType::MESHFILTER:
+                newComp = new MeshRenderer(); //TODO Change
+                newComp->ConvertFromString(endData);
+                break;
+            case ComponentType::SPRITERENDERER:
+                newComp = new MeshRenderer(); //TODO Change
+                newComp->ConvertFromString(endData);
+                break;
+            case ComponentType::PHYSICSCOMPONENT:
+                newComp = new MeshRenderer(); //TODO Change
+                newComp->ConvertFromString(endData);
+                break;
+            case ComponentType::RENDERER:
+                newComp = new MeshRenderer(); //TODO Change
+                newComp->ConvertFromString(endData);
+                break;
+            case ComponentType::BOXCOLLIDER:
+                newComp = new BoxCollider(); //TODO Change
+                newComp->ConvertFromString(endData);
+                break;
+            case ComponentType::SPHERECOLLIDER:
+                newComp = new SphereCollider(); //TODO Change
+                newComp->ConvertFromString(endData);
+                break;
+            case ComponentType::MESHCOLLIDER:
+                //  newComp = new MeshCollider(); //TODO Change
+                newComp->ConvertFromString(endData);
+                break;
+            case ComponentType::CAPSULECOLLIDER:
+                //    newComp = new CapsuleCollider(); //TODO Change
+                newComp->ConvertFromString(endData);
+                break;
+        }
+        if (newComp != nullptr) {
+            mComponents.emplace_back(newComp);
         }
     }
 
