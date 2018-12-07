@@ -34,9 +34,6 @@ namespace TandenEngine {
 
         RenderingSystem::InitSystem();
 
-
-        std::cout<<"Start Main\n";
-
         //ADD TEST DATA TODO REMOVE THESE
         auto *newScene = new Scene(); //TODO remove these tests
         auto *testGO = newScene->CreateGameObject(); //TODO remove these tests
@@ -50,8 +47,8 @@ namespace TandenEngine {
         testGO2->AddComponent<BoxCollider>(); //TODO remove these tests
         std::cout << "Made Box 2" << std::endl;
         mLoadedScenes.emplace_back(newScene); //TODO remove these tests
-        newScene->SaveScene();
 
+        std::cout<<"Start Main\n";
 
     }
 

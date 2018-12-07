@@ -2,8 +2,8 @@
 // Created by thomas.mcgillicuddy on 10/21/2018.
 //
 
-#ifndef HWENGINE_COMPONENT_H
-#define HWENGINE_COMPONENT_H
+#ifndef TANDENENGINE_COMPONENT_H
+#define TANDENENGINE_COMPONENT_H
 
 #include <string>
 #include <vector>
@@ -23,7 +23,15 @@ namespace TandenEngine {
         RENDERER = 4,
         SPRITERENDERER = 5,
         BOXCOLLIDER = 6,
-        SPHERECOLLIDER = 7
+        SPHERECOLLIDER = 7,
+        MESHCOLLIDER = 8,
+        CAPSULECOLLIDER = 9,
+        AUDIOLISTENER = 10,
+        AUDIOSOURCE = 11,
+        PARTICLESYSTEM = 12,
+        RIGIDBODY = 13,
+        CAMERA = 14,
+        LIGHTCOMPONENT = 15
     };
 
     class Component {
@@ -42,10 +50,10 @@ namespace TandenEngine {
         GameObject *mParentObject;
         Transform *mTransform;
 
-        void SetBaseComponent(GameObject* gameObj) { mParentObject = gameObj; };
+        void SetBaseComponent(GameObject* gameObj);
     };
 
 
 }
 
-#endif //HWENGINE_COMPONENT_H
+#endif //TANDENENGINE_COMPONENT_H
