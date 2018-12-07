@@ -9,6 +9,7 @@ namespace TandenEngine {
 
     GameObject::GameObject() {
         AddComponent<Transform>();
+        std::cout << mComponents.size();
     }
 
     GameObject::~GameObject() {

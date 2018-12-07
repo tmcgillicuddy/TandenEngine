@@ -50,7 +50,7 @@ namespace TandenEngine {
         GameObject *mParentObject;
         Transform *mTransform;
 
-        void SetBaseComponent(GameObject* gameObj) { mParentObject = gameObj; };
+        void SetBaseComponent(GameObject* gameObj);
     };
 
 

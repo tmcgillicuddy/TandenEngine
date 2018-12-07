@@ -10,4 +10,8 @@ namespace TandenEngine {
         std::string data = std::to_string(static_cast<int>(mType)) +'\n';
         return data;
     }
+
+    void Component::SetBaseComponent(GameObject *gameObj) {
+        mParentObject = gameObj;
+    }
 }
