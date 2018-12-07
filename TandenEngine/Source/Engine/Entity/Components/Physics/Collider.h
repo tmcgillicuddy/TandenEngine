@@ -8,27 +8,27 @@
 #include "../Component.h"
 #include "Vector3.h"
 #include <iostream>
+#include "../Transform.h"
 
 namespace TandenEngine {
+
+    class GameObject;
 
     class Collider : public Component {
         public:
             friend class PhysicsSystem;
 
-            Collider() {};
+            Collider();
             ~Collider() {};
 
             virtual void Update() {};
 
-        // TODO inherit form base GameObj transform
-        Vector3 mPosition;
-        Vector3 mRotation;
-        Vector3 mSize;
+            Transform* mTransform;
 
-        void Register() override;
+            void Register() override;
 
-        std::string ToString() override {return std::string();};
-        Component * ConvertFromString(std::vector<std::string>) override { return NULL;}; //Takes in some string data and will output a Collider object
+            std::string ToString() override {return std::string();};
+            Component * ConvertFromString(std::vector<std::string>) override { return NULL;}; //Takes in some string data and will output a Collider object
     };
 
 }

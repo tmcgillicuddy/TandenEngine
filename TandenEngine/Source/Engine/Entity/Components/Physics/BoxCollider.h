@@ -23,7 +23,7 @@ namespace TandenEngine {
 
             Vector3 mPosition;
             Vector3 mRotation;
-            Vector3 mSize;
+            Vector3 mSize = Vector3(1.0, 1.0, 1.0);
 
             std::unique_ptr<Component> Clone() override;
 
