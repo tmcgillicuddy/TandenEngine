@@ -2,8 +2,8 @@
 // Created by thomas.mcgillicuddy on 10/31/2018.
 //
 
-#ifndef HWENGINE_SPRITERENDERER_H
-#define HWENGINE_SPRITERENDERER_H
+#ifndef TANDENENGINE_SPRITERENDERER_H
+#define TANDENENGINE_SPRITERENDERER_H
 
 #include "Renderer.h"
 
@@ -25,4 +25,4 @@ namespace TandenEngine {
 
 }
 
-#endif //HWENGINE_SPRITERENDERER_H
+#endif //TANDENENGINE_SPRITERENDERER_H

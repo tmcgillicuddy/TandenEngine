@@ -9,7 +9,7 @@
 
 namespace TandenEngine {
     namespace GUI {
-        class Checkbox : GUIElement{
+        class Checkbox : public GUIElement {
         };
     }
 }

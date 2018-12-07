@@ -9,7 +9,7 @@
 
 namespace TandenEngine {
     namespace GUI {
-        class ToolTip : GUIElement {
+        class ToolTip : public GUIElement {
         };
     }
 }

@@ -3,3 +3,9 @@
 //
 
 #include "ColorEditor.h"
+
+namespace TandenEngine {
+    namespace GUI {
+
+    }
+}

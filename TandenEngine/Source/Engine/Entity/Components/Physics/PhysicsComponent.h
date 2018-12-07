@@ -13,7 +13,6 @@ namespace  TandenEngine {
         friend class PhysicsSystem;
         virtual void PhysicsUpdate() {};
     public:
-
         //Componenet Override
         void Register() override;
     };

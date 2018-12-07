@@ -2,8 +2,8 @@
 // Created by thomas.mcgillicuddy on 10/21/2018.
 //
 
-#ifndef HWENGINE_GAMEOBJECT_H
-#define HWENGINE_GAMEOBJECT_H
+#ifndef TANDENENGINE_GAMEOBJECT_H
+#define TANDENENGINE_GAMEOBJECT_H
 
 //STD Classes
 #include <vector>
@@ -69,4 +69,4 @@ namespace TandenEngine {
 
 }
 
-#endif //HWENGINE_GAMEOBJECT_H
+#endif //TANDENENGINE_GAMEOBJECT_H
