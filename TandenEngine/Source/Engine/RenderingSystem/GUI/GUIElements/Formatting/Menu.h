@@ -15,7 +15,4 @@ namespace TandenEngine {
     }
 }
 
-
-
-
 #endif //TANDENENGINE_MENU_H
