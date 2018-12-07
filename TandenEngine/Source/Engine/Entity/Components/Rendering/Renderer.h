@@ -14,7 +14,7 @@ namespace TandenEngine {
 
         virtual void Draw()=0;
 
-        void Update() {};
+        void Update() override {};
 
         void Register() override;
 
