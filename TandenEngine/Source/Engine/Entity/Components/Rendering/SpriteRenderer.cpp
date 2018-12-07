@@ -18,4 +18,16 @@ namespace TandenEngine {
     Component *SpriteRenderer::ConvertFromString(std::vector<std::string> input) {
         return NULL;
     }
+
+    void SpriteRenderer::Update() {
+
+    }
+
+    std::unique_ptr<Component> SpriteRenderer::Clone() {
+        return std::unique_ptr<SpriteRenderer>(this);
+    }
+
+    SpriteRenderer::SpriteRenderer() {
+        mType = ComponentType::SPRITERENDERER;
+    }
 }

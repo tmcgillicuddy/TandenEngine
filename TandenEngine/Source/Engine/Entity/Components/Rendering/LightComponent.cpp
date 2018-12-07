@@ -12,4 +12,16 @@ namespace TandenEngine
 
     void LightComponent::Register() {
     }
+
+    std::unique_ptr<Component> LightComponent::Clone() {
+        return std::unique_ptr<LightComponent>(this);
+    }
+
+    std::string LightComponent::ToString() {
+        return Component::ToString();
+    }
+
+    Component *LightComponent::ConvertFromString(std::vector<std::string> input) {
+        return nullptr;
+    }
 }

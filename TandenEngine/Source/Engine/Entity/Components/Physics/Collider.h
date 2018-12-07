@@ -21,7 +21,7 @@ namespace TandenEngine {
             Collider();
             ~Collider() {};
 
-            virtual void Update() {};
+            void Update() override;
 
             void Register() override;
 

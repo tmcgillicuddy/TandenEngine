@@ -16,4 +16,9 @@ namespace TandenEngine {
     void Collider::Register() {
         PhysicsSystem::RegisterColliderObject(this);
     }
+
+    void Collider::Update() {
+
+    }
+
 }
