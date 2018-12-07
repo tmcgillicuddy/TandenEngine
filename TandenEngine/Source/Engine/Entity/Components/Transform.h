@@ -8,7 +8,7 @@
 #include <iostream>
 
 #include "Component.h"
-#include "../../../Core/Math/Vector3.h"
+#include "NilsMath.h"
 
 namespace TandenEngine {
 

@@ -4,18 +4,7 @@
 
 #include <iostream>
 #include "Engine.h"
-#include "Entity/Components/Rendering/MeshRenderer.h"
-#include "Entity/Components/Transform.h"
-#include "Entity/Components/Physics/BoxCollider.h"
-//Vulkan Test
-#define GLFW_INCLUDE_VULKAN
-#include "../../Libraries/GLFW/include/GLFW/glfw3.h"
-
-#define GLM_FORCE_RADIANS
-#define GLM_FORCE_DEPTH_ZERO_TO_ONE
-#include "../../Libraries/GLM/glm/vec4.hpp"
-#include "../../Libraries/GLM/glm/mat4x4.hpp"
-
+#include "Entity/Components/ComponentHeader.h"
 
 
 namespace TandenEngine {
