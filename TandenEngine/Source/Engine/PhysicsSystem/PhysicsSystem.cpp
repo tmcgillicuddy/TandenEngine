@@ -4,7 +4,7 @@
 
 #include "PhysicsSystem.h"
 #include <algorithm>
-#include "../../Core/Math/NilsMath.h"
+#include "NilsMath.h"
 
 namespace TandenEngine {
 

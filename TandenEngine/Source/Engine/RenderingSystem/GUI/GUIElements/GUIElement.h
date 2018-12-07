@@ -13,12 +13,13 @@
 namespace TandenEngine {
     namespace GUI {
         class GUIElement {
+        private:
+            void RegisterGUI();
+
         public:
             GUIElement();
 
             virtual void DrawGUI() = 0;
-
-            void RegisterGUI();
         };
     }
 }

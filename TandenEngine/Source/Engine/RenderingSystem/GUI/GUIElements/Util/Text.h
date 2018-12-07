@@ -5,7 +5,7 @@
 #ifndef TANDENENGINE_TEXT_H
 #define TANDENENGINE_TEXT_H
 
-#include "GUIElement.h"
+#include "../GUIElement.h"
 
 namespace TandenEngine {
     namespace GUI {
