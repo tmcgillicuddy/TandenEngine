@@ -7,12 +7,10 @@
 
 #include "../GUIElement.h"
 
-namespace TandenEngine
-{
+namespace TandenEngine {
     namespace GUI
     {
         class Menu : GUIElement {
-
         };
     }
 }

@@ -11,7 +11,6 @@ namespace TandenEngine {
     namespace GUI {
 
         class IntSlider : GUIElement {
-
         };
     }
 }
