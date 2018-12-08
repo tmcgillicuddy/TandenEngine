@@ -14,9 +14,10 @@ namespace TandenEngine {
 
     class Transform : public Component {
     public:
+        // TODO Get consistent naming conventions for these
         Vector3 position;
         Vector3 rotation;
-        Vector3 scale;
+        Vector3 scale = Vector3(1.0, 1.0, 1.0);
 
         Transform();
 

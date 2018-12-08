@@ -10,7 +10,6 @@
 namespace TandenEngine {
 
     Collider::Collider() {
-        //mTransform = dynamic_cast<Transform*>(mParentObject->GetComponent<Transform>());
     }
 
     void Collider::Register() {

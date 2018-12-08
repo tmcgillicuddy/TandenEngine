@@ -19,8 +19,6 @@ namespace TandenEngine {
 
         void Update() override;
 
-        Vector3 mLocalPosition;
-        Vector3 mGlobalPosition;
         float mRadius = 1.0;
 
         std::unique_ptr<Component> Clone() override;

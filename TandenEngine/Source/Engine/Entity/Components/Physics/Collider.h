@@ -21,7 +21,14 @@ namespace TandenEngine {
             Collider();
             ~Collider() {};
 
-            //Component Overrides
+            Vector3 mLocalPosition;
+            Vector3 mGlobalPosition;
+            Vector3 mLocalRotation;
+            Vector3 mGlobalRotation;
+            Vector3 mScale = Vector3(1.0, 1.0, 1.0);
+
+
+        //Component Overrides
             void Register() override;
     };
 }
