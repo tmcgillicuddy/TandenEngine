@@ -37,6 +37,10 @@ namespace TandenEngine {
         std::cout << "Made Box 2" << std::endl;
         mLoadedScenes.emplace_back(newScene); //TODO remove these tests
 
+        auto *testPrefab = new Prefab();
+        testPrefab->CreatePrefab(testGO);
+        testPrefab->SavePrefab();
+
         std::cout<<"Start Main\n";
     }
 
