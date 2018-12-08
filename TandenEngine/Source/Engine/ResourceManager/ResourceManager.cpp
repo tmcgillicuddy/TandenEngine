@@ -18,7 +18,7 @@ namespace TandenEngine {
                 break;
             case ResourceType::PREFAB:
                 std::cout<<"Creating Prefab\n";
-                newResource = new Prefab();
+                newResource = new Prefab(metaData);
                 break;
             case ResourceType::MATERIAL:
                 std::cout<<"Creating Material\n";
