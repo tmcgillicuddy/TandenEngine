@@ -2,10 +2,11 @@
 // Created by thomas.mcgillicuddy on 10/31/2018.
 //
 
-#ifndef HWENGINE_METADATA_H
-#define HWENGINE_METADATA_H
+#ifndef TANDENENGINE_METADATA_H
+#define TANDENENGINE_METADATA_H
 
 #include <string>
+#include <iostream>
 
 namespace TandenEngine {
     enum ResourceType
@@ -37,4 +38,4 @@ namespace TandenEngine {
     };
 }
 
-#endif //HWENGINE_METADATA_H
+#endif //TANDENENGINE_METADATA_H

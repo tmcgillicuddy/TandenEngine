@@ -65,35 +65,59 @@ namespace TandenEngine {
                 newComp->ConvertFromString(endData);
                 break;
             case ComponentType::MESHFILTER:
-                newComp = new MeshRenderer(); //TODO Change
+                newComp = new MeshRenderer();
                 newComp->ConvertFromString(endData);
                 break;
             case ComponentType::SPRITERENDERER:
-                newComp = new MeshRenderer(); //TODO Change
+                newComp = new SpriteRenderer();
                 newComp->ConvertFromString(endData);
                 break;
             case ComponentType::PHYSICSCOMPONENT:
-                newComp = new MeshRenderer(); //TODO Change
+                newComp = new MeshRenderer();
                 newComp->ConvertFromString(endData);
                 break;
             case ComponentType::RENDERER:
-                newComp = new MeshRenderer(); //TODO Change
+                newComp = new MeshRenderer();
                 newComp->ConvertFromString(endData);
                 break;
             case ComponentType::BOXCOLLIDER:
-                newComp = new BoxCollider(); //TODO Change
+                newComp = new BoxCollider();
                 newComp->ConvertFromString(endData);
                 break;
             case ComponentType::SPHERECOLLIDER:
-                newComp = new SphereCollider(); //TODO Change
+                newComp = new SphereCollider();
                 newComp->ConvertFromString(endData);
                 break;
             case ComponentType::MESHCOLLIDER:
-                //  newComp = new MeshCollider(); //TODO Change
+                newComp = new MeshCollider();
                 newComp->ConvertFromString(endData);
                 break;
             case ComponentType::CAPSULECOLLIDER:
-                //    newComp = new CapsuleCollider(); //TODO Change
+                newComp = new CapsuleCollider();
+                newComp->ConvertFromString(endData);
+                break;
+            case ComponentType::AUDIOLISTENER:
+                newComp = new AudioListener();
+                newComp->ConvertFromString(endData);
+                break;
+            case ComponentType::AUDIOSOURCE:
+                newComp = new AudioSource();
+                newComp->ConvertFromString(endData);
+                break;
+            case ComponentType::PARTICLESYSTEM:
+                newComp = new ParticleSystem();
+                newComp->ConvertFromString(endData);
+                break;
+            case ComponentType::RIGIDBODY:
+                newComp = new RigidBody();
+                newComp->ConvertFromString(endData);
+                break;
+            case ComponentType::CAMERA:
+                newComp = new Camera();
+                newComp->ConvertFromString(endData);
+                break;
+            case ComponentType::LIGHTCOMPONENT:
+                newComp = new LightComponent();
                 newComp->ConvertFromString(endData);
                 break;
         }

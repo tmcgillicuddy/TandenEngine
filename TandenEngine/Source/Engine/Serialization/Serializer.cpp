@@ -135,7 +135,7 @@ namespace TandenEngine {
 
     void Serializer::GetMetaDataAtDir(std::string dir) {
         std::string extension = "*.meta"; //Extension for meta data
-        std::string name;
+        std::string name, junk;
         for (auto & p : std::filesystem::recursive_directory_iterator(dir))
         {
             name = p.path().u8string();
@@ -150,7 +150,9 @@ namespace TandenEngine {
                     //Create meta data object from file
                     MetaData * newMeta = new MetaData();
                     std::getline(fileStream, newMeta->mFileDir);
-                    //fileStream >> newMeta->mGuid;
+                    fileStream >> newMeta->mGuid;
+                    std::getline(fileStream, junk);
+                    std::cout<<newMeta->mGuid;
                     int inputEnum;
                     fileStream >> inputEnum; //TODO error check for missing data
                     newMeta->mFileType = (ResourceType)inputEnum;
@@ -239,7 +241,6 @@ namespace TandenEngine {
             name = p.path().u8string();
             bool isCovered = false; //Flag to know if meta file for this resource already exists
             if(name.substr(name.find_last_of(".") + 1) != "meta") {
-                //std::cout<<"Non meta file!! " << name << std::endl;
                 for(auto metaName : knownFiles)
                 {
                     if(name.compare(metaName) == 0) {
@@ -254,6 +255,7 @@ namespace TandenEngine {
                     ResourceType resourceType = ResourceManager::CheckExtensionSupported(extension);
                     if(resourceType != ResourceType::INVALID) {
                         std::cout << "Generating Meta Data " << static_cast<int>(resourceType) << std::endl;
+                        ResourceManager::GenerateNewMetaData(p.path().filename().string(), resourceType);
                     } else
                     {
                         std::cout << name << " is an invalid file type\n";

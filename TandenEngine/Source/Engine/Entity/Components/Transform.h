@@ -2,13 +2,13 @@
 // Created by thomas.mcgillicuddy on 10/21/2018.
 //
 
-#ifndef HWENGINE_TRANSFORM_H
-#define HWENGINE_TRANSFORM_H
+#ifndef TANDENENGINE_TRANSFORM_H
+#define TANDENENGINE_TRANSFORM_H
 
 #include <iostream>
 
 #include "Component.h"
-#include "../../../Core/Math/Vector3.h"
+#include "NilsMath.h"
 
 namespace TandenEngine {
 
@@ -32,4 +32,4 @@ namespace TandenEngine {
     };
 }
 
-#endif //HWENGINE_TRANSFORM_H
+#endif //TANDENENGINE_TRANSFORM_H

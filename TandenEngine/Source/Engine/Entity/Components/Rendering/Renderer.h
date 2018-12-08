@@ -2,8 +2,8 @@
 // Created by thomas.mcgillicuddy on 10/31/2018.
 // Base renderer component
 
-#ifndef HWENGINE_RENDERER_H
-#define HWENGINE_RENDERER_H
+#ifndef TANDENENGINE_RENDERER_H
+#define TANDENENGINE_RENDERER_H
 
 #include "../Component.h"
 
@@ -14,7 +14,7 @@ namespace TandenEngine {
 
         virtual void Draw()=0;
 
-        void Update() {};
+        void Update() override {};
 
         void Register() override;
 
@@ -24,4 +24,4 @@ namespace TandenEngine {
 
 }
 
-#endif //HWENGINE_RENDERER_H
+#endif //TANDENENGINE_RENDERER_H

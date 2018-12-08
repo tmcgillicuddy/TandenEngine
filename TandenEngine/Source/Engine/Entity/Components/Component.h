@@ -37,20 +37,21 @@ namespace TandenEngine {
     class Component {
     public:
         ComponentType mType;
+        GameObject *mParentObject;
+        Transform *mTransform;
+
+        void SetBaseComponent(GameObject* gameObj);
+
+        //Virtual/Abstract Functions
         virtual void Update()=0; //Base update function for all components
+
+        virtual std::unique_ptr<Component> Clone()=0; //Base clone function for copying data from one gameobject to another (prefab generation)
 
         virtual void Register() {}; //Registering function some special components have (see renderer and physics component)
 
         virtual std::string ToString(); //Conversion function to go from the component to a serializable string
 
-        virtual std::unique_ptr<Component> Clone()=0;
-
         virtual Component* ConvertFromString(std::vector<std::string> input)=0;
-
-        GameObject *mParentObject;
-        Transform *mTransform;
-
-        void SetBaseComponent(GameObject* gameObj);
     };
 
 
