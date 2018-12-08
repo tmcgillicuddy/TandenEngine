@@ -9,7 +9,7 @@
 
 namespace TandenEngine {
     namespace GUI {
-        class FloatField : GUIElement {
+        class FloatField : public GUIElement {
         };
     }
 }

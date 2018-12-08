@@ -40,7 +40,6 @@ namespace TandenEngine {
         void RunEngine();
 
         void StopEngine();
-
     };
 
 }

@@ -10,7 +10,7 @@
 namespace TandenEngine {
     namespace GUI {
 
-        class Text : GUIElement {
+        class Text : public GUIElement {
         private:
             std::string text = "";
         public:

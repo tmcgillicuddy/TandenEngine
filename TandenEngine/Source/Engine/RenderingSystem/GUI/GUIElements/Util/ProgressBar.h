@@ -9,7 +9,7 @@
 
 namespace TandenEngine {
     namespace GUI {
-        class ProgressBar : GUIElement {
+        class ProgressBar : public GUIElement {
         };
     }
 }

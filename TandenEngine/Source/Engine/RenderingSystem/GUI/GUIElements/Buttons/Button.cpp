@@ -3,3 +3,8 @@
 //
 
 #include "Button.h"
+
+namespace TandenEngine {
+    namespace GUI {
+    }
+}

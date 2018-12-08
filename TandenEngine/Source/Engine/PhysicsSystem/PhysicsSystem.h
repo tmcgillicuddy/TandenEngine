@@ -26,8 +26,6 @@ namespace TandenEngine {
         static void RegisterPhysicsObject(PhysicsComponent * newObject);
         static void RegisterColliderObject(Collider * newObject);
     };
-
-
 }
 
 #endif //TANDENENGINE_PHYSICSSYSTEM_H

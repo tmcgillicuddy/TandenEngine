@@ -22,14 +22,14 @@ include_directories("Libraries/GLFW/include")
 #Get all the source and header files from the main source code dir
 file(GLOB_RECURSE TANDEN_SOURCE "Source/*.h" "Source/*.cpp")
 
-#Include Math lib headers
-include_directories("Source/Core/Math")
-
 #Put all the source file dirs into their proper place
 add_executable(TandenEngine ${TANDEN_SOURCE} ${IMGUI_SOURCES})
 
 #GLFW Build through CMake (Loads and links Vulkan as well)
 add_subdirectory("Libraries/GLFW")
+
+#Include Math lib headers
+include_directories("Source/Core/Math")
 
 #Link GLFW
 target_link_libraries(TandenEngine glfw)

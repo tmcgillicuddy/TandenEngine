@@ -3,3 +3,9 @@
 //
 
 #include "FloatSlider.h"
+
+namespace TandenEngine {
+    namespace GUI {
+
+    }
+}

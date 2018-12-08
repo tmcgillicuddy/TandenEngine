@@ -3,3 +3,9 @@
 //
 
 #include "BeginMenuBar.h"
+
+namespace TandenEngine {
+    namespace GUI {
+
+    }
+}

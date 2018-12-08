@@ -9,7 +9,7 @@
 
 namespace TandenEngine {
     namespace GUI {
-        class RadioButton : GUIElement{
+        class RadioButton : public GUIElement{
         };
     }
 }

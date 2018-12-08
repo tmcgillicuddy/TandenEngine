@@ -10,7 +10,7 @@
 namespace TandenEngine {
     namespace GUI {
 
-        class IntSlider : GUIElement {
+        class IntSlider : public GUIElement {
         };
     }
 }
