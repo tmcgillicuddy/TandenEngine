@@ -34,7 +34,7 @@ namespace TandenEngine {
 
     void GameObject::GenerateFromData(std::vector<std::string> data) {
         mName = data[0]; //First string is always the name
-        for(auto i=1; i < data.size(); ++i) //Run through every component in the gameobject and generate a new component for it
+        for(size_t i=1; i < data.size(); ++i) //Run through every component in the gameobject and generate a new component for it
         {
             //Get component data
             if(data[i] != "-----") {

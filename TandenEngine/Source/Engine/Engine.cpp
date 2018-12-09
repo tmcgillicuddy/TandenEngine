@@ -42,6 +42,10 @@ namespace TandenEngine {
         testGO->SetName("Box 1");
         mLoadedScenes.emplace_back(newScene); //TODO remove these tests
 
+        auto *testPrefab = new Prefab();
+        testPrefab->CreatePrefab(testGO);
+        testPrefab->SavePrefab();
+
         std::cout<<"Start Main\n";
     }
 

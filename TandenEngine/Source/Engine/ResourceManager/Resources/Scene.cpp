@@ -51,7 +51,7 @@ namespace TandenEngine {
         std::string data = Serializer::GetFileData(inputMeta->mFileDir);
         std::vector<std::string> dataLines = Serializer::SeperateString(data);
         fileName = dataLines[0];
-        for(auto i=1; i < dataLines.size(); ++i) //Run through every object in the scene and generate a new gameobject for it
+        for(size_t i=1; i < dataLines.size(); ++i) //Run through every object in the scene and generate a new gameobject for it
         {
             std::vector<std::string> goData;
             goData.emplace_back(dataLines[i]);
