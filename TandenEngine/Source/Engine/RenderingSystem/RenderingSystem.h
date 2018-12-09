@@ -6,15 +6,20 @@
 #ifndef RENDERINGSYSTEM_H
 #define RENDERINGSYSTEM_H
 
-#include <vector>
-#include <set>
+#include <iostream>
 #include <fstream>
+#include <cstring>
+#include <stdexcept>
 #include <algorithm>
+#include <vector>
+#include <cstdlib>
+#include <optional>
+#include <set>
+
 #include "Window.h"
 #include <vulkan/vulkan.h>
 #include "../Entity/Components/Renderer.h"
 #include "../../../Libraries/GLFW/include/GLFW/glfw3.h"
-#include <optional>
 #include "GLFW/glfw3.h"
 #include "GUI/GUISystem.h"
 
@@ -67,6 +72,8 @@ namespace TandenEngine {
         static std::vector<VkFramebuffer> swapChainFramebuffers;
         static VkCommandPool commandPool;
         static std::vector<VkCommandBuffer> commandBuffers;
+        static VkSemaphore imageAvailableSemaphore;
+        static VkSemaphore renderFinishedSemaphore;
 
         static std::vector<Renderer *> mRenderers;          //vector of renderers
         static Window* testWindow;                          //window instance (just one for now)
@@ -101,7 +108,9 @@ namespace TandenEngine {
             static void CreateFramebuffers();
             static void CreateCommandPool();
             static void CreateCommandBuffers();
+            static void CreateSemaphores();         //used to synchronize when images are being presented
 
+        static void DrawWindow();
 
         static void InitWindow(int windowWidth, int windowHeight, std::string windowName);               // init window instance
         static void PollWindowEvents();                                                                  //maintain during engine runs

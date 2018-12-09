@@ -29,19 +29,26 @@ namespace TandenEngine {
     std::vector<VkFramebuffer>   RenderingSystem::swapChainFramebuffers;
     VkCommandPool                RenderingSystem::commandPool;
     std::vector<VkCommandBuffer> RenderingSystem::commandBuffers;
+    VkSemaphore                  RenderingSystem::imageAvailableSemaphore;
+    VkSemaphore                  RenderingSystem::renderFinishedSemaphore;
 
     void RenderingSystem::Draw()
     {
-        //Draw gameobject renderers
-        for (const auto &rend : mRenderers) {
-            rend->Draw();
+        if (!glfwWindowShouldClose(testWindow->GetWindowRef())) {
+
+            //Draw gameobject renderers
+            for (const auto &rend : mRenderers) {
+                rend->Draw();
+            }
+
+            //Draw GUI Elements
+            GUI::GUISystem::DrawGUI();
+
+            PollWindowEvents();
+            DrawWindow();
         }
 
-        //Draw GUI Elements
-        GUI::GUISystem::DrawGUI();
-
-        PollWindowEvents();
-
+        //vkDeviceWaitIdle(logicalDevice);
     }
 
     void RenderingSystem::RegisterRenderer(Renderer *newRenderer)
@@ -52,8 +59,8 @@ namespace TandenEngine {
     void RenderingSystem::InitSystem()
     {
         InitGLFW();
+        InitWindow(windowWidth, windowHeight, "eat my ass");
         InitVulkan();
-        InitWindow(800, 600, "eat my ass");
 
         GUI::GUISystem::InitGUISystem();
     }
@@ -81,7 +88,7 @@ namespace TandenEngine {
         CreateFramebuffers();
         CreateCommandPool();
         CreateCommandBuffers();
-
+        CreateSemaphores();
     }
 
     void RenderingSystem::InitVKInstance()
@@ -237,7 +244,8 @@ namespace TandenEngine {
         return indices;
     }
 
-    bool RenderingSystem::CheckDeviceExtSupport(VkPhysicalDevice targetDevice) {
+    bool RenderingSystem::CheckDeviceExtSupport(VkPhysicalDevice targetDevice)
+    {
 
         //find number of supported extensions
         uint32_t extensionCount;
@@ -259,7 +267,6 @@ namespace TandenEngine {
         return requiredExtensions.empty();
     }
 
-    //swapchain
     SwapChainSupportDetails RenderingSystem::PollSwapChainSupport(VkPhysicalDevice targetDevice)
     {
         SwapChainSupportDetails details;
@@ -324,7 +331,8 @@ namespace TandenEngine {
         return bestMode;
     }
 
-    VkExtent2D RenderingSystem::ChooseSwapExtent(const VkSurfaceCapabilitiesKHR& capabilities) {
+    VkExtent2D RenderingSystem::ChooseSwapExtent(const VkSurfaceCapabilitiesKHR& capabilities)
+    {
         if (capabilities.currentExtent.width != std::numeric_limits<uint32_t>::max()) {
             return capabilities.currentExtent;
         } else {
@@ -420,16 +428,16 @@ namespace TandenEngine {
         }
     }
 
-
     std::vector<char> RenderingSystem::ReadFile(const std::string& filename)
     {
         std::ifstream file(filename, std::ios::ate | std::ios::binary);
 
         if (!file.is_open()) {
-            throw std::runtime_error("failed to open file!");
+            //throw std::runtime_error("failed to open file!");
+            std::cout << "failed to open file!" << filename << std::endl;
         }
 
-        size_t fileSize = (size_t) file.tellg();
+        size_t fileSize = (size_t)file.tellg();
         std::vector<char> buffer(fileSize);
 
         file.seekg(0);
@@ -444,8 +452,8 @@ namespace TandenEngine {
     void RenderingSystem::CreateGraphicsPipeline()
     {
         //read files
-        auto vsCode = ReadFile("shaders/vert.spv");
-        auto fsCode = ReadFile("shaders/frag.spv");
+        auto vsCode = ReadFile("../Source/Engine/RenderingSystem/Shaders/vert.spv"); //can also read directly from the TriangleShader.frag
+        auto fsCode = ReadFile("../Source/Engine/RenderingSystem/Shaders/frag.spv");
 
         //make shader modules
         VkShaderModule vsModule = CreateShaderModule(vsCode);
@@ -636,7 +644,6 @@ namespace TandenEngine {
 
     }
 
-
     void RenderingSystem::CreateCommandPool()
     {
         QueueFamilyIndices queueFamilyIndices = FindQueueFamilies(physicalDevice);
@@ -716,6 +723,74 @@ namespace TandenEngine {
 
     }
 
+    void RenderingSystem::CreateSemaphores() {
+
+        //create semaphore info
+        VkSemaphoreCreateInfo semaphoreInfo = {};
+        semaphoreInfo.sType = VK_STRUCTURE_TYPE_SEMAPHORE_CREATE_INFO;
+
+        //throw if it fails to create both semaphores
+        if (vkCreateSemaphore(logicalDevice, &semaphoreInfo, nullptr, &imageAvailableSemaphore) != VK_SUCCESS ||
+            vkCreateSemaphore(logicalDevice, &semaphoreInfo, nullptr, &renderFinishedSemaphore) != VK_SUCCESS) {
+
+            throw std::runtime_error("failed to create semaphores!");
+        }
+
+
+
+    }
+
+    void RenderingSystem::DrawWindow()
+    {
+        //get next image from swapchain and trigger avaliable semaphore
+        uint32_t imageIndex;
+        vkAcquireNextImageKHR(logicalDevice, swapChain, std::numeric_limits<uint64_t>::max(), imageAvailableSemaphore, VK_NULL_HANDLE, &imageIndex);
+
+        //info for submission to queue
+        VkSubmitInfo submitInfo = {};
+        submitInfo.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
+
+        //determine which semaphores wait on eachother
+        VkSemaphore waitSemaphores[] = {imageAvailableSemaphore};
+        VkPipelineStageFlags waitStages[] = {VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT};
+        submitInfo.waitSemaphoreCount = 1;
+        submitInfo.pWaitSemaphores = waitSemaphores;
+        submitInfo.pWaitDstStageMask = waitStages;
+
+        //determine which command buffers to bind for the color attachment
+        submitInfo.commandBufferCount = 1;
+        submitInfo.pCommandBuffers = &commandBuffers[imageIndex];
+
+        //determine which semaphore will signal once command buffer finishes
+        VkSemaphore signalSemaphores[] = {renderFinishedSemaphore};
+        submitInfo.signalSemaphoreCount = 1;
+        submitInfo.pSignalSemaphores = signalSemaphores;
+
+        //failed to submit
+        if (vkQueueSubmit(gfxQueue, 1, &submitInfo, VK_NULL_HANDLE) != VK_SUCCESS) {
+            throw std::runtime_error("failed to submit draw command buffer!");
+        }
+
+        //presentation info
+        VkPresentInfoKHR presentInfo = {};
+        presentInfo.sType = VK_STRUCTURE_TYPE_PRESENT_INFO_KHR;
+
+        //which semaphores to wait on for presentation
+        presentInfo.waitSemaphoreCount = 1;
+        presentInfo.pWaitSemaphores = signalSemaphores;
+
+        //specify swapchain to present images and the index of the target image
+        VkSwapchainKHR swapChains[] = {swapChain};
+        presentInfo.swapchainCount = 1;
+        presentInfo.pSwapchains = swapChains;
+        presentInfo.pImageIndices = &imageIndex;
+
+        //not necessary with one swapchain but this checks if all swapchain presentation was successful or not
+        presentInfo.pResults = nullptr; // Optional
+
+        //present image to swapchain
+        vkQueuePresentKHR(presentationQueue, &presentInfo);
+    }
 
     VkShaderModule RenderingSystem::CreateShaderModule(const std::vector<char>& code)
     {
@@ -775,6 +850,22 @@ namespace TandenEngine {
         if (vkCreateRenderPass(logicalDevice, &renderPassInfo, nullptr, &renderPass) != VK_SUCCESS) {
             throw std::runtime_error("failed to create render pass!");
         }
+
+        //subpass dependencies (transitions between subpasses)
+        VkSubpassDependency dependency = {};
+        dependency.srcSubpass = VK_SUBPASS_EXTERNAL;
+        dependency.dstSubpass = 0;
+
+        //Order of operations, which operations wait on what -- look into this more later
+        dependency.srcStageMask = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT;
+        dependency.srcAccessMask = 0;
+        dependency.dstStageMask = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT;
+        dependency.dstAccessMask = VK_ACCESS_COLOR_ATTACHMENT_READ_BIT | VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT;
+
+        //set dependencies in render pass
+        renderPassInfo.dependencyCount = 1;
+        renderPassInfo.pDependencies = &dependency;
+
     }
 
     void RenderingSystem::InitWindowSurface()
@@ -813,15 +904,15 @@ namespace TandenEngine {
 
     void RenderingSystem::PollWindowEvents()
     {
-        if (!glfwWindowShouldClose(testWindow->GetWindowRef())) {
-            glfwPollEvents();
-        }
+        glfwPollEvents();
     }
 
     void RenderingSystem::Cleanup()
     {
 
         //Bring it on! I'll destroy you all!
+        vkDestroySemaphore(logicalDevice, renderFinishedSemaphore, nullptr);
+        vkDestroySemaphore(logicalDevice, imageAvailableSemaphore, nullptr);
 
         vkDestroyCommandPool(logicalDevice, commandPool, nullptr);
 
