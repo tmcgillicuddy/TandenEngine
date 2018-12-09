@@ -6,7 +6,7 @@
 #define TANDENENGINE_COLLIDER_H
 
 #include "../Component.h"
-#include "Vector3.h"
+#include "Vectors/Vector3.h"
 #include <iostream>
 #include "../Transform.h"
 

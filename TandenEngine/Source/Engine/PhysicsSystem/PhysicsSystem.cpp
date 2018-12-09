@@ -49,11 +49,12 @@ namespace TandenEngine {
                 colA = mColliders[i];
                 colB = mColliders[j];
 
+
                 if(colA->mType == BOXCOLLIDER && colB->mType == BOXCOLLIDER) {
                     if((colA->mGlobalPosition.x - colA->mScale.x/2) <= (colB->mGlobalPosition.x + colB->mScale.x/2) && (colA->mGlobalPosition.x + colA->mScale.x/2) >= (colB->mGlobalPosition.x - colB->mScale.x/2)) {
                         if((colA->mGlobalPosition.y - colA->mScale.y/2) <= (colB->mGlobalPosition.y + colB->mScale.y/2) && (colA->mGlobalPosition.y + colA->mScale.y/2) >= (colB->mGlobalPosition.y - colB->mScale.y/2)) {
                             if((colA->mGlobalPosition.z - colA->mScale.z/2) <= (colB->mGlobalPosition.z + colB->mScale.z/2) && (colA->mGlobalPosition.z + colA->mScale.z/2) >= (colB->mGlobalPosition.z - colB->mScale.z/2)) {
-                                std::cout << "YES Collision between " << i << " and " << j << std::endl;
+                                std::cout << "Box v Box Collision between " << i << " and " << j << std::endl;
                                 continue;
                             }
                         }
@@ -61,9 +62,10 @@ namespace TandenEngine {
                 }
                 else if((colA->mType == SPHERECOLLIDER && colB->mType == SPHERECOLLIDER)) {
                     float distance;
-                    distance = static_cast<float>(sqrt(pow(colA->mGlobalPosition.x - colB->mGlobalPosition.x, 2.0) * pow(colA->mGlobalPosition.y - colB->mGlobalPosition.y, 2.0) * pow(colA->mGlobalPosition.z - colB->mGlobalPosition.z, 2.0)));
+                    distance = Vector3::Distance(colA->mGlobalPosition, colB->mGlobalPosition);
+                    std::cout << "Distance between " << distance << std::endl;
                     if (distance < (colA->mScale.x + colB->mScale.x)) {
-                        std::cout << "YES Collision between " << i << " and " << j << std::endl;
+                        std::cout << "Sphere v Sphere Collision between " << i << " and " << j << std::endl;
                         continue;
                     }
                 }
@@ -74,9 +76,9 @@ namespace TandenEngine {
                     testPoint.z = fmax(colA->mGlobalPosition.z - colA->mScale.z/2, fmin(colB->mGlobalPosition.z, colA->mGlobalPosition.z + colA->mScale.z/2));
 
                     float distance;
-                    distance = static_cast<float>(sqrt(pow(testPoint.x - colB->mGlobalPosition.x, 2.0) * pow(testPoint.y - colB->mGlobalPosition.y, 2.0) * pow(testPoint.z - colB->mGlobalPosition.z, 2.0)));
+                    distance = Vector3::Distance(testPoint, colB->mGlobalPosition);
                     if(distance < colB->mScale.x) {
-                        std::cout << "YES Collision between " << i << " and " << j << std::endl;
+                        std::cout << "Box v Sphere Collision between " << i << " and " << j << std::endl;
                         continue;
                     }
                 }
@@ -87,9 +89,9 @@ namespace TandenEngine {
                     testPoint.z = fmax(colB->mGlobalPosition.z - colB->mScale.z/2, fmin(colA->mGlobalPosition.z, colB->mGlobalPosition.z + colB->mScale.z/2));
 
                     float distance;
-                    distance = static_cast<float>(sqrt(pow(testPoint.x - colA->mGlobalPosition.x, 2.0) * pow(testPoint.y - colA->mGlobalPosition.y, 2.0) * pow(testPoint.z - colA->mGlobalPosition.z, 2.0)));
+                    distance = Vector3::Distance(colA->mGlobalPosition, testPoint);
                     if(distance < colA->mScale.x) {
-                        std::cout << "YES Collision between " << i << " and " << j << std::endl;
+                        std::cout << "Sphere v Box Collision between " << i << " and " << j << std::endl;
                         continue;
                     }
                 }
