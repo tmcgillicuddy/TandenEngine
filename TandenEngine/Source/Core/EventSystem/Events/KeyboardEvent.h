@@ -15,7 +15,6 @@ namespace TandenEngine {
 
         KeyboardEvent(int val);
     };
-
 }
 
 #endif //HWENGINE_KEYBOARDEVENT_H

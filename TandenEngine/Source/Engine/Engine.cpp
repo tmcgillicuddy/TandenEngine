@@ -4,17 +4,7 @@
 
 #include <iostream>
 #include "Engine.h"
-#include "Entity/Components/MeshRenderer.h"
-#include "Entity/Components/Transform.h"
-//Vulkan Test
-#define GLFW_INCLUDE_VULKAN
-#include "../../Libraries/GLFW/include/GLFW/glfw3.h"
-
-#define GLM_FORCE_RADIANS
-#define GLM_FORCE_DEPTH_ZERO_TO_ONE
-#include "../../Libraries/GLM/glm/vec4.hpp"
-#include "../../Libraries/GLM/glm/mat4x4.hpp"
-
+#include "Entity/Components/ComponentHeader.h"
 
 
 namespace TandenEngine {
@@ -34,25 +24,36 @@ namespace TandenEngine {
 
         RenderingSystem::InitSystem();
 
-        std::cout<<"Start Main\n";
-
         //ADD TEST DATA TODO REMOVE THESE
         auto *newScene = new Scene(); //TODO remove these tests
-        auto *testGO = newScene->CreateGameObject(); //TODO remove these tests
+        auto *testGO = newScene->CreateGameObject(); //TODO remove these tests'
+        auto *testGO1 = newScene->CreateGameObject(); //TODO remove these tests
+        auto *testGO2 = newScene->CreateGameObject(); //TODO remove these tests
+
         testGO->AddComponent<MeshRenderer>(); //TODO remove these tests
+        //testGO->AddComponent<SphereCollider>(); //TODO remove these tests
+        //std::cout << "Made Sphere" << std::endl;
+        testGO->AddComponent<SphereCollider>(); //TODO remove these tests
+        testGO->GetComponent<SphereCollider>()->mTransform->position = Vector3(-1.0, 0.0, 0.0);
+        testGO->SetName("Sphere 1");
+        testGO1->AddComponent<SphereCollider>(); //TODO remove these tests
+        testGO1->GetComponent<SphereCollider>()->mTransform->position = Vector3(1.0, 0.0, 0.0);
+        testGO->SetName("Sphere 2");
+        testGO2->AddComponent<BoxCollider>(); //TODO remove these tests
+        testGO2->GetComponent<BoxCollider>()->mTransform->position = Vector3(0.5, 0.0, 0.0);
+        testGO->SetName("Box 1");
         mLoadedScenes.emplace_back(newScene); //TODO remove these tests
-        newScene->SaveScene();
 
+        auto *testPrefab = new Prefab();
+        testPrefab->CreatePrefab(testGO);
+        testPrefab->SavePrefab();
 
-
-        system("pause");
-
+        std::cout<<"Start Main\n";
     }
 
     void Engine::RunEngine() {
-
         while (!exitStatus) {
-            std::cout << "Running Loop \n";
+            //std::cout << "Running Loop \n";
             //Get input
             Input::GetInput();
 
@@ -79,8 +80,7 @@ namespace TandenEngine {
     void Engine::StopEngine() {
         std::cout << "Closing Engine\n";
 
-        RenderingSystem::Cleanup();
-
+        //RenderingSystem::Cleanup();
     }
 
     Engine::Engine() {

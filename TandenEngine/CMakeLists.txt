@@ -28,6 +28,9 @@ add_executable(TandenEngine ${TANDEN_SOURCE} ${IMGUI_SOURCES})
 #GLFW Build through CMake (Loads and links Vulkan as well)
 add_subdirectory("Libraries/GLFW")
 
+#Include Math lib headers
+include_directories("Source/Core/Math")
+
 #Link GLFW
 target_link_libraries(TandenEngine glfw)
 

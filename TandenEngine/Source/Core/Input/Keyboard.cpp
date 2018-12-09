@@ -37,7 +37,6 @@ namespace TandenEngine {
                 //Send Event
                 EventSystem::AddEvent(newEvent);
             }
-
         }
     }
 }

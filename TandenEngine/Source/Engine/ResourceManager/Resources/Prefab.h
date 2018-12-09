@@ -23,7 +23,6 @@ namespace TandenEngine {
         void UpdatePrefab(GameObject * sourceGO);
         void SavePrefab();
         static bool CheckIfSupported(std::string extension);
-
     };
 
 }

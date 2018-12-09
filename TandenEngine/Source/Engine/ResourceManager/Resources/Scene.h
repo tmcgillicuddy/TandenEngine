@@ -19,7 +19,6 @@ namespace TandenEngine {
         std::vector<std::unique_ptr<GameObject>> mGameObjects;
 
     public:
-
         Scene(); //Just create a new scene (generates scene setting file)
 
         Scene(MetaData* inputMeta);
@@ -35,9 +34,7 @@ namespace TandenEngine {
         void SaveScene(); //Saves scene to scene file (creates if non existent)
 
         static bool CheckIfSupported(std::string extension);
-
     };
-
 }
 
 #endif //HWENGINE_SCENE_H

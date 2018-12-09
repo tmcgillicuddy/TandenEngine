@@ -15,7 +15,6 @@ namespace TandenEngine {
         const std::string mExtension = ".project";
         std::string mProjectName;
     public:
-
         void PrintProjectInfo();
     };
 

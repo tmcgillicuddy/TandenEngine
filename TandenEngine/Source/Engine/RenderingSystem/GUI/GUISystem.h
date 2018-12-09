@@ -9,7 +9,7 @@
 
 #include "imgui.h"
 #include "imgui_internal.h"
-#include "GUIElements/GUIElement.h"
+#include "GUIElements/GUIHeader.h"
 
 namespace TandenEngine {
     namespace GUI {
@@ -18,7 +18,6 @@ namespace TandenEngine {
             static ImGuiIO* io; //ImGui io struct, filled with Tanden data
 
         public:
-
             static void InitGUISystem(); //Init the GUI system
 
             static void ShutDownGuiSystem();

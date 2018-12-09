@@ -2,8 +2,8 @@
 // Created by thomas.mcgillicuddy on 10/21/2018.
 //
 
-#ifndef HWENGINE_GAMEOBJECT_H
-#define HWENGINE_GAMEOBJECT_H
+#ifndef TANDENENGINE_GAMEOBJECT_H
+#define TANDENENGINE_GAMEOBJECT_H
 
 //STD Classes
 #include <vector>
@@ -12,7 +12,7 @@
 #include <algorithm>
 #include <iostream>
 
-//HWEngine classes
+//Tanden Engine classes
 #include "Components/Component.h"
 
 namespace TandenEngine {
@@ -32,6 +32,7 @@ namespace TandenEngine {
         Component *AddComponent() {
             auto newComp = mComponents.emplace_back(std::make_unique<T>()).get();
             newComp->Register(); //Run register func (if overloaded)
+            newComp->SetBaseComponent(this);
             return newComp;
         };
 
@@ -41,14 +42,7 @@ namespace TandenEngine {
                 if (dynamic_cast<T *>(component.get()) != nullptr)
                     return component.get();
             }
-        };
-
-        template<typename T>
-        Component *FindComponent() {
-            for (const auto &component : mComponents) {
-                if (dynamic_cast<T *>(component.get()) != nullptr)
-                    return component.get();
-            }
+            return nullptr;
         };
 
         template<typename T>
@@ -69,8 +63,13 @@ namespace TandenEngine {
         std::string ToString();
 
         void GenerateFromData(std::vector<std::string> data);
+
+        void SelectComponenet(ComponentType type, std::vector<std::string> data);
+
+        std::string GetName() {return mName;}
+        void SetName(std::string newName){mName = newName;};
     };
 
 }
 
-#endif //HWENGINE_GAMEOBJECT_H
+#endif //TANDENENGINE_GAMEOBJECT_H

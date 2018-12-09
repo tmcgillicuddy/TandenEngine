@@ -22,7 +22,7 @@ namespace TandenEngine {
     }
 
     void Scene::Update() {
-        std::cout << "Updating Scene \n";
+        //std::cout << "Updating Scene \n";
         for (const auto &gO : mGameObjects) {
             gO->Update();
         }
@@ -51,7 +51,7 @@ namespace TandenEngine {
         std::string data = Serializer::GetFileData(inputMeta->mFileDir);
         std::vector<std::string> dataLines = Serializer::SeperateString(data);
         fileName = dataLines[0];
-        for(auto i=1; i < dataLines.size(); ++i) //Run through every object in the scene and generate a new gameobject for it
+        for(size_t i=1; i < dataLines.size(); ++i) //Run through every object in the scene and generate a new gameobject for it
         {
             std::vector<std::string> goData;
             goData.emplace_back(dataLines[i]);
@@ -65,11 +65,9 @@ namespace TandenEngine {
             newGo->GenerateFromData(goData);
             mGameObjects.emplace_back(newGo);
         }
-
     }
 
     bool Scene::CheckIfSupported(std::string extension) {
        return (extension == ".scene");
     }
-
 }

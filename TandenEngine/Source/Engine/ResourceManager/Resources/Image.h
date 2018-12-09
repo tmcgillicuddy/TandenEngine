@@ -13,7 +13,6 @@ namespace TandenEngine {
     public:
         Image();
         static bool CheckIfSupported(std::string extension);
-
     };
 
 }

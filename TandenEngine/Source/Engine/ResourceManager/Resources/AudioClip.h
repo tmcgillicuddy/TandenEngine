@@ -13,7 +13,6 @@ namespace TandenEngine {
     public:
         AudioClip();
         static bool CheckIfSupported(std::string extension);
-
     };
 
 }
