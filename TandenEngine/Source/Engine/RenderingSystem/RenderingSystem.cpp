@@ -122,12 +122,9 @@ namespace TandenEngine {
         if (vkCreateInstance(&createInfo, nullptr, &VulkanInstance) != VK_SUCCESS) {
             throw std::runtime_error("failed to create instance!");
         }
-
     }
 
-    void RenderingSystem::SelectPhysicalDevice()
-    {
-
+    void RenderingSystem::SelectPhysicalDevice() {
         physicalDevice = VK_NULL_HANDLE;
 
         uint32_t deviceCount = 0;
@@ -150,7 +147,6 @@ namespace TandenEngine {
         if (physicalDevice == VK_NULL_HANDLE) {
             throw std::runtime_error("failed to find a suitable GPU!");
         }
-
     }
 
     void RenderingSystem::InitLogicalDevice()
@@ -244,9 +240,7 @@ namespace TandenEngine {
         return indices;
     }
 
-    bool RenderingSystem::CheckDeviceExtSupport(VkPhysicalDevice targetDevice)
-    {
-
+    bool RenderingSystem::CheckDeviceExtSupport(VkPhysicalDevice targetDevice) {
         //find number of supported extensions
         uint32_t extensionCount;
         vkEnumerateDeviceExtensionProperties(targetDevice, nullptr, &extensionCount, nullptr);
@@ -345,9 +339,7 @@ namespace TandenEngine {
         }
     }
 
-    void RenderingSystem::CreateSwapChain()
-    {
-
+    void RenderingSystem::CreateSwapChain() {
         SwapChainSupportDetails swapChainSupport = PollSwapChainSupport(physicalDevice);
 
         VkSurfaceFormatKHR surfaceFormat = ChooseSwapSurfaceFormat(swapChainSupport.formats);
@@ -399,7 +391,6 @@ namespace TandenEngine {
 
         swapChainImageFormat = surfaceFormat.format;
         swapChainExtent = extent;
-
     }
 
     void RenderingSystem::CreateImageViews()
@@ -449,8 +440,7 @@ namespace TandenEngine {
 
     }
 
-    void RenderingSystem::CreateGraphicsPipeline()
-    {
+    void RenderingSystem::CreateGraphicsPipeline() {
         //read files
         auto vsCode = ReadFile("../Source/Engine/RenderingSystem/Shaders/vert.spv"); //can also read directly from the TriangleShader.frag
         auto fsCode = ReadFile("../Source/Engine/RenderingSystem/Shaders/frag.spv");
@@ -641,7 +631,6 @@ namespace TandenEngine {
                 throw std::runtime_error("failed to create framebuffer!");
             }
         }
-
     }
 
     void RenderingSystem::CreateCommandPool()
@@ -724,7 +713,6 @@ namespace TandenEngine {
     }
 
     void RenderingSystem::CreateSemaphores() {
-
         //create semaphore info
         VkSemaphoreCreateInfo semaphoreInfo = {};
         semaphoreInfo.sType = VK_STRUCTURE_TYPE_SEMAPHORE_CREATE_INFO;
@@ -732,7 +720,6 @@ namespace TandenEngine {
         //throw if it fails to create both semaphores
         if (vkCreateSemaphore(logicalDevice, &semaphoreInfo, nullptr, &imageAvailableSemaphore) != VK_SUCCESS ||
             vkCreateSemaphore(logicalDevice, &semaphoreInfo, nullptr, &renderFinishedSemaphore) != VK_SUCCESS) {
-
             throw std::runtime_error("failed to create semaphores!");
         }
 
@@ -740,8 +727,7 @@ namespace TandenEngine {
 
     }
 
-    void RenderingSystem::DrawWindow()
-    {
+    void RenderingSystem::DrawWindow() {
         //get next image from swapchain and trigger avaliable semaphore
         uint32_t imageIndex;
         vkAcquireNextImageKHR(logicalDevice, swapChain, std::numeric_limits<uint64_t>::max(), imageAvailableSemaphore, VK_NULL_HANDLE, &imageIndex);
@@ -868,15 +854,13 @@ namespace TandenEngine {
 
     }
 
-    void RenderingSystem::InitWindowSurface()
-    {
+    void RenderingSystem::InitWindowSurface() {
          if (glfwCreateWindowSurface(VulkanInstance, testWindow->GetWindowRef(), nullptr, &WindowSurface) != VK_SUCCESS) {
              throw std::runtime_error("failed to create window surface!");
          }
     }
 
-    bool RenderingSystem::SuitableDevice(VkPhysicalDevice targetDevice)
-    {
+    bool RenderingSystem::SuitableDevice(VkPhysicalDevice targetDevice) {
         QueueFamilyIndices indices = FindQueueFamilies(targetDevice);
 
         //check for required extensions
@@ -907,9 +891,7 @@ namespace TandenEngine {
         glfwPollEvents();
     }
 
-    void RenderingSystem::Cleanup()
-    {
-
+    void RenderingSystem::Cleanup() {
         //Bring it on! I'll destroy you all!
         vkDestroySemaphore(logicalDevice, renderFinishedSemaphore, nullptr);
         vkDestroySemaphore(logicalDevice, imageAvailableSemaphore, nullptr);
