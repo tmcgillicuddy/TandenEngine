@@ -24,7 +24,7 @@ namespace  TandenEngine {
     }
 
     void BoxCollider::Update() {
-        std::cout << "Updating Box Collider\n";
+        //std::cout << "Updating Box Collider\n";
     }
 
     std::string BoxCollider::ToString() {

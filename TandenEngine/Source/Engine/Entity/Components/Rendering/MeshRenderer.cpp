@@ -15,7 +15,7 @@ namespace TandenEngine {
     }
 
     void MeshRenderer::Draw() {
-        std::cout << "Drawing Mesh Renderer\n";
+        //std::cout << "Drawing Mesh Renderer\n";
     }
 
     std::string MeshRenderer::ToString() {

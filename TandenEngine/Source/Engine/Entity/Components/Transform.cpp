@@ -16,7 +16,7 @@ namespace TandenEngine {
     }
 
     void Transform::Update() {
-        std::cout << "Updating Transform \n";
+        //std::cout << "Updating Transform \n";
     }
 
     std::string Transform::ToString() {

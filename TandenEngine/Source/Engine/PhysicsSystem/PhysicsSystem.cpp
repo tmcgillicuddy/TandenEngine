@@ -5,6 +5,7 @@
 #include "PhysicsSystem.h"
 #include <algorithm>
 #include "NilsMath.h"
+#include "../Entity/GameObject.h"
 
 namespace TandenEngine {
 
@@ -51,54 +52,66 @@ namespace TandenEngine {
 
 
                 if(colA->mType == BOXCOLLIDER && colB->mType == BOXCOLLIDER) {
-                    if((colA->mGlobalPosition.x - colA->mScale.x/2) <= (colB->mGlobalPosition.x + colB->mScale.x/2) && (colA->mGlobalPosition.x + colA->mScale.x/2) >= (colB->mGlobalPosition.x - colB->mScale.x/2)) {
-                        if((colA->mGlobalPosition.y - colA->mScale.y/2) <= (colB->mGlobalPosition.y + colB->mScale.y/2) && (colA->mGlobalPosition.y + colA->mScale.y/2) >= (colB->mGlobalPosition.y - colB->mScale.y/2)) {
-                            if((colA->mGlobalPosition.z - colA->mScale.z/2) <= (colB->mGlobalPosition.z + colB->mScale.z/2) && (colA->mGlobalPosition.z + colA->mScale.z/2) >= (colB->mGlobalPosition.z - colB->mScale.z/2)) {
-                                std::cout << "Box v Box Collision between " << i << " and " << j << std::endl;
-                                continue;
-                            }
-                        }
-                    }
+                    BoxBoxCollision(colA, colB);
                 }
                 else if((colA->mType == SPHERECOLLIDER && colB->mType == SPHERECOLLIDER)) {
-                    float distance;
-                    distance = Vector3::Distance(colA->mGlobalPosition, colB->mGlobalPosition);
-                    std::cout << "Distance between " << distance << std::endl;
-                    if (distance < (colA->mScale.x + colB->mScale.x)) {
-                        std::cout << "Sphere v Sphere Collision between " << i << " and " << j << std::endl;
-                        continue;
-                    }
+                    SphereSphereCollision(colA, colB);
                 }
-                else if((colA->mType == BOXCOLLIDER && colB->mType == SPHERECOLLIDER)) {
-                    Vector3 testPoint;
-                    testPoint.x = fmax(colA->mGlobalPosition.x - colA->mScale.x/2, fmin(colB->mGlobalPosition.x, colA->mGlobalPosition.x + colA->mScale.x/2));
-                    testPoint.y = fmax(colA->mGlobalPosition.y - colA->mScale.y/2, fmin(colB->mGlobalPosition.y, colA->mGlobalPosition.y + colA->mScale.y/2));
-                    testPoint.z = fmax(colA->mGlobalPosition.z - colA->mScale.z/2, fmin(colB->mGlobalPosition.z, colA->mGlobalPosition.z + colA->mScale.z/2));
-
-                    float distance;
-                    distance = Vector3::Distance(testPoint, colB->mGlobalPosition);
-                    if(distance < colB->mScale.x) {
-                        std::cout << "Box v Sphere Collision between " << i << " and " << j << std::endl;
-                        continue;
-                    }
+                else if((colA->mType == BOXCOLLIDER && colB->mType == SPHERECOLLIDER) || (colA->mType == SPHERECOLLIDER && colB->mType == BOXCOLLIDER)) {
+                    BoxSphereCollision(colA, colB);
                 }
-                else if((colA->mType == SPHERECOLLIDER && colB->mType == BOXCOLLIDER)) {
-                    Vector3 testPoint;
-                    testPoint.x = fmax(colB->mGlobalPosition.x - colB->mScale.x/2, fmin(colA->mGlobalPosition.x, colB->mGlobalPosition.x + colB->mScale.x/2));
-                    testPoint.y = fmax(colB->mGlobalPosition.y - colB->mScale.y/2, fmin(colA->mGlobalPosition.y, colB->mGlobalPosition.y + colB->mScale.y/2));
-                    testPoint.z = fmax(colB->mGlobalPosition.z - colB->mScale.z/2, fmin(colA->mGlobalPosition.z, colB->mGlobalPosition.z + colB->mScale.z/2));
-
-                    float distance;
-                    distance = Vector3::Distance(colA->mGlobalPosition, testPoint);
-                    if(distance < colA->mScale.x) {
-                        std::cout << "Sphere v Box Collision between " << i << " and " << j << std::endl;
-                        continue;
-                    }
-                }
-
-                std::cout << "No Collision between " << i << " and " << j << std::endl;
             }
         }
     }
 
+
+    void PhysicsSystem::BoxBoxCollision(Collider * colA, Collider * colB) {
+        if((colA->mGlobalPosition.x - colA->mScale.x/2) <= (colB->mGlobalPosition.x + colB->mScale.x/2) && (colA->mGlobalPosition.x + colA->mScale.x/2) >= (colB->mGlobalPosition.x - colB->mScale.x/2)) {
+            if((colA->mGlobalPosition.y - colA->mScale.y/2) <= (colB->mGlobalPosition.y + colB->mScale.y/2) && (colA->mGlobalPosition.y + colA->mScale.y/2) >= (colB->mGlobalPosition.y - colB->mScale.y/2)) {
+                if((colA->mGlobalPosition.z - colA->mScale.z/2) <= (colB->mGlobalPosition.z + colB->mScale.z/2) && (colA->mGlobalPosition.z + colA->mScale.z/2) >= (colB->mGlobalPosition.z - colB->mScale.z/2)) {
+                    std::cout << "Box v Box Collision between " << colA->mParentObject->GetName() << " and " << colB->mParentObject->GetName() << std::endl;
+                }
+            }
+        }
+    }
+    void PhysicsSystem::SphereSphereCollision(Collider * colA, Collider * colB) {
+        float distance;
+        distance = Vector3::Distance(colA->mGlobalPosition, colB->mGlobalPosition);
+        if (distance < (colA->mScale.x + colB->mScale.x)) {
+            std::cout << "Sphere v Sphere Collision between " << colA->mParentObject->GetName() << " and " << colB->mParentObject->GetName() << std::endl;
+        }
+    }
+    void PhysicsSystem::BoxSphereCollision(Collider * colA, Collider * colB) {
+        if ((colA->mType == BOXCOLLIDER && colB->mType == SPHERECOLLIDER)) {
+            Vector3 testPoint;
+            testPoint.x = fmax(colA->mGlobalPosition.x - colA->mScale.x / 2,
+                               fmin(colB->mGlobalPosition.x, colA->mGlobalPosition.x + colA->mScale.x / 2));
+            testPoint.y = fmax(colA->mGlobalPosition.y - colA->mScale.y / 2,
+                               fmin(colB->mGlobalPosition.y, colA->mGlobalPosition.y + colA->mScale.y / 2));
+            testPoint.z = fmax(colA->mGlobalPosition.z - colA->mScale.z / 2,
+                               fmin(colB->mGlobalPosition.z, colA->mGlobalPosition.z + colA->mScale.z / 2));
+
+            float distance;
+            distance = Vector3::Distance(testPoint, colB->mGlobalPosition);
+            if (distance < colB->mScale.x) {
+                std::cout << "Box v Sphere Collision between " << colA->mParentObject->GetName() << " and "
+                          << colB->mParentObject->GetName() << std::endl;
+            }
+        } else if ((colA->mType == SPHERECOLLIDER && colB->mType == BOXCOLLIDER)) {
+            Vector3 testPoint;
+            testPoint.x = fmax(colB->mGlobalPosition.x - colB->mScale.x / 2,
+                               fmin(colA->mGlobalPosition.x, colB->mGlobalPosition.x + colB->mScale.x / 2));
+            testPoint.y = fmax(colB->mGlobalPosition.y - colB->mScale.y / 2,
+                               fmin(colA->mGlobalPosition.y, colB->mGlobalPosition.y + colB->mScale.y / 2));
+            testPoint.z = fmax(colB->mGlobalPosition.z - colB->mScale.z / 2,
+                               fmin(colA->mGlobalPosition.z, colB->mGlobalPosition.z + colB->mScale.z / 2));
+
+            float distance;
+            distance = Vector3::Distance(colA->mGlobalPosition, testPoint);
+            if (distance < colA->mScale.x) {
+                std::cout << "Sphere v Box Collision between " << colA->mParentObject->GetName() << " and "
+                          << colB->mParentObject->GetName() << std::endl;
+            }
+        }
+    }
 }

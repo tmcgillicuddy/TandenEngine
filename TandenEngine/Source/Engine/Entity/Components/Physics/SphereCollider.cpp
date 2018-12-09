@@ -21,7 +21,7 @@ namespace  TandenEngine {
     }
 
     void SphereCollider::Update() {
-        std::cout << "Updating Sphere Collider\n";
+        //std::cout << "Updating Sphere Collider\n";
     }
 
     std::unique_ptr<Component> SphereCollider::Clone() {
