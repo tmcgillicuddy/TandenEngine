@@ -119,12 +119,14 @@ namespace TandenEngine {
 
         VkResult result = vkCreateInstance(&createInfo, nullptr, &VulkanInstance);
 
-        if (vkCreateInstance(&createInfo, nullptr, &VulkanInstance) != VK_SUCCESS) {
+        if (vkCreateInstance(&createInfo, nullptr, &VulkanInstance) != VK_SUCCESS)
+        {
             throw std::runtime_error("failed to create instance!");
         }
     }
 
-    void RenderingSystem::SelectPhysicalDevice() {
+    void RenderingSystem::SelectPhysicalDevice()
+    {
         physicalDevice = VK_NULL_HANDLE;
 
         uint32_t deviceCount = 0;
@@ -151,7 +153,6 @@ namespace TandenEngine {
 
     void RenderingSystem::InitLogicalDevice()
     {
-
         QueueFamilyIndices indices = FindQueueFamilies(physicalDevice);
 
         //look for queue family with capacity for graphics
@@ -240,7 +241,8 @@ namespace TandenEngine {
         return indices;
     }
 
-    bool RenderingSystem::CheckDeviceExtSupport(VkPhysicalDevice targetDevice) {
+    bool RenderingSystem::CheckDeviceExtSupport(VkPhysicalDevice targetDevice)
+    {
         //find number of supported extensions
         uint32_t extensionCount;
         vkEnumerateDeviceExtensionProperties(targetDevice, nullptr, &extensionCount, nullptr);
