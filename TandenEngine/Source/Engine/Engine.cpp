@@ -34,11 +34,8 @@ namespace TandenEngine {
 
         RenderingSystem::InitSystem();
 
-<<<<<<< HEAD
-=======
         std::cout<<"Start Main\n";
 
->>>>>>> 9949ff049a91c7bc254c1247e311112fe9b0d162
         //ADD TEST DATA TODO REMOVE THESE
         auto *newScene = new Scene(); //TODO remove these tests
         auto *testGO = newScene->CreateGameObject(); //TODO remove these tests

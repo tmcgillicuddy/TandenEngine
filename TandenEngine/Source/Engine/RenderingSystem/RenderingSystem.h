@@ -8,6 +8,7 @@
 
 #include <vector>
 #include <set>
+#include <fstream>
 #include <algorithm>
 #include "Window.h"
 #include <vulkan/vulkan.h>
@@ -60,6 +61,12 @@ namespace TandenEngine {
         static std::vector<VkImage> swapChainImages;
         static std::vector<VkImageView> swapChainImageViews;
         static VkExtent2D swapChainExtent;
+        static VkPipelineLayout pipelineLayout;
+        static VkRenderPass renderPass;
+        static VkPipeline graphicsPipeline;
+        static std::vector<VkFramebuffer> swapChainFramebuffers;
+        static VkCommandPool commandPool;
+        static std::vector<VkCommandBuffer> commandBuffers;
 
         static std::vector<Renderer *> mRenderers;          //vector of renderers
         static Window* testWindow;                          //window instance (just one for now)
@@ -85,6 +92,15 @@ namespace TandenEngine {
             static VkExtent2D RenderingSystem::ChooseSwapExtent(const VkSurfaceCapabilitiesKHR& capabilities);
             static void CreateSwapChain();
             static void CreateImageViews();
+
+            static void CreateGraphicsPipeline();
+            static std::vector<char> ReadFile(const std::string& filename);
+            static VkShaderModule CreateShaderModule(const std::vector<char>& code);
+
+            static void CreateRenderPass();
+            static void CreateFramebuffers();
+            static void CreateCommandPool();
+            static void CreateCommandBuffers();
 
 
         static void InitWindow(int windowWidth, int windowHeight, std::string windowName);               // init window instance
