@@ -33,13 +33,11 @@ namespace  TandenEngine {
         return data;
     }
 
-    std::unique_ptr<Component> BoxCollider::Clone() {
-        return std::unique_ptr<BoxCollider>(this);
+    Component *BoxCollider::ConvertFromString(std::vector<std::string>) {
+        return NULL;
     }
 
-    Component *BoxCollider::ConvertFromString(std::vector<std::string> input) {
-        BoxCollider * newComp = new BoxCollider();
-
-        return newComp;
+    std::unique_ptr<Component> BoxCollider::Clone() {
+        return std::unique_ptr<BoxCollider>(this);
     }
 }

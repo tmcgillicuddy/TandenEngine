@@ -21,13 +21,15 @@ namespace TandenEngine {
         else
             std::cout<<"Error Loading Project Start Engine\n";
 
+
         RenderingSystem::InitSystem();
 
         //ADD TEST DATA TODO REMOVE THESE
         auto *newScene = new Scene(); //TODO remove these tests
-        auto *testGO = newScene->CreateGameObject(); //TODO remove these tests
+        auto *testGO = newScene->CreateGameObject(); //TODO remove these tests'
         auto *testGO1 = newScene->CreateGameObject(); //TODO remove these tests
         auto *testGO2 = newScene->CreateGameObject(); //TODO remove these tests
+
         testGO->AddComponent<MeshRenderer>(); //TODO remove these tests
         //testGO->AddComponent<SphereCollider>(); //TODO remove these tests
         //std::cout << "Made Sphere" << std::endl;
@@ -78,7 +80,7 @@ namespace TandenEngine {
     void Engine::StopEngine() {
         std::cout << "Closing Engine\n";
 
-        RenderingSystem::Cleanup();
+        //RenderingSystem::Cleanup();
     }
 
     Engine::Engine() {
