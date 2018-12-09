@@ -9,15 +9,19 @@
 namespace  TandenEngine {
 
     SphereCollider::SphereCollider() {
-        std::cout << "Sphere";
         mType = ComponentType::SPHERECOLLIDER;
+    }
+
+    SphereCollider::SphereCollider( Vector3 position, float radius) {
+        mType = ComponentType::SPHERECOLLIDER;
+        mLocalPosition = position, mRadius = radius, mGlobalPosition = mTransform->position + position;
     }
 
     SphereCollider::~SphereCollider() {
     }
 
     void SphereCollider::Update() {
-        std::cout << "Updating Sphere Collider\n";
+        //std::cout << "Updating Sphere Collider\n";
     }
 
     std::unique_ptr<Component> SphereCollider::Clone() {

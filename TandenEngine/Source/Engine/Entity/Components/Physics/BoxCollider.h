@@ -15,13 +15,7 @@ namespace TandenEngine {
             BoxCollider();
             ~BoxCollider();
 
-            BoxCollider( Vector3 position, Vector3 rotation, Vector3 size) {
-                mPosition = position, mRotation = rotation, mSize = size;
-            }
-
-            Vector3 mPosition;
-            Vector3 mRotation;
-            Vector3 mSize = Vector3(1.0, 1.0, 1.0);
+            BoxCollider(Vector3 position, Vector3 rotation, Vector3 scale);
 
             //Component Overrides
             void Update() override;

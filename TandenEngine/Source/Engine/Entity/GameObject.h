@@ -65,6 +65,9 @@ namespace TandenEngine {
         void GenerateFromData(std::vector<std::string> data);
 
         void SelectComponenet(ComponentType type, std::vector<std::string> data);
+
+        std::string GetName() {return mName;}
+        void SetName(std::string newName){mName = newName;};
     };
 
 }

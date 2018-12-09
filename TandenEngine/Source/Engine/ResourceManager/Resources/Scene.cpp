@@ -22,7 +22,7 @@ namespace TandenEngine {
     }
 
     void Scene::Update() {
-        std::cout << "Updating Scene \n";
+        //std::cout << "Updating Scene \n";
         for (const auto &gO : mGameObjects) {
             gO->Update();
         }
