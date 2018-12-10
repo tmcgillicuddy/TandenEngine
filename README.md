@@ -1,39 +1,16 @@
 # Tanden Engine
 
-[![CodeFactor](https://www.codefactor.io/repository/github/signalr/signalr/badge?style=plastic)](https://www.codefactor.io/repository/github/tmcgillicuddy/tandenengine)
+[![CodeFactor](https://www.codefactor.io/repository/github/signalr/signalr/badge?style=flat-square)](https://www.codefactor.io/repository/github/tmcgillicuddy/tandenengine)
 
-##Submodules:
+## Dependecies
 
-*Git feature for managing 3rd party libraries*
+Tanden Engine uses the following libraries:
 
-run: git submodule init
+ * [Vulkan](https://www.khronos.org/vulkan) - Vulkan interface
+ * [GLFW](https://github.com/glfw/glfw) - Window creation
+ * [Imgui](https://github.com/ocornut/imgui) - GUI generation
 
-run: git submodule update
+## Compiling:
+Clone the repo and run 'git submodule --init --recursive' to get the submodules
 
-##Vulkan:
-
-*Graphics API*
-
-###Setup
-
-Download the SDKs: https://vulkan.lunarg.com/sdk/home#windows
-
-run: vkcube.exe (in the Bin folder) in the SDK folder, this will test if Vulkan was properly installed and works on your machine
-
-##Cmake:
-
-*Solution generator that enables cross platform development environments*
-
-Download and Setup CMAKE(v3.13 or greater): https://cmake.org/download/
-
-##Imgui
-
-*3rd party open source library for generating UI vertex buffers*
-
-Supported via submodules
-
-##GLFW
-
-*3rd party open source library for interfacing with Vulkan*
-
-Supported via submodules
+Make sure you have [CMake](https://cmake.org/download/) and the [Vulkan SDK](https://vulkan.lunarg.com/sdk/home#windows) downloaded and installed.
