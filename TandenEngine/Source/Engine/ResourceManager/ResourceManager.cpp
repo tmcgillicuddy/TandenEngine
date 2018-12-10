@@ -18,7 +18,7 @@ namespace TandenEngine {
                 break;
             case ResourceType::PREFAB:
                 std::cout<<"Creating Prefab\n";
-                newResource = new Prefab();
+                newResource = new Prefab(metaData);
                 break;
             case ResourceType::MATERIAL:
                 std::cout<<"Creating Material\n";
@@ -40,6 +40,10 @@ namespace TandenEngine {
                 std::cout<<"Creating Shader\n";
                 newResource = new Shader();
                 break;
+            case ResourceType::FONT:
+                std::cout<<"Creating Font\n";
+                newResource = new Font();
+                break;
             default:
                 break;
         }
@@ -57,7 +61,6 @@ namespace TandenEngine {
 
 
         //Create new meta file for any filepath that isn't part of the filePaths vector
-
     }
 
     void ResourceManager::AddResource(Resource *newResource, MetaData *newMetaData) {
@@ -120,5 +123,16 @@ namespace TandenEngine {
             return ResourceType::FONT;
 
         return ResourceType::INVALID;
+    }
+
+    void ResourceManager::GenerateNewMetaData(std::string path, ResourceType type) {
+        MetaData * newData = new MetaData();
+        size_t lastindex = path.find_last_of(".");
+        std::string fileName = path.substr(0, lastindex);
+        newData->mFileName = fileName;
+        newData->mFileType = type;
+        newData->mFileDir = Serializer::mProjectDir +"/Assets/"+ path;
+
+        Serializer::WriteStringToAssetFolder(fileName + ".meta", newData->ConvertToString());
     }
 }

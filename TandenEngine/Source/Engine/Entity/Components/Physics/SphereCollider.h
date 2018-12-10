@@ -15,13 +15,10 @@ namespace TandenEngine {
         SphereCollider();
         ~SphereCollider();
 
-        SphereCollider( Vector3 position, float radius) {
-            mPosition = position, mRadius = radius;
-        }
+        SphereCollider( Vector3 position, float radius);
 
         void Update() override;
 
-        Vector3 mPosition;
         float mRadius = 1.0;
 
         std::unique_ptr<Component> Clone() override;

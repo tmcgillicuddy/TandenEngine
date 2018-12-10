@@ -2,8 +2,8 @@
 // Created by thomas.mcgillicuddy on 10/31/2018.
 //
 
-#ifndef HWENGINE_MESHRENDERER_H
-#define HWENGINE_MESHRENDERER_H
+#ifndef TANDENENGINE_MESHRENDERER_H
+#define TANDENENGINE_MESHRENDERER_H
 
 #include "Renderer.h"
 #include "MeshFilter.h"
@@ -30,4 +30,4 @@ namespace TandenEngine {
 
 }
 
-#endif //HWENGINE_MESHRENDERER_H
+#endif //TANDENENGINE_MESHRENDERER_H

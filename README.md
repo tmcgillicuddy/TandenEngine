@@ -1,15 +1,22 @@
 # Tanden Engine
 
-setup git submodules:
+<img src="https://github.com/tmcgillicuddy/TandenEngine/blob/develop/Documents/TandenLogo.png" width="400" />
 
-run: git submodule init
+[![Build](https://ci.appveyor.com/api/projects/status/32r7s2skrgm9ubva?svg=true)](https://ci.appveyor.com/project/tmcgillicuddy/TandenEngine)
+[![Style Guide](https://www.codefactor.io/repository/github/signalr/signalr/badge?style=plastic)](https://www.codefactor.io/repository/github/tmcgillicuddy/tandenengine)
 
-run: git submodule update
+## Features
+Current Features Supported:
+ * WIP
 
-Setup Vulkan:
+## Dependecies
+Tanden Engine uses these libraries:
 
-Download the SDKs and RT Libraries: https://vulkan.lunarg.com/sdk/home#windows
+ * [Vulkan](https://www.khronos.org/vulkan) - Vulkan interface
+ * [GLFW](https://github.com/glfw/glfw) - Window creation
+ * [Imgui](https://github.com/ocornut/imgui) - GUI generation
 
-run: vkcube.exe (in the Bin folder) in the SDK folder, this will test if vulkan was properly installed
+## Compiling:
+Clone the repo and run 'git submodule --init --recursive' to get the submodules
 
-Download and Setup CMAKE(v3.13 or greater): https://cmake.org/download/
+Make sure you have [CMake](https://cmake.org/download/) and the [Vulkan SDK](https://vulkan.lunarg.com/sdk/home#windows) downloaded and installed.

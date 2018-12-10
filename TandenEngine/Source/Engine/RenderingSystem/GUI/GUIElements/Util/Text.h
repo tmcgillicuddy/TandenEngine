@@ -5,12 +5,12 @@
 #ifndef TANDENENGINE_TEXT_H
 #define TANDENENGINE_TEXT_H
 
-#include "GUIElement.h"
+#include "../GUIElement.h"
 
 namespace TandenEngine {
     namespace GUI {
 
-        class Text : GUIElement {
+        class Text : public GUIElement {
         private:
             std::string text = "";
         public:

@@ -4,18 +4,7 @@
 
 #include <iostream>
 #include "Engine.h"
-#include "Entity/Components/Rendering/MeshRenderer.h"
-#include "Entity/Components/Transform.h"
-#include "Entity/Components/Physics/BoxCollider.h"
-//Vulkan Test
-#define GLFW_INCLUDE_VULKAN
-#include "../../Libraries/GLFW/include/GLFW/glfw3.h"
-
-#define GLM_FORCE_RADIANS
-#define GLM_FORCE_DEPTH_ZERO_TO_ONE
-#include "../../Libraries/GLM/glm/vec4.hpp"
-#include "../../Libraries/GLM/glm/mat4x4.hpp"
-
+#include "Entity/Components/ComponentHeader.h"
 
 
 namespace TandenEngine {
@@ -32,30 +21,40 @@ namespace TandenEngine {
         else
             std::cout<<"Error Loading Project Start Engine\n";
 
+
         RenderingSystem::InitSystem();
 
         //ADD TEST DATA TODO REMOVE THESE
         auto *newScene = new Scene(); //TODO remove these tests
-        auto *testGO = newScene->CreateGameObject(); //TODO remove these tests
-        auto *testGO1 = newScene->CreateGameObject(); //TODO remove these tests
+        auto *testGO = newScene->CreateGameObject(); //TODO remove these tests'
+        //auto *testGO1 = newScene->CreateGameObject(); //TODO remove these tests
         auto *testGO2 = newScene->CreateGameObject(); //TODO remove these tests
+
         testGO->AddComponent<MeshRenderer>(); //TODO remove these tests
+        //testGO->AddComponent<SphereCollider>(); //TODO remove these tests
+        //std::cout << "Made Sphere" << std::endl;
         testGO->AddComponent<SphereCollider>(); //TODO remove these tests
-        std::cout << "Made Sphere" << std::endl;
-        testGO1->AddComponent<BoxCollider>(); //TODO remove these tests
-        std::cout << "Made Box 1" << std::endl;
+        testGO->GetComponent<SphereCollider>()->mTransform->position = Vector3(0.0, 0.0, 0.0);
+        testGO->AddComponent<RigidBody>();
+        testGO->SetName("Sphere1");
+        //testGO1->AddComponent<SphereCollider>(); //TODO remove these tests
+        //testGO1->GetComponent<SphereCollider>()->mTransform->position = Vector3(1.0, 0.0, 0.0);
+        //testGO1->SetName("Sphere2");
         testGO2->AddComponent<BoxCollider>(); //TODO remove these tests
-        std::cout << "Made Box 2" << std::endl;
+        testGO2->GetComponent<BoxCollider>()->mTransform->position = Vector3(0.0, 0.0, 0.0);
+        testGO2->SetName("Box1");
         mLoadedScenes.emplace_back(newScene); //TODO remove these tests
 
-        std::cout<<"Start Main\n";
+        auto *testPrefab = new Prefab();
+        testPrefab->CreatePrefab(testGO);
+        testPrefab->SavePrefab();
 
+        std::cout<<"Start Main\n";
     }
 
     void Engine::RunEngine() {
-
         while (!exitStatus) {
-            std::cout << "Running Loop \n";
+            //std::cout << "Running Loop \n";
             //Get input
             Input::GetInput();
 
@@ -82,8 +81,7 @@ namespace TandenEngine {
     void Engine::StopEngine() {
         std::cout << "Closing Engine\n";
 
-        RenderingSystem::Cleanup();
-
+        //RenderingSystem::Cleanup();
     }
 
     Engine::Engine() {

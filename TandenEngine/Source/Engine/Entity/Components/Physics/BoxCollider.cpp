@@ -9,14 +9,22 @@
 namespace  TandenEngine {
 
     BoxCollider::BoxCollider() {
+        std::cout << "Making Box Collider\n";
         mType = ComponentType::BOXCOLLIDER;
+    }
+
+    BoxCollider::BoxCollider( Vector3 position, Vector3 rotation, Vector3 scale) {
+        mType = ComponentType::BOXCOLLIDER;
+        mLocalPosition = position, mLocalRotation = rotation, mScale = scale;
+        mGlobalPosition = mTransform->position + position;
+        mGlobalRotation = mTransform->rotation + rotation;
     }
 
     BoxCollider::~BoxCollider() {
     }
 
     void BoxCollider::Update() {
-        std::cout << "Updating Box Collider\n";
+        //std::cout << "Updating Box Collider\n";
     }
 
     std::string BoxCollider::ToString() {
@@ -25,13 +33,11 @@ namespace  TandenEngine {
         return data;
     }
 
-    std::unique_ptr<Component> BoxCollider::Clone() {
-        return std::unique_ptr<BoxCollider>(this);
+    Component *BoxCollider::ConvertFromString(std::vector<std::string>) {
+        return NULL;
     }
 
-    Component *BoxCollider::ConvertFromString(std::vector<std::string> input) {
-        BoxCollider * newComp = new BoxCollider();
-
-        return newComp;
+    std::unique_ptr<Component> BoxCollider::Clone() {
+        return std::unique_ptr<BoxCollider>(this);
     }
 }

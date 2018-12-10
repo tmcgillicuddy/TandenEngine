@@ -2,8 +2,8 @@
 // Created by thomas.mcgillicuddy on 10/21/2018.
 //
 
-#ifndef HWENGINE_GAMEOBJECT_H
-#define HWENGINE_GAMEOBJECT_H
+#ifndef TANDENENGINE_GAMEOBJECT_H
+#define TANDENENGINE_GAMEOBJECT_H
 
 //STD Classes
 #include <vector>
@@ -65,8 +65,11 @@ namespace TandenEngine {
         void GenerateFromData(std::vector<std::string> data);
 
         void SelectComponenet(ComponentType type, std::vector<std::string> data);
+
+        std::string GetName() {return mName;}
+        void SetName(std::string newName){mName = newName;};
     };
 
 }
 
-#endif //HWENGINE_GAMEOBJECT_H
+#endif //TANDENENGINE_GAMEOBJECT_H

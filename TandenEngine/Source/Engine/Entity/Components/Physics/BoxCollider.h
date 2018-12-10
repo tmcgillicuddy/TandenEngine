@@ -15,20 +15,13 @@ namespace TandenEngine {
             BoxCollider();
             ~BoxCollider();
 
-            BoxCollider( Vector3 position, Vector3 rotation, Vector3 size) {
-                mPosition = position, mRotation = rotation, mSize = size;
-            }
+            BoxCollider(Vector3 position, Vector3 rotation, Vector3 scale);
 
+            //Component Overrides
             void Update() override;
-
-            Vector3 mPosition;
-            Vector3 mRotation;
-            Vector3 mSize = Vector3(1.0, 1.0, 1.0);
-
             std::unique_ptr<Component> Clone() override;
-
             std::string ToString() override;
-            Component * ConvertFromString(std::vector<std::string>) override; //Takes in some string data and will output a BoxCollider object
+            Component * ConvertFromString(std::vector<std::string> input) override;//Takes in some string data and will output a BoxCollider object
     };
 
 }

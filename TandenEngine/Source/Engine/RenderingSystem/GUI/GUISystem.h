@@ -9,7 +9,7 @@
 
 #include "imgui.h"
 #include "imgui_internal.h"
-#include "GUIElements/GUIElement.h"
+#include "GUIElements/GUIHeader.h"
 
 namespace TandenEngine {
     namespace GUI {

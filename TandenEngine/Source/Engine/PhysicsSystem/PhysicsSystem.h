@@ -23,11 +23,14 @@ namespace TandenEngine {
 
         static void CollisionUpdate();
 
+        static void BoxBoxCollision(Collider * colA, Collider * colB);
+        static void SphereSphereCollision(Collider * colA, Collider * colB);
+        static void BoxSphereCollision(Collider * colA, Collider * colB);
+
+
         static void RegisterPhysicsObject(PhysicsComponent * newObject);
         static void RegisterColliderObject(Collider * newObject);
     };
-
-
 }
 
 #endif //TANDENENGINE_PHYSICSSYSTEM_H

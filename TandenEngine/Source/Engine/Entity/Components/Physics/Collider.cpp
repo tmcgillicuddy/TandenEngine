@@ -10,7 +10,6 @@
 namespace TandenEngine {
 
     Collider::Collider() {
-        std::cout <<"Collider";
     }
 
     void Collider::Register() {

@@ -6,7 +6,7 @@
 #define TANDENENGINE_COLLIDER_H
 
 #include "../Component.h"
-#include "Vector3.h"
+#include "Vectors/Vector3.h"
 #include <iostream>
 #include "../Transform.h"
 
@@ -21,14 +21,16 @@ namespace TandenEngine {
             Collider();
             ~Collider() {};
 
-            virtual void Update() {};
+            Vector3 mLocalPosition;
+            Vector3 mGlobalPosition;
+            Vector3 mLocalRotation;
+            Vector3 mGlobalRotation;
+            Vector3 mScale = Vector3(1.0, 1.0, 1.0);
 
+
+        //Component Overrides
             void Register() override;
-
-            std::string ToString() override {return std::string();};
-            Component * ConvertFromString(std::vector<std::string>) override { return NULL;}; //Takes in some string data and will output a Collider object
     };
-
 }
 
 
