@@ -1,11 +1,14 @@
 # Tanden Engine
 
 [![Build](https://ci.appveyor.com/api/projects/status/32r7s2skrgm9ubva?svg=true)](https://ci.appveyor.com/project/tmcgillicuddy/TandenEngine)
-[![Style Guide](https://www.codefactor.io/repository/github/signalr/signalr/badge?style=flat-square)](https://www.codefactor.io/repository/github/tmcgillicuddy/tandenengine)
+[![Style Guide](https://www.codefactor.io/repository/github/signalr/signalr/badge?style=plastic)](https://www.codefactor.io/repository/github/tmcgillicuddy/tandenengine)
+
+## Features
+Current Features Supported:
+ * WIP
 
 ## Dependecies
-
-Tanden Engine uses the following libraries:
+Tanden Engine uses these libraries:
 
  * [Vulkan](https://www.khronos.org/vulkan) - Vulkan interface
  * [GLFW](https://github.com/glfw/glfw) - Window creation
