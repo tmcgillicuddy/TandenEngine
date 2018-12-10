@@ -21,7 +21,8 @@ namespace TandenEngine {
     }
 
     std::string RigidBody::ToString() {
-        return "";
+        std::string data = Component::ToString(); //Call the base to string function
+        return data;
     }
 
     Component *RigidBody::ConvertFromString(std::vector<std::string> input) {
