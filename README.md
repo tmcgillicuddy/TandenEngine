@@ -1,6 +1,6 @@
 # Tanden Engine
 
-![](https://github.com/tmcgillicuddy/TandenEngine/blob/feature/Documentation/Documents/TandenLogo_1.png | width=100)
+<img src="https://github.com/tmcgillicuddy/TandenEngine/blob/feature/Documentation/Documents/TandenLogo_1.png" width="200" />
 
 [![Build](https://ci.appveyor.com/api/projects/status/32r7s2skrgm9ubva?svg=true)](https://ci.appveyor.com/project/tmcgillicuddy/TandenEngine)
 [![Style Guide](https://www.codefactor.io/repository/github/signalr/signalr/badge?style=plastic)](https://www.codefactor.io/repository/github/tmcgillicuddy/tandenengine)
