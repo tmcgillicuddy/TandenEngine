@@ -3,6 +3,8 @@
 //
 
 #include "RigidBody.h"
+#include "../Transform.h"
+#include "../../../../Core/Timer/Timer.h"
 
 namespace TandenEngine {
 
@@ -10,6 +12,8 @@ namespace TandenEngine {
     }
 
     void RigidBody::Update() {
+        mTransform->position.x = sin(Timer::mCurrentTime) * 10;
+        //std::cout<<mTransform->position;
     }
 
     std::unique_ptr<Component> RigidBody::Clone() {
