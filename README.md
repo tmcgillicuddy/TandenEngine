@@ -1,6 +1,7 @@
 # Tanden Engine
 
-[![CodeFactor](https://www.codefactor.io/repository/github/signalr/signalr/badge?style=flat-square)](https://www.codefactor.io/repository/github/tmcgillicuddy/tandenengine)
+[![Build](https://ci.appveyor.com/api/projects/status/32r7s2skrgm9ubva?svg=true)](https://ci.appveyor.com/project/tmcgillicuddy/TandenEngine)
+[![Style Guide](https://www.codefactor.io/repository/github/signalr/signalr/badge?style=flat-square)](https://www.codefactor.io/repository/github/tmcgillicuddy/tandenengine)
 
 ## Dependecies
 
