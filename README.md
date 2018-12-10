@@ -1,5 +1,7 @@
 # Tanden Engine
 
+[![CodeFactor](https://www.codefactor.io/repository/github/signalr/signalr/badge?style=plastic)](https://www.codefactor.io/repository/github/tmcgillicuddy/tandenengine)
+
 ##Submodules:
 
 *Git feature for managing 3rd party libraries*
