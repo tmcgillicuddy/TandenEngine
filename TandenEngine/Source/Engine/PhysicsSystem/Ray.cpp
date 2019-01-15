@@ -10,7 +10,7 @@ namespace TandenEngine
 
     }
 
-    Ray::Ray(const Vector3 &origin, const Vector3 &dir, float tMax, float time, const Medium *medium) {
-
-    }
+    //Ray::Ray(const Vector3 &origin, const Vector3 &dir, float tMax, float time, const Medium *medium) {
+//
+    //}
 }
