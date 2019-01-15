@@ -9,9 +9,7 @@ namespace TandenEngine {
 
     class Medium {
     public:
-
       //  virtual Spectrum Tr(const Ray &ray, Sampler &sampler) const =0;
-
     };
 
     struct MediumInterface {
