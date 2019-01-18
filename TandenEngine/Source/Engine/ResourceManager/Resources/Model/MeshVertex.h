@@ -10,11 +10,16 @@
 namespace TandenEngine {
 
     class MeshVertex {
-    private:
+    public:
         Vector3 mPos;
         Vector2 mUV;
         Vector3 mNormal;
         Vector3 mTangent;
+        Vector3 mColor;
+
+        bool operator==(const MeshVertex& other) const {
+            return mPos == other.mPos && mColor == other.mColor && mUV == other.mUV;
+        }
     };
 
 }

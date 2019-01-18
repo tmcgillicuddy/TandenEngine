@@ -4,6 +4,7 @@
 
 #include "Model.h"
 
+#include <unordered_map>
 #include <tiny_obj_loader.h>
 
 namespace TandenEngine {
@@ -32,23 +33,31 @@ namespace TandenEngine {
             throw std::runtime_error(warn + err);
         }
 
+        std::unordered_map<MeshVertex, uint32_t> uniqueVertices = {};
+
         //Iterate through all shapes and add their vertex data to main vector
         for (const auto& shape : shapes) {
             for(const auto& index : shape.mesh.indices) {
                 MeshVertex vertex = {};
-                vertex.mPos = new Vector3(
+                vertex.mPos = Vector3(
                         attrib.vertices[3*index.vertex_index +0],
                         attrib.vertices[3*index.vertex_index +1],
                         attrib.vertices[3*index.vertex_index +2]
                         );
 
-                vertex.mUV = new Vector2(
+                vertex.mUV = Vector2(
                         attrib.texcoords[2*index.texcoord_index +0],
-                        attrib.texcoords[2*index.texcoord_index +1],
+                        1.0f - attrib.texcoords[2*index.texcoord_index +1]
                 );
 
-                vertex.mColor = new Vector3(1,1,1);
-                verticies.push_back(vertex);
+                vertex.mColor = Vector3(1,1,1);
+
+                if(uniqueVertices.count(vertex) == 0) //If this is a unique vertex add to verticies vector
+                {
+                    uniqueVertices[vertex] = static_cast<uint32_t>(verticies.size());
+                    verticies.push_back(vertex);
+                }
+
                 indices.push_back(indices.size());
             }
         }
