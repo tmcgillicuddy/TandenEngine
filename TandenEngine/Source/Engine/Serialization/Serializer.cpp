@@ -249,7 +249,7 @@ namespace TandenEngine {
                     }
                 }
 
-                if(!isCovered)
+                if(!isCovered) //If this file doesn't have associated meta data
                 {
                     std::string extension = p.path().extension().string(); //Gets the file's extension
                     ResourceType resourceType = ResourceManager::CheckExtensionSupported(extension);

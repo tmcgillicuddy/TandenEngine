@@ -12,7 +12,12 @@ namespace TandenEngine {
     class Image : public Resource {
     public:
         Image();
+        Image(MetaData * inputMeta);
+
         static bool CheckIfSupported(std::string extension);
+
+    private:
+        void createTextureImage();
     };
 
 }

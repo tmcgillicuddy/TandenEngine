@@ -34,7 +34,7 @@ namespace TandenEngine {
                 break;
             case ResourceType::IMAGE:
                 std::cout<<"Creating Image\n";
-                newResource = new Image();
+                newResource = new Image(metaData);
                 break;
             case ResourceType::SHADER:
                 std::cout<<"Creating Shader\n";
@@ -133,6 +133,16 @@ namespace TandenEngine {
         newData->mFileType = type;
         newData->mFileDir = Serializer::mProjectDir +"/Assets/"+ path;
 
-        Serializer::WriteStringToAssetFolder(fileName + ".meta", newData->ConvertToString());
+        Serializer::WriteStringToAssetFolder(fileName + ".meta", newData->ConvertToString()); //Save the meta data file
+
+        //Test generate resource from meta data
+        Resource * newResouce = GenerateResourceFromMetaData(newData);
+        if(newResouce != nullptr) {
+            //Add meta data to resource manager to track
+            AddMetaData(newData);
+        } else
+        {
+            std::cout<<"Couldn't generate resource from meta data: " << fileName << std::endl;
+        }
     }
 }
