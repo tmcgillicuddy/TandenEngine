@@ -6,7 +6,11 @@
 
 namespace TandenEngine {
 
-    Model::Model():Resource(DataType::MODEL) {
+    Model::Model() {
+        mResourceType = ResourceType::MODEL;
+    }
 
+    bool Model::CheckIfSupported(std::string extension) {
+        return (extension == ".fbx" || extension == ".obj");
     }
 }

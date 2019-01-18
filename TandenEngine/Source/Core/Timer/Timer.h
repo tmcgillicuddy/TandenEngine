@@ -8,14 +8,17 @@
 #include <ctime>
 #include <cstdlib>
 
-class Timer {
-private:
-    static constexpr double FRAMETIME = 0.0166;
+namespace TandenEngine {
 
-public:
-    static void WaitForFrameTime();
+    class Timer {
+    private:
+        static constexpr double FRAMETIME = 0.0166;
 
-};
+    public:
+        static float mCurrentTime;
 
+        static void WaitForFrameTime();
+    };
 
+}
 #endif //HWENGINE_TIMER_H

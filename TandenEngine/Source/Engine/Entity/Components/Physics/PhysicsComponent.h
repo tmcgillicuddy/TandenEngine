@@ -5,7 +5,7 @@
 #ifndef TANDENENGINE_PHYSICSCOMPONENT_H
 #define TANDENENGINE_PHYSICSCOMPONENT_H
 
-#include "Component.h"
+#include "../Component.h"
 
 namespace  TandenEngine {
 
@@ -13,6 +13,7 @@ namespace  TandenEngine {
         friend class PhysicsSystem;
         virtual void PhysicsUpdate() {};
     public:
+        //Componenet Override
         void Register() override;
     };
 

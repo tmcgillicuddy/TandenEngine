@@ -4,15 +4,17 @@
 
 #include <iostream>
 #include "Engine.h"
-#include "Entity/Components/MeshRenderer.h"
-#include "Entity/Components/Transform.h"
+#include "Entity/Components/ComponentHeader.h"
+
 
 namespace TandenEngine {
 
     void Engine::StartEngine() {
         std::cout<< "Please specify Project File directory: ";
         std::cin >> mProjectDirectory;
+
         mProjectSettings = Serializer::LoadProject(mProjectDirectory);
+        ResourceManager::ImportAssetsFolder();
 
         if(mProjectSettings != nullptr)
             mProjectSettings->PrintProjectInfo(); //Display the info to make sure it's correct
@@ -20,22 +22,39 @@ namespace TandenEngine {
             std::cout<<"Error Loading Project Start Engine\n";
 
 
+        RenderingSystem::InitSystem();
+
         //ADD TEST DATA TODO REMOVE THESE
         auto *newScene = new Scene(); //TODO remove these tests
-        auto *testGO = newScene->CreateGameObject(); //TODO remove these tests
+        auto *testGO = newScene->CreateGameObject(); //TODO remove these tests'
+        //auto *testGO1 = newScene->CreateGameObject(); //TODO remove these tests
+        auto *testGO2 = newScene->CreateGameObject(); //TODO remove these tests
+
         testGO->AddComponent<MeshRenderer>(); //TODO remove these tests
+        //testGO->AddComponent<SphereCollider>(); //TODO remove these tests
+        //std::cout << "Made Sphere" << std::endl;
+        testGO->AddComponent<SphereCollider>(); //TODO remove these tests
+        testGO->GetComponent<SphereCollider>()->mTransform->position = Vector3(0.0, 0.0, 0.0);
+        testGO->AddComponent<RigidBody>();
+        testGO->SetName("Sphere1");
+        //testGO1->AddComponent<SphereCollider>(); //TODO remove these tests
+        //testGO1->GetComponent<SphereCollider>()->mTransform->position = Vector3(1.0, 0.0, 0.0);
+        //testGO1->SetName("Sphere2");
+        testGO2->AddComponent<BoxCollider>(); //TODO remove these tests
+        testGO2->GetComponent<BoxCollider>()->mTransform->position = Vector3(0.0, 0.0, 0.0);
+        testGO2->SetName("Box1");
         mLoadedScenes.emplace_back(newScene); //TODO remove these tests
+
+        auto *testPrefab = new Prefab();
+        testPrefab->CreatePrefab(testGO);
+        testPrefab->SavePrefab();
+
         std::cout<<"Start Main\n";
-
-        mProjectSettings->AddResource(newScene);
-
-        system("pause");
     }
 
     void Engine::RunEngine() {
-
         while (!exitStatus) {
-            std::cout << "Running Loop \n";
+            //std::cout << "Running Loop \n";
             //Get input
             Input::GetInput();
 
@@ -61,7 +80,8 @@ namespace TandenEngine {
 
     void Engine::StopEngine() {
         std::cout << "Closing Engine\n";
-        Serializer::SaveProjectResources(mProjectSettings);
+
+        //RenderingSystem::Cleanup();
     }
 
     Engine::Engine() {

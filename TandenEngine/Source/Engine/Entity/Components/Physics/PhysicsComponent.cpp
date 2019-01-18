@@ -3,12 +3,11 @@
 //
 
 #include "PhysicsComponent.h"
-#include "../../PhysicsSystem/PhysicsSystem.h"
+#include "../../../PhysicsSystem/PhysicsSystem.h"
 
 namespace  TandenEngine {
 
     void PhysicsComponent::Register() {
         PhysicsSystem::RegisterPhysicsObject(this);
     }
-
 }

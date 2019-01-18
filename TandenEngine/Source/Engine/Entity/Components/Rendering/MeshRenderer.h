@@ -2,8 +2,8 @@
 // Created by thomas.mcgillicuddy on 10/31/2018.
 //
 
-#ifndef HWENGINE_MESHRENDERER_H
-#define HWENGINE_MESHRENDERER_H
+#ifndef TANDENENGINE_MESHRENDERER_H
+#define TANDENENGINE_MESHRENDERER_H
 
 #include "Renderer.h"
 #include "MeshFilter.h"
@@ -18,10 +18,16 @@ namespace TandenEngine {
 
         void Draw() override;
 
+        std::string ToString() override;
+
+        std::unique_ptr<Component> Clone() override;
+
+        Component * ConvertFromString(std::vector<std::string> input) override; //Takes in some string data and will output a Mesh Renderer object
+
     private:
         MeshFilter *mpMesh{}; //Pointer to mesh component to draw (must be on the same gameobject)
     };
 
 }
 
-#endif //HWENGINE_MESHRENDERER_H
+#endif //TANDENENGINE_MESHRENDERER_H

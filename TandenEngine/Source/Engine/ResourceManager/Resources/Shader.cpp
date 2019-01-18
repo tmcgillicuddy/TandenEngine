@@ -3,7 +3,13 @@
 //
 
 #include "Shader.h"
+namespace TandenEngine {
 
-TandenEngine::Shader::Shader(): Resource(DataType::SHADER) {
+    Shader::Shader(){
+        mResourceType = ResourceType::SHADER;
+    }
 
+    bool Shader::CheckIfSupported(std::string extension) {
+        return (extension == ".glsl" || extension == ".fs" || extension == ".vs" || extension == ".gs");
+    }
 }

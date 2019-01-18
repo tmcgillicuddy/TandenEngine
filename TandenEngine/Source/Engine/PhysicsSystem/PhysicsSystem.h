@@ -7,19 +7,30 @@
 
 #include <vector>
 
-#include "../Entity/Components/PhysicsComponent.h"
+#include "../Entity/Components/Physics/PhysicsComponent.h"
+#include "../Entity/Components/Physics/Collider.h"
+#include "../Entity/Components/Physics/BoxCollider.h"
+#include "../Entity/Components/Physics/SphereCollider.h"
 
 namespace TandenEngine {
 
     class PhysicsSystem {
         static std::vector<PhysicsComponent *> mPhysicsObjects;
+        static std::vector<Collider *> mColliders;
 
     public:
         static void PhysicsUpdate();
 
-        static void RegisterPhysicsObject(PhysicsComponent * newObject);
-    };
+        static void CollisionUpdate();
 
+        static void BoxBoxCollision(Collider * colA, Collider * colB);
+        static void SphereSphereCollision(Collider * colA, Collider * colB);
+        static void BoxSphereCollision(Collider * colA, Collider * colB);
+
+
+        static void RegisterPhysicsObject(PhysicsComponent * newObject);
+        static void RegisterColliderObject(Collider * newObject);
+    };
 }
 
 #endif //TANDENENGINE_PHYSICSSYSTEM_H

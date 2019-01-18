@@ -6,4 +6,7 @@
 
 namespace TandenEngine {
 
+    Component *MeshFilter::ConvertFromString(std::vector<std::string> input) {
+        return NULL;
+    }
 }

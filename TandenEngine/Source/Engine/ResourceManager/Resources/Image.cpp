@@ -3,7 +3,13 @@
 //
 
 #include "Image.h"
+namespace TandenEngine {
 
-TandenEngine::Image::Image(): Resource(DataType::IMAGE) {
+    Image::Image() {
+        mResourceType = ResourceType::IMAGE;
+    }
 
+    bool Image::CheckIfSupported(std::string extension) {
+        return (extension == ".jpg" || extension == ".png");
+    }
 }

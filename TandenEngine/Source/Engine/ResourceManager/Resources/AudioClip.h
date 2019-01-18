@@ -12,6 +12,7 @@ namespace TandenEngine {
     class AudioClip : public Resource {
     public:
         AudioClip();
+        static bool CheckIfSupported(std::string extension);
     };
 
 }

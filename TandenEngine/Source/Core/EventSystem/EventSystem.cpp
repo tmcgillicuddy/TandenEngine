@@ -10,7 +10,6 @@ namespace TandenEngine {
     std::vector<EventListener *> EventSystem::mListeners;
 
     EventSystem::EventSystem() {
-
     }
 
     bool EventSystem::RegisterListener(EventListener *newListener) {
@@ -23,7 +22,7 @@ namespace TandenEngine {
     }
 
     void EventSystem::ProcessEvents() {
-        std::cout << "Going through events\n";
+        //std::cout << "Going through events\n";
 
         Event *thisEvent = nullptr;
         while (!mEvents.empty()) {

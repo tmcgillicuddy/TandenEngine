@@ -12,6 +12,7 @@ namespace TandenEngine {
     class Shader : public Resource{
     public:
         Shader();
+        static bool CheckIfSupported(std::string extension);
     };
 
 }
