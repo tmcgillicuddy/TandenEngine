@@ -20,6 +20,17 @@ namespace TandenEngine {
         bool operator==(const MeshVertex& other) const {
             return mPos == other.mPos && mColor == other.mColor && mUV == other.mUV;
         }
+
+        //Custom hashing function
+        //namespace std {
+        //    template<> class ::std::hash<TandenEngine::MeshVertex> {
+        //        size_t operator()(TandenEngine::MeshVertex const& vertex) const {
+        //            return ((hash<TandenEngine::Vector3>()(vertex.mPos) ^
+        //                    (hash<TandenEngine::Vector3>()(vertex.mColor) << 1)) >> 1)^
+        //                    (hash<TandenEngine::Vector2>()(vertex.mUV) << 1);
+        //        }
+        //    };
+        //}
     };
 
 }
