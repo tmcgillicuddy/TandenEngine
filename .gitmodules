@@ -13,7 +13,9 @@
 [submodule "TandenEngine/Libraries/imgui"]
 	path = TandenEngine/Libraries/imgui
 	url = https://github.com/ocornut/imgui
-
 [submodule "TandenEngine/Libraries/stb"]
 	path = TandenEngine/Libraries/stb
 	url = https://github.com/nothings/stb.git
+[submodule "TandenEngine/Libraries/tinyobjloader"]
+	path = TandenEngine/Libraries/tinyobjloader
+	url = https://github.com/syoyo/tinyobjloader
