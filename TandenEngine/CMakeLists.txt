@@ -40,3 +40,7 @@ find_package(Vulkan REQUIRED)
 #Link the SDK using GLFW's macros
 target_link_libraries(TandenEngine ${VULKAN_LIBRARY})
 
+#Link tinyobj library
+include_directories(Libraries/tinyobjloader)
+add_subdirectory(Libraries/tinyobjloader)
+target_link_libraries(TandenEngine tinyobjloader)
