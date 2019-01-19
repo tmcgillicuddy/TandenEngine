@@ -3,6 +3,7 @@
 //
 
 #include "Shader.h"
+#include "../../RenderingSystem/RenderingSystem.h"
 namespace TandenEngine {
 
     Shader::Shader(){
@@ -40,7 +41,7 @@ namespace TandenEngine {
         createInfo.pCode = reinterpret_cast<const uint32_t*>(code.data());
 
         VkShaderModule shaderModule;
-        if (vkCreateShaderModule(logicalDevice, &createInfo, nullptr, &shaderModule) != VK_SUCCESS) { //TODO get logical device from rendering system
+        if (vkCreateShaderModule(RenderingSystem::GetVulkanInfo()->logicalDevice, &createInfo, nullptr, &shaderModule) != VK_SUCCESS) { //TODO get logical device from rendering system
             throw std::runtime_error("failed to create shader module!");
         }
 
