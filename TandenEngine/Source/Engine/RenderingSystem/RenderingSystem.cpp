@@ -73,6 +73,8 @@ namespace TandenEngine {
 
     void RenderingSystem::Cleanup() {
         //Bring it on! I'll destroy you all!
+
+        //TODO move vulkan specific clean up to vulkaninfo class
         vkDestroySemaphore(mVulkanInfo.logicalDevice, mVulkanInfo.renderFinishedSemaphore, nullptr);
         vkDestroySemaphore(mVulkanInfo.logicalDevice, mVulkanInfo.imageAvailableSemaphore, nullptr);
 

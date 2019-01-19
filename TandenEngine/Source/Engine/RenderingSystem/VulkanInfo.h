@@ -40,7 +40,7 @@ namespace TandenEngine {
 
     struct VulkanInfo
     {
-        //TODO make pointers to allow initilization without allocation
+        //TODO make pointers to allow initialization without allocation
         VkInstance VulkanInstance;                   //vulkan instance
         VkPhysicalDevice physicalDevice;             //our graphics card
         VkDevice logicalDevice;                      //logical interface with graphics card
