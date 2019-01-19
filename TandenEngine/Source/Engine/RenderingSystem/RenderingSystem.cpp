@@ -421,7 +421,7 @@ namespace TandenEngine {
         }
     }
 
-    std::vector<char> RenderingSystem::ReadFile(const std::string& filename)
+    std::vector<char> RenderingSystem::ReadFile(const std::string& filename) //TODO get rid of this since the resource loader will handle it
     {
         std::ifstream file(filename, std::ios::ate | std::ios::binary);
 
@@ -442,7 +442,7 @@ namespace TandenEngine {
 
     }
 
-    void RenderingSystem::CreateGraphicsPipeline() {
+    void RenderingSystem::CreateGraphicsPipeline() { //TODO don't use
         //read files
         auto vsCode = ReadFile("../Source/Engine/RenderingSystem/Shaders/vert.spv"); //can also read directly from the TriangleShader.frag
         auto fsCode = ReadFile("../Source/Engine/RenderingSystem/Shaders/frag.spv");
