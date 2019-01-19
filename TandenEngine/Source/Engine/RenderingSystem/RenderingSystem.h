@@ -49,35 +49,41 @@ namespace TandenEngine {
             VK_KHR_SWAPCHAIN_EXTENSION_NAME
     };
 
+    struct VulkanInfo
+    {
+        //TODO make pointers to allow initilization without allocation
+        VkInstance VulkanInstance;                   //vulkan instance
+        VkPhysicalDevice physicalDevice;             //our graphics card
+        VkDevice logicalDevice;                      //logical interface with graphics card
+        VkQueue gfxQueue;                            //graphics queue for graphics events
+        VkSurfaceKHR WindowSurface;                  //surface of window
+        VkQueue presentationQueue;
+        VkSwapchainKHR swapChain;                    //the infamous SWAP CHAIN
+        VkFormat swapChainImageFormat;
+        std::vector<VkImage> swapChainImages;
+        std::vector<VkImageView> swapChainImageViews;
+        VkExtent2D swapChainExtent;
+        VkPipelineLayout pipelineLayout;
+        VkRenderPass renderPass;
+        VkPipeline graphicsPipeline;
+        std::vector<VkFramebuffer> swapChainFramebuffers;
+        VkCommandPool commandPool;
+        std::vector<VkCommandBuffer> commandBuffers;
+        VkSemaphore imageAvailableSemaphore;
+        VkSemaphore renderFinishedSemaphore;
 
+        //TODO Move vulkan init function headers here
+    };
 
     class RenderingSystem {
     private:
-
-        static VkInstance VulkanInstance;                   //vulkan instance
-        static VkPhysicalDevice physicalDevice;             //our graphics card
-        static VkDevice logicalDevice;                      //logical interface with graphics card
-        static VkQueue gfxQueue;                            //graphics queue for graphics events
-        static VkSurfaceKHR WindowSurface;                  //surface of window
-        static VkQueue presentationQueue;
-        static VkSwapchainKHR swapChain;                    //the infamous SWAP CHAIN
-        static VkFormat swapChainImageFormat;
-        static std::vector<VkImage> swapChainImages;
-        static std::vector<VkImageView> swapChainImageViews;
-        static VkExtent2D swapChainExtent;
-        static VkPipelineLayout pipelineLayout;
-        static VkRenderPass renderPass;
-        static VkPipeline graphicsPipeline;
-        static std::vector<VkFramebuffer> swapChainFramebuffers;
-        static VkCommandPool commandPool;
-        static std::vector<VkCommandBuffer> commandBuffers;
-        static VkSemaphore imageAvailableSemaphore;
-        static VkSemaphore renderFinishedSemaphore;
+        static VulkanInfo mVulkanInfo; //Wrapper for all vulkan specific varibles
 
         static std::vector<Renderer *> mRenderers;          //vector of renderers
         static Window* testWindow;                          //window instance (just one for now)
 
-
+        //Accessor
+        static const VulkanInfo * GetVulkanInfo();
         //init
         static void InitGLFW();
         static void InitVulkan();
