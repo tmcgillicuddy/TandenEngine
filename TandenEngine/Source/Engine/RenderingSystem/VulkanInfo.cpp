@@ -24,7 +24,6 @@ namespace TandenEngine {
 
     void VulkanInfo::InitVKInstance()
     {
-
         //create instance
         VkApplicationInfo appInfo = {};
         appInfo.sType = VK_STRUCTURE_TYPE_APPLICATION_INFO;
@@ -639,10 +638,6 @@ namespace TandenEngine {
                 throw std::runtime_error("failed to record command buffer!");
             }
         }
-
-
-
-
     }
 
     void VulkanInfo::CreateSemaphores() {
@@ -655,9 +650,6 @@ namespace TandenEngine {
             vkCreateSemaphore(logicalDevice, &semaphoreInfo, nullptr, &renderFinishedSemaphore) != VK_SUCCESS) {
             throw std::runtime_error("failed to create semaphores!");
         }
-
-
-
     }
 
     void RenderingSystem::DrawWindow() {
@@ -784,7 +776,6 @@ namespace TandenEngine {
         //set dependencies in render pass
         renderPassInfo.dependencyCount = 1;
         renderPassInfo.pDependencies = &dependency;
-
     }
 
     void VulkanInfo::InitWindowSurface() {
@@ -809,5 +800,4 @@ namespace TandenEngine {
 
         return indices.isComplete() && extensionsSupported && swapChainAdequate;
     }
-
 }
