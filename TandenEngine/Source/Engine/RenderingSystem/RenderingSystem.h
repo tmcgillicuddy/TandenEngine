@@ -73,6 +73,34 @@ namespace TandenEngine {
         VkSemaphore renderFinishedSemaphore;
 
         //TODO Move vulkan init function headers here
+        void InitVulkan();
+
+    private:
+        void InitVKInstance();                                                                //creating instance
+
+        void SelectPhysicalDevice();                                                          //polling and selecting a graphics card to use
+        bool SuitableDevice(VkPhysicalDevice targetDevice);                                   //checking if a graphics card is suitable
+        QueueFamilyIndices FindQueueFamilies(VkPhysicalDevice targetDevice);                  //checking queue families of graphics card so VK can send events through it
+        bool CheckDeviceExtSupport(VkPhysicalDevice targetDevice);                            //check if device has all required extensions from vector of listed requirements
+        void InitWindowSurface();                                                             //creating surface for window instance
+        void InitLogicalDevice();                                                             //initialize logical device to interact with graphics card
+
+        SwapChainSupportDetails PollSwapChainSupport(VkPhysicalDevice targetDevice);    //poll device for its swapchain properties
+        VkSurfaceFormatKHR ChooseSwapSurfaceFormat(const std::vector<VkSurfaceFormatKHR>& availableFormats);
+        VkPresentModeKHR ChooseSwapPresentMode(const std::vector<VkPresentModeKHR> availablePresentModes);
+        VkExtent2D ChooseSwapExtent(const VkSurfaceCapabilitiesKHR& capabilities);
+        void CreateSwapChain();
+        void CreateImageViews();
+
+        void CreateGraphicsPipeline();
+        std::vector<char> ReadFile(const std::string& filename); //TODO Remove this
+        VkShaderModule CreateShaderModule(const std::vector<char>& code); //TODO remove this, Used in Shader resource
+
+        void CreateRenderPass();
+        void CreateFramebuffers();
+        void CreateCommandPool();
+        void CreateCommandBuffers();
+        void CreateSemaphores();         //used to synchronize when images are being presented
     };
 
     class RenderingSystem {
@@ -80,40 +108,12 @@ namespace TandenEngine {
         static VulkanInfo mVulkanInfo; //Wrapper for all vulkan specific varibles
 
         static std::vector<Renderer *> mRenderers;          //vector of renderers
-        static Window* testWindow;                          //window instance (just one for now)
+        static Window* mWindow;                          //window instance (just one for now)
 
-        //Accessor
-        static const VulkanInfo * GetVulkanInfo();
+
+
         //init
         static void InitGLFW();
-        static void InitVulkan();
-
-        //InitVulkan comprised of
-            static void InitVKInstance();                                                                //creating instance
-
-            static void SelectPhysicalDevice();                                                          //polling and selecting a graphics card to use
-            static bool SuitableDevice(VkPhysicalDevice targetDevice);                                   //checking if a graphics card is suitable
-            static QueueFamilyIndices FindQueueFamilies(VkPhysicalDevice targetDevice);                  //checking queue families of graphics card so VK can send events through it
-            static bool CheckDeviceExtSupport(VkPhysicalDevice targetDevice);                            //check if device has all required extensions from vector of listed requirements
-            static void InitWindowSurface();                                                             //creating surface for window instance
-            static void InitLogicalDevice();                                                             //initialize logical device to interact with graphics card
-
-            static SwapChainSupportDetails PollSwapChainSupport(VkPhysicalDevice targetDevice);    //poll device for its swapchain properties
-            static VkSurfaceFormatKHR ChooseSwapSurfaceFormat(const std::vector<VkSurfaceFormatKHR>& availableFormats);
-            static VkPresentModeKHR ChooseSwapPresentMode(const std::vector<VkPresentModeKHR> availablePresentModes);
-            static VkExtent2D RenderingSystem::ChooseSwapExtent(const VkSurfaceCapabilitiesKHR& capabilities);
-            static void CreateSwapChain();
-            static void CreateImageViews();
-
-            static void CreateGraphicsPipeline();
-            static std::vector<char> ReadFile(const std::string& filename);
-            static VkShaderModule CreateShaderModule(const std::vector<char>& code);
-
-            static void CreateRenderPass();
-            static void CreateFramebuffers();
-            static void CreateCommandPool();
-            static void CreateCommandBuffers();
-            static void CreateSemaphores();         //used to synchronize when images are being presented
 
         static void DrawWindow();
 
@@ -124,7 +124,9 @@ namespace TandenEngine {
         static void Draw();
 
         static void RegisterRenderer(Renderer *newRenderer);
-
+        //Accessor
+        static const VulkanInfo * GetVulkanInfo();
+        static Window * GetWindow();
 
         static void InitSystem();
 

@@ -10,74 +10,12 @@ namespace TandenEngine {
 
     std::vector<Renderer *> RenderingSystem::mRenderers;
 
-    Window* RenderingSystem::testWindow;
+    Window* RenderingSystem::mWindow;
 
     VulkanInfo RenderingSystem::mVulkanInfo;
 
-    //VkInstance                   RenderingSystem::VulkanInstance;
-    //VkPhysicalDevice             RenderingSystem::physicalDevice;
-    //VkDevice                     RenderingSystem::logicalDevice;
-    //VkQueue                      RenderingSystem::gfxQueue;
-    //VkSurfaceKHR                 RenderingSystem::WindowSurface;
-    //VkQueue                      RenderingSystem::presentationQueue;
-    //VkSwapchainKHR               RenderingSystem::swapChain;
-    //VkFormat                     RenderingSystem::swapChainImageFormat;
-    //std::vector<VkImage>         RenderingSystem::swapChainImages;
-    //std::vector<VkImageView>     RenderingSystem::swapChainImageViews;
-    //VkExtent2D                   RenderingSystem::swapChainExtent;
-    //VkPipelineLayout             RenderingSystem::pipelineLayout;
-    //VkRenderPass                 RenderingSystem::renderPass;
-    //VkPipeline                   RenderingSystem::graphicsPipeline;
-    //std::vector<VkFramebuffer>   RenderingSystem::swapChainFramebuffers;
-    //VkCommandPool                RenderingSystem::commandPool;
-    //std::vector<VkCommandBuffer> RenderingSystem::commandBuffers;
-    //VkSemaphore                  RenderingSystem::imageAvailableSemaphore;
-    //VkSemaphore                  RenderingSystem::renderFinishedSemaphore;
-
-    void RenderingSystem::Draw()
-    {
-        if (!glfwWindowShouldClose(testWindow->GetWindowRef())) {
-
-            //Draw gameobject renderers
-            for (const auto &rend : mRenderers) {
-                rend->Draw();
-            }
-
-            //Draw GUI Elements
-            GUI::GUISystem::DrawGUI();
-
-            PollWindowEvents();
-            DrawWindow();
-        }
-
-        //vkDeviceWaitIdle(logicalDevice);
-    }
-
-    void RenderingSystem::RegisterRenderer(Renderer *newRenderer)
-    {
-        mRenderers.emplace_back(newRenderer);
-    }
-
-    void RenderingSystem::InitSystem()
-    {
-        InitGLFW();
-        InitWindow(windowWidth, windowHeight, "eat my ass");
-        InitVulkan();
-
-        GUI::GUISystem::InitGUISystem();
-    }
-
-    void RenderingSystem::InitGLFW()
-    {
-
-        glfwInit();
-
-        glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
-        glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
-
-    }
-
-    void RenderingSystem::InitVulkan()
+    ////******VULKAN INFO FUNCTIONS******////
+    void VulkanInfo::InitVulkan()
     {
         InitVKInstance();
         InitWindowSurface();
@@ -93,7 +31,7 @@ namespace TandenEngine {
         CreateSemaphores();
     }
 
-    void RenderingSystem::InitVKInstance()
+    void VulkanInfo::InitVKInstance()
     {
 
         //create instance
@@ -119,43 +57,43 @@ namespace TandenEngine {
 
         createInfo.enabledLayerCount = 0;
 
-        VkResult result = vkCreateInstance(&createInfo, nullptr, &mVulkanInfo.VulkanInstance);
+        VkResult result = vkCreateInstance(&createInfo, nullptr, &VulkanInstance);
 
-        if (vkCreateInstance(&createInfo, nullptr, &mVulkanInfo.VulkanInstance) != VK_SUCCESS)
+        if (vkCreateInstance(&createInfo, nullptr, &VulkanInstance) != VK_SUCCESS)
         {
             throw std::runtime_error("failed to create instance!");
         }
     }
 
-    void RenderingSystem::SelectPhysicalDevice()
+    void VulkanInfo::SelectPhysicalDevice()
     {
-        mVulkanInfo.physicalDevice = VK_NULL_HANDLE;
+        physicalDevice = VK_NULL_HANDLE;
 
         uint32_t deviceCount = 0;
-        vkEnumeratePhysicalDevices(mVulkanInfo.VulkanInstance , &deviceCount, nullptr);
+        vkEnumeratePhysicalDevices(VulkanInstance , &deviceCount, nullptr);
 
         if (deviceCount == 0) {
             throw std::runtime_error("failed to find GPUs with Vulkan support!");
         }
 
         std::vector<VkPhysicalDevice> devices(deviceCount);
-        vkEnumeratePhysicalDevices(mVulkanInfo.VulkanInstance, &deviceCount, devices.data());
+        vkEnumeratePhysicalDevices(VulkanInstance, &deviceCount, devices.data());
 
         for (const auto& device : devices) {
             if (SuitableDevice(device)) {
-                mVulkanInfo.physicalDevice = device;
+                physicalDevice = device;
                 break;
             }
         }
 
-        if (mVulkanInfo.physicalDevice == VK_NULL_HANDLE) {
+        if (physicalDevice == VK_NULL_HANDLE) {
             throw std::runtime_error("failed to find a suitable GPU!");
         }
     }
 
-    void RenderingSystem::InitLogicalDevice()
+    void VulkanInfo::InitLogicalDevice()
     {
-        QueueFamilyIndices indices = FindQueueFamilies(mVulkanInfo.physicalDevice);
+        QueueFamilyIndices indices = FindQueueFamilies(physicalDevice);
 
         //look for queue family with capacity for graphics
         //VkDeviceQueueCreateInfo queueCreateInfo = {};
@@ -198,16 +136,16 @@ namespace TandenEngine {
         newDeviceInfo.ppEnabledExtensionNames = DeviceExtensions.data();
 
         //create the actual device and set it to our instance of logical device
-        if (vkCreateDevice(mVulkanInfo.physicalDevice, &newDeviceInfo, nullptr, &mVulkanInfo.logicalDevice) != VK_SUCCESS) {
+        if (vkCreateDevice(physicalDevice, &newDeviceInfo, nullptr, &logicalDevice) != VK_SUCCESS) {
             throw std::runtime_error("failed to create logical device!");
         }
 
         //get one queue from queue family of logical device and set it to the graphics queue
-        vkGetDeviceQueue(mVulkanInfo.logicalDevice, indices.graphicsFamily.value(), 0, &mVulkanInfo.gfxQueue);
-        vkGetDeviceQueue(mVulkanInfo.logicalDevice, indices.presentFamily.value(), 0, &mVulkanInfo.presentationQueue);
+        vkGetDeviceQueue(logicalDevice, indices.graphicsFamily.value(), 0, &gfxQueue);
+        vkGetDeviceQueue(logicalDevice, indices.presentFamily.value(), 0, &presentationQueue);
     }
 
-    QueueFamilyIndices RenderingSystem::FindQueueFamilies(VkPhysicalDevice targetDevice)
+    QueueFamilyIndices VulkanInfo::FindQueueFamilies(VkPhysicalDevice targetDevice)
     {
         QueueFamilyIndices indices;
 
@@ -227,7 +165,7 @@ namespace TandenEngine {
             }
 
             VkBool32 presentSupport = false;
-            vkGetPhysicalDeviceSurfaceSupportKHR(targetDevice, i, mVulkanInfo.WindowSurface, &presentSupport);
+            vkGetPhysicalDeviceSurfaceSupportKHR(targetDevice, i, WindowSurface, &presentSupport);
 
             if (queueFamily.queueCount > 0 && presentSupport) {
                 indices.presentFamily = i;
@@ -243,7 +181,7 @@ namespace TandenEngine {
         return indices;
     }
 
-    bool RenderingSystem::CheckDeviceExtSupport(VkPhysicalDevice targetDevice)
+    bool VulkanInfo::CheckDeviceExtSupport(VkPhysicalDevice targetDevice)
     {
         //find number of supported extensions
         uint32_t extensionCount;
@@ -265,30 +203,30 @@ namespace TandenEngine {
         return requiredExtensions.empty();
     }
 
-    SwapChainSupportDetails RenderingSystem::PollSwapChainSupport(VkPhysicalDevice targetDevice)
+    SwapChainSupportDetails VulkanInfo::PollSwapChainSupport(VkPhysicalDevice targetDevice)
     {
         SwapChainSupportDetails details;
 
 
-        vkGetPhysicalDeviceSurfaceCapabilitiesKHR(targetDevice, mVulkanInfo.WindowSurface, &details.capabilities);
+        vkGetPhysicalDeviceSurfaceCapabilitiesKHR(targetDevice, WindowSurface, &details.capabilities);
 
 
         //get devices supported window surface formats
         uint32_t formatCount;
-        vkGetPhysicalDeviceSurfaceFormatsKHR(targetDevice, mVulkanInfo.WindowSurface, &formatCount, nullptr);
+        vkGetPhysicalDeviceSurfaceFormatsKHR(targetDevice, WindowSurface, &formatCount, nullptr);
 
         if (formatCount != 0) {
             details.formats.resize(formatCount);
-            vkGetPhysicalDeviceSurfaceFormatsKHR(targetDevice, mVulkanInfo.WindowSurface, &formatCount, details.formats.data());
+            vkGetPhysicalDeviceSurfaceFormatsKHR(targetDevice, WindowSurface, &formatCount, details.formats.data());
         }
 
         //get devices supported presentation modes
         uint32_t presentModeCount;
-        vkGetPhysicalDeviceSurfacePresentModesKHR(targetDevice, mVulkanInfo.WindowSurface, &presentModeCount, nullptr);
+        vkGetPhysicalDeviceSurfacePresentModesKHR(targetDevice, WindowSurface, &presentModeCount, nullptr);
 
         if (presentModeCount != 0) {
             details.presentModes.resize(presentModeCount);
-            vkGetPhysicalDeviceSurfacePresentModesKHR(targetDevice, mVulkanInfo.WindowSurface, &presentModeCount, details.presentModes.data());
+            vkGetPhysicalDeviceSurfacePresentModesKHR(targetDevice, WindowSurface, &presentModeCount, details.presentModes.data());
         }
         //TODO finish swapchain bru go to bed lmao
 
@@ -299,7 +237,7 @@ namespace TandenEngine {
         return details;
     }
 
-    VkSurfaceFormatKHR RenderingSystem::ChooseSwapSurfaceFormat(const std::vector<VkSurfaceFormatKHR>& availableFormats)
+    VkSurfaceFormatKHR VulkanInfo::ChooseSwapSurfaceFormat(const std::vector<VkSurfaceFormatKHR>& availableFormats)
     {
         if (availableFormats.size() == 1 && availableFormats[0].format == VK_FORMAT_UNDEFINED) {
             return {VK_FORMAT_B8G8R8A8_UNORM, VK_COLOR_SPACE_SRGB_NONLINEAR_KHR};
@@ -314,7 +252,7 @@ namespace TandenEngine {
         return availableFormats[0];
     }
 
-    VkPresentModeKHR RenderingSystem::ChooseSwapPresentMode(const std::vector<VkPresentModeKHR> availablePresentModes)
+    VkPresentModeKHR VulkanInfo::ChooseSwapPresentMode(const std::vector<VkPresentModeKHR> availablePresentModes)
     {
         VkPresentModeKHR bestMode = VK_PRESENT_MODE_FIFO_KHR;
 
@@ -329,7 +267,7 @@ namespace TandenEngine {
         return bestMode;
     }
 
-    VkExtent2D RenderingSystem::ChooseSwapExtent(const VkSurfaceCapabilitiesKHR& capabilities)
+    VkExtent2D VulkanInfo::ChooseSwapExtent(const VkSurfaceCapabilitiesKHR& capabilities)
     {
         if (capabilities.currentExtent.width != std::numeric_limits<uint32_t>::max()) {
             return capabilities.currentExtent;
@@ -343,8 +281,8 @@ namespace TandenEngine {
         }
     }
 
-    void RenderingSystem::CreateSwapChain() {
-        SwapChainSupportDetails swapChainSupport = PollSwapChainSupport(mVulkanInfo.physicalDevice);
+    void VulkanInfo::CreateSwapChain() {
+        SwapChainSupportDetails swapChainSupport = PollSwapChainSupport(physicalDevice);
 
         VkSurfaceFormatKHR surfaceFormat = ChooseSwapSurfaceFormat(swapChainSupport.formats);
         VkPresentModeKHR presentMode = ChooseSwapPresentMode(swapChainSupport.presentModes);
@@ -358,7 +296,7 @@ namespace TandenEngine {
 
         VkSwapchainCreateInfoKHR createInfo = {};
         createInfo.sType = VK_STRUCTURE_TYPE_SWAPCHAIN_CREATE_INFO_KHR;
-        createInfo.surface = mVulkanInfo.WindowSurface;
+        createInfo.surface = WindowSurface;
 
         createInfo.minImageCount = imageCount;
         createInfo.imageFormat = surfaceFormat.format;
@@ -367,7 +305,7 @@ namespace TandenEngine {
         createInfo.imageArrayLayers = 1;
         createInfo.imageUsage = VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT;
 
-        QueueFamilyIndices indices = FindQueueFamilies(mVulkanInfo.physicalDevice);
+        QueueFamilyIndices indices = FindQueueFamilies(physicalDevice);
         uint32_t queueFamilyIndices[] = {indices.graphicsFamily.value(), indices.presentFamily.value()};
 
         if (indices.graphicsFamily != indices.presentFamily) {
@@ -385,28 +323,28 @@ namespace TandenEngine {
 
         createInfo.oldSwapchain = VK_NULL_HANDLE;
 
-        if (vkCreateSwapchainKHR(mVulkanInfo.logicalDevice, &createInfo, nullptr, &mVulkanInfo.swapChain) != VK_SUCCESS) {
+        if (vkCreateSwapchainKHR(logicalDevice, &createInfo, nullptr, &swapChain) != VK_SUCCESS) {
             throw std::runtime_error("failed to create swap chain!");
         }
 
-        vkGetSwapchainImagesKHR(mVulkanInfo.logicalDevice, mVulkanInfo.swapChain, &imageCount, nullptr);
-        mVulkanInfo.swapChainImages.resize(imageCount);
-        vkGetSwapchainImagesKHR(mVulkanInfo.logicalDevice, mVulkanInfo.swapChain, &imageCount, mVulkanInfo.swapChainImages.data());
+        vkGetSwapchainImagesKHR(logicalDevice, swapChain, &imageCount, nullptr);
+        swapChainImages.resize(imageCount);
+        vkGetSwapchainImagesKHR(logicalDevice, swapChain, &imageCount, swapChainImages.data());
 
-        mVulkanInfo.swapChainImageFormat = surfaceFormat.format;
-        mVulkanInfo.swapChainExtent = extent;
+        swapChainImageFormat = surfaceFormat.format;
+        swapChainExtent = extent;
     }
 
-    void RenderingSystem::CreateImageViews()
+    void VulkanInfo::CreateImageViews()
     {
-        mVulkanInfo.swapChainImageViews.resize(mVulkanInfo.swapChainImages.size());
+        swapChainImageViews.resize(swapChainImages.size());
 
-        for (size_t i = 0; i < mVulkanInfo.swapChainImages.size(); i++) {
+        for (size_t i = 0; i < swapChainImages.size(); i++) {
             VkImageViewCreateInfo createInfo = {};
             createInfo.sType = VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO;
-            createInfo.image = mVulkanInfo.swapChainImages[i];
+            createInfo.image = swapChainImages[i];
             createInfo.viewType = VK_IMAGE_VIEW_TYPE_2D;
-            createInfo.format = mVulkanInfo.swapChainImageFormat;
+            createInfo.format = swapChainImageFormat;
             createInfo.components.r = VK_COMPONENT_SWIZZLE_IDENTITY;
             createInfo.components.g = VK_COMPONENT_SWIZZLE_IDENTITY;
             createInfo.components.b = VK_COMPONENT_SWIZZLE_IDENTITY;
@@ -417,13 +355,13 @@ namespace TandenEngine {
             createInfo.subresourceRange.baseArrayLayer = 0;
             createInfo.subresourceRange.layerCount = 1;
 
-            if (vkCreateImageView(mVulkanInfo.logicalDevice, &createInfo, nullptr, &mVulkanInfo.swapChainImageViews[i]) != VK_SUCCESS) {
+            if (vkCreateImageView(logicalDevice, &createInfo, nullptr, &swapChainImageViews[i]) != VK_SUCCESS) {
                 throw std::runtime_error("failed to create image views!");
             }
         }
     }
 
-    std::vector<char> RenderingSystem::ReadFile(const std::string& filename)
+    std::vector<char> VulkanInfo::ReadFile(const std::string& filename)
     {
         std::ifstream file(filename, std::ios::ate | std::ios::binary);
 
@@ -444,7 +382,7 @@ namespace TandenEngine {
 
     }
 
-    void RenderingSystem::CreateGraphicsPipeline() {
+    void VulkanInfo::CreateGraphicsPipeline() {
         //read files
         auto vsCode = ReadFile("../Source/Engine/RenderingSystem/Shaders/vert.spv"); //can also read directly from the TriangleShader.frag
         auto fsCode = ReadFile("../Source/Engine/RenderingSystem/Shaders/frag.spv");
@@ -490,15 +428,15 @@ namespace TandenEngine {
         VkViewport viewport = {};
         viewport.x = 0.0f;
         viewport.y = 0.0f;
-        viewport.width = (float) mVulkanInfo.swapChainExtent.width;
-        viewport.height = (float) mVulkanInfo.swapChainExtent.height;
+        viewport.width = (float) swapChainExtent.width;
+        viewport.height = (float) swapChainExtent.height;
         viewport.minDepth = 0.0f;
         viewport.maxDepth = 1.0f;
 
         //scizzors
         VkRect2D scissor = {};
         scissor.offset = {0, 0};
-        scissor.extent = mVulkanInfo.swapChainExtent;
+        scissor.extent = swapChainExtent;
 
         //combine viewport and scizzor
         VkPipelineViewportStateCreateInfo viewportState = {};
@@ -573,7 +511,7 @@ namespace TandenEngine {
         pipelineLayoutInfo.pushConstantRangeCount = 0; // Optional
         pipelineLayoutInfo.pPushConstantRanges = nullptr; // Optional
 
-        if (vkCreatePipelineLayout(mVulkanInfo.logicalDevice, &pipelineLayoutInfo, nullptr, &mVulkanInfo.pipelineLayout) != VK_SUCCESS) {
+        if (vkCreatePipelineLayout(logicalDevice, &pipelineLayoutInfo, nullptr, &pipelineLayout) != VK_SUCCESS) {
             throw std::runtime_error("failed to create pipeline layout!");
         }
 
@@ -593,10 +531,10 @@ namespace TandenEngine {
         pipelineInfo.pDynamicState = nullptr; // Optional
 
         //set layout for pipeline
-        pipelineInfo.layout = mVulkanInfo.pipelineLayout;
+        pipelineInfo.layout = pipelineLayout;
 
         //set render pass for pipeline
-        pipelineInfo.renderPass = mVulkanInfo.renderPass;
+        pipelineInfo.renderPass = renderPass;
         pipelineInfo.subpass = 0;
 
         //pipeline extension, but not required here since we dont have a base pipeline
@@ -604,42 +542,42 @@ namespace TandenEngine {
         pipelineInfo.basePipelineIndex = -1; // Optional
 
         //null check
-        if (vkCreateGraphicsPipelines(mVulkanInfo.logicalDevice, VK_NULL_HANDLE, 1, &pipelineInfo, nullptr, &mVulkanInfo.graphicsPipeline) != VK_SUCCESS) {
+        if (vkCreateGraphicsPipelines(logicalDevice, VK_NULL_HANDLE, 1, &pipelineInfo, nullptr, &graphicsPipeline) != VK_SUCCESS) {
             throw std::runtime_error("failed to create graphics pipeline!");
         }
 
         //local cleanup
-        vkDestroyShaderModule(mVulkanInfo.logicalDevice, fsModule, nullptr);
-        vkDestroyShaderModule(mVulkanInfo.logicalDevice, vsModule, nullptr);
+        vkDestroyShaderModule(logicalDevice, fsModule, nullptr);
+        vkDestroyShaderModule(logicalDevice, vsModule, nullptr);
     }
 
-    void RenderingSystem::CreateFramebuffers()
+    void VulkanInfo::CreateFramebuffers()
     {
-        mVulkanInfo.swapChainFramebuffers.resize(mVulkanInfo.swapChainImageViews.size());
+        swapChainFramebuffers.resize(swapChainImageViews.size());
 
-        for (size_t i = 0; i < mVulkanInfo.swapChainImageViews.size(); i++) {
+        for (size_t i = 0; i < swapChainImageViews.size(); i++) {
             VkImageView attachments[] = {
-                    mVulkanInfo.swapChainImageViews[i]
+                    swapChainImageViews[i]
             };
 
             VkFramebufferCreateInfo framebufferInfo = {};
             framebufferInfo.sType = VK_STRUCTURE_TYPE_FRAMEBUFFER_CREATE_INFO;
-            framebufferInfo.renderPass = mVulkanInfo.renderPass;
+            framebufferInfo.renderPass = renderPass;
             framebufferInfo.attachmentCount = 1;
             framebufferInfo.pAttachments = attachments;
-            framebufferInfo.width = mVulkanInfo.swapChainExtent.width;
-            framebufferInfo.height = mVulkanInfo.swapChainExtent.height;
+            framebufferInfo.width = swapChainExtent.width;
+            framebufferInfo.height = swapChainExtent.height;
             framebufferInfo.layers = 1;
 
-            if (vkCreateFramebuffer(mVulkanInfo.logicalDevice, &framebufferInfo, nullptr, &mVulkanInfo.swapChainFramebuffers[i]) != VK_SUCCESS) {
+            if (vkCreateFramebuffer(logicalDevice, &framebufferInfo, nullptr, &swapChainFramebuffers[i]) != VK_SUCCESS) {
                 throw std::runtime_error("failed to create framebuffer!");
             }
         }
     }
 
-    void RenderingSystem::CreateCommandPool()
+    void VulkanInfo::CreateCommandPool()
     {
-        QueueFamilyIndices queueFamilyIndices = FindQueueFamilies(mVulkanInfo.physicalDevice);
+        QueueFamilyIndices queueFamilyIndices = FindQueueFamilies(physicalDevice);
 
         //command pool so multiple threads can draw ahead of time
         VkCommandPoolCreateInfo poolInfo = {};
@@ -647,46 +585,46 @@ namespace TandenEngine {
         poolInfo.queueFamilyIndex = queueFamilyIndices.graphicsFamily.value();
         poolInfo.flags = 0; // Optional
 
-        if (vkCreateCommandPool(mVulkanInfo.logicalDevice, &poolInfo, nullptr, &mVulkanInfo.commandPool) != VK_SUCCESS) {
+        if (vkCreateCommandPool(logicalDevice, &poolInfo, nullptr, &commandPool) != VK_SUCCESS) {
             throw std::runtime_error("failed to create command pool!");
         }
     }
 
-    void RenderingSystem::CreateCommandBuffers()
+    void VulkanInfo::CreateCommandBuffers()
     {
-        mVulkanInfo.commandBuffers.resize(mVulkanInfo.swapChainFramebuffers.size());
+        commandBuffers.resize(swapChainFramebuffers.size());
 
         //create command buffer info
         VkCommandBufferAllocateInfo allocInfo = {};
         allocInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO;
-        allocInfo.commandPool = mVulkanInfo.commandPool;
+        allocInfo.commandPool = commandPool;
         allocInfo.level = VK_COMMAND_BUFFER_LEVEL_PRIMARY;                   //also secondary option. Primary can be sent, secondary cant be but can be called from primary
-        allocInfo.commandBufferCount = (uint32_t) mVulkanInfo.commandBuffers.size();
+        allocInfo.commandBufferCount = (uint32_t) commandBuffers.size();
 
         //throw if failed allocation
-        if (vkAllocateCommandBuffers(mVulkanInfo.logicalDevice, &allocInfo, mVulkanInfo.commandBuffers.data()) != VK_SUCCESS) {
+        if (vkAllocateCommandBuffers(logicalDevice, &allocInfo, commandBuffers.data()) != VK_SUCCESS) {
             throw std::runtime_error("failed to allocate command buffers!");
         }
 
         //recording command buffer
-        for (size_t i = 0; i < mVulkanInfo.commandBuffers.size(); i++) {
+        for (size_t i = 0; i < commandBuffers.size(); i++) {
             VkCommandBufferBeginInfo beginInfo = {};
             beginInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
             beginInfo.flags = VK_COMMAND_BUFFER_USAGE_SIMULTANEOUS_USE_BIT; //resubmitted while pending execution
             beginInfo.pInheritanceInfo = nullptr; // Optional
 
-            if (vkBeginCommandBuffer(mVulkanInfo.commandBuffers[i], &beginInfo) != VK_SUCCESS) {
+            if (vkBeginCommandBuffer(commandBuffers[i], &beginInfo) != VK_SUCCESS) {
                 throw std::runtime_error("failed to begin recording command buffer!");
             }
 
             //configure render pass for command buffer
             VkRenderPassBeginInfo renderPassInfo = {};
             renderPassInfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
-            renderPassInfo.renderPass = mVulkanInfo.renderPass;
-            renderPassInfo.framebuffer = mVulkanInfo.swapChainFramebuffers[i];
+            renderPassInfo.renderPass = renderPass;
+            renderPassInfo.framebuffer = swapChainFramebuffers[i];
             //size of render area on screen
             renderPassInfo.renderArea.offset = {0, 0};
-            renderPassInfo.renderArea.extent = mVulkanInfo.swapChainExtent;
+            renderPassInfo.renderArea.extent = swapChainExtent;
 
             //clear color for render pass
             VkClearValue clearColor = {0.0f, 0.0f, 0.0f, 1.0f};
@@ -694,19 +632,19 @@ namespace TandenEngine {
             renderPassInfo.pClearValues = &clearColor;
 
             //begin the render pass!
-            vkCmdBeginRenderPass(mVulkanInfo.commandBuffers[i], &renderPassInfo, VK_SUBPASS_CONTENTS_INLINE);
+            vkCmdBeginRenderPass(commandBuffers[i], &renderPassInfo, VK_SUBPASS_CONTENTS_INLINE);
 
             //bind our graphics pipeline
-            vkCmdBindPipeline(mVulkanInfo.commandBuffers[i], VK_PIPELINE_BIND_POINT_GRAPHICS, mVulkanInfo.graphicsPipeline);
+            vkCmdBindPipeline(commandBuffers[i], VK_PIPELINE_BIND_POINT_GRAPHICS, graphicsPipeline);
 
             //draw command buffers
-            vkCmdDraw(mVulkanInfo.commandBuffers[i], 3, 1, 0, 0);
+            vkCmdDraw(commandBuffers[i], 3, 1, 0, 0);
 
             //end render pass
-            vkCmdEndRenderPass(mVulkanInfo.commandBuffers[i]);
+            vkCmdEndRenderPass(commandBuffers[i]);
 
             //finish recording command buffer, throw if failed
-            if (vkEndCommandBuffer(mVulkanInfo.commandBuffers[i]) != VK_SUCCESS) {
+            if (vkEndCommandBuffer(commandBuffers[i]) != VK_SUCCESS) {
                 throw std::runtime_error("failed to record command buffer!");
             }
         }
@@ -716,14 +654,14 @@ namespace TandenEngine {
 
     }
 
-    void RenderingSystem::CreateSemaphores() {
+    void VulkanInfo::CreateSemaphores() {
         //create semaphore info
         VkSemaphoreCreateInfo semaphoreInfo = {};
         semaphoreInfo.sType = VK_STRUCTURE_TYPE_SEMAPHORE_CREATE_INFO;
 
         //throw if it fails to create both semaphores
-        if (vkCreateSemaphore(mVulkanInfo.logicalDevice, &semaphoreInfo, nullptr, &mVulkanInfo.imageAvailableSemaphore) != VK_SUCCESS ||
-            vkCreateSemaphore(mVulkanInfo.logicalDevice, &semaphoreInfo, nullptr, &mVulkanInfo.renderFinishedSemaphore) != VK_SUCCESS) {
+        if (vkCreateSemaphore(logicalDevice, &semaphoreInfo, nullptr, &imageAvailableSemaphore) != VK_SUCCESS ||
+            vkCreateSemaphore(logicalDevice, &semaphoreInfo, nullptr, &renderFinishedSemaphore) != VK_SUCCESS) {
             throw std::runtime_error("failed to create semaphores!");
         }
 
@@ -782,7 +720,7 @@ namespace TandenEngine {
         vkQueuePresentKHR(mVulkanInfo.presentationQueue, &presentInfo);
     }
 
-    VkShaderModule RenderingSystem::CreateShaderModule(const std::vector<char>& code)
+    VkShaderModule VulkanInfo::CreateShaderModule(const std::vector<char>& code)
     {
         VkShaderModuleCreateInfo createInfo = {};
         createInfo.sType = VK_STRUCTURE_TYPE_SHADER_MODULE_CREATE_INFO;
@@ -790,19 +728,19 @@ namespace TandenEngine {
         createInfo.pCode = reinterpret_cast<const uint32_t*>(code.data());
 
         VkShaderModule shaderModule;
-        if (vkCreateShaderModule(mVulkanInfo.logicalDevice, &createInfo, nullptr, &shaderModule) != VK_SUCCESS) {
+        if (vkCreateShaderModule(logicalDevice, &createInfo, nullptr, &shaderModule) != VK_SUCCESS) {
             throw std::runtime_error("failed to create shader module!");
         }
 
         return shaderModule;
     }
 
-    void RenderingSystem::CreateRenderPass()
+    void VulkanInfo::CreateRenderPass()
     {
         //render color in one of the images of the swapchain
         //format of attachment must match format of swap chain images
         VkAttachmentDescription colorAttachment = {};
-        colorAttachment.format = mVulkanInfo.swapChainImageFormat;
+        colorAttachment.format = swapChainImageFormat;
         colorAttachment.samples = VK_SAMPLE_COUNT_1_BIT;
 
         //settings ofr what to do with data before and after render
@@ -837,7 +775,7 @@ namespace TandenEngine {
         renderPassInfo.subpassCount = 1;
         renderPassInfo.pSubpasses = &subpass;
 
-        if (vkCreateRenderPass(mVulkanInfo.logicalDevice, &renderPassInfo, nullptr, &mVulkanInfo.renderPass) != VK_SUCCESS) {
+        if (vkCreateRenderPass(logicalDevice, &renderPassInfo, nullptr, &renderPass) != VK_SUCCESS) {
             throw std::runtime_error("failed to create render pass!");
         }
 
@@ -858,13 +796,13 @@ namespace TandenEngine {
 
     }
 
-    void RenderingSystem::InitWindowSurface() {
-         if (glfwCreateWindowSurface(mVulkanInfo.VulkanInstance, testWindow->GetWindowRef(), nullptr, &mVulkanInfo.WindowSurface) != VK_SUCCESS) {
+    void VulkanInfo::InitWindowSurface() {
+         if (glfwCreateWindowSurface(VulkanInstance, RenderingSystem::GetWindow()->GetWindowRef(), nullptr, &WindowSurface) != VK_SUCCESS) {
              throw std::runtime_error("failed to create window surface!");
          }
     }
 
-    bool RenderingSystem::SuitableDevice(VkPhysicalDevice targetDevice) {
+    bool VulkanInfo::SuitableDevice(VkPhysicalDevice targetDevice) {
         QueueFamilyIndices indices = FindQueueFamilies(targetDevice);
 
         //check for required extensions
@@ -881,13 +819,57 @@ namespace TandenEngine {
         return indices.isComplete() && extensionsSupported && swapChainAdequate;
     }
 
+    ////******RENDERING SYSTEM FUNCTIONS******////
+    void RenderingSystem::Draw()
+    {
+        if (!glfwWindowShouldClose(mWindow->GetWindowRef())) {
+
+            //Draw gameobject renderers
+            for (const auto &rend : mRenderers) {
+                rend->Draw();
+            }
+
+            //Draw GUI Elements
+            GUI::GUISystem::DrawGUI();
+
+            PollWindowEvents();
+            DrawWindow();
+        }
+
+        //vkDeviceWaitIdle(logicalDevice);
+    }
+
+    void RenderingSystem::RegisterRenderer(Renderer *newRenderer)
+    {
+        mRenderers.emplace_back(newRenderer);
+    }
+
+    void RenderingSystem::InitSystem()
+    {
+        InitGLFW();
+        InitWindow(windowWidth, windowHeight, "eat my ass");
+        mVulkanInfo.InitVulkan();
+
+        GUI::GUISystem::InitGUISystem();
+    }
+
+    void RenderingSystem::InitGLFW()
+    {
+
+        glfwInit();
+
+        glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
+        glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
+
+    }
+
     void RenderingSystem::InitWindow(int windowWidth, int windowHeight, std::string windowName)
     {
         //create test window
 
-        testWindow = new Window(windowWidth, windowHeight, windowName);
+        mWindow = new Window(windowWidth, windowHeight, windowName);
 
-        testWindow->initWindow();
+        mWindow->initWindow();
     }
 
     void RenderingSystem::PollWindowEvents()
@@ -926,13 +908,17 @@ namespace TandenEngine {
 
         vkDestroyInstance(mVulkanInfo.VulkanInstance, nullptr);
 
-        glfwDestroyWindow(testWindow->GetWindowRef());
+        glfwDestroyWindow(mWindow->GetWindowRef());
 
         glfwTerminate();
     }
 
     const VulkanInfo *RenderingSystem::GetVulkanInfo() {
         return &mVulkanInfo;
+    }
+
+    Window *RenderingSystem::GetWindow() {
+        return mWindow;
     }
 
 }
