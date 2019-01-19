@@ -38,7 +38,7 @@ namespace TandenEngine {
                 break;
             case ResourceType::SHADER:
                 std::cout<<"Creating Shader\n";
-                newResource = new Shader();
+                newResource = new Shader(metaData);
                 break;
             case ResourceType::FONT:
                 std::cout<<"Creating Font\n";
