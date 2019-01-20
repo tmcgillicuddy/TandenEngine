@@ -6,6 +6,5 @@
 
 namespace TandenEngine {
     CubeModel::CubeModel() {
-
     }
 }
