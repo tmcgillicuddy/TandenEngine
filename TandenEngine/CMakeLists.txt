@@ -44,3 +44,7 @@ target_link_libraries(TandenEngine ${VULKAN_LIBRARY})
 include_directories(Libraries/tinyobjloader)
 add_subdirectory(Libraries/tinyobjloader)
 target_link_libraries(TandenEngine tinyobjloader)
+
+#Export Important content files
+file(COPY  ${CMAKE_SOURCE_DIR}/ContentFiles
+        DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/ )
