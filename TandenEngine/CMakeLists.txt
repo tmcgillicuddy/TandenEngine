@@ -111,5 +111,14 @@ target_link_libraries(TandenEngine glfw)
 #Locate the Vulkan SDKs
 find_package(Vulkan REQUIRED)
 
-#Link the VULKAN SDK using GLFW's macros
+#Link the SDK using GLFW's macros
 target_link_libraries(TandenEngine ${VULKAN_LIBRARY})
+
+#Link tinyobj library
+include_directories(Libraries/tinyobjloader)
+add_subdirectory(Libraries/tinyobjloader)
+target_link_libraries(TandenEngine tinyobjloader)
+
+#Export Important content files
+file(COPY  ${CMAKE_SOURCE_DIR}/ContentFiles
+        DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/ )

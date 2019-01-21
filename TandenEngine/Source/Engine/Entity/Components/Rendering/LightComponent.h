@@ -6,10 +6,13 @@
 #define TANDENENGINE_LIGHTCOMPONENT_H
 
 #include "../Component.h"
+#include "../../../RenderingSystem/LightBehaviors/LightBehavior.h"
 
 namespace TandenEngine {
     class LightComponent : public Component {
     public:
+        LightBehavior * mLightBehavior; //How this light is supposed to behave
+
         //Component Overrides
         void Update() override;
         std::unique_ptr<Component> Clone() override;
