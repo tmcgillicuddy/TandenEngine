@@ -61,8 +61,8 @@ namespace TandenEngine {
         VkSemaphore imageAvailableSemaphore;
         VkSemaphore renderFinishedSemaphore;
 
-        //TODO Move vulkan init function headers here
         void InitVulkan();
+        void InitVulkanPipeline();
 
     private:
         void InitVKInstance();                                                                //creating instance
