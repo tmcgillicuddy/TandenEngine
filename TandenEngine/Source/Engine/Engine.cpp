@@ -9,6 +9,8 @@
 
 namespace TandenEngine {
 
+    Game * Engine::mGame;
+
     void Engine::StartEngine() {
         std::cout<< "Please specify Project File directory: ";
         std::cin >> mProjectDirectory;
@@ -24,8 +26,12 @@ namespace TandenEngine {
         else
             std::cout<<"Error Loading Project Start Engine\n";
 
-
-
+        if(mGame == nullptr)
+        {
+            std::cout<<"Error No Game Object\n";
+            return;
+        }
+        mGame->StartUpGame();
 
         std::cout<<"Start Main\n";
     }
@@ -48,6 +54,9 @@ namespace TandenEngine {
                     scene->Update();
             }
 
+            //Update game specific systems
+            mGame->UpdateGame();
+
             //Render all registered renderer components
             RenderingSystem::Draw();
 
@@ -58,7 +67,7 @@ namespace TandenEngine {
 
     void Engine::StopEngine() {
         std::cout << "Closing Engine\n";
-
+        mGame->ShutDownGame();
         //RenderingSystem::Cleanup();
     }
 
