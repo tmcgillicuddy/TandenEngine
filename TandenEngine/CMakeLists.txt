@@ -84,6 +84,7 @@ add_library(TandenEngine
         ./Source/Engine/Entity/Components/Transform.h
         ./Source/Engine/Entity/GameObject.cpp
         ./Source/Engine/Entity/GameObject.h
+        ./Source/Engine/Game.h
         ./Source/Engine/PhysicsSystem/Medium.cpp
         ./Source/Engine/PhysicsSystem/Medium.h
         ./Source/Engine/PhysicsSystem/PhysicsSystem.cpp
@@ -183,8 +184,10 @@ include_directories("Libraries/imgui")
 #Add glfw headers
 include_directories("Libraries/GLFW/include")
 
+add_subdirectory("Libraries/GLFW")
+
 #Get all the source and header files from the main source code dir
-file(GLOB_RECURSE TANDEN_SOURCE "Source/*.h" "Source/*.cpp")
+#file(GLOB_RECURSE TANDEN_SOURCE "Source/*.h" "Source/*.cpp")
 
 #Put all the source file dirs into their proper place
 #add_executable(TandenEngine ${TANDEN_SOURCE} ${IMGUI_SOURCES})
