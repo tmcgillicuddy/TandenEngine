@@ -33,9 +33,9 @@ namespace TandenEngine {
                 mKeysDown[i].state = changes[i].state & mKeys[i].state; //Set the down keys
                 mKeysUp[i].state = changes[i].state & !mKeys[i].state; //SEt the up keys
 
-                auto *newEvent = new KeyboardEvent(i);
+                //auto *newEvent = new KeyboardEvent(i);
                 //Send Event
-                EventSystem::AddEvent(newEvent);
+                //EventSystem::AddEvent(newEvent);
             }
         }
     }

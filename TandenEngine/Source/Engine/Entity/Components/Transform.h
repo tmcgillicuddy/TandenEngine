@@ -23,6 +23,8 @@ namespace TandenEngine {
 
         ~Transform();
 
+        void Translate(Vector3 dir);
+
         void Update() override;
 
         std::string ToString() override;

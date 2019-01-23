@@ -24,6 +24,8 @@ namespace TandenEngine {
         std::vector<std::unique_ptr<Component>> mComponents; //TODO Use map instead of vector
 
     public:
+        Transform * mTransform; //The locally held pointer to transform comp
+
         GameObject();
 
         ~GameObject();
