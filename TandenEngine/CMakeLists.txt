@@ -84,6 +84,7 @@ add_library(TandenEngine
         ./Source/Engine/Entity/Components/Transform.h
         ./Source/Engine/Entity/GameObject.cpp
         ./Source/Engine/Entity/GameObject.h
+        ./Source/Engine/Game.h
         ./Source/Engine/PhysicsSystem/Medium.cpp
         ./Source/Engine/PhysicsSystem/Medium.h
         ./Source/Engine/PhysicsSystem/PhysicsSystem.cpp
