@@ -25,6 +25,10 @@ namespace TandenEngine {
 
         void Translate(Vector3 dir);
 
+        void LookAt(Transform * target);
+
+        void Rotate(Vector3 euler);
+
         void Update() override;
 
         std::string ToString() override;
