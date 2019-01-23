@@ -8,7 +8,7 @@
 namespace TandenEngine {
 
     GameObject::GameObject() {
-        AddComponent<Transform>();
+        mTransform = dynamic_cast<Transform*>(AddComponent<Transform>());
     }
 
     GameObject::~GameObject() {
