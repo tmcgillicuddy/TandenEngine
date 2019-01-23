@@ -29,9 +29,10 @@ namespace TandenEngine {
         if(mGame == nullptr)
         {
             std::cout<<"Error No Game Object\n";
-            return;
+            //return;
         }
-        mGame->StartUpGame();
+        else
+            mGame->StartUpGame();
 
         std::cout<<"Start Main\n";
     }
@@ -55,7 +56,8 @@ namespace TandenEngine {
             }
 
             //Update game specific systems
-            mGame->UpdateGame();
+            if(mGame != nullptr)
+                mGame->UpdateGame();
 
             //Render all registered renderer components
             RenderingSystem::Draw();
@@ -67,7 +69,8 @@ namespace TandenEngine {
 
     void Engine::StopEngine() {
         std::cout << "Closing Engine\n";
-        mGame->ShutDownGame();
+        if(mGame != nullptr)
+            mGame->ShutDownGame();
         //RenderingSystem::Cleanup();
     }
 
