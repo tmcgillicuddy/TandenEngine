@@ -8,7 +8,6 @@
 namespace TandenEngine {
 
     class Game {
-
     public:
         virtual void StartUpGame()=0;
 
