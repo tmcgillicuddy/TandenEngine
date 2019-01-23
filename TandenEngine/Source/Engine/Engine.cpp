@@ -43,6 +43,10 @@ namespace TandenEngine {
             //Get input
             Input::GetInput();
 
+            if(Input::GetKeyDown(KeyCode::ESC)) {
+                exitStatus = 1;
+                continue;
+            }
             //Process Events
             EventSystem::ProcessEvents();
 
