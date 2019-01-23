@@ -28,7 +28,7 @@ namespace TandenEngine {
 
         if(mGame == nullptr)
         {
-            std::cout<<"Error No Game Object\n";
+            std::cout<<"Error No Game Instance\n";
             //return;
         }
         else
