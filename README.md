@@ -15,8 +15,9 @@ Tanden Engine uses these libraries:
  * [Vulkan](https://www.khronos.org/vulkan) - Vulkan interface
  * [GLFW](https://github.com/glfw/glfw) - Window creation
  * [Imgui](https://github.com/ocornut/imgui) - GUI generation
+ * [TinyObjLoader](https://github.com/syoyo/tinyobjloader) - Obj File loading
 
 ## Compiling:
-Clone the repo and run 'git submodule --init --recursive' to get the submodules
+Clone the repo and run 'git submodule update --init --recursive' to get the submodules
 
 Make sure you have [CMake](https://cmake.org/download/) and the [Vulkan SDK](https://vulkan.lunarg.com/sdk/home#windows) downloaded and installed.
