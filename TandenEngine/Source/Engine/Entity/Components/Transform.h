@@ -19,9 +19,19 @@ namespace TandenEngine {
         Vector3 rotation;
         Vector3 scale = Vector3(1.0, 1.0, 1.0);
 
+        Vector3 mForward;
+        Vector3 mRight;
+        Vector3 mUp;
+
         Transform();
 
         ~Transform();
+
+        void Translate(Vector3 dir);
+
+        void LookAt(Transform * target);
+
+        void Rotate(Vector3 euler);
 
         void Update() override;
 
