@@ -8,12 +8,20 @@
 
 namespace TandenEngine {
 
-    RigidBody::RigidBody() {
+    RigidBody::RigidBody(const float &mass, const float &friction) {
+        mMass = mass;
+        mFriction = friction;
     }
 
     void RigidBody::Update() {
-        mTransform->position.x = sin(Timer::mCurrentTime) * 10;
-        //std::cout<<mTransform->position;
+        UpdateGravity();
+        mTransform->position.x += mLinearVelocity.x;
+        mTransform->position.x += mLinearVelocity.y;
+        mTransform->position.x += mLinearVelocity.z;
+    }
+
+    void RigidBody::UpdateGravity() {
+        // apply gravity based on time (@9.8m/s)
     }
 
     std::unique_ptr<Component> RigidBody::Clone() {

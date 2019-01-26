@@ -6,12 +6,20 @@
 #define TANDENENGINE_RIGIDBODY_H
 
 #include "PhysicsComponent.h"
+#include "../../../../Core/Math/NilsMath.h"
 
 namespace TandenEngine {
 
     class RigidBody : public PhysicsComponent{
     public:
-        RigidBody();
+        RigidBody(const float &mass = 1.0f, const float &friction = 0.0f );
+        ~RigidBody();
+
+        float mMass;
+        float mFriction;
+        Vector3 mLinearVelocity;
+
+        void UpdateGravity();
 
         //Component Overrides
         void Update() override;
