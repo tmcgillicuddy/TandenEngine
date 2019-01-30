@@ -11,6 +11,8 @@
 #include <optional>
 #include <vulkan/vulkan.h>
 #include "GLFW/glfw3.h"
+#include <NilsMath.h>
+#include <array>
 
 #include "RenderingSystem.h"
 
@@ -37,6 +39,21 @@ namespace TandenEngine {
     const std::vector<const char*> DeviceExtensions = {
             VK_KHR_SWAPCHAIN_EXTENSION_NAME
     };
+
+
+    std::vector<MeshVertex> testVertices;
+
+    void initVertices()
+    {
+        MeshVertex newVertex1 = {{0.0f, -0.5f, 0.0f}, {1.0f, 0.0f, 0.0f}},
+        MeshVertex newVertex2 = {{0.5f, 0.5f, 0.0f}, {0.0f, 1.0f, 0.0f}},
+        MeshVertex newVertex3 = {{-0.5f, 0.5f, 0.0f}, {0.0f, 0.0f, 1.0f}}
+
+        testVertices.push_back(newVertex1);
+        testVertices.push_back(newVertex2);
+        testVertices.push_back(newVertex3);
+    };
+
 
     struct VulkanInfo
     {
