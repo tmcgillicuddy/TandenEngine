@@ -187,7 +187,7 @@ include_directories("Libraries/GLFW/include")
 add_subdirectory("Libraries/GLFW")
 
 #Get all the source and header files from the main source code dir
-#file(GLOB_RECURSE TANDEN_SOURCE "Source/*.h" "Source/*.cpp")
+file(GLOB_RECURSE TANDEN_SOURCE "Source/*.h" "Source/*.cpp")
 
 #Put all the source file dirs into their proper place
 add_executable(TandenEngine ${TANDEN_SOURCE} ${IMGUI_SOURCES})
