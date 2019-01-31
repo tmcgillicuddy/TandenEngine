@@ -44,7 +44,7 @@ namespace TandenEngine {
     void RenderingSystem::InitSystem()
     {
         InitGLFW();
-        InitWindow(windowWidth, windowHeight, "eat my ass");
+        InitWindow(windowWidth, windowHeight, "Tanden Engine");
         mVulkanInfo.InitVulkan();
 
         GUI::GUISystem::InitGUISystem();

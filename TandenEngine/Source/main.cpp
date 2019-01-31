@@ -11,6 +11,5 @@ int main() {
 
     theEngine->StopEngine(); //Safely close out data
 	
-	system("pause");
     return 0;
 }

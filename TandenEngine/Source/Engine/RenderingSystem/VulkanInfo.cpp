@@ -3,7 +3,7 @@
 //
 #define NOMINMAX
 #include "VulkanInfo.h"
-
+#include <Debug.h>
 namespace TandenEngine {
 
 
@@ -18,7 +18,7 @@ namespace TandenEngine {
     }
 
 
-    void VulkanInfo::InitVulkanPipeline() {
+    void VulkanInfo::InitVulkanPipeline(){
         CreateSwapChain();
         CreateImageViews();
         CreateRenderPass();
@@ -639,10 +639,9 @@ namespace TandenEngine {
             vkCmdBindPipeline(commandBuffers[i], VK_PIPELINE_BIND_POINT_GRAPHICS, graphicsPipeline);
 
             //bind vertex buffers from buffer list
-            VkBuffer vertexBuffers[] = {BufferManager::mBufferList[0]};
+            VkBuffer vertexBuffers[] = {BufferManager::mBufferList.at(0)};
             VkDeviceSize offsets[] = {0};
             vkCmdBindVertexBuffers(commandBuffers[i], 0, 1, vertexBuffers, offsets);
-
             //draw vertices
             vkCmdDraw(commandBuffers[i], static_cast<uint32_t>(BufferManager::mVertices.size()), 1, 0, 0);
 

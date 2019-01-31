@@ -195,6 +195,9 @@ add_executable(TandenEngine ${TANDEN_SOURCE} ${IMGUI_SOURCES})
 #Include Math lib headers
 include_directories("Source/Core/Math")
 
+#Include Debug header
+include_directories("Source/Core/Debugger")
+
 #Link GLFW
 target_link_libraries(TandenEngine glfw)
 

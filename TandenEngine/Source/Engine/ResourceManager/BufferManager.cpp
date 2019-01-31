@@ -4,6 +4,7 @@
 
 #include "BufferManager.h"
 #include <vulkan/vulkan.h>
+#include "Debug.h"
 
 namespace TandenEngine {
 
@@ -20,13 +21,15 @@ namespace TandenEngine {
 
     void BufferManager::CreateVertexBufferForModel(Model * targetModel) //TODO pointer issues?
     {
+        VkBuffer newBuffer;
+        mBufferList.push_back(newBuffer);
         VkBufferCreateInfo bufferInfo = {};
         bufferInfo.sType = VK_STRUCTURE_TYPE_BUFFER_CREATE_INFO;
         bufferInfo.size = sizeof(mVertices[0]) * mVertices.size(); //TODO change mVertices to target models vertices
         bufferInfo.usage = VK_BUFFER_USAGE_VERTEX_BUFFER_BIT;
         bufferInfo.sharingMode = VK_SHARING_MODE_EXCLUSIVE;
 
-        //temporarily set local verts (REMOVE THIS AND LOCAL VERTS FROM MODEL
+        //TODO temporarily set local verts (REMOVE THIS AND LOCAL VERTS FROM MODEL
         targetModel->mLocalVertices = mVertices;
 
         //create buffer, throw error on failure
