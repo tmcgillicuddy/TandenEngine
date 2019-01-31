@@ -9,13 +9,15 @@
 
 #include "MeshVertex.h"
 #include "../Resource.h"
+#include <vulkan/vulkan.h>
 
 namespace TandenEngine {
 
     class Model : public Resource{
     public:
         Model();
-        std::vector<MeshVertex> mVertexBuffer;
+
+        VkBuffer vertexBuffer;
         static bool CheckIfSupported(std::string extension);
     };
 

@@ -13,6 +13,7 @@
 #include "GLFW/glfw3.h"
 #include <NilsMath.h>
 #include <array>
+#include "../ResourceManager/Resources/Model/Model.h"
 
 #include "RenderingSystem.h"
 
@@ -39,21 +40,6 @@ namespace TandenEngine {
     const std::vector<const char*> DeviceExtensions = {
             VK_KHR_SWAPCHAIN_EXTENSION_NAME
     };
-
-
-    std::vector<MeshVertex> testVertices;
-
-    void initVertices()
-    {
-        MeshVertex newVertex1 = {{0.0f, -0.5f, 0.0f}, {1.0f, 0.0f, 0.0f}},
-        MeshVertex newVertex2 = {{0.5f, 0.5f, 0.0f}, {0.0f, 1.0f, 0.0f}},
-        MeshVertex newVertex3 = {{-0.5f, 0.5f, 0.0f}, {0.0f, 0.0f, 1.0f}}
-
-        testVertices.push_back(newVertex1);
-        testVertices.push_back(newVertex2);
-        testVertices.push_back(newVertex3);
-    };
-
 
     struct VulkanInfo
     {
@@ -82,6 +68,10 @@ namespace TandenEngine {
         void InitVulkanPipeline();
 
     private:
+
+        //just testing, remove later when we have models
+        void InitVertices;
+
         void InitVKInstance();                                                                //creating instance
 
         void SelectPhysicalDevice();                                                          //polling and selecting a graphics card to use

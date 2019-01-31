@@ -17,6 +17,8 @@ namespace TandenEngine {
 
         mProjectSettings = Serializer::LoadProject(mProjectDirectory);
 
+        BufferManager::InitVertices();
+
         RenderingSystem::InitSystem();
         ResourceManager::ImportAssetsFolder();
         RenderingSystem::InitGraphicsPipeline();
@@ -35,6 +37,22 @@ namespace TandenEngine {
             mGame->StartUpGame();
 
         std::cout<<"Start Main\n";
+
+        //Make model
+        Model * tempModel = new Model();
+        //Pass model to manager
+        ResourceManager::AddResource(tempModel);
+        //make scene
+        Scene * test = new Scene();
+        mLoadedScenes.emplace_back(test);
+        //make game obj
+        GameObject * tempObj = test->CreateGameObject();
+        //give filter and render
+        MeshFilter * tempFilter = dynamic_cast<MeshFilter*>(tempObj->AddComponent<MeshFilter>());
+        MeshRenderer* tempComp =  dynamic_cast<MeshRenderer*>(tempObj->AddComponent<MeshRenderer>());
+        //give rend comp model
+        tempFilter->mModelResource = tempModel;
+        tempComp->mpMesh = tempFilter;
     }
 
     void Engine::RunEngine() {

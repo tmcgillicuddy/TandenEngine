@@ -6,13 +6,20 @@
 
 namespace TandenEngine {
 
+
+
+
     void VulkanInfo::InitVulkan()
     {
         InitVKInstance();
+        InitVertices();
         InitWindowSurface();
         SelectPhysicalDevice();
         InitLogicalDevice();
     }
+
+
+
 
     void VulkanInfo::InitVulkanPipeline() {
         CreateSwapChain();
@@ -406,10 +413,14 @@ namespace TandenEngine {
         //vertex input stage info
         VkPipelineVertexInputStateCreateInfo vertexInputInfo = {};
         vertexInputInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO;
-        vertexInputInfo.vertexBindingDescriptionCount = 0;
-        vertexInputInfo.pVertexBindingDescriptions = nullptr; // Optional
-        vertexInputInfo.vertexAttributeDescriptionCount = 0;
-        vertexInputInfo.pVertexAttributeDescriptions = nullptr; // Optional
+
+        auto bindingDescription = MeshVertex::GetBindingDescription();
+        auto attributeDescriptions = MeshVertex::GetAttributeDescriptions();
+
+        vertexInputInfo.vertexBindingDescriptionCount = 1;
+        vertexInputInfo.vertexAttributeDescriptionCount = static_cast<uint32_t>(attributeDescriptions.size());
+        vertexInputInfo.pVertexBindingDescriptions = &bindingDescription;
+        vertexInputInfo.pVertexAttributeDescriptions = attributeDescriptions.data();
 
         //specify geometry type
         VkPipelineInputAssemblyStateCreateInfo inputAssembly = {};

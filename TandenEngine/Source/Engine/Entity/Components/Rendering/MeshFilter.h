@@ -10,7 +10,7 @@
 namespace TandenEngine {
 
     class MeshFilter : public Component {
-    private:
+    public:
         Model *mModelResource;
 
     public:
