@@ -5,6 +5,7 @@
 #include <iostream>
 #include "Engine.h"
 #include "Entity/Components/ComponentHeader.h"
+#include "ResourceManager/BufferManager.h"
 
 
 namespace TandenEngine {
@@ -16,8 +17,6 @@ namespace TandenEngine {
         std::cin >> mProjectDirectory;
 
         mProjectSettings = Serializer::LoadProject(mProjectDirectory);
-
-        BufferManager::InitVertices();
 
         RenderingSystem::InitSystem();
         ResourceManager::ImportAssetsFolder();

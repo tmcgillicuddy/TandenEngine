@@ -11,6 +11,7 @@
 #include <optional>
 #include <vulkan/vulkan.h>
 #include "GLFW/glfw3.h"
+#include <Windows.h>
 #include <NilsMath.h>
 #include <array>
 #include "../ResourceManager/Resources/Model/Model.h"
@@ -68,9 +69,6 @@ namespace TandenEngine {
         void InitVulkanPipeline();
 
     private:
-
-        //just testing, remove later when we have models
-        void InitVertices;
 
         void InitVKInstance();                                                                //creating instance
 

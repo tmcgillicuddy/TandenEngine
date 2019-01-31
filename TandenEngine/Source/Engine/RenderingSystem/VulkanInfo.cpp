@@ -1,7 +1,7 @@
 //
 // Created by thomas.mcgillicuddy on 1/19/2019.
 //
-
+#define NOMINMAX
 #include "VulkanInfo.h"
 
 namespace TandenEngine {
@@ -12,7 +12,6 @@ namespace TandenEngine {
     void VulkanInfo::InitVulkan()
     {
         InitVKInstance();
-        InitVertices();
         InitWindowSurface();
         SelectPhysicalDevice();
         InitLogicalDevice();
