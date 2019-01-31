@@ -3,6 +3,7 @@
 //
 #define GLFW_INCLUDE_VULKAN
 
+#include "../../Core/Debugger/Debug.h"
 #include "RenderingSystem.h"
 
 namespace TandenEngine {
@@ -20,8 +21,10 @@ namespace TandenEngine {
 
             //Draw gameobject renderers
             for (const auto &rend : mRenderers) {
-                rend->Draw();
+                rend->Draw(); //fix draw to PROVIDE resources so this function (RenderingSystem::Draw) actually draws instead of each object drawing thmeselves
             }
+
+
 
             //Draw GUI Elements
             GUI::GUISystem::DrawGUI();

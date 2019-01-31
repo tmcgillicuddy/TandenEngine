@@ -7,6 +7,7 @@
 
 #include "NilsMath.h"
 #include "../../../RenderingSystem/VulkanInfo.h"
+#include <array>
 
 namespace TandenEngine {
 
@@ -43,7 +44,7 @@ namespace TandenEngine {
         }
 
 
-    private:
+    public: //PRIVATE
         Vector3 mPos;
         Vector3 mColor;
         Vector2 mUV;

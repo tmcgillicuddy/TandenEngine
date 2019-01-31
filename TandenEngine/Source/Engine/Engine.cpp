@@ -20,6 +20,12 @@ namespace TandenEngine {
 
         RenderingSystem::InitSystem();
         ResourceManager::ImportAssetsFolder();
+
+        //Make model
+        Model * tempModel = new Model();
+        //Pass model to manager
+        ResourceManager::AddResource(tempModel);
+
         RenderingSystem::InitGraphicsPipeline();
 
         if(mProjectSettings != nullptr)
@@ -37,10 +43,7 @@ namespace TandenEngine {
 
         std::cout<<"Start Main\n";
 
-        //Make model
-        Model * tempModel = new Model();
-        //Pass model to manager
-        ResourceManager::AddResource(tempModel);
+
         //make scene
         Scene * test = new Scene();
         mLoadedScenes.emplace_back(test);

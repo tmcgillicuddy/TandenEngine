@@ -18,8 +18,6 @@ namespace TandenEngine {
     }
 
 
-
-
     void VulkanInfo::InitVulkanPipeline() {
         CreateSwapChain();
         CreateImageViews();
@@ -640,8 +638,13 @@ namespace TandenEngine {
             //bind our graphics pipeline
             vkCmdBindPipeline(commandBuffers[i], VK_PIPELINE_BIND_POINT_GRAPHICS, graphicsPipeline);
 
-            //draw command buffers
-            vkCmdDraw(commandBuffers[i], 3, 1, 0, 0);
+            //bind vertex buffers from buffer list
+            VkBuffer vertexBuffers[] = {BufferManager::mBufferList[0]};
+            VkDeviceSize offsets[] = {0};
+            vkCmdBindVertexBuffers(commandBuffers[i], 0, 1, vertexBuffers, offsets);
+
+            //draw vertices
+            vkCmdDraw(commandBuffers[i], static_cast<uint32_t>(BufferManager::mVertices.size()), 1, 0, 0);
 
             //end render pass
             vkCmdEndRenderPass(commandBuffers[i]);

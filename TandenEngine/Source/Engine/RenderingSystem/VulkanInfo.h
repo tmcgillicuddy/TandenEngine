@@ -13,6 +13,7 @@
 #include "GLFW/glfw3.h"
 #include <Windows.h>
 #include <NilsMath.h>
+#include "../ResourceManager/BufferManager.h"
 #include <array>
 #include "../ResourceManager/Resources/Model/Model.h"
 

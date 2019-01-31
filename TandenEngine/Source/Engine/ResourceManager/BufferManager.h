@@ -9,29 +9,29 @@
 #include <vulkan/vulkan.h>
 #include "../ResourceManager/Resources/Model/Model.h"
 #include <vector>
+#include "Resources/Model/MeshVertex.h"
+#include "Resources/Model/Model.h"
+
+class MeshVertex;
+class Model;
 
 namespace TandenEngine {
 
     class BufferManager {
 
-        static std::vector<MeshVertex> mVertices;
-
     public:
 
+        static std::vector<MeshVertex> mVertices; //test vertices
 
-        static void CreateVertexBufferForModel(Model *targetModel)
-        {
-            VkBufferCreateInfo bufferInfo = {};
-            bufferInfo.sType = VK_STRUCTURE_TYPE_BUFFER_CREATE_INFO;
-            bufferInfo.size = sizeof(mVertices[0]) * mVertices.size(); //TODO change mVertices to target models vertices
-            bufferInfo.usage = VK_BUFFER_USAGE_VERTEX_BUFFER_BIT;
-            bufferInfo.sharingMode = VK_SHARING_MODE_EXCLUSIVE;
+        //consider eventually storing all the necessary vkBuffers and vkDeviceMemory here
+        static VkDeviceMemory vBufferMemory;
 
-            if (vkCreateBuffer(RenderingSystem::GetVulkanInfo()->logicalDevice, &bufferInfo, nullptr, &targetModel->vertexBuffer) != VK_SUCCESS) {
-                throw std::runtime_error("failed to create vertex buffer!");
-            }
-        }
+        static std::vector<VkBuffer> mBufferList;
 
+        static uint32_t FindMemoryType(uint32_t typeFilter, VkMemoryPropertyFlags properties);
+
+
+        static void CreateVertexBufferForModel(Model * targetModel);
 
     };
 
