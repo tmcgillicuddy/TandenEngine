@@ -16,17 +16,16 @@ namespace TandenEngine {
 
     void GameObject::Update() { //Run each component's update function
         //std::cout << "Updating GameObject \n";
-        for (const auto &component : mComponents) {
-            if (component.get() != nullptr)
-                component->Update();
+        for (auto &pair : mComponents) {
+           pair.second->Update();
         }
     }
 
     std::string GameObject::ToString() {
         std::string data = mName + "\n";
-        for (const auto &component : mComponents)
+        for (auto &pair : mComponents)
         {
-            data += component->ToString();
+            data += pair.second->ToString();
             data += "---\n";
         }
         return data;
@@ -57,72 +56,65 @@ namespace TandenEngine {
         Component *newComp = nullptr;
         switch (type) {
             case ComponentType::TRANSFORM:
-                newComp = new Transform();
+                newComp = (mComponents[typeid(Transform)] = std::make_unique<Transform>()).get();
                 newComp->ConvertFromString(endData);
                 break;
             case ComponentType::MESHRENDERER:
-                newComp = new MeshRenderer();
+                newComp = (mComponents[typeid(MeshRenderer)] = std::make_unique<MeshRenderer>()).get();
                 newComp->ConvertFromString(endData);
                 break;
             case ComponentType::MESHFILTER:
-                newComp = new MeshRenderer();
+                newComp = (mComponents[typeid(MeshFilter)] = std::make_unique<MeshFilter>()).get();
                 newComp->ConvertFromString(endData);
                 break;
             case ComponentType::SPRITERENDERER:
-                newComp = new SpriteRenderer();
-                newComp->ConvertFromString(endData);
-                break;
-            case ComponentType::PHYSICSCOMPONENT:
-                newComp = new MeshRenderer();
-                newComp->ConvertFromString(endData);
-                break;
-            case ComponentType::RENDERER:
-                newComp = new MeshRenderer();
+                newComp = (mComponents[typeid(SpriteRenderer)] = std::make_unique<SpriteRenderer>()).get();
                 newComp->ConvertFromString(endData);
                 break;
             case ComponentType::BOXCOLLIDER:
-                newComp = new BoxCollider();
+                newComp = (mComponents[typeid(BoxCollider)] = std::make_unique<BoxCollider>()).get();
                 newComp->ConvertFromString(endData);
                 break;
             case ComponentType::SPHERECOLLIDER:
-                newComp = new SphereCollider();
+                newComp = (mComponents[typeid(SphereCollider)] = std::make_unique<SphereCollider>()).get();
                 newComp->ConvertFromString(endData);
                 break;
             case ComponentType::MESHCOLLIDER:
-                newComp = new MeshCollider();
+                newComp = (mComponents[typeid(MeshCollider)] = std::make_unique<MeshCollider>()).get();
                 newComp->ConvertFromString(endData);
                 break;
             case ComponentType::CAPSULECOLLIDER:
-                newComp = new CapsuleCollider();
+                newComp = (mComponents[typeid(CapsuleCollider)] = std::make_unique<CapsuleCollider>()).get();
                 newComp->ConvertFromString(endData);
                 break;
             case ComponentType::AUDIOLISTENER:
-                newComp = new AudioListener();
+                newComp = (mComponents[typeid(AudioListener)] = std::make_unique<AudioListener>()).get();
                 newComp->ConvertFromString(endData);
                 break;
             case ComponentType::AUDIOSOURCE:
-                newComp = new AudioSource();
+                newComp = (mComponents[typeid(AudioSource)] = std::make_unique<AudioSource>()).get();
                 newComp->ConvertFromString(endData);
                 break;
             case ComponentType::PARTICLESYSTEM:
-                newComp = new ParticleSystem();
+                newComp = (mComponents[typeid(ParticleSystem)] = std::make_unique<ParticleSystem>()).get();
                 newComp->ConvertFromString(endData);
                 break;
             case ComponentType::RIGIDBODY:
-                newComp = new RigidBody();
+                newComp = (mComponents[typeid(RigidBody)] = std::make_unique<RigidBody>()).get();
                 newComp->ConvertFromString(endData);
                 break;
             case ComponentType::CAMERA:
-                newComp = new Camera();
+                newComp = (mComponents[typeid(Camera)] = std::make_unique<Camera>()).get();
                 newComp->ConvertFromString(endData);
                 break;
             case ComponentType::LIGHTCOMPONENT:
-                newComp = new LightComponent();
+                newComp = (mComponents[typeid(LightComponent)] = std::make_unique<LightComponent>()).get();
                 newComp->ConvertFromString(endData);
                 break;
         }
         if (newComp != nullptr) {
-            mComponents.emplace_back(newComp);
+            newComp->Register(); //Run register func (if overloaded)
+            newComp->SetBaseComponent(this);
         }
     }
 
