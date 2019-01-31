@@ -14,8 +14,11 @@ namespace TandenEngine {
     };
 
     VkDeviceMemory BufferManager::vBufferMemory;
+    std::vector<VkBuffer> BufferManager::mBufferList;
 
-    void BufferManager::CreateVertexBufferForModel(Model &targetModel) //TODO pointer issues?
+
+
+    void BufferManager::CreateVertexBufferForModel(Model * targetModel) //TODO pointer issues?
     {
         VkBufferCreateInfo bufferInfo = {};
         bufferInfo.sType = VK_STRUCTURE_TYPE_BUFFER_CREATE_INFO;
@@ -24,7 +27,7 @@ namespace TandenEngine {
         bufferInfo.sharingMode = VK_SHARING_MODE_EXCLUSIVE;
 
         //temporarily set local verts (REMOVE THIS AND LOCAL VERTS FROM MODEL
-        targetModel.mLocalVertices = mVertices;
+        targetModel->mLocalVertices = mVertices;
 
         //create buffer, throw error on failure
         if (vkCreateBuffer(RenderingSystem::GetVulkanInfo()->logicalDevice, &bufferInfo, nullptr, &mBufferList[0]) != VK_SUCCESS) {

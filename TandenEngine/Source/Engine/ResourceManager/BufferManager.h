@@ -12,10 +12,12 @@
 #include "Resources/Model/MeshVertex.h"
 #include "Resources/Model/Model.h"
 
-class MeshVertex;
-class Model;
 
 namespace TandenEngine {
+
+    class MeshVertex;
+    class Model;
+
 
     class BufferManager {
 
