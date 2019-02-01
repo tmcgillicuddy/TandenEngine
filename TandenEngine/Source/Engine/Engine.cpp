@@ -12,11 +12,6 @@ namespace TandenEngine {
     Game * Engine::mGame;
 
     void Engine::StartEngine() {
-
-        mat4 test = mat4(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16);
-        Debug::Log("%m4", test);
-        system("pause");
-
         std::cout<< "Please specify Project File directory: ";
         std::cin >> mProjectDirectory;
 
