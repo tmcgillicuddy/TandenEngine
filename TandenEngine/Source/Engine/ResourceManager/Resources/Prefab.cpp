@@ -11,9 +11,9 @@ namespace TandenEngine {
     void Prefab::CreatePrefab(GameObject *sourceGO) {
         fileName = sourceGO->mName;
         mComponents.reserve(sourceGO->mComponents.size());
-        for(const auto &comp : sourceGO->mComponents)
+        for(const auto &pair : sourceGO->mComponents)
         {
-            mComponents.push_back(comp->Clone());
+            mComponents[typeid(pair.second)] = pair.second->Clone();
         }
 
         SavePrefab();
@@ -22,9 +22,9 @@ namespace TandenEngine {
 
     void Prefab::SavePrefab() {
         std::string data = fileName + "\n";
-        for (const auto &component : mComponents)
+        for (const auto &pair : mComponents)
         {
-            data += component->ToString();
+            data += pair.second->ToString();
             data += "---\n";
         }
 

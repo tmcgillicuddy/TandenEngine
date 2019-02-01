@@ -5,7 +5,7 @@
 #include <iostream>
 #include "Engine.h"
 #include "Entity/Components/ComponentHeader.h"
-
+#include "../Core/Debugger/Debug.h"
 
 namespace TandenEngine {
 
@@ -33,6 +33,7 @@ namespace TandenEngine {
         }
         else
             mGame->StartUpGame();
+
 
         std::cout<<"Start Main\n";
     }
