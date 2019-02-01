@@ -24,6 +24,9 @@ namespace TandenEngine {
             std::cout << vertices.mPos << std::endl << vertices.mColor << std::endl;
         }
 
+
+
+
     }
 
     std::string MeshRenderer::ToString() {

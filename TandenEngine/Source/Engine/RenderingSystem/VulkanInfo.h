@@ -68,6 +68,7 @@ namespace TandenEngine {
 
         void InitVulkan();
         void InitVulkanPipeline();
+        void RecreateSwapChain();
 
     private:
 

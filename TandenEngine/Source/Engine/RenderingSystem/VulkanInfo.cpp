@@ -225,11 +225,6 @@ namespace TandenEngine {
             details.presentModes.resize(presentModeCount);
             vkGetPhysicalDeviceSurfacePresentModesKHR(targetDevice, WindowSurface, &presentModeCount, details.presentModes.data());
         }
-        //TODO finish swapchain bru go to bed lmao
-
-
-
-
 
         return details;
     }
@@ -639,9 +634,10 @@ namespace TandenEngine {
             vkCmdBindPipeline(commandBuffers[i], VK_PIPELINE_BIND_POINT_GRAPHICS, graphicsPipeline);
 
             //bind vertex buffers from buffer list
-            VkBuffer vertexBuffers[] = {BufferManager::mBufferList.at(0)};
+            VkBuffer vertexBuffers[] = {BufferManager::mBufferList.at(0)}; //TODO iterate through all vertex buffers
             VkDeviceSize offsets[] = {0};
             vkCmdBindVertexBuffers(commandBuffers[i], 0, 1, vertexBuffers, offsets);
+
             //draw vertices
             vkCmdDraw(commandBuffers[i], static_cast<uint32_t>(BufferManager::mVertices.size()), 1, 0, 0);
 
@@ -667,56 +663,7 @@ namespace TandenEngine {
         }
     }
 
-    void RenderingSystem::DrawWindow() {
-        //get next image from swapchain and trigger avaliable semaphore
-        uint32_t imageIndex;
-        vkAcquireNextImageKHR(mVulkanInfo.logicalDevice, mVulkanInfo.swapChain, std::numeric_limits<uint64_t>::max(), mVulkanInfo.imageAvailableSemaphore, VK_NULL_HANDLE, &imageIndex);
 
-        //info for submission to queue
-        VkSubmitInfo submitInfo = {};
-        submitInfo.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
-
-        //determine which semaphores wait on eachother
-        VkSemaphore waitSemaphores[] = {mVulkanInfo.imageAvailableSemaphore};
-        VkPipelineStageFlags waitStages[] = {VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT};
-        submitInfo.waitSemaphoreCount = 1;
-        submitInfo.pWaitSemaphores = waitSemaphores;
-        submitInfo.pWaitDstStageMask = waitStages;
-
-        //determine which command buffers to bind for the color attachment
-        submitInfo.commandBufferCount = 1;
-        submitInfo.pCommandBuffers = &mVulkanInfo.commandBuffers[imageIndex];
-
-        //determine which semaphore will signal once command buffer finishes
-        VkSemaphore signalSemaphores[] = {mVulkanInfo.renderFinishedSemaphore};
-        submitInfo.signalSemaphoreCount = 1;
-        submitInfo.pSignalSemaphores = signalSemaphores;
-
-        //failed to submit
-        if (vkQueueSubmit(mVulkanInfo.gfxQueue, 1, &submitInfo, VK_NULL_HANDLE) != VK_SUCCESS) {
-            throw std::runtime_error("failed to submit draw command buffer!");
-        }
-
-        //presentation info
-        VkPresentInfoKHR presentInfo = {};
-        presentInfo.sType = VK_STRUCTURE_TYPE_PRESENT_INFO_KHR;
-
-        //which semaphores to wait on for presentation
-        presentInfo.waitSemaphoreCount = 1;
-        presentInfo.pWaitSemaphores = signalSemaphores;
-
-        //specify swapchain to present images and the index of the target image
-        VkSwapchainKHR swapChains[] = {mVulkanInfo.swapChain};
-        presentInfo.swapchainCount = 1;
-        presentInfo.pSwapchains = swapChains;
-        presentInfo.pImageIndices = &imageIndex;
-
-        //not necessary with one swapchain but this checks if all swapchain presentation was successful or not
-        presentInfo.pResults = nullptr; // Optional
-
-        //present image to swapchain
-        vkQueuePresentKHR(mVulkanInfo.presentationQueue, &presentInfo);
-    }
 
     VkShaderModule VulkanInfo::CreateShaderModule(const std::vector<char>& code)
     {
@@ -814,6 +761,24 @@ namespace TandenEngine {
         }
 
         return indices.isComplete() && extensionsSupported && swapChainAdequate;
+    }
+
+
+    void VulkanInfo::RecreateSwapChain() {
+        vkDeviceWaitIdle(logicalDevice);
+
+        CreateSwapChain();
+        CreateImageViews();
+        CreateRenderPass();
+        CreateGraphicsPipeline();
+        CreateFramebuffers();
+        CreateCommandBuffers();
+    }
+
+    void cleanupSwapChain() {
+
+
+
     }
 
 
