@@ -5,13 +5,18 @@
 #include <iostream>
 #include "Engine.h"
 #include "Entity/Components/ComponentHeader.h"
-
+#include "../Core/Debugger/Debug.h"
 
 namespace TandenEngine {
 
     Game * Engine::mGame;
 
     void Engine::StartEngine() {
+        Vector2 test = Vector2(1,5);
+        Vector3 test2 = Vector3(0,43,5434);
+        Debug::Log("Test Basic %c %s %v2 %v3", 'd', "test word", test, test2);
+        system("pause");
+
         std::cout<< "Please specify Project File directory: ";
         std::cin >> mProjectDirectory;
 
@@ -33,6 +38,7 @@ namespace TandenEngine {
         }
         else
             mGame->StartUpGame();
+
 
         std::cout<<"Start Main\n";
     }
