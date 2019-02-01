@@ -19,7 +19,6 @@ namespace TandenEngine {
     private:
         static std::string LogVector(char type, va_list arg);
         static std::string LogMatrix(char type, va_list arg);
-
     };
 
 }
