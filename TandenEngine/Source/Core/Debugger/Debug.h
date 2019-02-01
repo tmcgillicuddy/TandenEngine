@@ -19,5 +19,4 @@ namespace TandenEngine {
     };
 
 }
-
 #endif //TANDENENGINE_DEBUG_H
