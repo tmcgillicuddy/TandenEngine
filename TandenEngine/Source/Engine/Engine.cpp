@@ -12,9 +12,9 @@ namespace TandenEngine {
     Game * Engine::mGame;
 
     void Engine::StartEngine() {
-        Vector2 test = Vector2(1,5);
-        Vector3 test2 = Vector3(0,43,5434);
-        Debug::Log("Test Basic %c %s %v2 %v3", 'd', "test word", test, test2);
+
+        mat4 test = mat4(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16);
+        Debug::Log("%m4", test);
         system("pause");
 
         std::cout<< "Please specify Project File directory: ";

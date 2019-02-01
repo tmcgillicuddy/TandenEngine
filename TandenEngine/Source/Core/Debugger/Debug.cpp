@@ -54,19 +54,11 @@ namespace TandenEngine {
                     break;
                 case 'v': //Vector Argument
                     index++;
-                    Vector2 vec2;
-                    Vector3 vec3;
-                    switch (input[index])
-                    {
-                        case '2':
-                            vec2 = va_arg(arg, Vector2);
-                            finalMessage += vec2.ToString();
-                            break;
-                        case '3':
-                            vec3 = va_arg(arg, Vector3);
-                            finalMessage += vec3.ToString();
-                            break;
-                    }
+                    finalMessage += LogVector(input[index], arg);
+                    break;
+                case 'm':
+                    index++;
+                    finalMessage += LogMatrix(input[index], arg);
                     break;
             }
         }
@@ -89,5 +81,47 @@ namespace TandenEngine {
         //Close file
 
         //Clear buffer
+    }
+
+    std::string Debug::LogVector(char type, va_list arg)
+    {
+        Vector2 vec2;
+        Vector3 vec3;
+        Vector4 vec4;
+        switch (type)
+        {
+            case '2':
+                vec2 = va_arg(arg, Vector2);
+                return vec2.ToString();
+            case '3':
+                vec3 = va_arg(arg, Vector3);
+                return vec3.ToString();
+            case '4':
+                vec4 = va_arg(arg, Vector4);
+                return vec4.ToString();
+        }
+        return "";
+    }
+
+
+
+    std::string Debug::LogMatrix(char type, va_list arg) {
+        mat3 matrix3;
+        mat4 matrix4;
+        switch (type)
+        {
+            case '2':
+                //vec2 = va_arg(arg, Vector2);
+                return "NOTHING"; //TODO add 2x2 matrix to string
+                break;
+            case '3':
+                matrix3 = va_arg(arg, mat3);
+                return matrix3.ToString();
+            case '4':
+                matrix4 = va_arg(arg, mat4);
+                return matrix4.ToString();
+        }
+
+        return "";
     }
 }
