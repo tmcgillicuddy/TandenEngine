@@ -5,7 +5,8 @@
 #ifndef TANDENENGINE_PREFAB_H
 #define TANDENENGINE_PREFAB_H
 
-#include <vector>
+#include <unordered_map>
+#include <typeindex>    //Provides typeindex so we can Type as a key in Map;
 
 #include "./Resource.h"
 #include "../../Entity/Components/Component.h"
@@ -15,7 +16,7 @@ namespace TandenEngine {
 
     class Prefab : public Resource{
     private:
-        std::vector<std::unique_ptr<Component>> mComponents; //TODO Use map instead of vector
+        std::unordered_map<std::type_index, std::unique_ptr<Component>> mComponents; //TODO Use map instead of vector
     public:
         Prefab();
         Prefab(MetaData* metaData);

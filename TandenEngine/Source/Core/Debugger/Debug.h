@@ -13,7 +13,7 @@ namespace TandenEngine {
     class Debug {
         static std::vector<std::string> buffer;
     public:
-        static void Log(std::string input); //Basic log API
+        static void Log(char* format, ...); //Basic log API
         static void LogError(std::string input);
         static void DumpBuffer(); //Dump buffer to log file //TODO call from seperate thread
     };
