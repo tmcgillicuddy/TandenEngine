@@ -12,9 +12,9 @@ namespace  TandenEngine {
         mType = ComponentType::SPHERECOLLIDER;
     }
 
-    SphereCollider::SphereCollider( Vector3 position, float radius) {
+    SphereCollider::SphereCollider( vec3 position, float radius) {
         mType = ComponentType::SPHERECOLLIDER;
-        mLocalPosition = position, mRadius = radius, mGlobalPosition = mTransform->position + position;
+        mLocalPosition = position, mRadius = radius, mGlobalPosition = mTransform->mTransformData.r1 + position;
     }
 
     SphereCollider::~SphereCollider() {

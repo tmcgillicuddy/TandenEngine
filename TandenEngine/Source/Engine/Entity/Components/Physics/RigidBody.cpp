@@ -12,7 +12,7 @@ namespace TandenEngine {
     }
 
     void RigidBody::Update() {
-        mTransform->position.x = sin(Timer::mCurrentTime) * 10;
+        mTransform->mTransformData.r1.x = sin(Timer::mCurrentTime) * 10;
         //std::cout<<mTransform->position;
     }
 

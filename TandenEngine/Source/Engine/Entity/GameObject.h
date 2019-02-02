@@ -22,7 +22,7 @@ namespace TandenEngine {
         friend class Prefab;
     private:
         std::string mName = "Test_Object";
-        std::unordered_map<std::type_index, std::unique_ptr<Component>> mComponents; //TODO Use map instead of vector
+        std::unordered_map<std::type_index, std::unique_ptr<Component>> mComponents;
 
     public:
         Transform * mTransform; //The locally held pointer to transform comp

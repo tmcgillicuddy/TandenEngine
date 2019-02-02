@@ -14,4 +14,7 @@ namespace TandenEngine {
         return (extension == ".wav" || extension == ".mp3");
     }
 
+    AudioClip::AudioClip(MetaData *metaData) {
+    }
+
 }
