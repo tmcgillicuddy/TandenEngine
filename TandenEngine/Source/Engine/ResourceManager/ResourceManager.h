@@ -8,6 +8,7 @@
 #include "Resources/ResourceHeader.h"
 #include "../Serialization/Serializer.h"
 
+
 namespace TandenEngine {
     class ResourceManager {
     private:

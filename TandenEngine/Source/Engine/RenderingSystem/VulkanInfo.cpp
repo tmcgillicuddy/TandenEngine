@@ -26,7 +26,7 @@ namespace TandenEngine {
         CreateFramebuffers();
         CreateCommandPool();
         CreateCommandBuffers();
-        CreateSemaphores();
+        CreateSyncObjects();
     }
 
     void VulkanInfo::InitVKInstance()
@@ -651,15 +651,30 @@ namespace TandenEngine {
         }
     }
 
-    void VulkanInfo::CreateSemaphores() {
-        //create semaphore info
+    void VulkanInfo::CreateSyncObjects() {
+        
+        //fill vectors for multiple 
+        imageAvailableSemaphores.resize(maxFramesInFlight);
+        renderFinishedSemaphores.resize(maxFramesInFlight);
+        inFlightFences.resize(maxFramesInFlight);
+
+        //semaphore info
         VkSemaphoreCreateInfo semaphoreInfo = {};
         semaphoreInfo.sType = VK_STRUCTURE_TYPE_SEMAPHORE_CREATE_INFO;
 
-        //throw if it fails to create both semaphores
-        if (vkCreateSemaphore(logicalDevice, &semaphoreInfo, nullptr, &imageAvailableSemaphore) != VK_SUCCESS ||
-            vkCreateSemaphore(logicalDevice, &semaphoreInfo, nullptr, &renderFinishedSemaphore) != VK_SUCCESS) {
-            throw std::runtime_error("failed to create semaphores!");
+        //fence info
+        VkFenceCreateInfo fenceInfo = {};
+        fenceInfo.sType = VK_STRUCTURE_TYPE_FENCE_CREATE_INFO;
+        fenceInfo.flags = VK_FENCE_CREATE_SIGNALED_BIT;     //dont wait on it if we havent used it yet
+
+
+        for (size_t i = 0; i < (size_t)maxFramesInFlight; i++) {
+            if (vkCreateSemaphore(logicalDevice, &semaphoreInfo, nullptr, &imageAvailableSemaphores[i]) != VK_SUCCESS ||
+                vkCreateSemaphore(logicalDevice, &semaphoreInfo, nullptr, &renderFinishedSemaphores[i]) != VK_SUCCESS ||
+                vkCreateFence(logicalDevice, &fenceInfo, nullptr, &inFlightFences[i]) != VK_SUCCESS) {
+
+                throw std::runtime_error("failed to create synchronization objects for a frame!");
+            }
         }
     }
 
@@ -773,6 +788,41 @@ namespace TandenEngine {
         CreateGraphicsPipeline();
         CreateFramebuffers();
         CreateCommandBuffers();
+    }
+
+
+    void VulkanInfo::CleanupVulkan()
+    {
+        for (size_t i = 0; i < (size_t)maxFramesInFlight; i++) {
+            vkDestroySemaphore(logicalDevice, renderFinishedSemaphores[i], nullptr);
+            vkDestroySemaphore(logicalDevice, imageAvailableSemaphores[i], nullptr);
+            vkDestroyFence(logicalDevice, inFlightFences[i], nullptr);
+        }
+
+        vkDestroyCommandPool(logicalDevice, commandPool, nullptr);
+
+        for (auto framebuffer : swapChainFramebuffers) {
+            vkDestroyFramebuffer(logicalDevice, framebuffer, nullptr);
+        }
+
+        vkDestroyPipeline(logicalDevice, graphicsPipeline, nullptr);
+        vkDestroyPipelineLayout(logicalDevice, pipelineLayout, nullptr);
+        vkDestroyRenderPass(logicalDevice, renderPass, nullptr);
+
+        for (auto imageView : swapChainImageViews) {
+            vkDestroyImageView(logicalDevice, imageView, nullptr);
+        }
+
+        vkDestroyPipelineLayout(logicalDevice, pipelineLayout, nullptr);
+
+        vkDestroySurfaceKHR(VulkanInstance, WindowSurface, nullptr);
+
+        vkDestroySwapchainKHR(logicalDevice, swapChain, nullptr);
+
+        vkDestroyDevice(logicalDevice, nullptr);
+
+        vkDestroyInstance(VulkanInstance, nullptr);
+
     }
 
     void cleanupSwapChain() {

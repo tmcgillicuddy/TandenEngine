@@ -80,10 +80,15 @@ namespace TandenEngine {
 
 
     void RenderingSystem::DrawWindow() {
+
+
+        //wait for frame to be finished
+        vkWaitForFences(mVulkanInfo.logicalDevice, 1, &mVulkanInfo.inFlightFences[mVulkanInfo.currentFrame], VK_TRUE, std::numeric_limits<uint64_t>::max());
+        vkResetFences(mVulkanInfo.logicalDevice, 1, &mVulkanInfo.inFlightFences[mVulkanInfo.currentFrame]);
+
         //get next image from swapchain and trigger avaliable semaphore
         uint32_t imageIndex;
-        VkResult result = vkAcquireNextImageKHR(mVulkanInfo.logicalDevice, mVulkanInfo.swapChain, std::numeric_limits<uint64_t>::max(), mVulkanInfo.imageAvailableSemaphore, VK_NULL_HANDLE, &imageIndex);
-
+        VkResult result = vkAcquireNextImageKHR(mVulkanInfo.logicalDevice, mVulkanInfo.swapChain, std::numeric_limits<uint64_t>::max(), mVulkanInfo.imageAvailableSemaphores[mVulkanInfo.currentFrame], VK_NULL_HANDLE, &imageIndex);
 
         if (result == VK_ERROR_OUT_OF_DATE_KHR) {
             mVulkanInfo.RecreateSwapChain();
@@ -97,7 +102,7 @@ namespace TandenEngine {
         submitInfo.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
 
         //determine which semaphores wait on eachother
-        VkSemaphore waitSemaphores[] = {mVulkanInfo.imageAvailableSemaphore};
+        VkSemaphore waitSemaphores[] = {mVulkanInfo.imageAvailableSemaphores[mVulkanInfo.currentFrame]};
         VkPipelineStageFlags waitStages[] = {VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT};
         submitInfo.waitSemaphoreCount = 1;
         submitInfo.pWaitSemaphores = waitSemaphores;
@@ -108,7 +113,7 @@ namespace TandenEngine {
         submitInfo.pCommandBuffers = &mVulkanInfo.commandBuffers[imageIndex];
 
         //determine which semaphore will signal once command buffer finishes
-        VkSemaphore signalSemaphores[] = {mVulkanInfo.renderFinishedSemaphore};
+        VkSemaphore signalSemaphores[] = {mVulkanInfo.renderFinishedSemaphores[mVulkanInfo.currentFrame]};
         submitInfo.signalSemaphoreCount = 1;
         submitInfo.pSignalSemaphores = signalSemaphores;
 
@@ -139,40 +144,21 @@ namespace TandenEngine {
 
         vkQueueWaitIdle(mVulkanInfo.presentationQueue);
 
+        //increment frames
+        mVulkanInfo.currentFrame = (mVulkanInfo.currentFrame + 1) % mVulkanInfo.maxFramesInFlight;
+
+        if (vkQueueSubmit(mVulkanInfo.gfxQueue, 1, &submitInfo, mVulkanInfo.inFlightFences[mVulkanInfo.currentFrame]) != VK_SUCCESS) {
+            throw std::runtime_error("failed to submit draw command buffer!");
+        }
+
     }
 
     void RenderingSystem::Cleanup() {
+
         //Bring it on! I'll destroy you all!
-
-        //TODO move vulkan specific clean up to vulkaninfo class
-        vkDestroySemaphore(mVulkanInfo.logicalDevice, mVulkanInfo.renderFinishedSemaphore, nullptr);
-        vkDestroySemaphore(mVulkanInfo.logicalDevice, mVulkanInfo.imageAvailableSemaphore, nullptr);
-
-        vkDestroyCommandPool(mVulkanInfo.logicalDevice, mVulkanInfo.commandPool, nullptr);
-
-        for (auto framebuffer : mVulkanInfo.swapChainFramebuffers) {
-            vkDestroyFramebuffer(mVulkanInfo.logicalDevice, framebuffer, nullptr);
-        }
-
-        vkDestroyPipeline(mVulkanInfo.logicalDevice, mVulkanInfo.graphicsPipeline, nullptr);
-        vkDestroyPipelineLayout(mVulkanInfo.logicalDevice, mVulkanInfo.pipelineLayout, nullptr);
-        vkDestroyRenderPass(mVulkanInfo.logicalDevice, mVulkanInfo.renderPass, nullptr);
-
-        for (auto imageView : mVulkanInfo.swapChainImageViews) {
-            vkDestroyImageView(mVulkanInfo.logicalDevice, imageView, nullptr);
-        }
-
-        vkDestroyPipelineLayout(mVulkanInfo.logicalDevice, mVulkanInfo.pipelineLayout, nullptr);
+        mVulkanInfo.CleanupVulkan();
 
         GUI::GUISystem::ShutDownGuiSystem();
-
-        vkDestroySurfaceKHR(mVulkanInfo.VulkanInstance, mVulkanInfo.WindowSurface, nullptr);
-
-        vkDestroySwapchainKHR(mVulkanInfo.logicalDevice, mVulkanInfo.swapChain, nullptr);
-
-        vkDestroyDevice(mVulkanInfo.logicalDevice, nullptr);
-
-        vkDestroyInstance(mVulkanInfo.VulkanInstance, nullptr);
 
         glfwDestroyWindow(mWindow->GetWindowRef());
 

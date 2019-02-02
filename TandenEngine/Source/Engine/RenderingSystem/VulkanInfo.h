@@ -21,6 +21,7 @@
 
 namespace TandenEngine {
 
+
     //struct to check if graphics card supports necessary Vulkan queue families
     struct QueueFamilyIndices {
         std::optional<uint32_t> graphicsFamily;
@@ -50,8 +51,8 @@ namespace TandenEngine {
         VkPhysicalDevice physicalDevice;             //our graphics card
         VkDevice logicalDevice;                      //logical interface with graphics card
         VkQueue gfxQueue;                            //graphics queue for graphics events
-        VkSurfaceKHR WindowSurface;                  //surface of window
         VkQueue presentationQueue;
+        VkSurfaceKHR WindowSurface;                  //surface of window
         VkSwapchainKHR swapChain;                    //the infamous SWAP CHAIN
         VkFormat swapChainImageFormat;
         std::vector<VkImage> swapChainImages;
@@ -63,12 +64,18 @@ namespace TandenEngine {
         std::vector<VkFramebuffer> swapChainFramebuffers;
         VkCommandPool commandPool;
         std::vector<VkCommandBuffer> commandBuffers;
-        VkSemaphore imageAvailableSemaphore;
-        VkSemaphore renderFinishedSemaphore;
+
+        std::vector<VkSemaphore> imageAvailableSemaphores;
+        std::vector<VkSemaphore> renderFinishedSemaphores;
+        std::vector<VkFence> inFlightFences;
+        size_t currentFrame = 0;
+        const int maxFramesInFlight = 2; //max concurrent frames to be processed, so GPU queue doesnt get cluttered
+
 
         void InitVulkan();
         void InitVulkanPipeline();
         void RecreateSwapChain();
+        void CleanupVulkan();
 
     private:
 
@@ -96,7 +103,7 @@ namespace TandenEngine {
         void CreateFramebuffers();
         void CreateCommandPool();
         void CreateCommandBuffers();
-        void CreateSemaphores();         //used to synchronize when images are being presented
+        void CreateSyncObjects();         //used to synchronize when images are being presented
     };
 
 }

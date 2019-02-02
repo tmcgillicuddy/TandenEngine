@@ -21,12 +21,18 @@ namespace TandenEngine {
         RenderingSystem::InitSystem();
         ResourceManager::ImportAssetsFolder();
 
+        std::cout << "impoted assets" << std::endl;
+
         //Make model
         Model * tempModel = new Model();
+
+        std::cout << "make model" << std::endl;
         //Pass model to manager
-        ResourceManager::AddResource(tempModel);
+        //ResourceManager::AddResource(tempModel);
+        std::cout << "add resource" << std::endl;
 
         RenderingSystem::InitGraphicsPipeline();
+        std::cout << "initgraphicspipeline" << std::endl;
 
         if(mProjectSettings != nullptr)
             mProjectSettings->PrintProjectInfo(); //Display the info to make sure it's correct
