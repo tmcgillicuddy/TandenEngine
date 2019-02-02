@@ -85,20 +85,20 @@ namespace TandenEngine {
 
     std::string Debug::LogVector(char type, va_list arg)
     {
-        Vector2 vec2;
-        Vector3 vec3;
-        Vector4 vec4;
+        vec2 vector2;
+        vec3 vector3;
+        vec4 vector4;
         switch (type)
         {
             case '2':
-                vec2 = va_arg(arg, Vector2);
-                return vec2.ToString();
+                vector2 = va_arg(arg, vec2);
+                return vector2.ToString();
             case '3':
-                vec3 = va_arg(arg, Vector3);
-                return vec3.ToString();
+                vector3 = va_arg(arg, vec3);
+                return vector3.ToString();
             case '4':
-                vec4 = va_arg(arg, Vector4);
-                return vec4.ToString();
+                vector4 = va_arg(arg, vec4);
+                return vector4.ToString();
         }
         return "";
     }
@@ -106,14 +106,14 @@ namespace TandenEngine {
 
 
     std::string Debug::LogMatrix(char type, va_list arg) {
+        mat2 matrix2;
         mat3 matrix3;
         mat4 matrix4;
         switch (type)
         {
             case '2':
-                //vec2 = va_arg(arg, Vector2);
-                return "NOTHING"; //TODO add 2x2 matrix to string
-                break;
+                matrix2 = va_arg(arg, mat2);
+                return matrix2.ToString(); //TODO add 2x2 matrix to string
             case '3':
                 matrix3 = va_arg(arg, mat3);
                 return matrix3.ToString();

@@ -11,10 +11,10 @@ namespace TandenEngine {
 
     class MeshVertex {
     private:
-        Vector3 mPos;
-        Vector2 mUV;
-        Vector3 mNormal;
-        Vector3 mTangent;
+        vec3 mPos;
+        vec2 mUV;
+        vec3 mNormal;
+        vec3 mTangent;
     };
 
 }
