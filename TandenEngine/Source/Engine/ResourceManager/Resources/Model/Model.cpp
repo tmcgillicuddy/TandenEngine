@@ -15,6 +15,5 @@ namespace TandenEngine {
     }
 
     Model::Model(MetaData *metaData) {
-
     }
 }

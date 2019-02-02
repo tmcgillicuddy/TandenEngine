@@ -7,7 +7,6 @@
 
 namespace TandenEngine {
 
-
     Material::Material(){
         fileName = "UntitledMaterial";
         mResourceType = ResourceType::MATERIAL;
@@ -26,6 +25,5 @@ namespace TandenEngine {
     }
 
     Material::Material(MetaData *metaData) {
-
     }
 }

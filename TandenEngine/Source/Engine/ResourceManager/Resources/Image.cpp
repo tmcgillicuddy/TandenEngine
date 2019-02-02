@@ -14,6 +14,5 @@ namespace TandenEngine {
     }
 
     Image::Image(MetaData *metaData) {
-
     }
 }

@@ -15,7 +15,6 @@ namespace TandenEngine {
     }
 
     AudioClip::AudioClip(MetaData *metaData) {
-
     }
 
 }
