@@ -1,6 +1,7 @@
 //
 // Created by thomas.mcgillicuddy on 10/31/2018.
 //
+#define TINYOBJLOADER_IMPLEMENTATION // define this in only *one* .cc
 
 #include "Model.h"
 
@@ -22,15 +23,16 @@ namespace TandenEngine {
 
         LoadModel(inputData);
     }
+    const std::string MODEL_PATH = "models/chalet.obj";
 
     void Model::LoadModel(MetaData *data) {
-        tinyobj::attrib_t attrib; //ALL vertex data
-        ::std::vector<tinyobj::shape_t> shapes; //All different objects in file
-        ::std::vector<tinyobj::material_t> materials;
-        ::std::string warn, err;
+        tinyobj::attrib_t attrib;
+        std::vector<tinyobj::shape_t> shapes;
+        std::vector<tinyobj::material_t> materials;
+        std::string warn, err;
         //Load model data into temporary buffer
-        if (!tinyobj::LoadObj(&attrib, &shapes, &materials, &warn, &err,
-                              data->mFileDir.c_str())) { //TODO change model path to reference the meta data dir path
+        if (!::tinyobj::LoadObj(&attrib, &shapes, &materials, &warn, &err, MODEL_PATH.c_str())) { //TODO change model path to reference the meta data dir path
+            std::cout<<"Error loading model\n";
             throw std::runtime_error(warn + err);
         }
 
@@ -62,5 +64,7 @@ namespace TandenEngine {
                 indices.push_back(indices.size());
             }
         }
+
+        std::cout<< "Num verts " << verticies.size();
     }
 }
