@@ -9,12 +9,14 @@
 
 #include "MeshVertex.h"
 #include "../Resource.h"
+#include "../../MetaData.h"
 
 namespace TandenEngine {
 
     class Model : public Resource{
     public:
         Model();
+        Model(MetaData * metaData);
         std::vector<MeshVertex> mVertexBuffer;
         static bool CheckIfSupported(std::string extension);
     };

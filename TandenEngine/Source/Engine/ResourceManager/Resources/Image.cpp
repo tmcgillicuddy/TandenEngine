@@ -12,4 +12,8 @@ namespace TandenEngine {
     bool Image::CheckIfSupported(std::string extension) {
         return (extension == ".jpg" || extension == ".png");
     }
+
+    Image::Image(MetaData *metaData) {
+
+    }
 }
