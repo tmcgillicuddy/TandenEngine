@@ -47,6 +47,11 @@ namespace TandenEngine {
         GUI::GUISystem::InitGUISystem();
     }
 
+    void RenderingSystem::InitGraphicsPipeline() {
+        mVulkanInfo.InitVulkanPipeline();
+    }
+
+
     void RenderingSystem::InitGLFW()
     {
 
@@ -116,5 +121,6 @@ namespace TandenEngine {
     Window *RenderingSystem::GetWindow() {
         return mWindow;
     }
+
 
 }

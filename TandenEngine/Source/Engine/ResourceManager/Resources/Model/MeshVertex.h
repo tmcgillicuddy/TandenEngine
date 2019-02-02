@@ -11,28 +11,29 @@ namespace TandenEngine {
 
     class MeshVertex {
     public:
-        Vector3 mPos;
-        Vector2 mUV;
-        Vector3 mNormal;
-        Vector3 mTangent;
-        Vector3 mColor;
+        vec3 mPos;
+        vec2 mUV;
+        vec3 mNormal;
+        vec3 mTangent;
+        vec3 mColor;
 
         bool operator==(const MeshVertex& other) const {
             return mPos == other.mPos && mColor == other.mColor && mUV == other.mUV;
         }
 
-        //Custom hashing function
-        //namespace std {
-        //    template<> class ::std::hash<TandenEngine::MeshVertex> {
-        //        size_t operator()(TandenEngine::MeshVertex const& vertex) const {
-        //            return ((hash<TandenEngine::Vector3>()(vertex.mPos) ^
-        //                    (hash<TandenEngine::Vector3>()(vertex.mColor) << 1)) >> 1)^
-        //                    (hash<TandenEngine::Vector2>()(vertex.mUV) << 1);
-        //        }
-        //    };
-        //}
+
     };
 
+}
+
+namespace std {
+    template<> struct ::std::hash<TandenEngine::MeshVertex> {
+        size_t operator()(TandenEngine::MeshVertex const& vertex) const {
+            return ((::std::hash<TandenEngine::vec3>()(vertex.mPos  ) ^
+                     (::std::hash<TandenEngine::vec3>()(vertex.mColor) << 1)) >> 1) ^
+                   (::std::hash<TandenEngine::vec2>()(vertex.mUV) << 1);
+        }
+    };
 }
 
 #endif //HWENGINE_MESHVERTEX_H

@@ -20,39 +20,40 @@ namespace TandenEngine {
     Model::Model(MetaData *inputData) {
 
 
-        LoadModel();
+        LoadModel(inputData);
     }
 
-    void Model::LoadModel() {
+    void Model::LoadModel(MetaData *data) {
         tinyobj::attrib_t attrib; //ALL vertex data
-        std::vector<tinyobj::shape_t> shapes; //All different objects in file
-        std::vector<tinyobj::material_t> materials;
-        std::string warn, err;
+        ::std::vector<tinyobj::shape_t> shapes; //All different objects in file
+        ::std::vector<tinyobj::material_t> materials;
+        ::std::string warn, err;
         //Load model data into temporary buffer
-        if (!tinyobj::LoadObj(&attrib, &shapes, &materials, &warn, &err, MODEL_PATH.c_str())) { //TODO change model path to reference the meta data dir path
+        if (!tinyobj::LoadObj(&attrib, &shapes, &materials, &warn, &err,
+                              data->mFileDir.c_str())) { //TODO change model path to reference the meta data dir path
             throw std::runtime_error(warn + err);
         }
 
         std::unordered_map<MeshVertex, uint32_t> uniqueVertices = {};
 
         //Iterate through all shapes and add their vertex data to main vector
-        for (const auto& shape : shapes) {
-            for(const auto& index : shape.mesh.indices) {
+        for (const auto &shape : shapes) {
+            for (const auto &index : shape.mesh.indices) {
                 MeshVertex vertex = {};
-                vertex.mPos = Vector3(
-                        attrib.vertices[3*index.vertex_index +0],
-                        attrib.vertices[3*index.vertex_index +1],
-                        attrib.vertices[3*index.vertex_index +2]
-                        );
-
-                vertex.mUV = Vector2(
-                        attrib.texcoords[2*index.texcoord_index +0],
-                        1.0f - attrib.texcoords[2*index.texcoord_index +1]
+                vertex.mPos = vec3(
+                        attrib.vertices[3 * index.vertex_index + 0],
+                        attrib.vertices[3 * index.vertex_index + 1],
+                        attrib.vertices[3 * index.vertex_index + 2]
                 );
 
-                vertex.mColor = Vector3(1,1,1);
+                vertex.mUV = vec2(
+                        attrib.texcoords[2 * index.texcoord_index + 0],
+                        1.0f - attrib.texcoords[2 * index.texcoord_index + 1]
+                );
 
-                if(uniqueVertices.count(vertex) == 0) //If this is a unique vertex add to verticies vector
+                vertex.mColor = vec3(1, 1, 1);
+
+                if (uniqueVertices.count(vertex) == 0) //If this is a unique vertex add to verticies vector
                 {
                     uniqueVertices[vertex] = static_cast<uint32_t>(verticies.size());
                     verticies.push_back(vertex);

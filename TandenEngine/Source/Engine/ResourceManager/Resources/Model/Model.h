@@ -10,6 +10,7 @@
 
 #include "MeshVertex.h"
 #include "../Resource.h"
+#include "../../MetaData.h"
 
 namespace TandenEngine {
 
@@ -23,10 +24,11 @@ namespace TandenEngine {
 
         Model();
         Model(MetaData* inputData); //Create a model resource from meta data input
+
         static bool CheckIfSupported(std::string extension);
 
     private:
-        void LoadModel();
+        void LoadModel(MetaData* data);
     };
 
 }

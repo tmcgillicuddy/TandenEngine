@@ -50,6 +50,8 @@ namespace TandenEngine {
 
         static void InitSystem();
 
+        static void InitGraphicsPipeline();
+
         static void Cleanup();
 
     };

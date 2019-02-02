@@ -6,12 +6,14 @@
 #define TANDENENGINE_AUDIOCLIP_H
 
 #include "./Resource.h"
+#include "../MetaData.h"
 
 namespace TandenEngine {
 
     class AudioClip : public Resource {
     public:
         AudioClip();
+        AudioClip(MetaData* metaData);
         static bool CheckIfSupported(std::string extension);
     };
 

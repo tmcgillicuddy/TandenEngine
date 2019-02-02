@@ -12,6 +12,9 @@ namespace TandenEngine {
         InitWindowSurface();
         SelectPhysicalDevice();
         InitLogicalDevice();
+    }
+
+    void VulkanInfo::InitVulkanPipeline() {
         CreateSwapChain();
         CreateImageViews();
         CreateRenderPass();
@@ -374,8 +377,8 @@ namespace TandenEngine {
 
     void VulkanInfo::CreateGraphicsPipeline() {
         //read files
-        auto vsCode = ReadFile("../Source/Engine/RenderingSystem/Shaders/vert.spv"); //can also read directly from the TriangleShader.frag
-        auto fsCode = ReadFile("../Source/Engine/RenderingSystem/Shaders/frag.spv");
+        auto vsCode = ReadFile("./ContentFiles/Shaders/vert.spv"); //can also read directly from the TriangleShader.frag
+        auto fsCode = ReadFile("./ContentFiles/Shaders/frag.spv");
 
         //make shader modules
         VkShaderModule vsModule = CreateShaderModule(vsCode);
@@ -800,4 +803,6 @@ namespace TandenEngine {
 
         return indices.isComplete() && extensionsSupported && swapChainAdequate;
     }
+
+
 }
