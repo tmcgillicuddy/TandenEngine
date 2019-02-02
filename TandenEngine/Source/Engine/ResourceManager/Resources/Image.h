@@ -6,12 +6,14 @@
 #define TANDENENGINE_IMAGE_H
 
 #include "./Resource.h"
+#include "../MetaData.h"
 
 namespace TandenEngine {
 
     class Image : public Resource {
     public:
         Image();
+        Image(MetaData* metaData);
         static bool CheckIfSupported(std::string extension);
     };
 

@@ -6,11 +6,12 @@
 #define TANDENENGINE_GAMEOBJECT_H
 
 //STD Classes
-#include <vector>
+#include <unordered_map>
+#include <typeindex>    //Provides typeindex so we can Type as a key in Map;
 #include <utility> //smart pointers
 #include <memory>
 #include <algorithm>
-#include <iostream>
+#include <type_traits>  //Templates is_same
 
 //Tanden Engine classes
 #include "Components/Component.h"
@@ -21,7 +22,7 @@ namespace TandenEngine {
         friend class Prefab;
     private:
         std::string mName = "Test_Object";
-        std::vector<std::unique_ptr<Component>> mComponents; //TODO Use map instead of vector
+        std::unordered_map<std::type_index, std::unique_ptr<Component>> mComponents;
 
     public:
         Transform * mTransform; //The locally held pointer to transform comp
@@ -32,7 +33,7 @@ namespace TandenEngine {
 
         template<typename T>
         Component *AddComponent() {
-            auto newComp = mComponents.emplace_back(std::make_unique<T>()).get();
+            auto newComp = (mComponents[typeid(T)] = std::make_unique<T>()).get();
             newComp->Register(); //Run register func (if overloaded)
             newComp->SetBaseComponent(this);
             return newComp;
@@ -40,9 +41,9 @@ namespace TandenEngine {
 
         template<typename T>
         Component *GetComponent() {
-            for (const auto &component : mComponents) {
-                if (dynamic_cast<T *>(component.get()) != nullptr)
-                    return component.get();
+            if(mComponents.count(typeid(T)) != 0)
+            {
+                return mComponents[typeid(T)].get();
             }
             return nullptr;
         };

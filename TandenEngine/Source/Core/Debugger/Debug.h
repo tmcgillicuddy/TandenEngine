@@ -5,7 +5,6 @@
 #ifndef TANDENENGINE_DEBUG_H
 #define TANDENENGINE_DEBUG_H
 
-#include <string>
 #include <vector>
 
 namespace TandenEngine {
@@ -13,11 +12,14 @@ namespace TandenEngine {
     class Debug {
         static std::vector<std::string> buffer;
     public:
-        static void Log(std::string input); //Basic log API
-        static void LogError(std::string input);
+        static void Log(char* format, ...); //Basic log API
+        static void LogError(char* format, ...);
         static void DumpBuffer(); //Dump buffer to log file //TODO call from seperate thread
+
+    private:
+        static std::string LogVector(char type, va_list arg);
+        static std::string LogMatrix(char type, va_list arg);
     };
 
 }
-
 #endif //TANDENENGINE_DEBUG_H
