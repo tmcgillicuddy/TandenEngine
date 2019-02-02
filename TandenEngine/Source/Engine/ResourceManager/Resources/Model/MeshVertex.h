@@ -20,10 +20,7 @@ namespace TandenEngine {
         bool operator==(const MeshVertex& other) const {
             return mPos == other.mPos && mColor == other.mColor && mUV == other.mUV;
         }
-
-
     };
-
 }
 
 namespace std {

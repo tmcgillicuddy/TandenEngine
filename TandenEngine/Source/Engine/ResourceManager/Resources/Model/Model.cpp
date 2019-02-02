@@ -19,8 +19,6 @@ namespace TandenEngine {
     }
 
     Model::Model(MetaData *inputData) {
-
-
         LoadModel(inputData);
     }
     const std::string MODEL_PATH = "models/chalet.obj";
