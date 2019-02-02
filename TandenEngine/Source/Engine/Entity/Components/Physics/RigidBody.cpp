@@ -16,9 +16,9 @@ namespace TandenEngine {
     void RigidBody::Update() {
         mTransform->mTransformData.r1.x = sin(Timer::mCurrentTime) * 10;
         UpdateGravity();
-        mTransform->position.x += mLinearVelocity.x;
-        mTransform->position.x += mLinearVelocity.y;
-        mTransform->position.x += mLinearVelocity.z;
+        mTransform->mTransformData.r1.x += mLinearVelocity.x;
+        mTransform->mTransformData.r1.y += mLinearVelocity.y;
+        mTransform->mTransformData.r1.z += mLinearVelocity.z;
     }
 
     void RigidBody::UpdateGravity() {
