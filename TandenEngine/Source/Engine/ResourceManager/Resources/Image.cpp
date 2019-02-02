@@ -89,5 +89,4 @@ namespace TandenEngine {
 
         //Bind image to memory device
         vkBindImageMemory(device, image, imageMemory, 0); //TODO Get device from rendering system
-    }
 }

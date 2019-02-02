@@ -6,11 +6,13 @@
 #define TANDENENGINE_FONT_H
 
 #include "./Resource.h"
+#include "../MetaData.h"
 
 namespace TandenEngine {
     class Font : public Resource {
     public:
         Font();
+        Font(MetaData* metaData);
         static bool CheckIfSupported(std::string extension);
     };
 }

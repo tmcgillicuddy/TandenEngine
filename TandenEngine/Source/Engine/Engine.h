@@ -15,6 +15,7 @@
 #include "./Serialization/ProjectSettings.h"
 #include "./Serialization/Serializer.h"
 #include "ResourceManager/ResourceManager.h"
+#include "Game.h"
 
 namespace TandenEngine {
 
@@ -33,6 +34,8 @@ namespace TandenEngine {
         std::vector<Scene *> mLoadedScenes;
 
     public:
+        static Game * mGame;
+
         Engine();
 
         void StartEngine();

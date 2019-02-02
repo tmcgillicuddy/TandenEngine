@@ -22,15 +22,15 @@ namespace TandenEngine {
                 break;
             case ResourceType::MATERIAL:
                 std::cout<<"Creating Material\n";
-                newResource = new Material();
+                newResource = new Material(metaData);
                 break;
             case ResourceType::MODEL:
                 std::cout<<"Creating Model\n";
-                newResource = new Model();
+                newResource = new Model(metaData);
                 break;
             case ResourceType::AUDIO:
                 std::cout<<"Creating Audio\n";
-                newResource = new AudioClip();
+                newResource = new AudioClip(metaData);
                 break;
             case ResourceType::IMAGE:
                 std::cout<<"Creating Image\n";
@@ -42,7 +42,7 @@ namespace TandenEngine {
                 break;
             case ResourceType::FONT:
                 std::cout<<"Creating Font\n";
-                newResource = new Font();
+                newResource = new Font(metaData);
                 break;
             default:
                 break;

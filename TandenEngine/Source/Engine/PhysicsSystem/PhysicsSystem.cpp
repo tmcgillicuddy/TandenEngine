@@ -37,8 +37,8 @@ namespace TandenEngine {
         // In theory, this should only be happening to GameObjects that are actually moving
         int n = mColliders.size();
         for(auto col : mColliders) {
-            col->mGlobalPosition = col->mTransform->position + col->mLocalPosition;
-            col->mGlobalRotation = col->mTransform->rotation + col->mLocalRotation;
+            col->mGlobalPosition = col->mTransform->mTransformData.r1 + col->mLocalPosition;
+            col->mGlobalRotation = col->mTransform->mTransformData.r2 + col->mLocalRotation;
         }
 
         Collider *colA, *colB;
@@ -76,14 +76,14 @@ namespace TandenEngine {
     }
     void PhysicsSystem::SphereSphereCollision(Collider * colA, Collider * colB) {
         float distance;
-        distance = Vector3::Distance(colA->mGlobalPosition, colB->mGlobalPosition);
+        distance = vec3::Distance(colA->mGlobalPosition, colB->mGlobalPosition);
         if (distance < (colA->mScale.x + colB->mScale.x)) {
             std::cout << "Sphere v Sphere Collision between " << colA->mParentObject->GetName() << " and " << colB->mParentObject->GetName() << std::endl;
         }
     }
     void PhysicsSystem::BoxSphereCollision(Collider * colA, Collider * colB) {
         if ((colA->mType == BOXCOLLIDER && colB->mType == SPHERECOLLIDER)) {
-            Vector3 testPoint;
+            vec3 testPoint;
             testPoint.x = fmax(colA->mGlobalPosition.x - colA->mScale.x / 2,
                                fmin(colB->mGlobalPosition.x, colA->mGlobalPosition.x + colA->mScale.x / 2));
             testPoint.y = fmax(colA->mGlobalPosition.y - colA->mScale.y / 2,
@@ -92,13 +92,13 @@ namespace TandenEngine {
                                fmin(colB->mGlobalPosition.z, colA->mGlobalPosition.z + colA->mScale.z / 2));
 
             float distance;
-            distance = Vector3::Distance(testPoint, colB->mGlobalPosition);
+            distance = vec3::Distance(testPoint, colB->mGlobalPosition);
             if (distance < colB->mScale.x) {
                 std::cout << "Box v Sphere Collision between " << colA->mParentObject->GetName() << " and "
                           << colB->mParentObject->GetName() << std::endl;
             }
         } else if ((colA->mType == SPHERECOLLIDER && colB->mType == BOXCOLLIDER)) {
-            Vector3 testPoint;
+            vec3 testPoint;
             testPoint.x = fmax(colB->mGlobalPosition.x - colB->mScale.x / 2,
                                fmin(colA->mGlobalPosition.x, colB->mGlobalPosition.x + colB->mScale.x / 2));
             testPoint.y = fmax(colB->mGlobalPosition.y - colB->mScale.y / 2,
@@ -107,7 +107,7 @@ namespace TandenEngine {
                                fmin(colA->mGlobalPosition.z, colB->mGlobalPosition.z + colB->mScale.z / 2));
 
             float distance;
-            distance = Vector3::Distance(colA->mGlobalPosition, testPoint);
+            distance = vec3::Distance(colA->mGlobalPosition, testPoint);
             if (distance < colA->mScale.x) {
                 std::cout << "Sphere v Box Collision between " << colA->mParentObject->GetName() << " and "
                           << colB->mParentObject->GetName() << std::endl;

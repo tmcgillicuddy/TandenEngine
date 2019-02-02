@@ -22,8 +22,6 @@ namespace TandenEngine {
     }
 
     void EventSystem::ProcessEvents() {
-        //std::cout << "Going through events\n";
-
         Event *thisEvent = nullptr;
         while (!mEvents.empty()) {
             thisEvent = mEvents.front(); //point to the next event

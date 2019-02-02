@@ -13,4 +13,7 @@ namespace TandenEngine {
     bool Model::CheckIfSupported(std::string extension) {
         return (extension == ".fbx" || extension == ".obj");
     }
+
+    Model::Model(MetaData *metaData) {
+    }
 }

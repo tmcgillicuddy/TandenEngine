@@ -7,6 +7,7 @@
 
 #include "./Resource.h"
 #include <vulkan/vulkan.h>
+#include "../MetaData.h"
 
 namespace TandenEngine {
 
