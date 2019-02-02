@@ -21,18 +21,12 @@ namespace TandenEngine {
         RenderingSystem::InitSystem();
         ResourceManager::ImportAssetsFolder();
 
-        std::cout << "impoted assets" << std::endl;
-
         //Make model
         Model * tempModel = new Model();
-
-        std::cout << "make model" << std::endl;
         //Pass model to manager
         //ResourceManager::AddResource(tempModel);
-        std::cout << "add resource" << std::endl;
 
         RenderingSystem::InitGraphicsPipeline();
-        std::cout << "initgraphicspipeline" << std::endl;
 
         if(mProjectSettings != nullptr)
             mProjectSettings->PrintProjectInfo(); //Display the info to make sure it's correct
@@ -55,14 +49,22 @@ namespace TandenEngine {
         //make scene
         Scene * test = new Scene();
         mLoadedScenes.emplace_back(test);
+
         //make game obj
-        GameObject * tempObj = test->CreateGameObject();
+        GameObject * tempObj = test->CreateGameObject();       \
+
         //give filter and render
         MeshFilter * tempFilter = dynamic_cast<MeshFilter*>(tempObj->AddComponent<MeshFilter>());
         MeshRenderer* tempComp =  dynamic_cast<MeshRenderer*>(tempObj->AddComponent<MeshRenderer>());
+
+
         //give rend comp model
         tempFilter->mModelResource = tempModel;
+
+
         tempComp->mpMesh = tempFilter;
+        std::cout<<"ENGINE INITIALIZATION COMPLETE\n";
+
     }
 
     void Engine::RunEngine() {
@@ -77,6 +79,8 @@ namespace TandenEngine {
             }
             //Process Events
             EventSystem::ProcessEvents();
+            std::cout<<"process events\n";
+
 
             //Update all registered physics objects
             PhysicsSystem::PhysicsUpdate();
@@ -91,11 +95,19 @@ namespace TandenEngine {
             if(mGame != nullptr)
                 mGame->UpdateGame();
 
+            std::cout<<"game updated\n";
+
+
             //Render all registered renderer components
             RenderingSystem::Draw();
 
+            std::cout<<"draw complete\n";
+
+
             //Wait for frame time
             Timer::WaitForFrameTime();
+            std::cout<<"waiting for frame\n";
+
         }
     }
 

@@ -261,6 +261,7 @@ namespace TandenEngine {
 
     VkExtent2D VulkanInfo::ChooseSwapExtent(const VkSurfaceCapabilitiesKHR& capabilities)
     {
+        //Basically just the window size for the surface
         if (capabilities.currentExtent.width != std::numeric_limits<uint32_t>::max()) {
             return capabilities.currentExtent;
         } else {
@@ -793,6 +794,22 @@ namespace TandenEngine {
 
     void VulkanInfo::CleanupVulkan()
     {
+        //swapchain cleanup
+
+        for (size_t i = 0; i < swapChainFramebuffers.size(); i++) {
+            vkDestroyFramebuffer(logicalDevice, swapChainFramebuffers[i], nullptr);
+        }
+
+        //free command buffers
+        vkFreeCommandBuffers(logicalDevice, commandPool, static_cast<uint32_t>(commandBuffers.size()), commandBuffers.data());
+
+        for (size_t i = 0; i < swapChainImageViews.size(); i++) {
+            vkDestroyImageView(logicalDevice, swapChainImageViews[i], nullptr);
+        }
+
+        vkDestroySwapchainKHR(logicalDevice, swapChain, nullptr);
+
+        //destroy sync objects
         for (size_t i = 0; i < (size_t)maxFramesInFlight; i++) {
             vkDestroySemaphore(logicalDevice, renderFinishedSemaphores[i], nullptr);
             vkDestroySemaphore(logicalDevice, imageAvailableSemaphores[i], nullptr);
@@ -825,11 +842,6 @@ namespace TandenEngine {
 
     }
 
-    void cleanupSwapChain() {
-
-
-
-    }
 
 
 }

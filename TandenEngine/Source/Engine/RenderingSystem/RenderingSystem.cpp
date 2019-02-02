@@ -27,9 +27,15 @@ namespace TandenEngine {
 
             //Draw GUI Elements
             GUI::GUISystem::DrawGUI();
+            std::cout << "draw gui \n";
+
 
             PollWindowEvents();
+            std::cout << "poll for events \n";
+
             DrawWindow();
+            std::cout << "draw window \n";
+
         }
 
         //vkDeviceWaitIdle(logicalDevice);
@@ -62,7 +68,10 @@ namespace TandenEngine {
         glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
         glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
 
+
     }
+
+
 
     void RenderingSystem::InitWindow(int windowWidth, int windowHeight, std::string windowName)
     {
@@ -84,13 +93,13 @@ namespace TandenEngine {
 
         //wait for frame to be finished
         vkWaitForFences(mVulkanInfo.logicalDevice, 1, &mVulkanInfo.inFlightFences[mVulkanInfo.currentFrame], VK_TRUE, std::numeric_limits<uint64_t>::max());
-        vkResetFences(mVulkanInfo.logicalDevice, 1, &mVulkanInfo.inFlightFences[mVulkanInfo.currentFrame]);
 
         //get next image from swapchain and trigger avaliable semaphore
         uint32_t imageIndex;
         VkResult result = vkAcquireNextImageKHR(mVulkanInfo.logicalDevice, mVulkanInfo.swapChain, std::numeric_limits<uint64_t>::max(), mVulkanInfo.imageAvailableSemaphores[mVulkanInfo.currentFrame], VK_NULL_HANDLE, &imageIndex);
 
         if (result == VK_ERROR_OUT_OF_DATE_KHR) {
+            mVulkanInfo.framebufferResized = false;
             mVulkanInfo.RecreateSwapChain();
             return;
         } else if (result != VK_SUCCESS && result != VK_SUBOPTIMAL_KHR) {
@@ -117,6 +126,9 @@ namespace TandenEngine {
         submitInfo.signalSemaphoreCount = 1;
         submitInfo.pSignalSemaphores = signalSemaphores;
 
+        //reset fences
+        vkResetFences(mVulkanInfo.logicalDevice, 1, &mVulkanInfo.inFlightFences[mVulkanInfo.currentFrame]);
+
         //failed to submit
         if (vkQueueSubmit(mVulkanInfo.gfxQueue, 1, &submitInfo, VK_NULL_HANDLE) != VK_SUCCESS) {
             throw std::runtime_error("failed to submit draw command buffer!");
@@ -142,14 +154,11 @@ namespace TandenEngine {
         //present image to swapchain
         vkQueuePresentKHR(mVulkanInfo.presentationQueue, &presentInfo);
 
+
         vkQueueWaitIdle(mVulkanInfo.presentationQueue);
 
         //increment frames
         mVulkanInfo.currentFrame = (mVulkanInfo.currentFrame + 1) % mVulkanInfo.maxFramesInFlight;
-
-        if (vkQueueSubmit(mVulkanInfo.gfxQueue, 1, &submitInfo, mVulkanInfo.inFlightFences[mVulkanInfo.currentFrame]) != VK_SUCCESS) {
-            throw std::runtime_error("failed to submit draw command buffer!");
-        }
 
     }
 

@@ -70,7 +70,7 @@ namespace TandenEngine {
         std::vector<VkFence> inFlightFences;
         size_t currentFrame = 0;
         const int maxFramesInFlight = 2; //max concurrent frames to be processed, so GPU queue doesnt get cluttered
-
+        bool framebufferResized = false;
 
         void InitVulkan();
         void InitVulkanPipeline();

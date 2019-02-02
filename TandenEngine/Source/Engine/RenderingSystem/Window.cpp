@@ -27,7 +27,6 @@ namespace TandenEngine {
     void Window::initWindow()
     {
         windowRef = glfwCreateWindow(width, height, name.c_str(), nullptr, nullptr);
-
     }
 
 
