@@ -37,9 +37,9 @@ namespace TandenEngine {
         VkDeviceMemory stagingBufferMemory;
 
         //Create a the buffer to hold the texture data
-        CreateBuffer(imageSize, VK_BUFFER_USAGE_TRANSFER_SRC_BIT,
-                     VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT  //TODO Require create buffer method
-                     | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT, stagingBuffer, stagingBufferMemory);
+        //CreateBuffer(imageSize, VK_BUFFER_USAGE_TRANSFER_SRC_BIT,
+        //             VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT  //TODO Require create buffer method
+        //             | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT, stagingBuffer, stagingBufferMemory);
 
         void *data;
         vkMapMemory(RenderingSystem::GetVulkanInfo()->logicalDevice, stagingBufferMemory, 0, imageSize, 0, &data);
@@ -76,7 +76,7 @@ namespace TandenEngine {
         imageInfo.sharingMode = VK_SHARING_MODE_EXCLUSIVE;
 
         if (vkCreateImage(RenderingSystem::GetVulkanInfo()->logicalDevice, &imageInfo, nullptr, &image) !=
-            VK_SUCCESS) { 
+            VK_SUCCESS) {
             throw std::runtime_error("failed to create image!");
         }
 
@@ -89,8 +89,8 @@ namespace TandenEngine {
         VkMemoryAllocateInfo allocInfo = {};
         allocInfo.sType = VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_INFO;
         allocInfo.allocationSize = memRequirements.size;
-        allocInfo.memoryTypeIndex = findMemoryType(memRequirements.memoryTypeBits,
-                                                   properties); //TODO Require find memory type
+        //allocInfo.memoryTypeIndex = findMemoryType(memRequirements.memoryTypeBits,
+        //                                           properties); //TODO Require find memory type
 
         if (vkAllocateMemory(RenderingSystem::GetVulkanInfo()->logicalDevice, &allocInfo, nullptr, &imageMemory) !=
             VK_SUCCESS) {
