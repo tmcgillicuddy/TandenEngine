@@ -211,6 +211,8 @@ include_directories("Libraries/stb")
 add_subdirectory(Libraries/tinyobjloader)
 target_link_libraries(TandenEngine tinyobjloader)
 
+add_subdirectory(Libraries/tinyobjloader)
+
 #Export Important content files
 file(COPY  ./ContentFiles
         DESTINATION ${CMAKE_BINARY_DIR}/ )
