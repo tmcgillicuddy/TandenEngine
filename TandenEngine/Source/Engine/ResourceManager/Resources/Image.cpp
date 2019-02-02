@@ -20,7 +20,7 @@ namespace TandenEngine {
     }
 
     bool Image::CheckIfSupported(std::string extension) {
-        return (extension == ".jpg" || extension == ".png");
+        return (extension == ".jpg" || extension == ".png" || extension == ".bmp");
     }
 
     void Image::CreateTextureImage() {
@@ -76,14 +76,14 @@ namespace TandenEngine {
         imageInfo.sharingMode = VK_SHARING_MODE_EXCLUSIVE;
 
         if (vkCreateImage(RenderingSystem::GetVulkanInfo()->logicalDevice, &imageInfo, nullptr, &image) !=
-            VK_SUCCESS) { //TODO Get device from rendering system
+            VK_SUCCESS) { 
             throw std::runtime_error("failed to create image!");
         }
 
         //Get memory requirements for image
         VkMemoryRequirements memRequirements;
         vkGetImageMemoryRequirements(RenderingSystem::GetVulkanInfo()->logicalDevice, image,
-                                     &memRequirements);//TODO Get device from rendering system
+                                     &memRequirements);
 
         //Get allocation info for image
         VkMemoryAllocateInfo allocInfo = {};
@@ -93,12 +93,12 @@ namespace TandenEngine {
                                                    properties); //TODO Require find memory type
 
         if (vkAllocateMemory(RenderingSystem::GetVulkanInfo()->logicalDevice, &allocInfo, nullptr, &imageMemory) !=
-            VK_SUCCESS) {//TODO Get device from rendering system
+            VK_SUCCESS) {
             throw std::runtime_error("failed to allocate image memory!");
         }
 
         //Bind image to memory device
         vkBindImageMemory(RenderingSystem::GetVulkanInfo()->logicalDevice, image, imageMemory,
-                          0); //TODO Get device from rendering system
+                          0);
     }
 }
