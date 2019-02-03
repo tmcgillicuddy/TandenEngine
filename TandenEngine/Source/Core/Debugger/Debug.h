@@ -5,6 +5,7 @@
 #ifndef TANDENENGINE_DEBUG_H
 #define TANDENENGINE_DEBUG_H
 
+#include <string>
 #include <vector>
 
 namespace TandenEngine {
@@ -20,6 +21,6 @@ namespace TandenEngine {
         static std::string LogVector(char type, va_list arg);
         static std::string LogMatrix(char type, va_list arg);
     };
-
 }
+
 #endif //TANDENENGINE_DEBUG_H
