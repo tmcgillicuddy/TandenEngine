@@ -28,7 +28,7 @@ namespace TandenEngine {
         static bool CheckIfSupported(std::string extension);
 
     private:
-        void LoadModel(MetaData* data);
+        void LoadModel();
     };
 
 }
