@@ -31,6 +31,7 @@ namespace TandenEngine {
         //Load model data into temporary buffer
         if (!::tinyobj::LoadObj(&attrib, &shapes, &materials, &warn, &err, mMetaData->mFileDir.c_str())) { //TODO change model path to reference the meta data dir path
             std::cout<<"Error loading model\n";
+            return;
             throw std::runtime_error(warn + err);
         }
 
