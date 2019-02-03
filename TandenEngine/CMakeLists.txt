@@ -35,12 +35,12 @@ set(IMGUI_SOURCES ${IMGUI_DIR}/imgui.cpp ${IMGUI_DIR}/imgui_demo.cpp ${IMGUI_DIR
  #       ./Source/Core/Math/NilsMath.h
  #       ./Source/Core/Math/UUID.cpp
  #       ./Source/Core/Math/UUID.h
- #       ./Source/Core/Math/Vectors/Vector2.cpp
- #       ./Source/Core/Math/Vectors/Vector2.h
- #       ./Source/Core/Math/Vectors/Vector3.cpp
- #       ./Source/Core/Math/Vectors/Vector3.h
- #       ./Source/Core/Math/Vectors/Vector4.cpp
- #       ./Source/Core/Math/Vectors/Vector4.h
+ #       ./Source/Core/Math/Vectors/vec2.cpp
+ #       ./Source/Core/Math/Vectors/vec2.h
+ #       ./Source/Core/Math/Vectors/vec3.cpp
+ #       ./Source/Core/Math/Vectors/vec3.h
+ #       ./Source/Core/Math/Vectors/vec4.cpp
+ #       ./Source/Core/Math/Vectors/vec4.h
  #       ./Source/Core/Timer/Timer.cpp
  #       ./Source/Core/Timer/Timer.h
  #       ./Source/Engine/Engine.cpp
@@ -187,7 +187,7 @@ include_directories("Libraries/GLFW/include")
 add_subdirectory("Libraries/GLFW")
 
 #Get all the source and header files from the main source code dir
-#file(GLOB_RECURSE TANDEN_SOURCE "Source/*.h" "Source/*.cpp")
+file(GLOB_RECURSE TANDEN_SOURCE "Source/*.h" "Source/*.cpp")
 
 #Put all the source file dirs into their proper place
 add_executable(TandenEngine ${TANDEN_SOURCE} ${IMGUI_SOURCES})
@@ -204,9 +204,14 @@ find_package(Vulkan REQUIRED)
 #Link the SDK using GLFW's macros
 target_link_libraries(TandenEngine ${VULKAN_LIBRARY})
 
+#Include stb headers
+include_directories("Libraries/stb")
+
 #Link tinyobj library
-include_directories(Libraries/tinyobjloader)
+add_subdirectory(Libraries/tinyobjloader)
+target_link_libraries(TandenEngine tinyobjloader)
 
 #Export Important content files
 file(COPY  ./ContentFiles
         DESTINATION ${CMAKE_BINARY_DIR}/ )
+

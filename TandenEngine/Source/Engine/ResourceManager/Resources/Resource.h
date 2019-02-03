@@ -19,6 +19,7 @@ namespace TandenEngine {
         std::string GenerateFileName();
         ResourceType mResourceType;
         std::string fileName;
+        MetaData * mMetaData;
     };
 
 }

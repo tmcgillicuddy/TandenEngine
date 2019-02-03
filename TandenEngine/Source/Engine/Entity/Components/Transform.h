@@ -14,10 +14,14 @@ namespace TandenEngine {
 
     class Transform : public Component {
     public:
-        // TODO Get consistent naming conventions for these
-        Vector3 position;
-        Vector3 rotation;
-        Vector3 scale = Vector3(1.0, 1.0, 1.0);
+        mat3 mTransformData;
+
+        vec3 mForward;
+        vec3 mRight;
+        vec3 mUp;
+
+        Transform * mParent;
+        std::vector<Transform*> mChildren;
 
         Vector3 mForward;
         Vector3 mRight;
@@ -27,13 +31,20 @@ namespace TandenEngine {
 
         ~Transform();
 
-        void Translate(Vector3 dir);
+        void Translate(vec3 dir);
 
         void LookAt(Transform * target);
 
-        void Rotate(Vector3 euler);
+        void Rotate(vec3 euler);
+
 
         void Update() override;
+
+        void SetParent(Transform * target);
+
+        void AddChild(Transform * target);
+
+        void RemoveChild(Transform * target);
 
         std::string ToString() override;
 
