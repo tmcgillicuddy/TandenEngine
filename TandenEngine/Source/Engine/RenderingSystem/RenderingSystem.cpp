@@ -142,7 +142,7 @@ namespace TandenEngine {
         presentInfo.waitSemaphoreCount = 1;
         presentInfo.pWaitSemaphores = signalSemaphores;
 
-        //specify swapchain to present images and the index of the target image
+        //specify swap chain to present images and the index of the target image
         VkSwapchainKHR swapChains[] = {mVulkanInfo.swapChain};
         presentInfo.swapchainCount = 1;
         presentInfo.pSwapchains = swapChains;

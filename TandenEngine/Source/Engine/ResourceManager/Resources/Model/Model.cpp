@@ -10,7 +10,7 @@ namespace TandenEngine {
     Model::Model() {
         mResourceType = ResourceType::MODEL;
 
-        BufferManager::CreateVertexBufferForModel(this);
+        BufferManager::CreateVertexBufferForTargetModel(this);
     }
 
     bool Model::CheckIfSupported(std::string extension) {

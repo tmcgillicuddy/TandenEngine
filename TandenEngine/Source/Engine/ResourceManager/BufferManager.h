@@ -32,8 +32,13 @@ namespace TandenEngine {
 
         static uint32_t FindMemoryType(uint32_t typeFilter, VkMemoryPropertyFlags properties);
 
+        static void CopyBuffer(VkBuffer srcBuffer, VkBuffer dstBuffer, VkDeviceSize size);
+
+        static void CreateBuffer(VkDeviceSize size, VkBufferUsageFlags usage, VkMemoryPropertyFlags properties, VkBuffer& buffer, VkDeviceMemory& bufferMemory);
 
         static void CreateVertexBufferForModel(Model * targetModel);
+
+        static void CreateVertexBufferForTargetModel(Model * targetModel);
 
     };
 
