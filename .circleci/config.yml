@@ -17,6 +17,7 @@ jobs:
             set +e
             cpplint --recursive --quiet TandenEngine/Source/ 2>lintout
             python main.py lintout
+            mv lintout.md ~/lintout.md
   
   danger:
     docker:
