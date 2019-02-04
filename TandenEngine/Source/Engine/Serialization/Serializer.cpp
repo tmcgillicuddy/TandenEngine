@@ -1,7 +1,3 @@
-//
-// Created by thomas.mcgillicuddy on 10/31/2018.
-//
-
 #include "Serializer.h"
 #include <sstream>
 #include <algorithm>
@@ -84,15 +80,15 @@ namespace TandenEngine {
         {
             valid = 0;
         }
-        else if (ftyp & FILE_ATTRIBUTE_DIRECTORY) //Valid Directory
+        else if (ftyp & FILE_ATTRIBUTE_DIRECTORY)  // Valid Directory
         {
             ftyp = GetFileAttributesA((projectDir + "/Assets/").c_str());
-            if (ftyp == INVALID_FILE_ATTRIBUTES) //Not a valid Assets directory
+            if (ftyp == INVALID_FILE_ATTRIBUTES)  // Not a valid Assets directory
             {
                 valid = 0;
             }
             ftyp = GetFileAttributesA((projectDir + "/ProjectSettings/").c_str());
-            if (ftyp == INVALID_FILE_ATTRIBUTES) //Not a valid Project settings directory
+            if (ftyp == INVALID_FILE_ATTRIBUTES)  // Not a valid Project settings directory
             {
                 valid = 0;
             }
@@ -105,7 +101,7 @@ namespace TandenEngine {
             std::cin >> newName;
             projectDir = "./";
             CreateProject(newName, projectDir);
-            projectDir = projectDir + newName; //Make sure to adjust the project directory
+            projectDir = projectDir + newName;  // Make sure to adjust the project directory
         }
 
         ProjectSettings *loadedProj = new ProjectSettings();
@@ -117,7 +113,7 @@ namespace TandenEngine {
         if (!fileStream.is_open()) {
             std::cout<< "Error Loading Project Settings File\n";
         }
-        else //File exists
+        else  // File exists
         {
             std::cout<< "Found Project Settings File\n";
             fileStream >> loadedProj->mProjectName;
@@ -134,7 +130,7 @@ namespace TandenEngine {
     }
 
     void Serializer::GetMetaDataAtDir(std::string dir) {
-        std::string extension = "*.meta"; //Extension for meta data
+        std::string extension = "*.meta";  // Extension for meta data
         std::string name, junk;
         for (auto & p : std::filesystem::recursive_directory_iterator(dir))
         {
@@ -147,23 +143,23 @@ namespace TandenEngine {
                 }
                 else
                 {
-                    //Create meta data object from file
+                    // Create meta data object from file
                     MetaData * newMeta = new MetaData();
                     std::getline(fileStream, newMeta->mFileDir);
                     fileStream >> newMeta->mGuid;
                     std::getline(fileStream, junk);
                     std::cout<<newMeta->mGuid;
                     int inputEnum;
-                    fileStream >> inputEnum; //TODO error check for missing data
+                    fileStream >> inputEnum; // TODO(Thomas) error check for missing data
                     newMeta->mFileType = (ResourceType)inputEnum;
-                    //Test generate resource from meta data
+                    // Test generate resource from meta data
                     Resource * newResouce = ResourceManager::GenerateResourceFromMetaData(newMeta);
-                    if(newResouce != nullptr) {
-                        //Add meta data to resource manager to track
+                    if (newResouce != nullptr) {
+                        // Add meta data to resource manager to track
                         ResourceManager::AddMetaData(newMeta);
-                    } else
-                    {
-                        std::cout<<"Couldn't generate resource from meta data: " << name << std::endl;
+                    } else {
+                        std::cout << "Couldn't generate resource from meta data: "
+                        << name << std::endl;
                         std::remove(name.c_str());
                     }
                 }
@@ -189,7 +185,7 @@ namespace TandenEngine {
         while (std::getline(ss, item, '\n')) {
             if (item.length() > 0) {
                 std::stringstream iss(item);
-                for(std::string item; iss >> item; )
+                for (std::string item; iss >> item; )
                     output.push_back(item);
             }
         }
@@ -213,8 +209,7 @@ namespace TandenEngine {
          newFile.open(path);
 
          std::string data = "", input;
-        while(std::getline(newFile,input)) //Read ALL the data to the output string
-        {
+        while (std::getline(newFile, input)) {  // Read ALL the data to the output string
             data += input + '\n';
         }
         newFile.close();
@@ -223,39 +218,42 @@ namespace TandenEngine {
     }
 
     void Serializer::ImportFiles() {
-        //Load up any existing meta files
+        // Load up any existing meta files
         GetMetaDataAtDir(mAssetDir);
 
-        //Discover any new files and generate new meta data for them (if supported)
+        // Discover any new files and generate new meta data for them (if supported)
         std::vector<std::string> exsistingFiles = ResourceManager::GetAllFoundResourceFiles();
         CheckDir(exsistingFiles, mAssetDir);
     }
 
     void Serializer::CheckDir(std::vector<std::string> knownFiles, std::string dir) {
-        std::string extension = "*.meta"; //Extension for meta data
+        std::string extension = "*.meta";  // Extension for meta data
         std::string name;
         std::string tempDir = dir;
-        std::replace(tempDir.begin(),tempDir.end(),'/','\\');
-        for (auto & p : std::filesystem::recursive_directory_iterator(tempDir))
-        {
+        std::replace(tempDir.begin(), tempDir.end(), '/', '\\');
+        for (auto & p : std::filesystem::recursive_directory_iterator(tempDir)) {
             name = p.path().u8string();
-            bool isCovered = false; //Flag to know if meta file for this resource already exists
-            if(name.substr(name.find_last_of(".") + 1) != "meta") {
-                for(auto metaName : knownFiles)
-                {
-                    if(name.compare(metaName) == 0) {
+            bool isCovered = false;  // Flag to know if meta file for this resource already exists
+            if (name.substr(name.find_last_of(".") + 1) != "meta") {
+                for (auto metaName : knownFiles) {
+                    if (name.compare(metaName) == 0) {
                         isCovered = true;
                         break;
                     }
                 }
 
-                if(!isCovered) //If this file doesn't have associated meta data
-                {
-                    std::string extension = p.path().extension().string(); //Gets the file's extension
+                if (!isCovered) {  // If this file doesn't have associated meta data
+                    // Gets the file's extension
+                    std::string extension = p.path().extension().string();
                     ResourceType resourceType = ResourceManager::CheckExtensionSupported(extension);
-                    if(resourceType != ResourceType::INVALID) {
-                        std::cout << "Generating Meta Data " << static_cast<int>(resourceType) << std::endl;
-                        ResourceManager::GenerateNewMetaData(p.path().filename().string(), resourceType);
+                    if (resourceType != ResourceType::INVALID) {
+                        std::cout << "Generating Meta Data "
+                        << static_cast<int>(resourceType)
+                        << std::endl;
+
+                        ResourceManager::GenerateNewMetaData(
+                                p.path().filename().string(),
+                                resourceType);
                     } else {
                         std::cout << name << " is an invalid file type\n";
                     }
