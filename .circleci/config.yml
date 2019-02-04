@@ -14,6 +14,7 @@ jobs:
       - run:
           name: Lint
           command: |
+            set +e
             cpplint --recursive --quiet TandenEngine/Source/ 2>lintout
             python main.py lintout
   
