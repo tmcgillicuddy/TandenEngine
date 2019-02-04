@@ -261,32 +261,7 @@ namespace TandenEngine {
                         std::cout << name << " is an invalid file type\n";
                     }
                 }
-                //std::ifstream fileStream;
-                //fileStream.open(name);
-                //if (!fileStream.is_open()) {
-                //    std::cout<< "Error opening meta data\n";
-                //}
-                //else
-                //{
-                //    //Create meta data object from file
-                //    MetaData * newMeta = new MetaData();
-                //    std::getline(fileStream, newMeta->mFileDir);
-                //    //fileStream >> newMeta->mGuid;
-                //    int inputEnum;
-                //    fileStream >> inputEnum; //TODO error check for missing data
-                //    newMeta->mFileType = (ResourceType)inputEnum;
-                //    //Test generate resource from meta data
-                //    Resource * newResouce = ResourceManager::GenerateResourceFromMetaData(newMeta);
-                //    if(newResouce != nullptr) {
-                //        //Add meta data to resource manager to track
-                //        ResourceManager::AddMetaData(newMeta);
-                //    } else
-                //    {
-                //        std::cout<<"Couldn't generate resource from meta data: " << name << std::endl;
-                //        std::remove(name.c_str());
-                //    }
-                //}
             }
         }
     }
-}
+}  // namespace TandenEngine
