@@ -54,5 +54,4 @@ workflows:
         - lint
         filters:
             branches:
-              ignore: 
-                - develop
+              ignore: develop
