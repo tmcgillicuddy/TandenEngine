@@ -10,50 +10,44 @@ namespace TandenEngine {
     const std::string Serializer::mFileBreak  = "=======================\n";
     std::string Serializer::mProjectDir, Serializer::mAssetDir, Serializer::mProjectSettingDir;
 
-     void Serializer::CreateProject(std::string projectName = "Untitled Project", std::string path = "./") {
-        std::cout<<"Creating Project\n";
-        std::cout<<path;
-        //Create Base Project Folder
+     void Serializer::CreateProject(std::string projectName = "Untitled Project",
+             std::string path = "./") {
+        std::cout << "Creating Project\n";
+        std::cout << path;
+        // Create Base Project Folder
          if (CreateDirectory((path + "\\" + projectName).c_str(), NULL) ||
-             ERROR_ALREADY_EXISTS == GetLastError())
-         {
-         }
-         else
-         {
+             ERROR_ALREADY_EXISTS == GetLastError()) {
+         } else {
              // Failed to create directory.
-             std::cout<<"Error creating base project folder\n";
+             std::cout << "Error creating base project folder\n";
          }
 
-         //Create Assets Folder
+         // Create Assets Folder
          if (CreateDirectory((path + "\\" + projectName+ "\\Assets").c_str(), NULL) ||
-             ERROR_ALREADY_EXISTS == GetLastError())
-         {
-             //Populate the assets folder
+             ERROR_ALREADY_EXISTS == GetLastError()) {
+             // Populate the assets folder
              std::string folderPath = path + "\\" + projectName + "\\Assets";
-         }
-         else
-         {
+         } else {
              // Failed to create directory.
-             std::cout<<"Error creating assets folder\n";
+             std::cout << "Error creating assets folder\n";
          }
 
-         //Create Project Settings Folder
+         // Create Project Settings Folder
          if (CreateDirectory((path + "\\" + projectName + "\\ProjectSettings").c_str(), NULL) ||
-             ERROR_ALREADY_EXISTS == GetLastError())
-         {
-             //Populate the project settings folder
+             ERROR_ALREADY_EXISTS == GetLastError()) {
+             // Populate the project settings folder
              std::string folderPath = path + "\\" + projectName + "\\ProjectSettings\\";
-             //Project file
+             // Project file
              {
                  ProjectSettings *projectSettings = new ProjectSettings();
-                 //Setup object
+                 // Setup object
                  projectSettings->mProjectName = projectName;
 
-                 //Write to file
+                 // Write to file
                  std::ofstream fileStream;
                  fileStream.open(folderPath + "ProjectSettings" + projectSettings->mExtension);
 
-                 //Write Project settings to file
+                 // Write Project settings to file
 
                  fileStream << projectSettings->mProjectName << "\n";
 
@@ -61,40 +55,33 @@ namespace TandenEngine {
 
                  fileStream.close();
              }
-         }
-         else
-         {
+         } else {
              // Failed to create directory.
-             std::cout<<"Error creating project settings folder\n";
+             std::cout << "Error creating project settings folder\n";
          }
      }
 
     ProjectSettings * Serializer::LoadProject(std::string projectDir) {
         std::cout<< "Loading from " << projectDir << std::endl;
 
-        int valid = 1; //Default to true
+        int valid = 1;  // Default to true
 
         DWORD ftyp = GetFileAttributesA(projectDir.c_str());
 
-        if (ftyp == INVALID_FILE_ATTRIBUTES) //Not a valid directory
-        {
+        if (ftyp == INVALID_FILE_ATTRIBUTES) {  // Not a valid directory
             valid = 0;
-        }
-        else if (ftyp & FILE_ATTRIBUTE_DIRECTORY)  // Valid Directory
-        {
+        } else if (ftyp & FILE_ATTRIBUTE_DIRECTORY) {  // Valid Directory
             ftyp = GetFileAttributesA((projectDir + "/Assets/").c_str());
-            if (ftyp == INVALID_FILE_ATTRIBUTES)  // Not a valid Assets directory
-            {
+            if (ftyp == INVALID_FILE_ATTRIBUTES) {  // Not a valid Assets directory
                 valid = 0;
             }
             ftyp = GetFileAttributesA((projectDir + "/ProjectSettings/").c_str());
-            if (ftyp == INVALID_FILE_ATTRIBUTES)  // Not a valid Project settings directory
-            {
+            if (ftyp == INVALID_FILE_ATTRIBUTES) {  // Not a valid Project settings directory
                 valid = 0;
             }
         }
 
-        if(!valid) { //Ask to make a new project at directory
+        if (!valid) {  // Ask to make a new project at directory
             std::cout << "No project at path, making a new one\n";
             std::cout << "New project name? ";
             std::string newName;
@@ -112,9 +99,7 @@ namespace TandenEngine {
 
         if (!fileStream.is_open()) {
             std::cout<< "Error Loading Project Settings File\n";
-        }
-        else  // File exists
-        {
+        } else {  // File exists
             std::cout<< "Found Project Settings File\n";
             fileStream >> loadedProj->mProjectName;
         }
@@ -132,25 +117,22 @@ namespace TandenEngine {
     void Serializer::GetMetaDataAtDir(std::string dir) {
         std::string extension = "*.meta";  // Extension for meta data
         std::string name, junk;
-        for (auto & p : std::filesystem::recursive_directory_iterator(dir))
-        {
+        for (auto & p : std::filesystem::recursive_directory_iterator(dir)) {
             name = p.path().u8string();
-            if(name.substr(name.find_last_of(".") + 1) == "meta") {
+            if (name.substr(name.find_last_of(".") + 1) == "meta") {
                 std::ifstream fileStream;
                 fileStream.open(name);
                 if (!fileStream.is_open()) {
                     std::cout<< "Error opening meta data\n";
-                }
-                else
-                {
+                } else {
                     // Create meta data object from file
                     MetaData * newMeta = new MetaData();
                     std::getline(fileStream, newMeta->mFileDir);
                     fileStream >> newMeta->mGuid;
                     std::getline(fileStream, junk);
-                    std::cout<<newMeta->mGuid;
+                    std::cout << newMeta->mGuid;
                     int inputEnum;
-                    fileStream >> inputEnum; // TODO(Thomas) error check for missing data
+                    fileStream >> inputEnum;  // TODO(Thomas) error check for missing data
                     newMeta->mFileType = (ResourceType)inputEnum;
                     // Test generate resource from meta data
                     Resource * newResouce = ResourceManager::GenerateResourceFromMetaData(newMeta);
