@@ -50,8 +50,8 @@ workflows:
     jobs:
       - lint
       - danger:
-        requires:
-        - lint
-        filters:
-          branches:
-            ignore: master 
+          requires:
+            - lint
+          filters:
+            branches:
+              ignore: develop
