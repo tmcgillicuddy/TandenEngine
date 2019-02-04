@@ -8,10 +8,14 @@ jobs:
       - checkout
       - run:
           name: Install cpplint
-          command: sudo pip install cpplint
+          command: |
+            sudo pip install cpplint
+            curl https://raw.githubusercontent.com/Robindiddams/cpplint-md/master/main.py -O
       - run:
           name: Lint
-          command: cpplint --recursive TandenEngine/Source/ >lintout
+          command: |
+            cpplint --recursive --quiet TandenEngine/Source/ 2>lintout
+            python main.py lintout
   
   danger:
     docker:
@@ -46,7 +50,7 @@ jobs:
 
 workflows:
   version: 2
-  build-test-lint:
+  build-lint:
     jobs:
       - lint
       - danger:
