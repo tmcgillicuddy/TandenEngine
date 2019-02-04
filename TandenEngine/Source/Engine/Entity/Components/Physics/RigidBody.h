@@ -18,6 +18,8 @@ namespace TandenEngine {
         float mMass;
         float mFriction;
         vec3 mLinearVelocity;
+        vec3 mAngularVelocity;
+        vec3 mCenterOfMass;
 
         void UpdateGravity();
 
