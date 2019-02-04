@@ -53,5 +53,5 @@ workflows:
         requires:
         - lint
         filters:
-            branches:
-              ignore: develop
+          branches:
+            ignore: master 
