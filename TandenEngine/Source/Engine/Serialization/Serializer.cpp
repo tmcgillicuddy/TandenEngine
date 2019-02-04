@@ -256,8 +256,7 @@ namespace TandenEngine {
                     if(resourceType != ResourceType::INVALID) {
                         std::cout << "Generating Meta Data " << static_cast<int>(resourceType) << std::endl;
                         ResourceManager::GenerateNewMetaData(p.path().filename().string(), resourceType);
-                    } else
-                    {
+                    } else {
                         std::cout << name << " is an invalid file type\n";
                     }
                 }
