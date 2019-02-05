@@ -2,8 +2,8 @@
 // Created by thomas.mcgillicuddy on 10/31/2018.
 //
 
-#ifndef HWENGINE_MODEL_H
-#define HWENGINE_MODEL_H
+#ifndef TANDENENGINE_MODEL_H
+#define TANDENENGINE_MODEL_H
 
 #include <vulkan/vulkan.h>
 #include <vector>
@@ -29,9 +29,17 @@ namespace TandenEngine {
         static bool CheckIfSupported(std::string extension);
 
      private:
+<<<<<<< HEAD
         void LoadModel(MetaData* data);
+=======
+        void LoadModel();
+>>>>>>> develop
     };
 
 }  // namespace TandenEngine
 
+<<<<<<< HEAD
 #endif  // HWENGINE_MODEL_H
+=======
+#endif  // TANDENENGINE_MODEL_H
+>>>>>>> develop

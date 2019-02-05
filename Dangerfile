@@ -13,9 +13,11 @@ message ":thumbsup: You deleted more code than you added!" if github.pr_json.del
 # First time contributor, yeah!
 message ":confetti_ball: Awesome, your first PR! Good job" if github.pr_json.author_association == "FIRST_TIME_CONTRIBUTOR"
 
-# Print out the test results
 markdown File.read(File.expand_path "~/lintout.md") if File.exist?(File.expand_path "~/lintout.md")
-fail "Linter Failed to execute" if not File.exist?(File.expand_path "~/lintout.md")
+fail "Linter Failed to execute" if not File.exist?(File.expand_path "~/lintout.md") and File.exist?(File.expand_path "~/lintout_errors.md") 
+
+markdown File.read(File.expand_path "~/lintout_errors.md") if File.exist?(File.expand_path "~/lintout_errors.md")
+fail "Linter Failed" if File.exist?(File.expand_path "~/lintout_errors.md")
 
 # Add some labels to help in PR review and finding PRs
 labels = Array.new

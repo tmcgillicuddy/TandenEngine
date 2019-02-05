@@ -17,15 +17,16 @@ namespace TandenEngine {
     }
 
     Model::Model(MetaData *inputData) {
-        LoadModel(inputData);
+        mMetaData = inputData;
+        LoadModel();
     }
-    const std::string MODEL_PATH = "models/chalet.obj";
 
-    void Model::LoadModel(MetaData *data) {
+    void Model::LoadModel() {
         tinyobj::attrib_t attrib;
         std::vector<tinyobj::shape_t> shapes;
         std::vector<tinyobj::material_t> materials;
         std::string warn, err;
+
         // Load model data into temporary buffer
         // TODO(Thomas) change model path to reference the meta data dir path
         if (!::tinyobj::LoadObj(&attrib, &shapes, &materials, &warn, &err, MODEL_PATH.c_str())) {
