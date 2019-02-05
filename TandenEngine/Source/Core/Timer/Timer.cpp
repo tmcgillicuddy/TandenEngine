@@ -22,4 +22,4 @@ namespace TandenEngine {
             }
         }
     }
-}
+}  // namespace TandenEngine

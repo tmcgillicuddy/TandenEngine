@@ -4,8 +4,7 @@
 
 #include "AudioListener.h"
 
-namespace TandenEngine
-{
+namespace TandenEngine {
 
     AudioListener::AudioListener() {
     }
@@ -24,4 +23,4 @@ namespace TandenEngine
     Component *AudioListener::ConvertFromString(std::vector<std::string> input) {
         return nullptr;
     }
-}
+}  // namespace TandenEngine

@@ -4,8 +4,7 @@
 
 #include "AudioSource.h"
 
-namespace TandenEngine
-{
+namespace TandenEngine {
 
     AudioSource::AudioSource() {
     }
@@ -27,4 +26,4 @@ namespace TandenEngine
     Component *AudioSource::ConvertFromString(std::vector<std::string> input) {
         return nullptr;
     }
-}
+}  // namespace TandenEngine

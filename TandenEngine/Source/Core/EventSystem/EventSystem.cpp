@@ -24,12 +24,12 @@ namespace TandenEngine {
     void EventSystem::ProcessEvents() {
         Event *thisEvent = nullptr;
         while (!mEvents.empty()) {
-            thisEvent = mEvents.front(); //point to the next event
-            for (auto &listener : mListeners) { //Tell all listeners that this event happened
+            thisEvent = mEvents.front();  // point to the next event
+            for (auto &listener : mListeners) {  // Tell all listeners that this event happened
                 listener->ProcessEvent(thisEvent);
             }
 
-            mEvents.pop(); //Remove the processed Event
+            mEvents.pop();  // Remove the processed Event
         }
     }
 
@@ -37,4 +37,4 @@ namespace TandenEngine {
         mEvents.push(newEvent);
     }
 
-}
+}  // namespace TandenEngine

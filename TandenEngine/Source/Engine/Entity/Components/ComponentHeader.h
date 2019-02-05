@@ -21,4 +21,4 @@
 #include "Rendering/MeshFilter.h"
 #include "Rendering/SpriteRenderer.h"
 
-#endif //TANDENENGINE_COMPONENTHEADER_H
+#endif  // TANDENENGINE_COMPONENTHEADER_H
