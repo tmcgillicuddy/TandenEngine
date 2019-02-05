@@ -22,11 +22,12 @@ jobs:
             set +e
             git diff --name-only develop | xargs cpplint --quiet 2>lintout
             python main.py lintout
-            mv lintout.md /tmp/lintout.md
+            mv lintout* /tmp
       - persist_to_workspace:
           root: /tmp
           paths:
             - lintout.md
+            - lintout_errors.md
   
   danger:
     docker:
