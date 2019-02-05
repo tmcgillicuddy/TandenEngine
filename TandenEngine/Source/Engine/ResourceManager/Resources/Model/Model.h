@@ -23,6 +23,8 @@ namespace TandenEngine {
 
         //VkBuffer vertexBuffer;
         static bool CheckIfSupported(std::string extension);
+        void CreateVertexBuffer();
+
     };
 
 }

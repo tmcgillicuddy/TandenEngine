@@ -25,6 +25,7 @@ namespace TandenEngine {
         CreateGraphicsPipeline();
         CreateFramebuffers();
         CreateCommandPool();
+        BufferManager::CreateVertexBufferForTargetModel();
         CreateCommandBuffers();
         CreateSyncObjects();
     }

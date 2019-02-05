@@ -23,10 +23,14 @@ namespace TandenEngine {
 
         //Make model
         Model * tempModel = new Model();
-        //Pass model to manager
+        //Pass model to manager //TODO move this from buffermanager instance
+
+        BufferManager::setModel(tempModel);
+
         //ResourceManager::AddResource(tempModel);
 
         RenderingSystem::InitGraphicsPipeline();
+
 
         if(mProjectSettings != nullptr)
             mProjectSettings->PrintProjectInfo(); //Display the info to make sure it's correct

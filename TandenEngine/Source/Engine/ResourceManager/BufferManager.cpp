@@ -16,7 +16,7 @@ namespace TandenEngine {
 
     VkDeviceMemory BufferManager::vBufferMemory;
     std::vector<VkBuffer> BufferManager::mBufferList;
-
+    Model* BufferManager::testModel;
 
   //  void BufferManager::CreateVertexBufferForModel(Model * targetModel)
   //  {
@@ -66,32 +66,35 @@ namespace TandenEngine {
   //}
 
 
-    void BufferManager::CreateVertexBufferForTargetModel(Model * targetModel)
+    void BufferManager::CreateVertexBufferForTargetModel()
     {
         //TODO temporarily set local verts (REMOVE THIS AND LOCAL VERTS FROM MODEL
-        targetModel->mLocalVertices = mVertices;
+        BufferManager::testModel->mLocalVertices = mVertices;
 
         //TODO replace references of [0], we may have multiple objects
         VkDeviceSize bufferSize = sizeof(mVertices[0]) * mVertices.size();
 
         VkBuffer stagingBuffer;
         VkDeviceMemory stagingBufferMemory;
+
+        std::cout << "create first buffer! \n \n";
+
         CreateBuffer(bufferSize, VK_BUFFER_USAGE_TRANSFER_SRC_BIT, VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT, stagingBuffer, stagingBufferMemory);
+
 
         void* data;
         vkMapMemory(RenderingSystem::GetVulkanInfo()->logicalDevice, stagingBufferMemory, 0, bufferSize, 0, &data);
         memcpy(data, mVertices.data(), (size_t) bufferSize);
         vkUnmapMemory(RenderingSystem::GetVulkanInfo()->logicalDevice, stagingBufferMemory);
 
+        //GOOD HERE, CRASHES WHEN IT CREATES THE SECOND BUFFER
 
-
+        std::cout << "create second buffer! \n \n";
         CreateBuffer(bufferSize, VK_BUFFER_USAGE_TRANSFER_DST_BIT | VK_BUFFER_USAGE_VERTEX_BUFFER_BIT, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT, mBufferList[0], vBufferMemory);
 
-
+        std::cout << "copy buffer! \n \n";
+        //SOMETIMES ALSO CRASHES WHEN IT COPIES BUFFER
         CopyBuffer(stagingBuffer, mBufferList[0], bufferSize);
-
-
-
 
         vkDestroyBuffer(RenderingSystem::GetVulkanInfo()->logicalDevice, stagingBuffer, nullptr);
         vkFreeMemory(RenderingSystem::GetVulkanInfo()->logicalDevice, stagingBufferMemory, nullptr);
@@ -102,8 +105,11 @@ namespace TandenEngine {
 
     void BufferManager::CreateBuffer(VkDeviceSize size, VkBufferUsageFlags usage, VkMemoryPropertyFlags properties, VkBuffer& buffer, VkDeviceMemory& bufferMemory) {
 
+        std::cout << "CreateBuffer Start \n";
+
         VkBuffer newBuffer;
         mBufferList.push_back(newBuffer);
+
 
         VkBufferCreateInfo bufferInfo = {};
         bufferInfo.sType = VK_STRUCTURE_TYPE_BUFFER_CREATE_INFO;
@@ -112,6 +118,7 @@ namespace TandenEngine {
         bufferInfo.sharingMode = VK_SHARING_MODE_EXCLUSIVE;
 
         if (vkCreateBuffer(RenderingSystem::GetVulkanInfo()->logicalDevice, &bufferInfo, nullptr, &buffer) != VK_SUCCESS) {
+
             throw std::runtime_error("failed to create buffer!");
         }
 
@@ -124,10 +131,16 @@ namespace TandenEngine {
         allocInfo.memoryTypeIndex = FindMemoryType(memRequirements.memoryTypeBits, properties);
 
         if (vkAllocateMemory(RenderingSystem::GetVulkanInfo()->logicalDevice, &allocInfo, nullptr, &bufferMemory) != VK_SUCCESS) {
+            std::cout << "mem allocation failed! \n";
+
+
             throw std::runtime_error("failed to allocate buffer memory!");
         }
 
         vkBindBufferMemory(RenderingSystem::GetVulkanInfo()->logicalDevice, buffer, bufferMemory, 0);
+
+        std::cout << "CreateBuffer Complete! \n";
+
     }
 
     uint32_t BufferManager::FindMemoryType(uint32_t typeFilter, VkMemoryPropertyFlags properties) {
@@ -147,6 +160,9 @@ namespace TandenEngine {
 
     void BufferManager::CopyBuffer(VkBuffer srcBuffer, VkBuffer dstBuffer, VkDeviceSize size) {
 
+
+        std::cout << "start copy buffer \n";
+
         //allocation info
         VkCommandBufferAllocateInfo allocInfo = {};
         allocInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO;
@@ -154,11 +170,17 @@ namespace TandenEngine {
         allocInfo.commandPool = RenderingSystem::GetVulkanInfo()->commandPool;
         allocInfo.commandBufferCount = 1;
 
+        std::cout << "ready to crash? \n";
+        system("pause");
+
         //need command buffers for memory transfer operations, create temp one for copy
         VkCommandBuffer commandBuffer;
+        std::cout << "create command buffer \n";
+        system("pause");
+
         vkAllocateCommandBuffers(RenderingSystem::GetVulkanInfo()->logicalDevice, &allocInfo, &commandBuffer);
 
-    //TODO crashes at allocate buffers
+        //TODO crashes at allocate buffers
 
         //start recording
         VkCommandBufferBeginInfo beginInfo = {};

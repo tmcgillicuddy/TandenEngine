@@ -23,6 +23,9 @@ namespace TandenEngine {
 
     public:
 
+        static Model *testModel;
+        static void setModel(Model * targetModel){testModel = targetModel;};
+
         static std::vector<MeshVertex> mVertices; //test vertices
 
         //consider eventually storing all the necessary vkBuffers and vkDeviceMemory here
@@ -38,7 +41,7 @@ namespace TandenEngine {
 
         static void CreateVertexBufferForModel(Model * targetModel);
 
-        static void CreateVertexBufferForTargetModel(Model * targetModel);
+        static void CreateVertexBufferForTargetModel(); //TODO make this for target models, or all models that have been loaded
 
     };
 

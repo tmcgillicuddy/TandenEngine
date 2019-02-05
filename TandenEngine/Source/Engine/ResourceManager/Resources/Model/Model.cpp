@@ -10,10 +10,16 @@ namespace TandenEngine {
     Model::Model() {
         mResourceType = ResourceType::MODEL;
 
-        BufferManager::CreateVertexBufferForTargetModel(this);
     }
 
     bool Model::CheckIfSupported(std::string extension) {
         return (extension == ".fbx" || extension == ".obj");
     }
+
+    void Model::CreateVertexBuffer()
+    {
+        //BufferManager::CreateVertexBufferForTargetModel(this);
+
+    }
+
 }
