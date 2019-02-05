@@ -12,16 +12,17 @@ namespace  TandenEngine {
         mType = ComponentType::SPHERECOLLIDER;
     }
 
-    SphereCollider::SphereCollider( vec3 position, float radius) {
+    SphereCollider::SphereCollider(vec3 position, float radius) {
         mType = ComponentType::SPHERECOLLIDER;
-        mLocalPosition = position, mRadius = radius, mGlobalPosition = mTransform->mTransformData.r1 + position;
+        mLocalPosition = position, mRadius = radius;
+        mGlobalPosition = mTransform->mTransformData.r1 + position;
     }
 
     SphereCollider::~SphereCollider() {
     }
 
     void SphereCollider::Update() {
-        //std::cout << "Updating Sphere Collider\n";
+        // std::cout << "Updating Sphere Collider\n";
     }
 
     std::unique_ptr<Component> SphereCollider::Clone() {
@@ -29,12 +30,12 @@ namespace  TandenEngine {
     }
 
     std::string SphereCollider::ToString() {
-        std::string data = Component::ToString(); //Call the base to string function
-        //Add component specific attributes
+        std::string data = Component::ToString();  // Call the base to string function
+        // Add component specific attributes
         return data;
     }
 
     Component *SphereCollider::ConvertFromString(std::vector<std::string>) {
         return NULL;
     }
-}
+}  // namespace TandenEngine

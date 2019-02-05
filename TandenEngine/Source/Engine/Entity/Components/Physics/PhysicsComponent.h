@@ -11,12 +11,12 @@ namespace  TandenEngine {
 
     class PhysicsComponent : public Component {
         friend class PhysicsSystem;
-        virtual void PhysicsUpdate() {};
-    public:
-        //Componenet Override
+        virtual void PhysicsUpdate() {}
+     public:
+        // Componenet Override
         void Register() override;
     };
 
-}
+}  // namespace TandenEngine
 
-#endif //TANDENENGINE_PHYSICSCOMPONENT_H
+#endif  // TANDENENGINE_PHYSICSCOMPONENT_H
