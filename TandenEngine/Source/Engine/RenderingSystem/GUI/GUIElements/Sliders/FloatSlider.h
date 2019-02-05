@@ -11,7 +11,7 @@ namespace TandenEngine {
     namespace GUI {
         class FloatSlider : public GUIElement {
         };
-    }
-}
+    }  // namespace GUI
+}  // namespace TandenEngine
 
-#endif //TANDENENGINE_FLOATSLIDER_H
+#endif  // TANDENENGINE_FLOATSLIDER_H

@@ -11,8 +11,8 @@ namespace TandenEngine {
     namespace GUI {
         class FloatField : public GUIElement {
         };
-    }
-}
+    }  // namespace GUI
+}  // namespace TandenEngine
 
 
-#endif //TANDENENGINE_FLOATFIELD_H
+#endif  // TANDENENGINE_FLOATFIELD_H

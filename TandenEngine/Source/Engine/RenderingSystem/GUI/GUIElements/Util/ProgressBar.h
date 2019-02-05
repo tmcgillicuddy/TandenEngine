@@ -11,7 +11,7 @@ namespace TandenEngine {
     namespace GUI {
         class ProgressBar : public GUIElement {
         };
-    }
-}
+    }  // namespace GUI
+}  // namespace TandenEngine
 
-#endif //TANDENENGINE_PROGRESSBAR_H
+#endif  // TANDENENGINE_PROGRESSBAR_H

@@ -11,8 +11,8 @@ namespace TandenEngine {
     namespace GUI {
         class RadioButton : public GUIElement{
         };
-    }
-}
+    }  // namespace GUI
+}  // namespace TandenEngine
 
 
-#endif //TANDENENGINE_RADIOBUTTON_H
+#endif  // TANDENENGINE_RADIOBUTTON_H
