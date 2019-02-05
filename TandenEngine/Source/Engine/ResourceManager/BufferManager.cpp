@@ -9,19 +9,34 @@
 namespace TandenEngine {
 
     std::vector<MeshVertex> BufferManager::mVertices = {
-        MeshVertex(Vector3(0.0f, -0.5f, 0.0f), Vector3(1.0f, 0.0f, 0.0f)),
-        MeshVertex(Vector3(0.5f, 0.5f, 0.0f), Vector3(0.35f, 0.71f, 1.0f)),
-        MeshVertex(Vector3(-0.5f, 0.5f, 0.0f), Vector3(0.36f, 1.0f, 1.0f))
+        MeshVertex(Vector3(-0.5f, -0.5f, 0.0f), Vector3(1.0f, 0.0f, 0.0f)),
+        MeshVertex(Vector3(0.5f, -0.5f, 0.0f), Vector3(0.66f, 0.1f, 1.0f)),
+        MeshVertex(Vector3(0.5f, 0.5f, 0.0f), Vector3(0.36f, 1.0f, 1.0f)),
+        MeshVertex(Vector3(-0.5f, 0.5f, 0.0f), Vector3(0.66f, 0.3f, 0.1f))
     };
 
+    std::vector<uint16_t> BufferManager::mIndices = {
+            0, 1, 2, 2, 3, 0
+    };
+
+
     std::vector<VkDeviceMemory> BufferManager::mVertexBufferMemoryList;
+    std::vector<VkDeviceMemory> BufferManager::mIndexBufferMemoryList;
     std::vector<VkBuffer> BufferManager::mVertexBufferList;
+    std::vector<VkBuffer> BufferManager::mIndexBufferList;
+
     Model* BufferManager::testModel;
 
-    void BufferManager::AddBuffer(VkBuffer newBuffer, VkDeviceMemory newDeviceMemory)
+    void BufferManager::AddVertexBuffer(VkBuffer newBuffer, VkDeviceMemory newDeviceMemory)
     {
         mVertexBufferList.push_back(newBuffer);
         mVertexBufferMemoryList.push_back(newDeviceMemory);
+    }
+
+    void BufferManager::AddIndexBuffer(VkBuffer newBuffer, VkDeviceMemory newDeviceMemory)
+    {
+        mIndexBufferList.push_back(newBuffer);
+        mIndexBufferMemoryList.push_back(newDeviceMemory);
     }
 
     void BufferManager::CreateVertexBufferForTargetModel()
@@ -53,7 +68,7 @@ namespace TandenEngine {
         CreateBuffer(bufferSize, VK_BUFFER_USAGE_TRANSFER_DST_BIT | VK_BUFFER_USAGE_VERTEX_BUFFER_BIT, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT, newVertexBuffer, newVertexBufferMemory);
 
         //add vertex buffer and memory to list
-        AddBuffer(newVertexBuffer, newVertexBufferMemory);
+        AddVertexBuffer(newVertexBuffer, newVertexBufferMemory);
 
         //copy data from staging to vertex buffer
         CopyBuffer(stagingBuffer, newVertexBuffer, bufferSize);
@@ -63,12 +78,50 @@ namespace TandenEngine {
         vkFreeMemory(RenderingSystem::GetVulkanInfo()->logicalDevice, stagingBufferMemory, nullptr);
     }
 
+    void BufferManager::CreateIndexBufferForTargetModel()
+    {
+        //TODO temporarily set local verts (REMOVE THIS AND LOCAL VERTS FROM MODEL
+        //BufferManager::testModel->mLocalVertices = mVertices;
+
+        //TODO replace references of [0], we may have multiple objects
+        VkDeviceSize bufferSize = sizeof(mIndices[0]) * mIndices.size();
+
+        //created locally and then trashed forever after creating the VB
+        VkBuffer stagingBuffer;
+        VkDeviceMemory stagingBufferMemory;
+
+        //create staging buffer
+        CreateBuffer(bufferSize, VK_BUFFER_USAGE_TRANSFER_SRC_BIT, VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT, stagingBuffer, stagingBufferMemory);
+
+        //write staging buffer to memory
+        void* data;
+        vkMapMemory(RenderingSystem::GetVulkanInfo()->logicalDevice, stagingBufferMemory, 0, bufferSize, 0, &data);
+        memcpy(data, mVertices.data(), (size_t) bufferSize);
+        vkUnmapMemory(RenderingSystem::GetVulkanInfo()->logicalDevice, stagingBufferMemory);
+
+        //create memory for new vertex buffer
+        VkBuffer newIndexBuffer;
+        VkDeviceMemory newIndexBufferMemory;
+
+        //create vertex buffer
+        CreateBuffer(bufferSize, VK_BUFFER_USAGE_TRANSFER_DST_BIT | VK_BUFFER_USAGE_VERTEX_BUFFER_BIT, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT, newIndexBuffer, newIndexBufferMemory);
+
+        //add vertex buffer and memory to list
+        AddIndexBuffer(newIndexBuffer, newIndexBufferMemory);
+
+        //copy data from staging to vertex buffer
+        CopyBuffer(stagingBuffer, newIndexBuffer, bufferSize);
+
+        //cleanup
+        vkDestroyBuffer(RenderingSystem::GetVulkanInfo()->logicalDevice, stagingBuffer, nullptr);
+        vkFreeMemory(RenderingSystem::GetVulkanInfo()->logicalDevice, stagingBufferMemory, nullptr);
+    }
+
+
+
 
     void BufferManager::CreateBuffer(VkDeviceSize size, VkBufferUsageFlags usage, VkMemoryPropertyFlags properties, VkBuffer& buffer, VkDeviceMemory& bufferMemory) {
 
-        std::cout << "CreateBuffer Start \n";
-
-        std::cout << "bufferlist size = " << mVertexBufferList.size();
 
         VkBufferCreateInfo bufferInfo = {};
         bufferInfo.sType = VK_STRUCTURE_TYPE_BUFFER_CREATE_INFO;
@@ -124,9 +177,8 @@ namespace TandenEngine {
         //need command buffers for memory transfer operations, create temp one for copy
         VkCommandBuffer commandBuffer;
 
+        //allocate command buffers
         vkAllocateCommandBuffers(RenderingSystem::GetVulkanInfo()->logicalDevice, &allocInfo, &commandBuffer);
-
-        //TODO crashes at allocate buffers
 
         //start recording
         VkCommandBufferBeginInfo beginInfo = {};
@@ -139,7 +191,6 @@ namespace TandenEngine {
         VkBufferCopy copyRegion = {};
         copyRegion.size = size;
         vkCmdCopyBuffer(commandBuffer, srcBuffer, dstBuffer, 1, &copyRegion);
-
 
         //end copy
         vkEndCommandBuffer(commandBuffer);
@@ -157,6 +208,20 @@ namespace TandenEngine {
         vkFreeCommandBuffers(RenderingSystem::GetVulkanInfo()->logicalDevice, RenderingSystem::GetVulkanInfo()->commandPool, 1, &commandBuffer);
     }
 
+
+    void BufferManager::Cleanup()
+    {
+        for (int i = 0; i < mVertexBufferMemoryList.size(); ++i)
+        {
+            //vertex buffers
+            vkDestroyBuffer(RenderingSystem::GetVulkanInfo()->logicalDevice, mVertexBufferList[i], nullptr);
+            vkFreeMemory(RenderingSystem::GetVulkanInfo()->logicalDevice, mVertexBufferMemoryList[i], nullptr);
+
+            //index buffers
+            vkDestroyBuffer(RenderingSystem::GetVulkanInfo()->logicalDevice, mVertexBufferList[i], nullptr);
+            vkFreeMemory(RenderingSystem::GetVulkanInfo()->logicalDevice, mVertexBufferMemoryList[i], nullptr);
+        }
+    }
 
 
 }

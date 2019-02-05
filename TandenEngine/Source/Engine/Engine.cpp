@@ -55,7 +55,7 @@ namespace TandenEngine {
         mLoadedScenes.emplace_back(test);
 
         //make game obj
-        GameObject * tempObj = test->CreateGameObject();       \
+        GameObject * tempObj = test->CreateGameObject();
 
         //give filter and render
         MeshFilter * tempFilter = dynamic_cast<MeshFilter*>(tempObj->AddComponent<MeshFilter>());
@@ -111,6 +111,8 @@ namespace TandenEngine {
             //Wait for frame time
             Timer::WaitForFrameTime();
             std::cout<<"waiting for frame\n";
+
+            std::cout << "FRAME COMPLETE \n";
 
         }
     }

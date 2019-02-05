@@ -26,11 +26,14 @@ namespace TandenEngine {
         static Model *testModel;
         static void setModel(Model * targetModel){testModel = targetModel;};
 
-        static std::vector<MeshVertex> mVertices; //test vertices
+        static std::vector<MeshVertex> mVertices;  // test vertices
+        static std::vector<uint16_t> mIndices;     // test indices
 
         static std::vector<VkDeviceMemory> mVertexBufferMemoryList;
+        static std::vector<VkDeviceMemory> mIndexBufferMemoryList;
 
         static std::vector<VkBuffer> mVertexBufferList;
+        static std::vector<VkBuffer> mIndexBufferList;
 
         static uint32_t FindMemoryType(uint32_t typeFilter, VkMemoryPropertyFlags properties);
 
@@ -38,13 +41,17 @@ namespace TandenEngine {
 
         static void CreateBuffer(VkDeviceSize size, VkBufferUsageFlags usage, VkMemoryPropertyFlags properties, VkBuffer& buffer, VkDeviceMemory& bufferMemory);
 
-        static void AddBuffer(VkBuffer newBuffer, VkDeviceMemory newDeviceMemory);
+        static void AddVertexBuffer(VkBuffer newBuffer, VkDeviceMemory newDeviceMemory);
+        static void AddIndexBuffer(VkBuffer newBuffer, VkDeviceMemory newDeviceMemory);
 
         static void CreateVertexBufferForModel(Model * targetModel);
 
         static void CreateVertexBufferForTargetModel(); //TODO make this for target models, or all models that have been loaded
+        static void CreateIndexBufferForTargetModel();
 
         static void CreateStagingBuffer();
+
+        static void Cleanup();
 
     };
 

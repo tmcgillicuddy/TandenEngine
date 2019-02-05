@@ -26,6 +26,7 @@ namespace TandenEngine {
         CreateFramebuffers();
         CreateCommandPool();
         BufferManager::CreateVertexBufferForTargetModel();
+        BufferManager::CreateIndexBufferForTargetModel();
         CreateCommandBuffers();
         CreateSyncObjects();
     }
@@ -640,8 +641,14 @@ namespace TandenEngine {
             VkDeviceSize offsets[] = {0};
             vkCmdBindVertexBuffers(commandBuffers[i], 0, 1, vertexBuffers, offsets);
 
-            //draw vertices
-            vkCmdDraw(commandBuffers[i], static_cast<uint32_t>(BufferManager::mVertices.size()), 1, 0, 0);
+            //draw indexed vertices
+             vkCmdBindIndexBuffer(commandBuffers[i], BufferManager::mIndexBufferList.at(0), 0, VK_INDEX_TYPE_UINT16);
+
+             vkCmdDrawIndexed(commandBuffers[i], static_cast<uint32_t>(BufferManager::mIndices.size()), 1, 0, 0, 0);
+            //draw non indexed
+            //vkCmdDraw(commandBuffers[i], static_cast<uint32_t>(BufferManager::mVertices.size()), 1, 0, 0);
+
+
 
             //end render pass
             vkCmdEndRenderPass(commandBuffers[i]);
