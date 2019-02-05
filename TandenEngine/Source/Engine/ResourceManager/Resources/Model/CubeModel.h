@@ -10,10 +10,10 @@
 namespace TandenEngine {
 
     class CubeModel : public Model{
-    public:
+     public:
         CubeModel();
     };
 
-}
+}  // namespace TandenEngine
 
-#endif //TANDENENGINE_CUBEMODEL_H
+#endif  // TANDENENGINE_CUBEMODEL_H
