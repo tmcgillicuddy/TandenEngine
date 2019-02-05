@@ -4,8 +4,7 @@
 
 #include "Camera.h"
 
-namespace TandenEngine
-{
+namespace TandenEngine {
 
     Camera::Camera() {
     }
@@ -24,4 +23,4 @@ namespace TandenEngine
     Component *Camera::ConvertFromString(std::vector<std::string> input) {
         return nullptr;
     }
-}
+}  // namespace TandenEngine

@@ -4,8 +4,7 @@
 
 #include "LightComponent.h"
 #include "../../../RenderingSystem/RenderingSystem.h"
-namespace TandenEngine
-{
+namespace TandenEngine {
 
     void LightComponent::Update() {
     }
@@ -24,4 +23,4 @@ namespace TandenEngine
     Component *LightComponent::ConvertFromString(std::vector<std::string> input) {
         return nullptr;
     }
-}
+}  // namespace TandenEngine
