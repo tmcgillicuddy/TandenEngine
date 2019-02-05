@@ -4,7 +4,6 @@ jobs:
   lint:
     docker:
       - image: "circleci/python:latest"
-    working_directory: ~/
     steps:
       - checkout
       - run:
@@ -27,7 +26,6 @@ jobs:
   danger:
     docker:
       - image: "dantoml/danger:latest"
-    working_directory: ~/
     steps:
       - attach_workspace:
           at: ~/
