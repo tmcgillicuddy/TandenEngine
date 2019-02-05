@@ -13,7 +13,6 @@ namespace TandenEngine {
     std::vector<Collider*> PhysicsSystem::mColliders;
 
     void PhysicsSystem::PhysicsUpdate() {
-
         CollisionUpdate();
 
         for (const auto &physicsObj : mPhysicsObjects) {
@@ -31,33 +30,31 @@ namespace TandenEngine {
 
 
     // https://developer.mozilla.org/en-US/docs/Games/Techniques/3D_collision_detection
-    void PhysicsSystem::CollisionUpdate(){
-
+    void PhysicsSystem::CollisionUpdate() {
         // Updating Global Transforms in every collider
         // In theory, this should only be happening to GameObjects that are actually moving
         int n = mColliders.size();
-        for(auto col : mColliders) {
+        for (auto col : mColliders) {
             col->mGlobalPosition = col->mTransform->mTransformData.r1 + col->mLocalPosition;
             col->mGlobalRotation = col->mTransform->mTransformData.r2 + col->mLocalRotation;
         }
 
         Collider *colA, *colB;
 
-        // cycle through the whole thing, and then everything after the start point, to avoid checking the same pair twice
-        for(int i = 0; i < n; ++i) {
-            for(int j = i + 1; j < n; ++j) {
-
+        // cycle through the whole thing, and then everything after the start point,
+        // to avoid checking the same pair twice
+        for (int i = 0; i < n; ++i) {
+            for (int j = i + 1; j < n; ++j) {
                 colA = mColliders[i];
                 colB = mColliders[j];
 
 
-                if(colA->mType == BOXCOLLIDER && colB->mType == BOXCOLLIDER) {
+                if (colA->mType == BOXCOLLIDER && colB->mType == BOXCOLLIDER) {
                     BoxBoxCollision(colA, colB);
-                }
-                else if((colA->mType == SPHERECOLLIDER && colB->mType == SPHERECOLLIDER)) {
+                } else if ((colA->mType == SPHERECOLLIDER && colB->mType == SPHERECOLLIDER)) {
                     SphereSphereCollision(colA, colB);
-                }
-                else if((colA->mType == BOXCOLLIDER && colB->mType == SPHERECOLLIDER) || (colA->mType == SPHERECOLLIDER && colB->mType == BOXCOLLIDER)) {
+                } else if ((colA->mType == BOXCOLLIDER && colB->mType == SPHERECOLLIDER) ||
+                        (colA->mType == SPHERECOLLIDER && colB->mType == BOXCOLLIDER)) {
                     BoxSphereCollision(colA, colB);
                 }
             }
