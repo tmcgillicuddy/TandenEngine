@@ -10,38 +10,37 @@ namespace TandenEngine {
 
     Resource * ResourceManager::GenerateResourceFromMetaData(MetaData *metaData) {
         Resource * newResource = nullptr;
-        switch (metaData->mFileType)
-        {
+        switch (metaData->mFileType) {
             case ResourceType::SCENE:
-                std::cout<<"Creating Scene\n";
+                std::cout <<"Creating Scene\n";
                 newResource = new Scene(metaData);
                 break;
             case ResourceType::PREFAB:
-                std::cout<<"Creating Prefab\n";
+                std::cout <<"Creating Prefab\n";
                 newResource = new Prefab(metaData);
                 break;
             case ResourceType::MATERIAL:
-                std::cout<<"Creating Material\n";
+                std::cout <<"Creating Material\n";
                 newResource = new Material(metaData);
                 break;
             case ResourceType::MODEL:
-                std::cout<<"Creating Model\n";
+                std::cout <<"Creating Model\n";
                 newResource = new Model(metaData);
                 break;
             case ResourceType::AUDIO:
-                std::cout<<"Creating Audio\n";
+                std::cout <<"Creating Audio\n";
                 newResource = new AudioClip(metaData);
                 break;
             case ResourceType::IMAGE:
-                std::cout<<"Creating Image\n";
+                std::cout <<"Creating Image\n";
                 newResource = new Image(metaData);
                 break;
             case ResourceType::SHADER:
-                std::cout<<"Creating Shader\n";
+                std::cout <<"Creating Shader\n";
                 newResource = new Shader(metaData);
                 break;
             case ResourceType::FONT:
-                std::cout<<"Creating Font\n";
+                std::cout <<"Creating Font\n";
                 newResource = new Font(metaData);
                 break;
             default:
@@ -52,15 +51,14 @@ namespace TandenEngine {
 
     void ResourceManager::ImportAssetsFolder() {
         std::vector<std::string> filePaths;
-        //Get list of all file paths from existing meta files
-        for(MetaData * data : mMetaData)
-        {
+        // Get list of all file paths from existing meta files
+        for (MetaData * data : mMetaData) {
             filePaths.emplace_back(data->mFileDir);
         }
-        //Get all files that are not of type .meta
+        // Get all files that are not of type .meta
 
 
-        //Create new meta file for any filepath that isn't part of the filePaths vector
+        // Create new meta file for any filepath that isn't part of the filePaths vector
     }
 
     void ResourceManager::AddResource(Resource *newResource, MetaData *newMetaData) {
@@ -74,7 +72,8 @@ namespace TandenEngine {
         newData->mFileType = newResource->mResourceType;
         newData->mFileDir = Serializer::mProjectDir +"/Assets/"+ newResource->GenerateFileName();
 
-        Serializer::WriteStringToAssetFolder(newResource->fileName + ".meta", newData->ConvertToString());
+        Serializer::WriteStringToAssetFolder(newResource->fileName + ".meta",
+                newData->ConvertToString());
 
         mResourceFiles.emplace_back(newResource);
     }
@@ -89,15 +88,15 @@ namespace TandenEngine {
         newData->mFileType = newResource->mResourceType;
         newData->mFileDir = Serializer::mProjectDir +"/Assets/"+ newResource->GenerateFileName();
 
-        Serializer::WriteStringToAssetFolder(newResource->fileName + ".meta", newData->ConvertToString());
+        Serializer::WriteStringToAssetFolder(newResource->fileName + ".meta",
+                newData->ConvertToString());
     }
 
     std::vector<std::string> ResourceManager::GetAllFoundResourceFiles() {
         std::vector<std::string> files;
-        for(auto file : mMetaData)
-        {
+        for (auto file : mMetaData) {
             std::string tempName = file->mFileDir;
-            std::replace(tempName.begin(),tempName.end(),'/','\\');
+            std::replace(tempName.begin(), tempName.end(), '/', '\\');
             files.emplace_back(tempName);
         }
 
@@ -105,21 +104,21 @@ namespace TandenEngine {
     }
 
     ResourceType ResourceManager::CheckExtensionSupported(std::string extension) {
-        if(Scene::CheckIfSupported(extension))
+        if (Scene::CheckIfSupported(extension))
             return ResourceType::SCENE;
-        if(Prefab::CheckIfSupported(extension))
+        if (Prefab::CheckIfSupported(extension))
             return ResourceType::PREFAB;
-        if(Material::CheckIfSupported(extension))
+        if (Material::CheckIfSupported(extension))
             return ResourceType::MATERIAL;
-        if(Image::CheckIfSupported(extension))
+        if (Image::CheckIfSupported(extension))
             return ResourceType::IMAGE;
-        if(Model::CheckIfSupported(extension))
+        if (Model::CheckIfSupported(extension))
             return ResourceType::MODEL;
-        if(Shader::CheckIfSupported(extension))
+        if (Shader::CheckIfSupported(extension))
             return ResourceType::SHADER;
-        if(AudioClip::CheckIfSupported(extension))
+        if (AudioClip::CheckIfSupported(extension))
             return ResourceType::AUDIO;
-        if(Font::CheckIfSupported(extension))
+        if (Font::CheckIfSupported(extension))
             return ResourceType::FONT;
 
         return ResourceType::INVALID;
@@ -133,16 +132,16 @@ namespace TandenEngine {
         newData->mFileType = type;
         newData->mFileDir = Serializer::mProjectDir +"/Assets/"+ path;
 
-        Serializer::WriteStringToAssetFolder(fileName + ".meta", newData->ConvertToString()); //Save the meta data file
+        // Save the meta data file
+        Serializer::WriteStringToAssetFolder(fileName + ".meta", newData->ConvertToString());
 
-        //Test generate resource from meta data
+        // Test generate resource from meta data
         Resource * newResouce = GenerateResourceFromMetaData(newData);
-        if(newResouce != nullptr) {
-            //Add meta data to resource manager to track
+        if (newResouce != nullptr) {
+            // Add meta data to resource manager to track
             AddMetaData(newData);
-        } else
-        {
-            std::cout<<"Couldn't generate resource from meta data: " << fileName << std::endl;
+        } else {
+            std::cout << "Couldn't generate resource from meta data: " << fileName << std::endl;
         }
     }
-}
+}  // namespace TandenEngine

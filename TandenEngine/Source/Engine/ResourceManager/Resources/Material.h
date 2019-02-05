@@ -11,13 +11,13 @@
 namespace TandenEngine {
 
     class Material : public Resource {
-    public:
+     public:
         Material();
         Material(MetaData * metaData);
         void SaveMaterial();
         static bool CheckIfSupported(std::string extension);
     };
 
-}
+}  // namespace TandenEngine
 
-#endif //TANDENENGINE_MATERIAL_H
+#endif  // TANDENENGINE_MATERIAL_H

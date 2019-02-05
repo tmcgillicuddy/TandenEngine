@@ -2,8 +2,8 @@
 // Created by thomas.mcgillicuddy on 10/24/2018.
 //
 
-#ifndef HWENGINE_ENGINE_H
-#define HWENGINE_ENGINE_H
+#ifndef TANDENENGINE_ENGINE_H
+#define TANDENENGINE_ENGINE_H
 
 #include <string>
 
@@ -20,20 +20,20 @@
 namespace TandenEngine {
 
     class Engine : public EventListener {
-    private:
+     private:
         bool exitStatus = 0;
 
         void ProcessEvent(Event *) override;
 
         void ProcessEventKeyboard(KeyboardEvent *);
 
-        std::string mProjectDirectory; //Directory to project folder
+        std::string mProjectDirectory;  // Directory to project folder
 
-        ProjectSettings * mProjectSettings; //The instances project settings
+        ProjectSettings * mProjectSettings;  // The instances project settings
 
         std::vector<Scene *> mLoadedScenes;
 
-    public:
+     public:
         static Game * mGame;
 
         Engine();
@@ -45,5 +45,5 @@ namespace TandenEngine {
         void StopEngine();
     };
 
-}
-#endif //HWENGINE_ENGINE_H
+}  //  namespace TandenEngine
+#endif  // TANDENENGINE_ENGINE_H
