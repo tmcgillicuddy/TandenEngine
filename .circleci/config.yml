@@ -17,12 +17,19 @@ jobs:
             set +e
             cpplint --recursive --quiet TandenEngine/Source/ 2>lintout
             python main.py lintout
-            mv lintout.md ~/lintout.md
+            # mv lintout.md ~/lintout.md
+      - persist_to_workspace:
+          root: /tmp
+          paths:
+            - lintout.md
   
   danger:
     docker:
       - image: "dantoml/danger:latest"
+    working_directory: ~/
     steps:
+      - attach_workspace:
+          at: ~/
       - checkout
       - run: danger
 
