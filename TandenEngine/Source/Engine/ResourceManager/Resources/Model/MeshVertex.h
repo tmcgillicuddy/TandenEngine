@@ -10,7 +10,7 @@
 namespace TandenEngine {
 
     class MeshVertex {
-    public:
+     public:
         vec3 mPos;
         vec2 mUV;
         vec3 mNormal;
@@ -21,7 +21,7 @@ namespace TandenEngine {
             return mPos == other.mPos && mColor == other.mColor && mUV == other.mUV;
         }
     };
-}
+}  // namespace TandenEngine
 
 namespace std {
     template<> struct ::std::hash<TandenEngine::MeshVertex> {
@@ -33,4 +33,4 @@ namespace std {
     };
 }
 
-#endif //HWENGINE_MESHVERTEX_H
+#endif  // HWENGINE_MESHVERTEX_H

@@ -5,17 +5,18 @@
 #ifndef HWENGINE_MODEL_H
 #define HWENGINE_MODEL_H
 
-#include <vector>
 #include <vulkan/vulkan.h>
+#include <vector>
 
 #include "MeshVertex.h"
 #include "../Resource.h"
 #include "../../MetaData.h"
 
+
 namespace TandenEngine {
 
     class Model : public Resource{
-    public:
+     public:
         std::vector<MeshVertex> verticies;
         std::vector<uint32_t> indices;
 
@@ -23,14 +24,14 @@ namespace TandenEngine {
         VkDeviceMemory vertexBufferMemory;
 
         Model();
-        Model(MetaData* inputData); //Create a model resource from meta data input
+        Model(MetaData* inputData);  // Create a model resource from meta data input
 
         static bool CheckIfSupported(std::string extension);
 
-    private:
+     private:
         void LoadModel(MetaData* data);
     };
 
-}
+}  // namespace TandenEngine
 
-#endif //HWENGINE_MODEL_H
+#endif  // HWENGINE_MODEL_H
