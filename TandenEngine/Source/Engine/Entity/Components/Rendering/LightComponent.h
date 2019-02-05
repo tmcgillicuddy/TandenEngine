@@ -10,17 +10,18 @@
 
 namespace TandenEngine {
     class LightComponent : public Component {
-    public:
-        LightBehavior * mLightBehavior; //How this light is supposed to behave
+     public:
+        LightBehavior * mLightBehavior;  // How this light is supposed to behave
 
-        //Component Overrides
+        // Component Overrides
         void Update() override;
         std::unique_ptr<Component> Clone() override;
         std::string ToString() override;
-        Component * ConvertFromString(std::vector<std::string> input) override; //Takes in some string data and will output a mesh collider object
-        void Register() override; //Register light with rendering system
+        // Takes in some string data and will output a mesh collider object
+        Component * ConvertFromString(std::vector<std::string> input) override;
+        void Register() override;  // Register light with rendering system
     };
 
-}
+}  // namespace TandenEngine
 
-#endif //TANDENENGINE_LIGHTCOMPONENT_H
+#endif  // TANDENENGINE_LIGHTCOMPONENT_H

@@ -11,8 +11,8 @@ namespace TandenEngine {
     namespace GUI {
         class ToolTip : public GUIElement {
         };
-    }
-}
+    }  // namespace GUI
+}  // namespace TandenEngine
 
 
-#endif //TANDENENGINE_TOOLTIP_H
+#endif  // TANDENENGINE_TOOLTIP_H

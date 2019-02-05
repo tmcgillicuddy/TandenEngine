@@ -8,10 +8,10 @@
 #include "../GUIElement.h"
 
 namespace TandenEngine {
-namespace GUI {
-    class ColorEditor : public GUIElement{
-    };
-}
-}
+    namespace GUI {
+        class ColorEditor : public GUIElement{
+        };
+    }  // namespace GUI
+}  // namespace TandenEngine
 
-#endif //TANDENENGINE_COLOREDITOR_H
+#endif  // TANDENENGINE_COLOREDITOR_H

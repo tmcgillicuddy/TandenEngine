@@ -4,8 +4,7 @@
 
 #include "ParticleSystem.h"
 
-namespace TandenEngine
-{
+namespace TandenEngine {
     ParticleSystem::ParticleSystem() {
     }
 
@@ -23,4 +22,4 @@ namespace TandenEngine
     Component *ParticleSystem::ConvertFromString(std::vector<std::string> input) {
         return nullptr;
     }
-}
+}  // namespace TandenEngine

@@ -22,5 +22,4 @@ namespace TandenEngine {
     Component *CapsuleCollider::ConvertFromString(std::vector<std::string> input) {
         return nullptr;
     }
-
-}
+}  // namespace TandenEngine

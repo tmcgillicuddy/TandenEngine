@@ -11,7 +11,7 @@ namespace TandenEngine {
     namespace GUI {
         class BeginMenuBar : public GUIElement {
         };
-    }
-}
+    }  // namespace GUI
+}  // namespace TandenEngine
 
-#endif //TANDENENGINE_BEGINMENUBAR_H
+#endif  // TANDENENGINE_BEGINMENUBAR_H

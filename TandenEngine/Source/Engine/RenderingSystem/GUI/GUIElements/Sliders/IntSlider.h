@@ -12,8 +12,8 @@ namespace TandenEngine {
 
         class IntSlider : public GUIElement {
         };
-    }
-}
+    }  // namespace GUI
+}  // namespace TandenEngine
 
 
-#endif //TANDENENGINE_INTSLIDER_H
+#endif  // TANDENENGINE_INTSLIDER_H
