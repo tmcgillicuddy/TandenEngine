@@ -26,7 +26,7 @@ namespace TandenEngine {
         std::vector<tinyobj::shape_t> shapes;
         std::vector<tinyobj::material_t> materials;
         std::string warn, err;
-      
+
         // Load model data into temporary buffer
         // TODO(Thomas) change model path to reference the meta data dir path
         if (!::tinyobj::LoadObj(&attrib, &shapes, &materials, &warn, &err, MODEL_PATH.c_str())) {
