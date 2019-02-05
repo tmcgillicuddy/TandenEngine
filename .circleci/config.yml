@@ -17,9 +17,9 @@ jobs:
             set +e
             cpplint --recursive --quiet TandenEngine/Source/ 2>lintout
             python main.py lintout
-            # mv lintout.md ~/lintout.md
+            mv lintout.md /tmp/lintout.md
       - persist_to_workspace:
-          root: ~/
+          root: /tmp
           paths:
             - lintout.md
   
