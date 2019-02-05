@@ -15,7 +15,7 @@ namespace TandenEngine {
     }
 
     void GameObject::Update() {  // Run each component's update function
-        // std::cout << "Updating GameObject \n";
+        //std::cout << "Updating GameObject \n";
         for (auto &pair : mComponents) {
            pair.second->Update();
         }
