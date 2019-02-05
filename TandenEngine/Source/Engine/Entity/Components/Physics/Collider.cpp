@@ -15,4 +15,4 @@ namespace TandenEngine {
     void Collider::Register() {
         PhysicsSystem::RegisterColliderObject(this);
     }
-}
+}  // namespace TandenEngine

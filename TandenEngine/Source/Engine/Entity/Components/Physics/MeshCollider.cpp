@@ -4,8 +4,7 @@
 
 #include "MeshCollider.h"
 
-namespace TandenEngine
-{
+namespace TandenEngine {
     MeshCollider::MeshCollider() {
     }
 
@@ -23,4 +22,4 @@ namespace TandenEngine
     Component *MeshCollider::ConvertFromString(std::vector<std::string> input) {
         return nullptr;
     }
-}
+}  // namespace TandenEngine

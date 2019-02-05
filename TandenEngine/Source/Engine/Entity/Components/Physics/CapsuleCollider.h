@@ -10,14 +10,16 @@
 namespace TandenEngine {
 
     class CapsuleCollider : public Collider {
-    public:
+     public:
         CapsuleCollider();
 
-        //Component Overrides
+        // Component Overrides
         void Update() override;
         std::unique_ptr<Component> Clone() override;
         std::string ToString() override;
-        Component * ConvertFromString(std::vector<std::string> input) override; //Takes in some string data and will output a sprite renderer object
+        // Takes in some string data and will output a sprite renderer object
+        Component * ConvertFromString(std::vector<std::string> input) override;
     };
-}
-#endif //TANDENENGINE_CAPSULECOLLIDER_H
+}  // namespace TandenEngine
+
+#endif  // TANDENENGINE_CAPSULECOLLIDER_H

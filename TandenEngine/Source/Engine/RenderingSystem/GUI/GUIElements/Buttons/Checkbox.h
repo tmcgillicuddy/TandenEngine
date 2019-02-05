@@ -11,7 +11,7 @@ namespace TandenEngine {
     namespace GUI {
         class Checkbox : public GUIElement {
         };
-    }
-}
+    }  // namespace GUI
+}  // namespace TandenEngine
 
-#endif //TANDENENGINE_CHECKBOX_H
+#endif  // TANDENENGINE_CHECKBOX_H

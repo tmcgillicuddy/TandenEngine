@@ -2,9 +2,11 @@
 // Created by thomas.mcgillicuddy on 10/31/2018.
 //
 
+#include <iostream>
+
 #include "Renderer.h"
 #include "../../../RenderingSystem/RenderingSystem.h"
-#include <iostream>
+
 
 namespace TandenEngine {
 
@@ -12,4 +14,4 @@ namespace TandenEngine {
         RenderingSystem::RegisterRenderer(this);
     }
 
-}
+}  // namespace TandenEngine

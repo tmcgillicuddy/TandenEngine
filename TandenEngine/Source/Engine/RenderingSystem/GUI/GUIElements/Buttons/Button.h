@@ -11,8 +11,8 @@ namespace TandenEngine {
     namespace GUI {
         class Button : public GUIElement {
         };
-    }
-}
+    }  // namespace GUI
+}  // namespace TandenEngine
 
 
-#endif //TANDENENGINE_BUTTON_H
+#endif  // TANDENENGINE_BUTTON_H

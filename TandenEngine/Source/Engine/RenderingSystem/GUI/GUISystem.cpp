@@ -12,14 +12,14 @@ namespace TandenEngine {
         ImGuiIO *GUISystem::io;
 
         void GUISystem::DrawGUI() {
-            //ImGui::NewFrame(); //Marks beginning of gui element allocation
-            for (const auto &element: mGuiElements) {
+            // ImGui::NewFrame(); //Marks beginning of gui element allocation
+            for (const auto &element : mGuiElements) {
                 element->DrawGUI();
             }
-            //ImGui::EndFrame(); //Marks end of gui element allocation
-            //ImGui::Render(); //Generate vertex buffers of the elements
-            //ImDrawData* draw_data = ImGui::GetDrawData(); //Get that rendered data
-            //Draw the data to back buffer
+            // ImGui::EndFrame(); //Marks end of gui element allocation
+            // ImGui::Render(); //Generate vertex buffers of the elements
+            // ImDrawData* draw_data = ImGui::GetDrawData(); //Get that rendered data
+            // Draw the data to back buffer
         }
 
         void GUISystem::RegisterGUIElement(GUIElement *newElement) {
@@ -32,7 +32,8 @@ namespace TandenEngine {
             io = &ImGui::GetIO();
 
             // Build and load the texture atlas into a texture
-            // (In the examples/ app this is usually done within the ImGui_ImplXXX_Init() function from one of the demo Renderer)
+            // (In the examples/ app this is usually done within
+            // the ImGui_ImplXXX_Init() function from one of the demo Renderer)
             int width, height;
             unsigned char *pixels = NULL;
             io->Fonts->GetTexDataAsRGBA32(&pixels, &width, &height);
@@ -41,8 +42,8 @@ namespace TandenEngine {
         void GUISystem::ShutDownGuiSystem() {
             // Shutdown
             ImGui::DestroyContext();
-            //Test
+            // Test
         }
 
-    }
-}
+    }  // namespace GUI
+}  // namespace TandenEngine

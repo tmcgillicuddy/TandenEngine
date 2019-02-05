@@ -11,13 +11,13 @@ namespace TandenEngine {
     namespace GUI {
 
         class Text : public GUIElement {
-        private:
+         private:
             std::string text = "";
-        public:
+         public:
             Text(std::string);
             void DrawGUI() override;
         };
+    }  // namespace GUI
+}  // namespace TandenEngine
 
-    }
-}
-#endif //TANDENENGINE_TEXT_H
+#endif  // TANDENENGINE_TEXT_H
