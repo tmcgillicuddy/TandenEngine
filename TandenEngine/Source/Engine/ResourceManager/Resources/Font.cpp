@@ -16,4 +16,4 @@ namespace TandenEngine {
 
     Font::Font(MetaData *metaData) {
     }
-}
+}  // namespace TandenEngine

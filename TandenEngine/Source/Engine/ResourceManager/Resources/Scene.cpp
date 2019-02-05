@@ -52,14 +52,14 @@ namespace TandenEngine {
         std::string data = Serializer::GetFileData(inputMeta->mFileDir);
         std::vector<std::string> dataLines = Serializer::SeperateString(data);
         fileName = dataLines[0];
-        for(size_t i=1; i < dataLines.size(); ++i) //Run through every object in the scene and generate a new gameobject for it
+        for(size_t i=1; i < dataLines.size(); ++i)  // Run through every object in the scene and generate a new gameobject for it
         {
             std::vector<std::string> goData;
             goData.emplace_back(dataLines[i]);
             ++i;
-            while(i < dataLines.size() && dataLines[i] != "-----") //Until the end of this object
+            while(i < dataLines.size() && dataLines[i] != "-----")  // Until the end of this object
             {
-                goData.emplace_back(dataLines[i]); //Add it to the object
+                goData.emplace_back(dataLines[i]);  // Add it to the object
                 ++i;
             }
             GameObject * newGo = new GameObject();
@@ -71,4 +71,4 @@ namespace TandenEngine {
     bool Scene::CheckIfSupported(std::string extension) {
        return (extension == ".scene");
     }
-}
+}  // namespace TandenEngine

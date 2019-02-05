@@ -8,8 +8,7 @@ namespace TandenEngine {
     std::string Resource::GenerateFileName() {
         std::string newName = fileName;
 
-        switch(mResourceType)
-        {
+        switch (mResourceType) {
             case ResourceType::SCENE:
                 newName += ".scene";
                 break;
@@ -23,4 +22,4 @@ namespace TandenEngine {
 
         return newName;
     }
-}
+}  // namespace TandenEngine

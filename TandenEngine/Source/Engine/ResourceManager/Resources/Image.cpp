@@ -101,4 +101,4 @@ namespace TandenEngine {
         vkBindImageMemory(RenderingSystem::GetVulkanInfo()->logicalDevice, image, imageMemory,
                           0);
     }
-}
+}  // namespace TandenEngine
