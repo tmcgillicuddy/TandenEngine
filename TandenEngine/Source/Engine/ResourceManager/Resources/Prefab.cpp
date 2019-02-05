@@ -11,19 +11,17 @@ namespace TandenEngine {
     void Prefab::CreatePrefab(GameObject *sourceGO) {
         fileName = sourceGO->mName;
         mComponents.reserve(sourceGO->mComponents.size());
-        for(const auto &pair : sourceGO->mComponents)
-        {
+        for (const auto &pair : sourceGO->mComponents) {
             mComponents[typeid(pair.second)] = pair.second->Clone();
         }
 
         SavePrefab();
-        //TODO destroy source go and replace with prefab reference
+        // TODO(Anyone) destroy source go and replace with prefab reference
     }
 
     void Prefab::SavePrefab() {
         std::string data = fileName + "\n";
-        for (const auto &pair : mComponents)
-        {
+        for (const auto &pair : mComponents) {
             data += pair.second->ToString();
             data += "---\n";
         }
@@ -32,7 +30,7 @@ namespace TandenEngine {
         ResourceManager::GenerateNewMetaData(this);
     }
 
-    Prefab::Prefab(){
+    Prefab::Prefab() {
         fileName = "UntitledPrefab";
         mResourceType = ResourceType::PREFAB;
     }
@@ -45,12 +43,13 @@ namespace TandenEngine {
         std::string data = Serializer::GetFileData(metaData->mFileDir);
         std::vector<std::string> dataLines = Serializer::SeperateString(data);
         GameObject * templateGo = new GameObject();
-        templateGo->GenerateFromData(dataLines); //Create a template gameobject from the meta data normally
-        CreatePrefab(templateGo); //Copy that gameobject's info normally
+        // Create a template gameobject from the meta data normally
+        templateGo->GenerateFromData(dataLines);
+        CreatePrefab(templateGo);  // Copy that gameobject's info normally
     }
 
     bool Prefab::CheckIfSupported(std::string extension) {
         return (extension == ".prefab");
     }
 
-}
+}  // namespace TandenEngine

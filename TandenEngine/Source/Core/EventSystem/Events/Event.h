@@ -2,13 +2,13 @@
 // Created by thomas.mcgillicuddy on 10/24/2018.
 //
 
-#ifndef HWENGINE_EVENT_H
-#define HWENGINE_EVENT_H
+#ifndef TANDENENGINE_EVENT_H
+#define TANDENENGINE_EVENT_H
 
 namespace TandenEngine {
 
     class Event {
-    public:
+     public:
         enum EventType {
             INPUT
         };
@@ -18,6 +18,6 @@ namespace TandenEngine {
         Event(EventType);
     };
 
-}
+}  // namespace TandenEngine
 
-#endif //HWENGINE_EVENT_H
+#endif  // TANDENENGINE_EVENT_H

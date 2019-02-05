@@ -22,7 +22,7 @@ namespace TandenEngine {
     }
 
     void Scene::Update() {
-        //std::cout << "Updating Scene \n";
+        // std::cout << "Updating Scene \n";
         for (const auto &gO : mGameObjects) {
             gO->Update();
         }
@@ -36,8 +36,7 @@ namespace TandenEngine {
     void Scene::SaveScene() {
         std::string data = fileName + "\n";
 
-        for (const auto &gO : mGameObjects)
-        {
+        for (const auto &gO : mGameObjects) {
             data += gO->ToString();
             data += "-----\n";
         }
@@ -47,18 +46,19 @@ namespace TandenEngine {
     }
 
     Scene::Scene(MetaData *inputMeta) {
-        mResourceType = ResourceType::PREFAB;
+        mResourceType = ResourceType::SCENE;
+        mMetaData = inputMeta;
         std::string data = Serializer::GetFileData(inputMeta->mFileDir);
         std::vector<std::string> dataLines = Serializer::SeperateString(data);
         fileName = dataLines[0];
-        for(size_t i=1; i < dataLines.size(); ++i) //Run through every object in the scene and generate a new gameobject for it
-        {
+        // Run through every object in the scene and generate a new gameobject for it
+        for (size_t i = 1; i < dataLines.size(); ++i) {
             std::vector<std::string> goData;
             goData.emplace_back(dataLines[i]);
             ++i;
-            while(i < dataLines.size() && dataLines[i] != "-----") //Until the end of this object
-            {
-                goData.emplace_back(dataLines[i]); //Add it to the object
+            // Until the end of this object
+            while (i < dataLines.size() && dataLines[i] != "-----") {
+                goData.emplace_back(dataLines[i]);  // Add it to the object
                 ++i;
             }
             GameObject * newGo = new GameObject();
@@ -70,4 +70,4 @@ namespace TandenEngine {
     bool Scene::CheckIfSupported(std::string extension) {
        return (extension == ".scene");
     }
-}
+}  // namespace TandenEngine

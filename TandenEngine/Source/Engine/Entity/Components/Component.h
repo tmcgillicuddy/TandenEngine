@@ -14,14 +14,12 @@ namespace TandenEngine {
     class GameObject;
     class Transform;
 
-    enum ComponentType
-    {
+    enum ComponentType {
         TRANSFORM = 0,
         MESHFILTER = 1,
         MESHRENDERER = 2,
         PHYSICSCOMPONENT = 3,
         RENDERER = 4,
-
         SPRITERENDERER = 5,
         BOXCOLLIDER = 6,
         SPHERECOLLIDER = 7,
@@ -36,26 +34,26 @@ namespace TandenEngine {
     };
 
     class Component {
-    public:
+     public:
         ComponentType mType;
         GameObject *mParentObject;
         Transform *mTransform;
 
         void SetBaseComponent(GameObject* gameObj);
 
-        //Virtual/Abstract Functions
-        virtual void Update()=0; //Base update function for all components
+        // Virtual/Abstract Functions
+        virtual void Update() = 0;  // Base update function for all components
+        // Base clone function for copying data from one gameobject to another (prefab generation)
+        virtual std::unique_ptr<Component> Clone() = 0;
+        // Registering function some special components have (see renderer and physics component)
+        virtual void Register() {}
+        // Conversion function to go from the component to a serializable string
+        virtual std::string ToString();
 
-        virtual std::unique_ptr<Component> Clone()=0; //Base clone function for copying data from one gameobject to another (prefab generation)
-
-        virtual void Register() {}; //Registering function some special components have (see renderer and physics component)
-
-        virtual std::string ToString(); //Conversion function to go from the component to a serializable string
-
-        virtual Component* ConvertFromString(std::vector<std::string> input)=0;
+        virtual Component* ConvertFromString(std::vector<std::string> input) = 0;
     };
 
 
-}
+}  // namespace TandenEngine
 
-#endif //TANDENENGINE_COMPONENT_H
+#endif  // TANDENENGINE_COMPONENT_H

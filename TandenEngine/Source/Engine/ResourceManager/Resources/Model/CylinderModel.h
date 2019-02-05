@@ -10,10 +10,10 @@
 namespace TandenEngine {
 
     class CylinderModel : public Model {
-    public:
+     public:
         CylinderModel();
     };
 
-}
+}  // namespace TandenEngine
 
-#endif //TANDENENGINE_CYLINDERMODEL_H
+#endif  // TANDENENGINE_CYLINDERMODEL_H

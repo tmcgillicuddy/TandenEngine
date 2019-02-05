@@ -12,16 +12,15 @@
 namespace TandenEngine {
 
     class Shader : public Resource{
-    public:
+     public:
         VkShaderModule shaderData;
         Shader();
         Shader(MetaData * metaData);
         static bool CheckIfSupported(std::string extension);
 
-    private:
+     private:
         VkShaderModule CreateShaderModule(const std::vector<char>& code);
     };
+}  // namespace TandenEngine
 
-}
-
-#endif //TANDENENGINE_SHADER_H
+#endif  // TANDENENGINE_SHADER_H
