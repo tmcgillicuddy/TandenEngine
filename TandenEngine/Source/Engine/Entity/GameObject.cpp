@@ -14,8 +14,8 @@ namespace TandenEngine {
     GameObject::~GameObject() {
     }
 
-    void GameObject::Update() { //Run each component's update function
-        //std::cout << "Updating GameObject \n";
+    void GameObject::Update() {  // Run each component's update function
+        // std::cout << "Updating GameObject \n";
         for (auto &pair : mComponents) {
            pair.second->Update();
         }
@@ -23,8 +23,7 @@ namespace TandenEngine {
 
     std::string GameObject::ToString() {
         std::string data = mName + "\n";
-        for (auto &pair : mComponents)
-        {
+        for (auto &pair : mComponents) {
             data += pair.second->ToString();
             data += "---\n";
         }
@@ -35,7 +34,7 @@ namespace TandenEngine {
         mName = data[0];  // First string is always the name
         // Run through every component in the gameobject and generate a new component for it
         for (size_t i=1; i < data.size(); ++i) {
-            //Get component data
+            // Get component data
             if (data[i] != "-----") {
                 std::vector<std::string> endData;
                 endData.emplace_back(data[i]);
@@ -51,7 +50,7 @@ namespace TandenEngine {
     }
 
     void GameObject::SelectComponenet(ComponentType type, std::vector<std::string> endData) {
-       //Make a new component
+       // Make a new component
         Component *newComp = nullptr;
         switch (type) {
             case ComponentType::TRANSFORM:
