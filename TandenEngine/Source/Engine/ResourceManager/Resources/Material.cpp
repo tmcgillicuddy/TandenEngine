@@ -7,8 +7,7 @@
 
 namespace TandenEngine {
 
-
-    Material::Material(){
+    Material::Material() {
         fileName = "UntitledMaterial";
         mResourceType = ResourceType::MATERIAL;
     }
@@ -24,4 +23,7 @@ namespace TandenEngine {
     bool Material::CheckIfSupported(std::string extension) {
         return (extension == ".material");
     }
-}
+
+    Material::Material(MetaData *metaData) {
+    }
+}  // namespace TandenEngine

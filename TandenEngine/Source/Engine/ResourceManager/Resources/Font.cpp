@@ -13,4 +13,7 @@ namespace TandenEngine {
     bool Font::CheckIfSupported(std::string extension) {
         return (extension == ".ttf");
     }
-}
+
+    Font::Font(MetaData *metaData) {
+    }
+}  // namespace TandenEngine

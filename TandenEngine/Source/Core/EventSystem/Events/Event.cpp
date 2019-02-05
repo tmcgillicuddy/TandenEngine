@@ -10,4 +10,4 @@ namespace TandenEngine {
         mType = type;
     }
 
-}
+}  // namespace TandenEngine
