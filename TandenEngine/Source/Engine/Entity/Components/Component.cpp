@@ -2,10 +2,11 @@
 // Created by thomas.mcgillicuddy on 10/21/2018.
 //
 
+#include <iostream>
+
 #include "Component.h"
 #include "../GameObject.h"
 #include "Transform.h"
-#include <iostream>
 
 namespace TandenEngine {
 
@@ -18,4 +19,4 @@ namespace TandenEngine {
         mParentObject = gameObj;
         mTransform = dynamic_cast<Transform*>(mParentObject->GetComponent<Transform>());
     }
-}
+}  // namespace TandenEngine
