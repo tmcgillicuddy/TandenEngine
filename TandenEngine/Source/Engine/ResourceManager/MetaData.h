@@ -9,8 +9,7 @@
 #include <iostream>
 
 namespace TandenEngine {
-    enum ResourceType
-    {
+    enum ResourceType {
         SCENE = 1,
         PREFAB = 2,
         MATERIAL = 3,
@@ -19,17 +18,17 @@ namespace TandenEngine {
         IMAGE = 6,
         SHADER = 7,
         FONT = 8,
-        INVALID=1000
+        INVALID = 1000
     };
 
     class MetaData {
         friend class Serilizer;
-    public: //TODO make private
+     public:  // TODO(Thomas) make private
         MetaData() {
             mGuid = reinterpret_cast<uint32_t>(this);
             mFileType = ResourceType::INVALID;
         }
-		
+
         std::string mFileDir, mFileName;
         uint32_t mGuid;
 
@@ -37,6 +36,6 @@ namespace TandenEngine {
 
         std::string ConvertToString();
     };
-}
+}  // namespace TandenEngine
 
-#endif //TANDENENGINE_METADATA_H
+#endif  // TANDENENGINE_METADATA_H

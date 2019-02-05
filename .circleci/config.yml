@@ -1,0 +1,75 @@
+version: 2
+
+jobs:
+  lint:
+    docker:
+      - image: "circleci/python:latest"
+    steps:
+      - checkout
+      - run:
+          name: Checkout develop
+          command: |
+            git checkout develop
+            git checkout -
+      - run:
+          name: Install cpplint
+          command: |
+            sudo pip install cpplint
+            curl https://raw.githubusercontent.com/Robindiddams/cpplint-md/master/main.py -O
+      - run:
+          name: Lint
+          command: |
+            set +e
+            git diff --name-only develop | xargs cpplint --quiet 2>lintout
+            python main.py lintout
+            mv lintout* /tmp
+      - persist_to_workspace:
+          root: /tmp
+          paths:
+            - lintout.md
+            - lintout_errors.md
+  
+  danger:
+    docker:
+      - image: "dantoml/danger:latest"
+    steps:
+      - attach_workspace:
+          at: ~/
+      - checkout
+      - run: danger
+
+  # build:
+  #   docker:
+  #     - image: "debian:latest"
+  #   steps:
+  #     - checkout
+  #     - run:
+  #       name: Installing SUDO
+  #       command: 'apt-get update && apt-get install -y sudo && rm -rf /var/lib/apt/lists/*'
+  #     - run:
+  #         name: Installing GCC
+  #         command: 'apt-get update && apt-get install -y gcc g++'
+  #     - run:
+  #         name: Install CMAKE
+  #         command: 'apt-get update && sudo apt-get install -y cmake'
+  #     - run:
+  #         name: Creating Build Files
+  #         command: 'cmake -H. -Bbuild'
+  #     - run:
+  #         name: Creating Binary Files
+  #         command: 'cmake --build build'
+  #     - run:
+  #         name: Point Unit Testing
+  #         command: './bin/point_test'
+
+workflows:
+  version: 2
+  build-lint:
+    jobs:
+      - lint
+      - danger:
+          requires:
+            - lint
+          filters:
+            branches:
+              ignore: develop

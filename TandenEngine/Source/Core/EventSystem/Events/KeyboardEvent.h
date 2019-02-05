@@ -2,19 +2,19 @@
 // Created by thomas.mcgillicuddy on 10/24/2018.
 //
 
-#ifndef HWENGINE_KEYBOARDEVENT_H
-#define HWENGINE_KEYBOARDEVENT_H
+#ifndef TANDENENGINE_KEYBOARDEVENT_H
+#define TANDENENGINE_KEYBOARDEVENT_H
 
 #include "Event.h"
 
 namespace TandenEngine {
 
     class KeyboardEvent : public Event {
-    public:
+     public:
         int mVal;
 
         KeyboardEvent(int val);
     };
-}
+}  // namespace TandenEngine
 
-#endif //HWENGINE_KEYBOARDEVENT_H
+#endif  // TANDENENGINE_KEYBOARDEVENT_H

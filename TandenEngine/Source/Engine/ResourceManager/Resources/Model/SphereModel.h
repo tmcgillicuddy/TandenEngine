@@ -10,10 +10,10 @@
 namespace TandenEngine {
 
     class SphereModel : public Model {
-    public:
+     public:
         SphereModel();
     };
 
-}
+}  // namespace TandenEngine
 
-#endif //TANDENENGINE_SPHEREMODEL_H
+#endif  // TANDENENGINE_SPHEREMODEL_H

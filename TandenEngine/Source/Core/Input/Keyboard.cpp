@@ -26,17 +26,18 @@ namespace TandenEngine {
         Key changes[101];
 
         for (int i = 0; i < 101; ++i) {
+            // If the current state and previous state are different
             changes[i].state =
-                    mKeys[i].state ^ mPrevKeys[i].state; //If the current state and previous state are different
+                    mKeys[i].state ^ mPrevKeys[i].state;
 
-            if (changes[i].state) { //If there WAS a change
-                mKeysDown[i].state = changes[i].state & mKeys[i].state; //Set the down keys
-                mKeysUp[i].state = changes[i].state & !mKeys[i].state; //Set the up keys
+            if (changes[i].state) {  // If there WAS a change
+                mKeysDown[i].state = changes[i].state & mKeys[i].state;  // Set the down keys
+                mKeysUp[i].state = changes[i].state & !mKeys[i].state;  // Set the up keys
 
-                //auto *newEvent = new KeyboardEvent(i);
-                //Send Event
-                //EventSystem::AddEvent(newEvent);
+                // auto *newEvent = new KeyboardEvent(i);
+                // Send Event
+                // EventSystem::AddEvent(newEvent);
             }
         }
     }
-}
+}  // namespace TandenEngine

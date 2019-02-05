@@ -1,30 +1,25 @@
-//
-// Created by thomas.mcgillicuddy on 10/21/2018.
-//
-
 #ifndef TANDENENGINE_GAMEOBJECT_H
 #define TANDENENGINE_GAMEOBJECT_H
 
-//STD Classes
-#include <vector>
-#include <utility> //smart pointers
+#include <unordered_map>
+#include <typeindex>    // Provides typeindex so we can Type as a key in Map;
+#include <utility>
 #include <memory>
 #include <algorithm>
-#include <iostream>
+#include <type_traits>  // Templates is_same
 
-//Tanden Engine classes
 #include "Components/Component.h"
 
 namespace TandenEngine {
 
-    class GameObject { //Game Objects always have at least a transform component
+    class GameObject {  // Game Objects always have at least a transform component
         friend class Prefab;
-    private:
+     private:
         std::string mName = "Test_Object";
-        std::vector<std::unique_ptr<Component>> mComponents; //TODO Use map instead of vector
+        std::unordered_map<std::type_index, std::unique_ptr<Component>> mComponents;
 
-    public:
-        Transform * mTransform; //The locally held pointer to transform comp
+     public:
+        Transform * mTransform;  // The locally held pointer to transform comp
 
         GameObject();
 
@@ -32,33 +27,32 @@ namespace TandenEngine {
 
         template<typename T>
         Component *AddComponent() {
-            auto newComp = mComponents.emplace_back(std::make_unique<T>()).get();
-            newComp->Register(); //Run register func (if overloaded)
+            auto newComp = (mComponents[typeid(T)] = std::make_unique<T>()).get();
+            newComp->Register();  // Run register func (if overloaded)
             newComp->SetBaseComponent(this);
             return newComp;
-        };
+        }
 
         template<typename T>
         Component *GetComponent() {
-            for (const auto &component : mComponents) {
-                if (dynamic_cast<T *>(component.get()) != nullptr)
-                    return component.get();
+            if (mComponents.count(typeid(T)) != 0) {
+                return mComponents[typeid(T)].get();
             }
             return nullptr;
-        };
+        }
 
         template<typename T>
         bool RemoveComponent() {
             for (const auto &component : mComponents) {
                 if (dynamic_cast<T *>(component.get()) != nullptr) {
-                    mComponents.erase(std::remove(mComponents.begin(), mComponents.end(), component),
-                                      mComponents.end());
+                    mComponents.erase(std::remove(mComponents.begin(),
+                            mComponents.end(), component), mComponents.end());
                     return true;
                 }
             }
 
-            return false; //There was no component of that type on the object
-        };
+            return false;  // There was no component of that type on the object
+        }
 
         void Update();
 
@@ -69,9 +63,9 @@ namespace TandenEngine {
         void SelectComponenet(ComponentType type, std::vector<std::string> data);
 
         std::string GetName() {return mName;}
-        void SetName(std::string newName){mName = newName;};
+        void SetName(std::string newName){mName = newName;}
     };
 
-}
+}  // namespace TandenEngine
 
-#endif //TANDENENGINE_GAMEOBJECT_H
+#endif  // TANDENENGINE_GAMEOBJECT_H

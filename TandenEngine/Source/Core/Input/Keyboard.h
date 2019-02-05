@@ -1,9 +1,5 @@
-//
-// Created by thomas.mcgillicuddy on 10/24/2018.
-//
-
-#ifndef HWENGINE_KEYBOARD_H
-#define HWENGINE_KEYBOARD_H
+#ifndef TANDENENGINE_KEYBOARD_H
+#define TANDENENGINE_KEYBOARD_H
 
 #include <windows.h>
 
@@ -20,21 +16,21 @@ namespace TandenEngine {
     class Keyboard {
         friend class Input;
 
-    public:
+     public:
         void UpdateKeyboard();
 
-    private:
+     private:
         void FlushKeyboard();
 
         void DetectKeyChanges();
 
-    protected:
+     protected:
         Key mKeys[101];
         Key mPrevKeys[101];
         Key mKeysDown[101];
         Key mKeysUp[101];
     };
 
-}
+}  // namespace TandenEngine
 
-#endif //HWENGINE_KEYBOARD_H
+#endif  // TANDENENGINE_KEYBOARD_H

@@ -3,7 +3,7 @@
 <img src="https://github.com/tmcgillicuddy/TandenEngine/blob/develop/Documents/TandenLogo.png" width="400" />
 
 [![Build](https://ci.appveyor.com/api/projects/status/32r7s2skrgm9ubva?svg=true)](https://ci.appveyor.com/project/tmcgillicuddy/TandenEngine)
-[![Style Guide](https://www.codefactor.io/repository/github/signalr/signalr/badge?style=plastic)](https://www.codefactor.io/repository/github/tmcgillicuddy/tandenengine)
+[![CircleCI](https://circleci.com/gh/tmcgillicuddy/TandenEngine/tree/develop.svg?style=svg)](https://circleci.com/gh/tmcgillicuddy/TandenEngine/tree/develop)
 
 ## Features
 Current Features Supported:

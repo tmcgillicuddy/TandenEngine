@@ -12,7 +12,7 @@
 namespace TandenEngine {
 
     class MeshVertex {
-    public:
+     public:
         MeshVertex(Vector3 newPos, Vector3 newColor) {mPos = newPos; mColor = newColor;};
 
         static VkVertexInputBindingDescription GetBindingDescription() {
@@ -44,14 +44,23 @@ namespace TandenEngine {
         }
 
 
-    public: //PRIVATE
+     public: //PRIVATE
         Vector3 mPos;
         Vector3 mColor;
         Vector2 mUV;
         Vector3 mNormal;
         Vector3 mTangent;
     };
+}  // namespace TandenEngine
 
+namespace std {
+    template<> struct ::std::hash<TandenEngine::MeshVertex> {
+        size_t operator()(TandenEngine::MeshVertex const& vertex) const {
+            return ((::std::hash<TandenEngine::vec3>()(vertex.mPos  ) ^
+                     (::std::hash<TandenEngine::vec3>()(vertex.mColor) << 1)) >> 1) ^
+                   (::std::hash<TandenEngine::vec2>()(vertex.mUV) << 1);
+        }
+    };
 }
 
-#endif //HWENGINE_MESHVERTEX_H
+#endif  // HWENGINE_MESHVERTEX_H

@@ -6,7 +6,7 @@
 #define TANDENENGINE_COLLIDER_H
 
 #include "../Component.h"
-#include "Vectors/Vector3.h"
+#include "Vectors/vec3.h"
 #include <iostream>
 #include "../Transform.h"
 
@@ -21,11 +21,11 @@ namespace TandenEngine {
             Collider();
             ~Collider() {};
 
-            Vector3 mLocalPosition;
-            Vector3 mGlobalPosition;
-            Vector3 mLocalRotation;
-            Vector3 mGlobalRotation;
-            Vector3 mScale = Vector3(1.0, 1.0, 1.0);
+            vec3 mLocalPosition;
+            vec3 mGlobalPosition;
+            vec3 mLocalRotation;
+            vec3 mGlobalRotation;
+            vec3 mScale = vec3(1.0, 1.0, 1.0);
 
 
         //Component Overrides

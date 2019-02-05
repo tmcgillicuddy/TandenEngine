@@ -15,7 +15,7 @@ namespace TandenEngine {
         SphereCollider();
         ~SphereCollider();
 
-        SphereCollider( Vector3 position, float radius);
+        SphereCollider( vec3 position, float radius);
 
         void Update() override;
 

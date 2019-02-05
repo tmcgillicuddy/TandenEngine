@@ -9,6 +9,6 @@
 namespace  TandenEngine {
     void ProjectSettings::PrintProjectInfo() {
         std::cout << "Project Name: " << mProjectName << std::endl;
-        //std::cout << "Project Resource Count: " << mResourceFiles.size() << std::endl;
+        // std::cout << "Project Resource Count: " << mResourceFiles.size() << std::endl;
     }
 }

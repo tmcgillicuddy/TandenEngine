@@ -17,4 +17,4 @@
 #include "Model/Model.h"
 
 
-#endif //TANDENENGINE_RESOURCEHEADER_H
+#endif  // TANDENENGINE_RESOURCEHEADER_H
