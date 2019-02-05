@@ -51,7 +51,7 @@ namespace TandenEngine {
     }
 
     void GameObject::SelectComponenet(ComponentType type, std::vector<std::string> endData) {
-       // Make a new component
+       //Make a new component
         Component *newComp = nullptr;
         switch (type) {
             case ComponentType::TRANSFORM:
