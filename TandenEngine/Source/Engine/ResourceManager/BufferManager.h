@@ -28,10 +28,9 @@ namespace TandenEngine {
 
         static std::vector<MeshVertex> mVertices; //test vertices
 
-        //consider eventually storing all the necessary vkBuffers and vkDeviceMemory here
-        static VkDeviceMemory vBufferMemory;
+        static std::vector<VkDeviceMemory> mVertexBufferMemoryList;
 
-        static std::vector<VkBuffer> mBufferList;
+        static std::vector<VkBuffer> mVertexBufferList;
 
         static uint32_t FindMemoryType(uint32_t typeFilter, VkMemoryPropertyFlags properties);
 
@@ -39,9 +38,13 @@ namespace TandenEngine {
 
         static void CreateBuffer(VkDeviceSize size, VkBufferUsageFlags usage, VkMemoryPropertyFlags properties, VkBuffer& buffer, VkDeviceMemory& bufferMemory);
 
+        static void AddBuffer(VkBuffer newBuffer, VkDeviceMemory newDeviceMemory);
+
         static void CreateVertexBufferForModel(Model * targetModel);
 
         static void CreateVertexBufferForTargetModel(); //TODO make this for target models, or all models that have been loaded
+
+        static void CreateStagingBuffer();
 
     };
 

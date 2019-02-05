@@ -636,7 +636,7 @@ namespace TandenEngine {
             vkCmdBindPipeline(commandBuffers[i], VK_PIPELINE_BIND_POINT_GRAPHICS, graphicsPipeline);
 
             //bind vertex buffers from buffer list
-            VkBuffer vertexBuffers[] = {BufferManager::mBufferList.at(0)}; //TODO iterate through all vertex buffers
+            VkBuffer vertexBuffers[] = {BufferManager::mVertexBufferList.at(0)}; //TODO iterate through all vertex buffers
             VkDeviceSize offsets[] = {0};
             vkCmdBindVertexBuffers(commandBuffers[i], 0, 1, vertexBuffers, offsets);
 
