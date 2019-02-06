@@ -29,17 +29,9 @@ namespace TandenEngine {
         static bool CheckIfSupported(std::string extension);
 
      private:
-<<<<<<< HEAD
-        void LoadModel(MetaData* data);
-=======
         void LoadModel();
->>>>>>> develop
     };
 
 }  // namespace TandenEngine
 
-<<<<<<< HEAD
-#endif  // HWENGINE_MODEL_H
-=======
 #endif  // TANDENENGINE_MODEL_H
->>>>>>> develop

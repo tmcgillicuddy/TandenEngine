@@ -25,14 +25,13 @@ namespace TandenEngine {
 
         Transform();
 
-        ~Transform();
+        ~Transform() {}
 
         void Translate(vec3 dir);
 
         void LookAt(Transform * target);
 
         void Rotate(vec3 euler);
-
 
         void Update() override;
 
