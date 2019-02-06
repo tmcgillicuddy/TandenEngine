@@ -16,9 +16,9 @@ namespace TandenEngine {
      public:
         mat3 mTransformData;
 
-        vec3 mForward = vec3(0,0,0);
-        vec3 mRight = vec3(0,0,0);
-        vec3 mUp = vec3(0,0,0);
+        vec3 mForward;
+        vec3 mRight;
+        vec3 mUp;
 
         Transform * mParent;
         std::vector<Transform*> mChildren;
