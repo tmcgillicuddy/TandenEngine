@@ -42,6 +42,9 @@ namespace TandenEngine {
             return attributeDescriptions;
         }
 
+        bool operator==(const MeshVertex& other) const {
+            return mPos == other.mPos && mColor == other.mColor && mUV == other.mUV;
+        }
 
      public:  // PRIVATE
         vec3 mPos;
