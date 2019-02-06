@@ -11,7 +11,7 @@
 namespace TandenEngine {
 
     class AudioClip : public Resource {
-    public:
+     public:
         AudioClip();
         AudioClip(MetaData* metaData);
         static bool CheckIfSupported(std::string extension);
@@ -19,4 +19,4 @@ namespace TandenEngine {
 
 }
 
-#endif //TANDENENGINE_AUDIOCLIP_H
+#endif  // TANDENENGINE_AUDIOCLIP_H

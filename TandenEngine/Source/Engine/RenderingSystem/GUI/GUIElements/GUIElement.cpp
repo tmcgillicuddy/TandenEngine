@@ -15,5 +15,5 @@ namespace TandenEngine {
             RegisterGUI();
         }
 
-    }
-}
+    }  // namespace GUI
+}  // namespace TandenEngine

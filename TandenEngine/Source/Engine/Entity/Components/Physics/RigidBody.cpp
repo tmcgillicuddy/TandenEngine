@@ -13,7 +13,7 @@ namespace TandenEngine {
 
     void RigidBody::Update() {
         mTransform->mTransformData.r1.x = sin(Timer::mCurrentTime) * 10;
-        //std::cout<<mTransform->position;
+        // std::cout<<mTransform->position;
     }
 
     std::unique_ptr<Component> RigidBody::Clone() {
@@ -21,11 +21,11 @@ namespace TandenEngine {
     }
 
     std::string RigidBody::ToString() {
-        std::string data = Component::ToString(); //Call the base to string function
+        std::string data = Component::ToString();  // Call the base to string function
         return data;
     }
 
     Component *RigidBody::ConvertFromString(std::vector<std::string> input) {
         return nullptr;
     }
-}
+}  // namespace TandenEngine

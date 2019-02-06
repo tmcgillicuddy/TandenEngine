@@ -11,7 +11,7 @@ namespace TandenEngine {
     namespace GUI {
         class TextField : public GUIElement{
         };
-    }
-}
+    }  // namespace GUI
+}  // namespace TandenEngine
 
-#endif //TANDENENGINE_TEXTFIELD_H
+#endif  // TANDENENGINE_TEXTFIELD_H

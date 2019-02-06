@@ -9,15 +9,16 @@
 
 namespace TandenEngine {
     class AudioListener : public Component {
-    public:
+     public:
         AudioListener();
 
-        //Component Overrides
+        // Component Overrides
         void Update() override;
         std::unique_ptr<Component> Clone() override;
         std::string ToString() override;
-        Component * ConvertFromString(std::vector<std::string> input) override; //Takes in some string data and will output an audio listener object
+        // Takes in some string data and will output an audio listener object
+        Component * ConvertFromString(std::vector<std::string> input) override;
     };
-}
+}  // namespace TandenEngine
 
-#endif //TANDENENGINE_AUDIOLISTENER_H
+#endif  // TANDENENGINE_AUDIOLISTENER_H

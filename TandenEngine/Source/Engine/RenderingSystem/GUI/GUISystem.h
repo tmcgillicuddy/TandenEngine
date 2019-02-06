@@ -14,19 +14,19 @@
 namespace TandenEngine {
     namespace GUI {
         class GUISystem {
-            static std::vector<GUIElement *> mGuiElements; //List of gui elements
-            static ImGuiIO* io; //ImGui io struct, filled with Tanden data
+            static std::vector<GUIElement *> mGuiElements;  // List of gui elements
+            static ImGuiIO* io;  // ImGui io struct, filled with Tanden data
 
-        public:
-            static void InitGUISystem(); //Init the GUI system
+         public:
+            static void InitGUISystem();  // Init the GUI system
 
             static void ShutDownGuiSystem();
 
-            static void DrawGUI(); //Draw GUI elements
-
-            static void RegisterGUIElement(GUIElement *newElement); //Register the GUI elements
+            static void DrawGUI();  // Draw GUI elements
+            // Register the GUI elements
+            static void RegisterGUIElement(GUIElement *newElement);
         };
-    }
-}
+    }  // namespace GUI
+}  // namespace TandenEngine
 
-#endif //TANDENENGINE_GUISYSTEM_H
+#endif  // TANDENENGINE_GUISYSTEM_H

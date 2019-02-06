@@ -13,4 +13,4 @@ namespace TandenEngine {
     std::unique_ptr<Component> MeshFilter::Clone() {
         return std::unique_ptr<MeshFilter>(this);
     }
-}
+}  // namespace TandenEngine

@@ -8,14 +8,14 @@
 namespace TandenEngine {
 
     class Game {
-    public:
-        virtual void StartUpGame()=0;
+     public:
+        virtual void StartUpGame() = 0;
 
-        virtual void UpdateGame()=0;
+        virtual void UpdateGame() = 0;
 
-        virtual void ShutDownGame()=0;
+        virtual void ShutDownGame() = 0;
     };
 
-}
+}  // namespace TandenEngine
 
-#endif //TANDENENGINE_GAME_H
+#endif  // TANDENENGINE_GAME_H

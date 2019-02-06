@@ -8,11 +8,10 @@
 #include "../GUIElement.h"
 
 namespace TandenEngine {
-    namespace GUI
-    {
+    namespace GUI {
         class Menu : public GUIElement {
         };
-    }
-}
+    }  // namespace GUI
+}  // namespace TandenEngine
 
-#endif //TANDENENGINE_MENU_H
+#endif  // TANDENENGINE_MENU_H

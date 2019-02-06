@@ -2,15 +2,14 @@
 // Created by thomas.mcgillicuddy on 10/24/2018.
 //
 
-#ifndef HWENGINE_INPUT_H
-#define HWENGINE_INPUT_H
+#ifndef TANDENENGINE_INPUT_H
+#define TANDENENGINE_INPUT_H
 
 #include "Keyboard.h"
 
 namespace TandenEngine {
 
-    enum KeyCode
-    {
+    enum KeyCode {
         A = 65,
         B = 66,
         C = 67,
@@ -54,15 +53,15 @@ namespace TandenEngine {
     };
 
     class Input {
-    private:
+     private:
         static Keyboard mKeyboard;
-    public:
-        static void GetInput(); //Update keyboard
-        static bool GetKeyDown(KeyCode key); //Check for input keycode pressed this frame
-        static bool GetKey(KeyCode key); //Check if input keycode is down
-        static bool GetKeyUp(KeyCode key); //Check if input key code released this frame
+     public:
+        static void GetInput();  // Update keyboard
+        static bool GetKeyDown(KeyCode key);  // Check for input keycode pressed this frame
+        static bool GetKey(KeyCode key);  // Check if input keycode is down
+        static bool GetKeyUp(KeyCode key);  // Check if input key code released this frame
     };
 
-}
+}  // namespace TandenEngine
 
-#endif //HWENGINE_INPUT_H
+#endif  // TANDENENGINE_INPUT_H

@@ -6,7 +6,7 @@
 #include "../../RenderingSystem/RenderingSystem.h"
 namespace TandenEngine {
 
-    Shader::Shader(){
+    Shader::Shader() {
         mResourceType = ResourceType::SHADER;
     }
 
@@ -15,7 +15,7 @@ namespace TandenEngine {
         std::ifstream file(metaData->mFileDir, std::ios::ate | std::ios::binary);
 
         if (!file.is_open()) {
-            //throw std::runtime_error("failed to open file!");
+            // throw std::runtime_error("failed to open file!");
             std::cout << "failed to open file!" << metaData->mFileDir << std::endl;
         }
 
@@ -31,7 +31,8 @@ namespace TandenEngine {
     }
 
     bool Shader::CheckIfSupported(std::string extension) {
-        return (extension == ".glsl" || extension == ".fs" || extension == ".vs" || extension == ".gs");
+        return (extension == ".glsl" || extension == ".fs"
+        || extension == ".vs" || extension == ".gs");
     }
 
     VkShaderModule Shader::CreateShaderModule(const std::vector<char> &code) {
@@ -41,10 +42,11 @@ namespace TandenEngine {
         createInfo.pCode = reinterpret_cast<const uint32_t*>(code.data());
 
         VkShaderModule shaderModule;
-        if (vkCreateShaderModule(RenderingSystem::GetVulkanInfo()->logicalDevice, &createInfo, nullptr, &shaderModule) != VK_SUCCESS) { //TODO get logical device from rendering system
+        if (vkCreateShaderModule(RenderingSystem::GetVulkanInfo()->logicalDevice,
+                &createInfo, nullptr, &shaderModule) != VK_SUCCESS) {
             throw std::runtime_error("failed to create shader module!");
         }
 
         return shaderModule;
     }
-}
+}  // namespace TandenEngine

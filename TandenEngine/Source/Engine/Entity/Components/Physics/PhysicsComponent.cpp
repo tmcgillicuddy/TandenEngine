@@ -10,4 +10,4 @@ namespace  TandenEngine {
     void PhysicsComponent::Register() {
         PhysicsSystem::RegisterPhysicsObject(this);
     }
-}
+}  // namespace TandenEngine

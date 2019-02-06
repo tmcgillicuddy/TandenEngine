@@ -24,4 +24,4 @@ namespace TandenEngine {
         return mKeyboard.mKeysUp[key].state && mKeyboard.mPrevKeys[key].state;
     }
 
-}
+}  // namespace TandenEngine

@@ -11,20 +11,20 @@
 namespace TandenEngine {
 
     class BoxCollider : public Collider {
-        public:
-            BoxCollider();
-            ~BoxCollider();
+     public:
+        BoxCollider();
+        ~BoxCollider();
 
-            BoxCollider(vec3 position, vec3 rotation, vec3 scale);
+        BoxCollider(vec3 position, vec3 rotation, vec3 scale);
 
-            //Component Overrides
-            void Update() override;
-            std::unique_ptr<Component> Clone() override;
-            std::string ToString() override;
-            Component * ConvertFromString(std::vector<std::string> input) override;//Takes in some string data and will output a BoxCollider object
+        // Component Overrides
+        void Update() override;
+        std::unique_ptr<Component> Clone() override;
+        std::string ToString() override;
+        // Takes in some string data and will output a BoxCollider object
+        Component * ConvertFromString(std::vector<std::string> input) override;
     };
 
-}
+}  // namespace TandenEngine
 
-
-#endif //TANDENENGINE_BOXCOLLIDER_H
+#endif  // TANDENENGINE_BOXCOLLIDER_H

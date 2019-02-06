@@ -2,8 +2,8 @@
 // Created by thomas.mcgillicuddy on 10/31/2018.
 //
 
-#ifndef HWENGINE_PROJECTSETTINGS_H
-#define HWENGINE_PROJECTSETTINGS_H
+#ifndef TANDENENGINE_PROJECTSETTINGS_H
+#define TANDENENGINE_PROJECTSETTINGS_H
 
 #include <string>
 #include <vector>
@@ -14,10 +14,10 @@ namespace TandenEngine {
         friend class Serializer;
         const std::string mExtension = ".project";
         std::string mProjectName;
-    public:
+     public:
         void PrintProjectInfo();
     };
 
-}
+}  // namespace TandenEngine
 
-#endif //HWENGINE_PROJECTSETTINGS_H
+#endif  // TANDENENGINE_PROJECTSETTINGS_H

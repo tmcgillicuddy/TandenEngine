@@ -2,8 +2,8 @@
 // Created by thomas.mcgillicuddy on 10/31/2018.
 //
 
-#ifndef HWENGINE_RESOURCE_H
-#define HWENGINE_RESOURCE_H
+#ifndef TANDENENGINE_RESOURCE_H
+#define TANDENENGINE_RESOURCE_H
 
 #include <string>
 
@@ -14,14 +14,14 @@ namespace TandenEngine {
 
     class Resource {
         friend class ResourceManager;
-    public:
-        explicit Resource(){ };
+     public:
+        explicit Resource() { }
         std::string GenerateFileName();
         ResourceType mResourceType;
         std::string fileName;
         MetaData * mMetaData;
     };
 
-}
+}  // namespace TandenEngine
 
-#endif //HWENGINE_RESOURCE_H
+#endif  // TANDENENGINE_RESOURCE_H

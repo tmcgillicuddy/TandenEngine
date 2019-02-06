@@ -11,7 +11,7 @@ namespace TandenEngine {
     namespace GUI {
         class IntField : public GUIElement {
         };
-    }
-}
+    }  // namespace GUI
+}  // namespace TandenEngine
 
-#endif //TANDENENGINE_INTFIELD_H
+#endif  // TANDENENGINE_INTFIELD_H
