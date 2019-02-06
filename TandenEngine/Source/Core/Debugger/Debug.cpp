@@ -67,11 +67,11 @@ namespace TandenEngine {
         buffer.push_back(finalMessage);  // Add input to buffer
     }
 
-    void Debug::LogError(std::string input) {
-        buffer.push_back(input);  // Add input to buffer
-        std::cout << input <<std::endl;  // Output to console
-    }
-
+   // void Debug::LogError(std::string input) {
+   //     buffer.push_back(input);  // Add input to buffer
+   //     std::cout << input <<std::endl;  // Output to console
+   // }
+//
     void Debug::DumpBuffer() {
         // Open log file
 

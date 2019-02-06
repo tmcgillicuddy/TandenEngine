@@ -18,10 +18,14 @@ namespace TandenEngine {
         float mMass;
         float mFriction;
         vec3 mLinearVelocity;
+        vec3 mLinearAcceleration;
         vec3 mAngularVelocity;
+        vec3 mAngularAcceleration;
         vec3 mCenterOfMass;
 
         void UpdateGravity();
+
+        float GetSpeed();
 
         // Component Overrides
         void Update() override;

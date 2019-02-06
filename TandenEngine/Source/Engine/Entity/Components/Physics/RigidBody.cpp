@@ -26,12 +26,25 @@ namespace TandenEngine {
 
         mTransform->mTransformData.r2.x += mAngularVelocity.x;
         mTransform->mTransformData.r2.y += mAngularVelocity.y;
-        mTransform->mTransformData.r2.z += mAngularVelocity.z;    }
+        mTransform->mTransformData.r2.z += mAngularVelocity.z;
+
+        // update velocities based on accelerations
+        mLinearVelocity.x += mLinearAcceleration.x;
+        mLinearVelocity.y += mLinearAcceleration.y;
+        mLinearVelocity.z += mLinearAcceleration.z;
+
+        mAngularVelocity.x += mAngularAcceleration.x;
+        mAngularVelocity.y += mAngularAcceleration.y;
+        mAngularVelocity.z += mAngularAcceleration.z;
+    }
 
     void RigidBody::UpdateGravity() {
         // apply gravity based on time (@9.8m/s)
         mTransform->mTransformData.r1.x = sin(Timer::mCurrentTime) * 10;
         // std::cout<<mTransform->position;
+    }
+
+    float RigidBody::GetSpeed() {
     }
 
     std::unique_ptr<Component> RigidBody::Clone() {
