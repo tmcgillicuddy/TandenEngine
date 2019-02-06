@@ -1,5 +1,5 @@
 //
-// Created by thomas.mcgillicuddy on 10/31/2018.
+//  Created by thomas.mcgillicuddy on 10/31/2018.
 //
 #define GLFW_INCLUDE_VULKAN
 #define NOMINMAX
@@ -9,45 +9,39 @@
 
 namespace TandenEngine {
 
-
     std::vector<Renderer *> RenderingSystem::mRenderers;
 
     Window* RenderingSystem::mWindow;
 
     VulkanInfo RenderingSystem::mVulkanInfo;
 
-    void RenderingSystem::Draw()
-    {
+    void RenderingSystem::Draw() {
         if (!glfwWindowShouldClose(mWindow->GetWindowRef())) {
-
-            //Draw gameobject renderers
+            // Draw gameobject renderers
             for (const auto &rend : mRenderers) {
-            //    rend->Draw(); //TODO fix draw to PROVIDE resources so this function (RenderingSystem::Draw) actually draws instead of each object drawing thmeselves
+            //     rend->Draw();
+            // TODO(Rosser) fix draw to PROVIDE resources so this function
+            //  (RenderingSystem::Draw) actually draws instead of each object drawing themselves
             }
 
-            //Draw GUI Elements
+            // Draw GUI Elements
             GUI::GUISystem::DrawGUI();
             std::cout << "draw gui \n";
-
 
             PollWindowEvents();
             std::cout << "poll for events \n";
 
             DrawWindow();
             std::cout << "draw window \n";
-
         }
-
-        //vkDeviceWaitIdle(logicalDevice);
+        // vkDeviceWaitIdle(logicalDevice);
     }
 
-    void RenderingSystem::RegisterRenderer(Renderer *newRenderer)
-    {
+    void RenderingSystem::RegisterRenderer(Renderer *newRenderer) {
         mRenderers.emplace_back(newRenderer);
     }
 
-    void RenderingSystem::InitSystem()
-    {
+    void RenderingSystem::InitSystem() {
         InitGLFW();
         InitWindow(windowWidth, windowHeight, "Tanden Engine");
         mVulkanInfo.InitVulkan();
@@ -60,43 +54,43 @@ namespace TandenEngine {
     }
 
 
-    void RenderingSystem::InitGLFW()
-    {
-
+    void RenderingSystem::InitGLFW() {
         glfwInit();
 
         glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
         glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
-
-
     }
 
 
 
-    void RenderingSystem::InitWindow(int windowWidth, int windowHeight, std::string windowName)
-    {
-        //create test window
-
+    void RenderingSystem::InitWindow(int windowWidth, int windowHeight, std::string windowName) {
+        // create test window
         mWindow = new Window(windowWidth, windowHeight, windowName);
 
         mWindow->initWindow();
     }
 
-    void RenderingSystem::PollWindowEvents()
-    {
+    void RenderingSystem::PollWindowEvents() {
         glfwPollEvents();
     }
 
-
     void RenderingSystem::DrawWindow() {
+        // wait for frame to be finished
+        vkWaitForFences(
+                mVulkanInfo.logicalDevice,
+                1,
+                &mVulkanInfo.inFlightFences[mVulkanInfo.currentFrame],
+                VK_TRUE,
+                std::numeric_limits<uint64_t>::max());
 
-
-        //wait for frame to be finished
-        vkWaitForFences(mVulkanInfo.logicalDevice, 1, &mVulkanInfo.inFlightFences[mVulkanInfo.currentFrame], VK_TRUE, std::numeric_limits<uint64_t>::max());
-
-        //get next image from swapchain and trigger avaliable semaphore
+        // get next image from swapchain and trigger avaliable semaphore
         uint32_t imageIndex;
-        VkResult result = vkAcquireNextImageKHR(mVulkanInfo.logicalDevice, mVulkanInfo.swapChain, std::numeric_limits<uint64_t>::max(), mVulkanInfo.imageAvailableSemaphores[mVulkanInfo.currentFrame], VK_NULL_HANDLE, &imageIndex);
+        VkResult result = vkAcquireNextImageKHR(
+                mVulkanInfo.logicalDevice,
+                mVulkanInfo.swapChain,
+                std::numeric_limits<uint64_t>::max(),
+                mVulkanInfo.imageAvailableSemaphores[mVulkanInfo.currentFrame],
+                VK_NULL_HANDLE, &imageIndex);
 
         if (result == VK_ERROR_OUT_OF_DATE_KHR) {
             mVulkanInfo.framebufferResized = false;
@@ -106,65 +100,68 @@ namespace TandenEngine {
             throw std::runtime_error("failed to acquire swap chain image!");
         }
 
-        //info for submission to queue
+        // info for submission to queue
         VkSubmitInfo submitInfo = {};
         submitInfo.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
 
-        //determine which semaphores wait on eachother
-        VkSemaphore waitSemaphores[] = {mVulkanInfo.imageAvailableSemaphores[mVulkanInfo.currentFrame]};
+        // determine which semaphores wait on eachother
+        VkSemaphore waitSemaphores[] =
+                {mVulkanInfo.imageAvailableSemaphores[mVulkanInfo.currentFrame]};
         VkPipelineStageFlags waitStages[] = {VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT};
         submitInfo.waitSemaphoreCount = 1;
         submitInfo.pWaitSemaphores = waitSemaphores;
         submitInfo.pWaitDstStageMask = waitStages;
 
-        //determine which command buffers to bind for the color attachment
+        // determine which command buffers to bind for the color attachment
         submitInfo.commandBufferCount = 1;
         submitInfo.pCommandBuffers = &mVulkanInfo.commandBuffers[imageIndex];
 
-        //determine which semaphore will signal once command buffer finishes
-        VkSemaphore signalSemaphores[] = {mVulkanInfo.renderFinishedSemaphores[mVulkanInfo.currentFrame]};
+        // determine which semaphore will signal once command buffer finishes
+        VkSemaphore signalSemaphores[] =
+                {mVulkanInfo.renderFinishedSemaphores[mVulkanInfo.currentFrame]};
         submitInfo.signalSemaphoreCount = 1;
         submitInfo.pSignalSemaphores = signalSemaphores;
 
-        //reset fences
-        vkResetFences(mVulkanInfo.logicalDevice, 1, &mVulkanInfo.inFlightFences[mVulkanInfo.currentFrame]);
+        // reset fences
+        vkResetFences(
+                mVulkanInfo.logicalDevice,
+                1,
+                &mVulkanInfo.inFlightFences[mVulkanInfo.currentFrame]);
 
-        //failed to submit
+        // failed to submit
         if (vkQueueSubmit(mVulkanInfo.gfxQueue, 1, &submitInfo, VK_NULL_HANDLE) != VK_SUCCESS) {
             throw std::runtime_error("failed to submit draw command buffer!");
         }
 
-        //presentation info
+        // presentation info
         VkPresentInfoKHR presentInfo = {};
         presentInfo.sType = VK_STRUCTURE_TYPE_PRESENT_INFO_KHR;
 
-        //which semaphores to wait on for presentation
+        // which semaphores to wait on for presentation
         presentInfo.waitSemaphoreCount = 1;
         presentInfo.pWaitSemaphores = signalSemaphores;
 
-        //specify swap chain to present images and the index of the target image
+        // specify swap chain to present images and the index of the target image
         VkSwapchainKHR swapChains[] = {mVulkanInfo.swapChain};
         presentInfo.swapchainCount = 1;
         presentInfo.pSwapchains = swapChains;
         presentInfo.pImageIndices = &imageIndex;
 
-        //not necessary with one swapchain but this checks if all swapchain presentation was successful or not
-        presentInfo.pResults = nullptr; // Optional
+        // not necessary with one swapchain but this checks
+        // if all swapchain presentation was successful or not
+        presentInfo.pResults = nullptr;  //  Optional
 
-        //present image to swapchain
+        // present image to swapchain
         vkQueuePresentKHR(mVulkanInfo.presentationQueue, &presentInfo);
-
 
         vkQueueWaitIdle(mVulkanInfo.presentationQueue);
 
-        //increment frames
+        // increment frames
         mVulkanInfo.currentFrame = (mVulkanInfo.currentFrame + 1) % mVulkanInfo.maxFramesInFlight;
-
     }
 
     void RenderingSystem::Cleanup() {
-
-        //Bring it on! I'll destroy you all!
+        // Bring it on! I'll destroy you all!
         mVulkanInfo.CleanupVulkan();
 
         GUI::GUISystem::ShutDownGuiSystem();
@@ -181,6 +178,4 @@ namespace TandenEngine {
     Window *RenderingSystem::GetWindow() {
         return mWindow;
     }
-
-
-}
+}  // namespace TandenEngine
