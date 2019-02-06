@@ -16,15 +16,13 @@ namespace TandenEngine {
 
     void Transform::Update() {
     }
-    void Transform::SetParent(Transform *target) {
 
+    void Transform::SetParent(Transform *target) {
     }
     void Transform::AddChild(Transform *target) {
-
     }
 
     void Transform::RemoveChild(Transform *target) {
-
     }
 
     std::string Transform::ToString() {
