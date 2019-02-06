@@ -45,6 +45,7 @@ namespace TandenEngine {
     }
 
     float RigidBody::GetSpeed() {
+        mLinearVelocity.Norm();
     }
 
     std::unique_ptr<Component> RigidBody::Clone() {
