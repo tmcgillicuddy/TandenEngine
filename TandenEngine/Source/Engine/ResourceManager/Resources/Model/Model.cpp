@@ -67,5 +67,7 @@ namespace TandenEngine {
         }
 
         std::cout<< "Num verts " << verticies.size();
+        // TODO(Rosser) Create API to make buffer from model data
+        // BufferManager::CreateVertexBufferForModel(this);
     }
 }  // namespace TandenEngine
