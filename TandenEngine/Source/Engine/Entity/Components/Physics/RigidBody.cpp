@@ -3,6 +3,7 @@
 //
 
 #include "RigidBody.h"
+#include "../../../PhysicsSystem/PhysicsSystem.h"
 #include "../Transform.h"
 #include "../../../../Core/Timer/Timer.h"
 
@@ -12,21 +13,23 @@ namespace TandenEngine {
         mMass = mass;
         mFriction = friction;
         mCenterOfMass = mTransform->mTransformData.r1;  // default to center of object
+        mLinearAcceleration.y = -mGravity;
     }
 
-    void RigidBody::Update() {
+    void RigidBody::PhysicsUpdate() {
         // mTransform->mTransformData.r1.x = sin(Timer::mCurrentTime) * 10;
 
-        UpdateGravity();
-
         // update transforms based on velocity
-        mTransform->mTransformData.r1.x += mLinearVelocity.x;
-        mTransform->mTransformData.r1.y += mLinearVelocity.y;
-        mTransform->mTransformData.r1.z += mLinearVelocity.z;
+        if(!mStatic)
+        {
+            mTransform->mTransformData.r1.x += mLinearVelocity.x;
+            mTransform->mTransformData.r1.y += mLinearVelocity.y;
+            mTransform->mTransformData.r1.z += mLinearVelocity.z;
 
-        mTransform->mTransformData.r2.x += mAngularVelocity.x;
-        mTransform->mTransformData.r2.y += mAngularVelocity.y;
-        mTransform->mTransformData.r2.z += mAngularVelocity.z;
+            mTransform->mTransformData.r2.x += mAngularVelocity.x;
+            mTransform->mTransformData.r2.y += mAngularVelocity.y;
+            mTransform->mTransformData.r2.z += mAngularVelocity.z;
+        }
 
         // update velocities based on accelerations
         mLinearVelocity.x += mLinearAcceleration.x;
@@ -38,10 +41,13 @@ namespace TandenEngine {
         mAngularVelocity.z += mAngularAcceleration.z;
     }
 
-    void RigidBody::UpdateGravity() {
+    void RigidBody::SetGravity(const float gravity) {
         // apply gravity based on time (@9.8m/s)
-        mTransform->mTransformData.r1.x = sin(Timer::mCurrentTime) * 10;
+        //mTransform->mTransformData.r1.x = sin(Timer::mCurrentTime) * 10;
         // std::cout<<mTransform->position;
+        mLinearAcceleration.y += mGravity;
+        mGravity = gravity;
+        mLinearAcceleration.y -= mGravity;
     }
 
     float RigidBody::GetSpeed() {

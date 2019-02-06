@@ -11,6 +11,7 @@
 #include "../Entity/Components/Physics/Collider.h"
 #include "../Entity/Components/Physics/BoxCollider.h"
 #include "../Entity/Components/Physics/SphereCollider.h"
+#include "../Entity/Components/Physics/RigidBody.h"
 
 namespace TandenEngine {
 
