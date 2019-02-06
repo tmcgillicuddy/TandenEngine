@@ -5,10 +5,11 @@
 #ifndef TANDENENGINE_BUFFERMANAGER_H
 #define TANDENENGINE_BUFFERMANAGER_H
 
-#include "../RenderingSystem/RenderingSystem.h"
 #include <vulkan/vulkan.h>
-#include "../ResourceManager/Resources/Model/Model.h"
 #include <vector>
+
+#include "../RenderingSystem/RenderingSystem.h"
+#include "../ResourceManager/Resources/Model/Model.h"
 #include "Resources/Model/MeshVertex.h"
 #include "Resources/Model/Model.h"
 
@@ -18,13 +19,10 @@ namespace TandenEngine {
     class MeshVertex;
     class Model;
 
-
     class BufferManager {
-
-    public:
-
+     public:
         static Model *testModel;
-        static void setModel(Model * targetModel){testModel = targetModel;};
+        static void setModel(Model * targetModel) {testModel = targetModel;}
 
         static std::vector<MeshVertex> mVertices;  // test vertices
         static std::vector<uint16_t> mIndices;     // test indices
@@ -39,22 +37,21 @@ namespace TandenEngine {
 
         static void CopyBuffer(VkBuffer srcBuffer, VkBuffer dstBuffer, VkDeviceSize size);
 
-        static void CreateBuffer(VkDeviceSize size, VkBufferUsageFlags usage, VkMemoryPropertyFlags properties, VkBuffer& buffer, VkDeviceMemory& bufferMemory);
+        static void CreateBuffer(VkDeviceSize size, VkBufferUsageFlags usage,
+                VkMemoryPropertyFlags properties, VkBuffer& buffer, VkDeviceMemory& bufferMemory);
 
         static void AddVertexBuffer(VkBuffer newBuffer, VkDeviceMemory newDeviceMemory);
         static void AddIndexBuffer(VkBuffer newBuffer, VkDeviceMemory newDeviceMemory);
 
         static void CreateVertexBufferForModel(Model * targetModel);
-
-        static void CreateVertexBufferForTargetModel(); //TODO make this for target models, or all models that have been loaded
+        // TODO(Rosser) make this for target models, or all models that have been loaded
+        static void CreateVertexBufferForTargetModel();
         static void CreateIndexBufferForTargetModel();
 
         static void CreateStagingBuffer();
 
         static void Cleanup();
-
     };
+}  // namespace TandenEngine
 
-}
-
-#endif //TANDENENGINE_BUFFERMANAGER_H
+#endif  // TANDENENGINE_BUFFERMANAGER_H

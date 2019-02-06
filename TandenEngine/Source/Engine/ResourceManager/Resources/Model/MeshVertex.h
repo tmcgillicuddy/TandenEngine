@@ -2,22 +2,21 @@
 // Created by thomas.mcgillicuddy on 10/31/2018.
 //
 
-#ifndef HWENGINE_MESHVERTEX_H
-#define HWENGINE_MESHVERTEX_H
+#ifndef TANDENENGINE_MESHVERTEX_H
+#define TANDENENGINE_MESHVERTEX_H
 
+#include <array>
 #include "NilsMath.h"
 #include "../../../RenderingSystem/VulkanInfo.h"
-#include <array>
 
 namespace TandenEngine {
 
     class MeshVertex {
      public:
-        MeshVertex(){}
-        MeshVertex(vec3 newPos, vec3 newColor) {mPos = newPos; mColor = newColor;};
+        MeshVertex() {}
+        MeshVertex(vec3 newPos, vec3 newColor) {mPos = newPos; mColor = newColor;}
 
         static VkVertexInputBindingDescription GetBindingDescription() {
-
             VkVertexInputBindingDescription bindingDescription = {};
 
             bindingDescription.binding = 0;
@@ -28,7 +27,6 @@ namespace TandenEngine {
         }
 
         static std::array<VkVertexInputAttributeDescription, 2> GetAttributeDescriptions() {
-
             std::array<VkVertexInputAttributeDescription, 2> attributeDescriptions = {};
 
             attributeDescriptions[0].binding = 0;
@@ -45,7 +43,7 @@ namespace TandenEngine {
         }
 
 
-     public: //PRIVATE
+     public:  // PRIVATE
         vec3 mPos;
         vec3 mColor;
         vec2 mUV;
@@ -64,4 +62,4 @@ namespace std {
     };
 }
 
-#endif  // HWENGINE_MESHVERTEX_H
+#endif  // TANDENENGINE_MESHVERTEX_H

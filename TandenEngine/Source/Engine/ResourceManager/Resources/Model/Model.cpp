@@ -1,27 +1,24 @@
 #define TINYOBJLOADER_IMPLEMENTATION  // define this in only *one* .cc
 
 #include <tiny_obj_loader.h>
+#include <unordered_map>
 
 #include "Model.h"
 #include "../../BufferManager.h"
 
-#include <unordered_map>
 
 namespace TandenEngine {
 
     Model::Model() {
         mResourceType = ResourceType::MODEL;
-
     }
 
     bool Model::CheckIfSupported(std::string extension) {
         return (extension == ".fbx" || extension == ".obj");
     }
 
-    void Model::CreateVertexBuffer()
-    {
-        //BufferManager::CreateVertexBufferForTargetModel(this);
-
+    void Model::CreateVertexBuffer() {
+        // BufferManager::CreateVertexBufferForTargetModel(this);
     }
 
     Model::Model(MetaData *inputData) {
@@ -37,12 +34,13 @@ namespace TandenEngine {
 
         // Load model data into temporary buffer
         // TODO(Thomas) change model path to reference the meta data dir path
-        if (!::tinyobj::LoadObj(&attrib, &shapes, &materials, &warn, &err, mMetaData->mFileDir.c_str())) {
+        if (!::tinyobj::LoadObj(&attrib, &shapes, &materials,
+                &warn, &err, mMetaData->mFileDir.c_str())) {
             std::cout <<"Error loading model\n";
             throw std::runtime_error(warn + err);
         }
 
-        //std::unordered_map<MeshVertex, uint32_t> uniqueVertices = {};
+        // std::unordered_map<MeshVertex, uint32_t> uniqueVertices = {};
 
         // Iterate through all shapes and add their vertex data to main vector
         for (const auto &shape : shapes) {
@@ -60,7 +58,7 @@ namespace TandenEngine {
                 vertex.mColor = vec3(1, 1, 1);
 
                 // If this is a unique vertex add to verticies vector
-                //if (uniqueVertices.count(vertex) == 0) {
+                // if (uniqueVertices.count(vertex) == 0) {
                  //   uniqueVertices[vertex] = static_cast<uint32_t>(verticies.size());
                     verticies.push_back(vertex);
                // }
