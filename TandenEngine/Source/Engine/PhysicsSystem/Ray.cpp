@@ -4,12 +4,11 @@
 
 #include "Ray.h"
 
-namespace TandenEngine
-{
+namespace TandenEngine {
     Ray::Ray() {
     }
 
-    //Ray::Ray(const vec3 &origin, const vec3 &dir, float tMax, float time, const Medium *medium) {
+    // Ray::Ray(const vec3 &origin, const vec3 &dir, float tMax, float time, const Medium *medium) {
 //
     //}
 }
