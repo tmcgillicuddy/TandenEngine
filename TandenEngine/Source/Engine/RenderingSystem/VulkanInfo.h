@@ -1,22 +1,34 @@
 //
-// Created by thomas.mcgillicuddy on 1/19/2019.
+//  Created by thomas.mcgillicuddy on 1/19/2019.
 //
 
 #ifndef TANDENENGINE_VULKANINFO_H
 #define TANDENENGINE_VULKANINFO_H
 
+#include <vulkan/vulkan.h>
+
+#include <Windows.h>
+#include <NilsMath.h>
+
+#include <optional>
+
+#include <array>
 #include <set>
 #include <fstream>
 #include <vector>
-#include <optional>
-#include <vulkan/vulkan.h>
-#include "GLFW/glfw3.h"
 
 #include "RenderingSystem.h"
 
+#include "../ResourceManager/BufferManager.h"
+#include "../ResourceManager/Resources/Model/Model.h"
+
+#include "GLFW/glfw3.h"
+
+
 namespace TandenEngine {
 
-    //struct to check if graphics card supports necessary Vulkan queue families
+
+    // struct to check if graphics card supports necessary Vulkan queue families
     struct QueueFamilyIndices {
         std::optional<uint32_t> graphicsFamily;
         std::optional<uint32_t> presentFamily;
@@ -26,28 +38,27 @@ namespace TandenEngine {
         }
     };
 
-    //to check if the device can handle the following
+    // to check if the device can handle the following
     struct SwapChainSupportDetails {
-        VkSurfaceCapabilitiesKHR capabilities;              //max width and height of images
-        std::vector<VkSurfaceFormatKHR> formats;            //color space and pixel formatting
-        std::vector<VkPresentModeKHR> presentModes;         //presentation modes
+        VkSurfaceCapabilitiesKHR capabilities;              // max width and height of images
+        std::vector<VkSurfaceFormatKHR> formats;            // color space and pixel formatting
+        std::vector<VkPresentModeKHR> presentModes;         // presentation modes
     };
 
-    //vector of required extensions, add if you need!
+    // vector of required extensions, add if you need!
     const std::vector<const char*> DeviceExtensions = {
             VK_KHR_SWAPCHAIN_EXTENSION_NAME
     };
 
-    struct VulkanInfo
-    {
-        //TODO make pointers to allow initialization without allocation
-        VkInstance VulkanInstance;                   //vulkan instance
-        VkPhysicalDevice physicalDevice;             //our graphics card
-        VkDevice logicalDevice;                      //logical interface with graphics card
-        VkQueue gfxQueue;                            //graphics queue for graphics events
-        VkSurfaceKHR WindowSurface;                  //surface of window
+    struct VulkanInfo {
+        // TODO(Rosser) make pointers to allow initialization without allocation
+        VkInstance VulkanInstance;                   // vulkan instance
+        VkPhysicalDevice physicalDevice;             // our graphics card
+        VkDevice logicalDevice;                      // logical interface with graphics card
+        VkQueue gfxQueue;                            // graphics queue for graphics events
         VkQueue presentationQueue;
-        VkSwapchainKHR swapChain;                    //the infamous SWAP CHAIN
+        VkSurfaceKHR WindowSurface;                  // surface of window
+        VkSwapchainKHR swapChain;                    // the infamous SWAP CHAIN
         VkFormat swapChainImageFormat;
         std::vector<VkImage> swapChainImages;
         std::vector<VkImageView> swapChainImageViews;
@@ -58,41 +69,54 @@ namespace TandenEngine {
         std::vector<VkFramebuffer> swapChainFramebuffers;
         VkCommandPool commandPool;
         std::vector<VkCommandBuffer> commandBuffers;
-        VkSemaphore imageAvailableSemaphore;
-        VkSemaphore renderFinishedSemaphore;
+
+        std::vector<VkSemaphore> imageAvailableSemaphores;
+        std::vector<VkSemaphore> renderFinishedSemaphores;
+        std::vector<VkFence> inFlightFences;
+        size_t currentFrame = 0;
+        const int maxFramesInFlight = 2;  // max concurrent frames to be processed
+        bool framebufferResized = false;
 
         void InitVulkan();
         void InitVulkanPipeline();
+        void RecreateSwapChain();
+        void CleanupVulkan();
 
-    private:
-        void InitVKInstance();                                                                //creating instance
+     private:
+        void InitVKInstance();
 
-        void SelectPhysicalDevice();                                                          //polling and selecting a graphics card to use
-        bool SuitableDevice(VkPhysicalDevice targetDevice);                                   //checking if a graphics card is suitable
-        QueueFamilyIndices FindQueueFamilies(VkPhysicalDevice targetDevice);                  //checking queue families of graphics card so VK can send events through it
-        bool CheckDeviceExtSupport(VkPhysicalDevice targetDevice);                            //check if device has all required extensions from vector of listed requirements
-        void InitWindowSurface();                                                             //creating surface for window instance
-        void InitLogicalDevice();                                                             //initialize logical device to interact with graphics card
+        void SelectPhysicalDevice();
+        bool SuitableDevice(VkPhysicalDevice targetDevice);
+        QueueFamilyIndices FindQueueFamilies(VkPhysicalDevice targetDevice);
+        bool CheckDeviceExtSupport(VkPhysicalDevice targetDevice);
+        void InitWindowSurface();
+        void InitLogicalDevice();
 
-        SwapChainSupportDetails PollSwapChainSupport(VkPhysicalDevice targetDevice);    //poll device for its swapchain properties
-        VkSurfaceFormatKHR ChooseSwapSurfaceFormat(const std::vector<VkSurfaceFormatKHR>& availableFormats);
-        VkPresentModeKHR ChooseSwapPresentMode(const std::vector<VkPresentModeKHR> availablePresentModes);
-        VkExtent2D ChooseSwapExtent(const VkSurfaceCapabilitiesKHR& capabilities);
+        SwapChainSupportDetails PollSwapChainSupport(VkPhysicalDevice targetDevice);
+
+        VkSurfaceFormatKHR ChooseSwapSurfaceFormat(
+                const std::vector<VkSurfaceFormatKHR>& availableFormats);
+
+        VkPresentModeKHR ChooseSwapPresentMode(
+                const std::vector<VkPresentModeKHR> availablePresentModes);
+
+        VkExtent2D ChooseSwapExtent(
+                const VkSurfaceCapabilitiesKHR& capabilities);
+
+        std::vector<char> ReadFile(const std::string& filename);
+        VkShaderModule CreateShaderModule(const std::vector<char>& code);
+
         void CreateSwapChain();
         void CreateImageViews();
-
         void CreateGraphicsPipeline();
-        std::vector<char> ReadFile(const std::string& filename); //TODO Remove this
-        VkShaderModule CreateShaderModule(const std::vector<char>& code); //TODO remove this, Used in Shader resource
-
         void CreateRenderPass();
         void CreateFramebuffers();
         void CreateCommandPool();
         void CreateCommandBuffers();
-        void CreateSemaphores();         //used to synchronize when images are being presented
+        void CreateSyncObjects();
     };
 
-}
+}  // namespace TandenEngine
 
 
-#endif //TANDENENGINE_VULKANINFO_H
+#endif  // TANDENENGINE_VULKANINFO_H

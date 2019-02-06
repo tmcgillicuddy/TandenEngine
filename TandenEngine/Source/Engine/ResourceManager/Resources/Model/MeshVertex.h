@@ -6,20 +6,51 @@
 #define HWENGINE_MESHVERTEX_H
 
 #include "NilsMath.h"
+#include "../../../RenderingSystem/VulkanInfo.h"
+#include <array>
 
 namespace TandenEngine {
 
     class MeshVertex {
      public:
+        MeshVertex(){}
+        MeshVertex(vec3 newPos, vec3 newColor) {mPos = newPos; mColor = newColor;};
+
+        static VkVertexInputBindingDescription GetBindingDescription() {
+
+            VkVertexInputBindingDescription bindingDescription = {};
+
+            bindingDescription.binding = 0;
+            bindingDescription.stride = sizeof(MeshVertex);
+            bindingDescription.inputRate = VK_VERTEX_INPUT_RATE_VERTEX;
+
+            return bindingDescription;
+        }
+
+        static std::array<VkVertexInputAttributeDescription, 2> GetAttributeDescriptions() {
+
+            std::array<VkVertexInputAttributeDescription, 2> attributeDescriptions = {};
+
+            attributeDescriptions[0].binding = 0;
+            attributeDescriptions[0].location = 0;
+            attributeDescriptions[0].format = VK_FORMAT_R32G32_SFLOAT;
+            attributeDescriptions[0].offset = offsetof(MeshVertex, mPos);
+
+            attributeDescriptions[1].binding = 0;
+            attributeDescriptions[1].location = 1;
+            attributeDescriptions[1].format = VK_FORMAT_R32G32B32_SFLOAT;
+            attributeDescriptions[1].offset = offsetof(MeshVertex, mColor);
+
+            return attributeDescriptions;
+        }
+
+
+     public: //PRIVATE
         vec3 mPos;
+        vec3 mColor;
         vec2 mUV;
         vec3 mNormal;
         vec3 mTangent;
-        vec3 mColor;
-
-        bool operator==(const MeshVertex& other) const {
-            return mPos == other.mPos && mColor == other.mColor && mUV == other.mUV;
-        }
     };
 }  // namespace TandenEngine
 

@@ -12,7 +12,7 @@ set(GLFW_BUILD_TESTS OFF CACHE BOOL "" FORCE)
 set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
 
 set(IMGUI_DIR "Libraries/imgui")
-set(IMGUI_SOURCES ${IMGUI_DIR}/imgui.cpp ${IMGUI_DIR}/imgui_demo.cpp ${IMGUI_DIR}/imgui_draw.cpp ${IMGUI_DIR}/imgui_widgets.cpp)
+set(IMGUI_SOURCES ${IMGUI_DIR}/imgui.cpp ${IMGUI_DIR}/imgui_demo.cpp ${IMGUI_DIR}/imgui_draw.cpp ${IMGUI_DIR}/imgui_widgets.cpp Source/Engine/ResourceManager/BufferManager.cpp Source/Engine/ResourceManager/BufferManager.h)
 
 #add_library(TandenEngine
  #       ./Source/Core/EventSystem/EventListener.cpp
@@ -175,9 +175,9 @@ set(IMGUI_SOURCES ${IMGUI_DIR}/imgui.cpp ${IMGUI_DIR}/imgui_demo.cpp ${IMGUI_DIR
  #       ./Source/Engine/Serialization/Serializer.h
  #       ./Source/main.cpp
 #
- #       ${IMGUI_SOURCES}
- #       )
- 
+#       ${IMGUI_SOURCES}
+#       )
+
 #Add imgui library
 include_directories("Libraries/imgui")
 
@@ -194,6 +194,9 @@ add_executable(TandenEngine ${TANDEN_SOURCE} ${IMGUI_SOURCES})
 
 #Include Math lib headers
 include_directories("Source/Core/Math")
+
+#Include Debug header
+include_directories("Source/Core/Debugger")
 
 #Link GLFW
 target_link_libraries(TandenEngine glfw)

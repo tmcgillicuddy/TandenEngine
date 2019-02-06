@@ -10,8 +10,9 @@
 
 #include "MeshVertex.h"
 #include "../Resource.h"
-#include "../../MetaData.h"
+#include <vulkan/vulkan.h>
 
+class MeshVertex;
 
 namespace TandenEngine {
 
@@ -24,9 +25,14 @@ namespace TandenEngine {
         VkDeviceMemory vertexBufferMemory;
 
         Model();
-        Model(MetaData* inputData);  // Create a model resource from meta data input
 
+        std::vector<MeshVertex> mLocalVertices = {};
+
+        //VkBuffer vertexBuffer;
         static bool CheckIfSupported(std::string extension);
+        void CreateVertexBuffer();
+
+        Model(MetaData* inputData);  // Create a model resource from meta data input
 
      private:
         void LoadModel();
