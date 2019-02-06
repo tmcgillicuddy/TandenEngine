@@ -23,20 +23,15 @@ namespace TandenEngine {
         Transform * mParent;
         std::vector<Transform*> mChildren;
 
-        Vector3 mForward;
-        Vector3 mRight;
-        Vector3 mUp;
-
         Transform();
 
-        ~Transform();
+        ~Transform() {}
 
         void Translate(vec3 dir);
 
         void LookAt(Transform * target);
 
         void Rotate(vec3 euler);
-
 
         void Update() override;
 
