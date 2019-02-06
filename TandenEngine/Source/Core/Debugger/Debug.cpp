@@ -131,6 +131,5 @@ namespace TandenEngine {
     }
 
     void Debug::LogError(char *format, ...) {
-
     }
 }  // namespace TandenEngine
