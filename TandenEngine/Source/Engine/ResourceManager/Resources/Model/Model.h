@@ -34,8 +34,6 @@ namespace TandenEngine {
 
         Model(MetaData* inputData);  // Create a model resource from meta data input
 
-        static bool CheckIfSupported(std::string extension);
-
      private:
         void LoadModel();
     };

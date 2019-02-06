@@ -23,13 +23,9 @@ namespace TandenEngine {
         Transform * mParent;
         std::vector<Transform*> mChildren;
 
-        Vector3 mForward;
-        Vector3 mRight;
-        Vector3 mUp;
-
         Transform();
 
-        ~Transform();
+        ~Transform(){};
 
         void Translate(vec3 dir);
 
@@ -40,17 +36,17 @@ namespace TandenEngine {
 
         void Update() override;
 
-        void SetParent(Transform * target);
+        void SetParent(Transform * target){};
 
-        void AddChild(Transform * target);
+        void AddChild(Transform * target){};
 
-        void RemoveChild(Transform * target);
+        void RemoveChild(Transform * target){};
 
-        std::string ToString() override;
+        std::string ToString() override{ return "";};
         // Takes in some string data and will output a transform object
-        Component * ConvertFromString(std::vector<std::string> input) override;
+        Component * ConvertFromString(std::vector<std::string> input) override {return nullptr;};
 
-        std::unique_ptr<Component> Clone() override;
+        std::unique_ptr<Component> Clone() override {return nullptr;};
     };
 }  // namespace TandenEngine
 

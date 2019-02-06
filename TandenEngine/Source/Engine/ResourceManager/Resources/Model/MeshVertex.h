@@ -13,7 +13,8 @@ namespace TandenEngine {
 
     class MeshVertex {
      public:
-        MeshVertex(Vector3 newPos, Vector3 newColor) {mPos = newPos; mColor = newColor;};
+        MeshVertex(){}
+        MeshVertex(vec3 newPos, vec3 newColor) {mPos = newPos; mColor = newColor;};
 
         static VkVertexInputBindingDescription GetBindingDescription() {
 
@@ -45,11 +46,11 @@ namespace TandenEngine {
 
 
      public: //PRIVATE
-        Vector3 mPos;
-        Vector3 mColor;
-        Vector2 mUV;
-        Vector3 mNormal;
-        Vector3 mTangent;
+        vec3 mPos;
+        vec3 mColor;
+        vec2 mUV;
+        vec3 mNormal;
+        vec3 mTangent;
     };
 }  // namespace TandenEngine
 

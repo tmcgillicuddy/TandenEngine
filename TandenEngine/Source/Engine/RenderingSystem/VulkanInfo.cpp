@@ -642,9 +642,9 @@ namespace TandenEngine {
             vkCmdBindVertexBuffers(commandBuffers[i], 0, 1, vertexBuffers, offsets);
 
             //draw indexed vertices
-             vkCmdBindIndexBuffer(commandBuffers[i], BufferManager::mIndexBufferList.at(0), 0, VK_INDEX_TYPE_UINT16);
+            vkCmdBindIndexBuffer(commandBuffers[i], BufferManager::mIndexBufferList.at(0), 0, VK_INDEX_TYPE_UINT16);
 
-             vkCmdDrawIndexed(commandBuffers[i], static_cast<uint32_t>(BufferManager::mIndices.size()), 1, 0, 0, 0);
+            vkCmdDrawIndexed(commandBuffers[i], static_cast<uint32_t>(BufferManager::mIndices.size()), 1, 0, 0, 0);
             //draw non indexed
             //vkCmdDraw(commandBuffers[i], static_cast<uint32_t>(BufferManager::mVertices.size()), 1, 0, 0);
 

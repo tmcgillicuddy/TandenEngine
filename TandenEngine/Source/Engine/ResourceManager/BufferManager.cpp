@@ -9,16 +9,15 @@
 namespace TandenEngine {
 
     std::vector<MeshVertex> BufferManager::mVertices = {
-        MeshVertex(Vector3(-0.5f, -0.5f, 0.0f), Vector3(1.0f, 0.0f, 0.0f)),
-        MeshVertex(Vector3(0.5f, -0.5f, 0.0f), Vector3(0.66f, 0.1f, 1.0f)),
-        MeshVertex(Vector3(0.5f, 0.5f, 0.0f), Vector3(0.36f, 1.0f, 1.0f)),
-        MeshVertex(Vector3(-0.5f, 0.5f, 0.0f), Vector3(0.66f, 0.3f, 0.1f))
+        MeshVertex(vec3(-0.5f, -0.5f, 0.0f), vec3(1.0f, 0.0f, 0.0f)),
+        MeshVertex(vec3(0.5f, -0.5f, 0.0f), vec3(0.66f, 0.1f, 1.0f)),
+        MeshVertex(vec3(0.5f, 0.5f, 0.0f), vec3(0.36f, 1.0f, 1.0f)),
+        MeshVertex(vec3(-0.5f, 0.5f, 0.0f), vec3(0.66f, 0.3f, 0.1f))
     };
 
     std::vector<uint16_t> BufferManager::mIndices = {
             0, 1, 2, 2, 3, 0
     };
-
 
     std::vector<VkDeviceMemory> BufferManager::mVertexBufferMemoryList;
     std::vector<VkDeviceMemory> BufferManager::mIndexBufferMemoryList;
@@ -42,7 +41,7 @@ namespace TandenEngine {
     void BufferManager::CreateVertexBufferForTargetModel()
     {
         //TODO temporarily set local verts (REMOVE THIS AND LOCAL VERTS FROM MODEL
-        BufferManager::testModel->mLocalVertices = mVertices;
+        //BufferManager::testModel->mLocalVertices = mVertices;
 
         //TODO replace references of [0], we may have multiple objects
         VkDeviceSize bufferSize = sizeof(mVertices[0]) * mVertices.size();
@@ -96,7 +95,7 @@ namespace TandenEngine {
         //write staging buffer to memory
         void* data;
         vkMapMemory(RenderingSystem::GetVulkanInfo()->logicalDevice, stagingBufferMemory, 0, bufferSize, 0, &data);
-        memcpy(data, mVertices.data(), (size_t) bufferSize);
+        memcpy(data, mIndices.data(), (size_t) bufferSize);
         vkUnmapMemory(RenderingSystem::GetVulkanInfo()->logicalDevice, stagingBufferMemory);
 
         //create memory for new vertex buffer
