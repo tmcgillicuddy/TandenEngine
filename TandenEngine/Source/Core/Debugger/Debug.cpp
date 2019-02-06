@@ -44,7 +44,6 @@ namespace TandenEngine {
                     }
                     finalMessage +=i;
                     break;
-
                 case 's': s = va_arg(arg, char *);  // String Argument
                     finalMessage += s;
                     break;
@@ -56,6 +55,9 @@ namespace TandenEngine {
                     index++;
                     finalMessage += LogMatrix(input[index], arg);
                     break;
+                case 'n':
+                    index++;
+                    finalMessage += '\n';
             }
         }
 
