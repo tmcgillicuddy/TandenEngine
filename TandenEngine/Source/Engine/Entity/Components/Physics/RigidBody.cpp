@@ -3,30 +3,31 @@
 //
 
 #include "RigidBody.h"
+#include "../../../PhysicsSystem/PhysicsSystem.h"
 #include "../Transform.h"
 #include "../../../../Core/Timer/Timer.h"
+#include "Debug.h"
 
 namespace TandenEngine {
 
     RigidBody::RigidBody(const float &mass, const float &friction) {
         mMass = mass;
         mFriction = friction;
-        mCenterOfMass = mTransform->mTransformData.r1;  // default to center of object
+        mCenterOfMass = vec3::ZERO;
+        mLinearAcceleration.y = -mGravity;
     }
 
-    void RigidBody::Update() {
-        // mTransform->mTransformData.r1.x = sin(Timer::mCurrentTime) * 10;
-
-        UpdateGravity();
-
+    void RigidBody::PhysicsUpdate() {
         // update transforms based on velocity
-        mTransform->mTransformData.r1.x += mLinearVelocity.x;
-        mTransform->mTransformData.r1.y += mLinearVelocity.y;
-        mTransform->mTransformData.r1.z += mLinearVelocity.z;
+        if (!mStatic) {
+            mTransform->mTransformData.r1.x += mLinearVelocity.x;
+            mTransform->mTransformData.r1.y += mLinearVelocity.y;
+            mTransform->mTransformData.r1.z += mLinearVelocity.z;
 
-        mTransform->mTransformData.r2.x += mAngularVelocity.x;
-        mTransform->mTransformData.r2.y += mAngularVelocity.y;
-        mTransform->mTransformData.r2.z += mAngularVelocity.z;
+            mTransform->mTransformData.r2.x += mAngularVelocity.x;
+            mTransform->mTransformData.r2.y += mAngularVelocity.y;
+            mTransform->mTransformData.r2.z += mAngularVelocity.z;
+        }
 
         // update velocities based on accelerations
         mLinearVelocity.x += mLinearAcceleration.x;
@@ -36,12 +37,13 @@ namespace TandenEngine {
         mAngularVelocity.x += mAngularAcceleration.x;
         mAngularVelocity.y += mAngularAcceleration.y;
         mAngularVelocity.z += mAngularAcceleration.z;
+        Debug::Log("%v3", mLinearVelocity);
     }
 
-    void RigidBody::UpdateGravity() {
-        // apply gravity based on time (@9.8m/s)
-        mTransform->mTransformData.r1.x = sin(Timer::mCurrentTime) * 10;
-        // std::cout<<mTransform->position;
+    void RigidBody::SetGravity(const float gravity) {
+        mLinearAcceleration.y += mGravity;
+        mGravity = gravity;
+        mLinearAcceleration.y -= mGravity;
     }
 
     float RigidBody::GetSpeed() {

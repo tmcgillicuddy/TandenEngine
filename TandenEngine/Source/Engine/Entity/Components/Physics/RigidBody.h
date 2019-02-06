@@ -11,10 +11,13 @@
 namespace TandenEngine {
 
     class RigidBody : public PhysicsComponent{
+     float mGravity = 9.8f;
+
      public:
         RigidBody(const float &mass = 1.0f, const float &friction = 0.0f);
         ~RigidBody() {}
 
+        bool mStatic = false;
         float mMass;
         float mFriction;
         vec3 mLinearVelocity;
@@ -23,12 +26,13 @@ namespace TandenEngine {
         vec3 mAngularAcceleration;
         vec3 mCenterOfMass;
 
-        void UpdateGravity();
+        void SetGravity(const float gravity);
 
         float GetSpeed();
 
         // Component Overrides
-        void Update() override;
+        void Update() override {};
+        void PhysicsUpdate() override;
         std::unique_ptr<Component> Clone() override;
         std::string ToString() override;
         // Takes in some string data and will output a mesh collider object
