@@ -14,6 +14,16 @@ namespace TandenEngine {
         InitLogicalDevice();
     }
 
+    VkResult VulkanInfo::CreateDebugUtilsMessengerEXT(VkInstance instance, const VkDebugUtilsMessengerCreateInfoEXT* pCreateInfo, const VkAllocationCallbacks* pAllocator, VkDebugUtilsMessengerEXT* pDebugMessenger) {
+        auto func = (PFN_vkCreateDebugUtilsMessengerEXT) vkGetInstanceProcAddr(instance, "vkCreateDebugUtilsMessengerEXT");
+        if (func != nullptr) {
+            return func(instance, pCreateInfo, pAllocator, pDebugMessenger);
+        } else {
+            return VK_ERROR_EXTENSION_NOT_PRESENT;
+        }
+    }
+
+
 
     void VulkanInfo::InitVulkanPipeline() {
         CreateSwapChain();
@@ -28,7 +38,41 @@ namespace TandenEngine {
         CreateSyncObjects();
     }
 
+    bool VulkanInfo::CheckValidationLayerSupport() {
+
+        // find layer count, put into vector
+        uint32_t layerCount;
+        vkEnumerateInstanceLayerProperties(&layerCount, nullptr);
+
+        std::vector<VkLayerProperties> availableLayers(layerCount);
+        vkEnumerateInstanceLayerProperties(&layerCount, availableLayers.data());
+
+        // check if all validation layers are in list of avaliable layers
+        for (const char* layerName : ValidationLayers) {
+            bool layerFound = false;
+
+            for (const auto& layerProperties : availableLayers) {
+                if (strcmp(layerName, layerProperties.layerName) == 0) {
+                    layerFound = true;
+                    break;
+                }
+            }
+
+            if (!layerFound) {
+                return false;
+            }
+        }
+
+        // true if we support, false if we  dont
+        return true;
+    }
+
     void VulkanInfo::InitVKInstance() {
+        //enable validation layers
+        if (enableValidationLayers && !CheckValidationLayerSupport()) {
+            throw std::runtime_error("validation layers requested, but not available!");
+        }
+
         //  create instance
         VkApplicationInfo appInfo = {};
         appInfo.sType = VK_STRUCTURE_TYPE_APPLICATION_INFO;
@@ -51,6 +95,11 @@ namespace TandenEngine {
         createInfo.ppEnabledExtensionNames = glfwExtensions;
 
         createInfo.enabledLayerCount = 0;
+
+        if (enableValidationLayers) {
+            createInfo.enabledLayerCount = static_cast<uint32_t>(ValidationLayers.size());
+            createInfo.ppEnabledLayerNames = ValidationLayers.data();
+        }
 
         VkResult result = vkCreateInstance(&createInfo, nullptr, &VulkanInstance);
 

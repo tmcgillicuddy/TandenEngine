@@ -5,6 +5,8 @@
 #ifndef TANDENENGINE_VULKANINFO_H
 #define TANDENENGINE_VULKANINFO_H
 
+
+
 #include <vulkan/vulkan.h>
 
 #include <Windows.h>
@@ -23,6 +25,7 @@
 #include "../ResourceManager/Resources/Model/Model.h"
 
 #include "GLFW/glfw3.h"
+
 
 
 namespace TandenEngine {
@@ -49,6 +52,17 @@ namespace TandenEngine {
     const std::vector<const char*> DeviceExtensions = {
             VK_KHR_SWAPCHAIN_EXTENSION_NAME
     };
+
+    //validation layers for finding common errors
+    const std::vector<const char*> ValidationLayers = {
+            "VK_LAYER_LUNARG_standard_validation"
+    };
+
+#ifdef NDEBUG
+    const bool enableValidationLayers = false;
+#else
+    const bool enableValidationLayers = true;
+#endif
 
     struct VulkanInfo {
         // TODO(Rosser) make pointers to allow initialization without allocation
@@ -84,7 +98,7 @@ namespace TandenEngine {
 
      private:
         void InitVKInstance();
-
+        bool CheckValidationLayerSupport();
         void SelectPhysicalDevice();
         bool SuitableDevice(VkPhysicalDevice targetDevice);
         QueueFamilyIndices FindQueueFamilies(VkPhysicalDevice targetDevice);
