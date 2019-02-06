@@ -22,11 +22,9 @@ namespace TandenEngine {
 
         std::unique_ptr<Component> Clone() override;
         // Takes in some string data and will output a Mesh Renderer object
-        Component * ConvertFromString(std::vector<std::string> input) override; //Takes in some string data and will output a Mesh Renderer object
+        Component * ConvertFromString(std::vector<std::string> input) override;
 
-    public:
-        MeshFilter *mpMesh{}; //Pointer to mesh component to draw (must be on the same gameobject)
-
+        MeshFilter *mpMesh{};  // Pointer to mesh component to draw (must be on the same gameobject)
     };
 
 }  // namespace TandenEngine
