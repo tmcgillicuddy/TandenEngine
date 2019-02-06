@@ -15,12 +15,12 @@ namespace TandenEngine {
     }
 
     void MeshRenderer::Draw() {
-        //std::cout << "Drawing Mesh Renderer\n";
+        // std::cout << "Drawing Mesh Renderer\n";
     }
 
     std::string MeshRenderer::ToString() {
-        std::string data = Component::ToString(); //Call the base to string function
-        //Add component specific attributes
+        std::string data = Component::ToString();  // Call the base to string function
+        // Add component specific attributes
         return data;
     }
 
@@ -34,4 +34,4 @@ namespace TandenEngine {
         return newComp;
     }
 
-}
+}  // namespace TandenEngine

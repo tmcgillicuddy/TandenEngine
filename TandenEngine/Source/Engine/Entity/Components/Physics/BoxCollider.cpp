@@ -13,7 +13,7 @@ namespace  TandenEngine {
         mType = ComponentType::BOXCOLLIDER;
     }
 
-    BoxCollider::BoxCollider( vec3 position, vec3 rotation, vec3 scale) {
+    BoxCollider::BoxCollider(vec3 position, vec3 rotation, vec3 scale) {
         mType = ComponentType::BOXCOLLIDER;
         mLocalPosition = position, mLocalRotation = rotation, mScale = scale;
         mGlobalPosition = mTransform->mTransformData.r1 + position;
@@ -24,12 +24,12 @@ namespace  TandenEngine {
     }
 
     void BoxCollider::Update() {
-        //std::cout << "Updating Box Collider\n";
+        // std::cout << "Updating Box Collider\n";
     }
 
     std::string BoxCollider::ToString() {
-        std::string data = Component::ToString(); //Call the base to string function
-        //Add component specific attributes
+        std::string data = Component::ToString();  // Call the base to string function
+        // Add component specific attributes
         return data;
     }
 
@@ -40,4 +40,4 @@ namespace  TandenEngine {
     std::unique_ptr<Component> BoxCollider::Clone() {
         return std::unique_ptr<BoxCollider>(this);
     }
-}
+}  // namespace TandenEngine

@@ -30,6 +30,8 @@ namespace TandenEngine {
 
     void RigidBody::UpdateGravity() {
         // apply gravity based on time (@9.8m/s)
+        mTransform->mTransformData.r1.x = sin(Timer::mCurrentTime) * 10;
+        // std::cout<<mTransform->position;
     }
 
     std::unique_ptr<Component> RigidBody::Clone() {
@@ -37,11 +39,11 @@ namespace TandenEngine {
     }
 
     std::string RigidBody::ToString() {
-        std::string data = Component::ToString(); //Call the base to string function
+        std::string data = Component::ToString();  // Call the base to string function
         return data;
     }
 
     Component *RigidBody::ConvertFromString(std::vector<std::string> input) {
         return nullptr;
     }
-}
+}  // namespace TandenEngine

@@ -4,18 +4,14 @@
 
 #include "Text.h"
 
-namespace TandenEngine
-{
-    namespace GUI
-    {
+namespace TandenEngine {
+    namespace GUI {
         void Text::DrawGUI() {
-            //ImGui::ShowDemoWindow();
+            // ImGui::ShowDemoWindow();
         }
 
         Text::Text(std::string input) {
             text = input;
         }
-    }
-}
-
-
+    }  // namespace GUI
+}  // namespace TandenEngine

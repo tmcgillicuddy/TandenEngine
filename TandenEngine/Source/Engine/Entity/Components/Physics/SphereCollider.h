@@ -11,11 +11,11 @@
 namespace TandenEngine {
 
     class SphereCollider : public Collider {
-    public:
+     public:
         SphereCollider();
         ~SphereCollider();
 
-        SphereCollider( vec3 position, float radius);
+        SphereCollider(vec3 position, float radius);
 
         void Update() override;
 
@@ -24,10 +24,10 @@ namespace TandenEngine {
         std::unique_ptr<Component> Clone() override;
 
         std::string ToString() override;
-        Component * ConvertFromString(std::vector<std::string>) override; //Takes in some string data and will output a physicsComponent object
+        // Takes in some string data and will output a physicsComponent object
+        Component * ConvertFromString(std::vector<std::string>) override;
     };
 
-}
+}  // namespace TandenEngine
 
-
-#endif //TANDENENGINE_SPHERECOLLIDER_H
+#endif  // TANDENENGINE_SPHERECOLLIDER_H
