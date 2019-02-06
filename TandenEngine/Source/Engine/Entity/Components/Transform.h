@@ -24,7 +24,7 @@ namespace TandenEngine {
         std::vector<Transform*> mChildren;
 
         Transform();
-        ~Transform(){};
+        ~Transform() {}
 
 
         void Translate(vec3 dir);
