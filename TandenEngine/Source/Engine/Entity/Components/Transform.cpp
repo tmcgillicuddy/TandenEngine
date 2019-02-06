@@ -16,25 +16,26 @@ namespace TandenEngine {
 
     void Transform::Update() {
     }
+    void Transform::SetParent(Transform *target) {
 
-   void Transform::SetParent(Transform *target) {
-   }
+    }
+    void Transform::AddChild(Transform *target) {
 
-   void Transform::AddChild(Transform *target) {
-   }
+    }
 
-   void Transform::RemoveChild(Transform *target) {
-   }
+    void Transform::RemoveChild(Transform *target) {
 
-   std::string Transform::ToString() {
+    }
+
+    std::string Transform::ToString() {
        return "";
-   }
+    }
 
-   Component *Transform::ConvertFromString(std::vector<std::string> input) {
+    Component *Transform::ConvertFromString(std::vector<std::string> input) {
        return nullptr;
-   }
+    }
 
-   std::unique_ptr<Component> Transform::Clone() {
+    std::unique_ptr<Component> Transform::Clone() {
        return std::unique_ptr<Transform>();
-   }
+    }
 }   // namespace TandenEngine
