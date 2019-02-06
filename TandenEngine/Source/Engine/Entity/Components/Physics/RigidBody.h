@@ -11,9 +11,9 @@
 namespace TandenEngine {
 
     class RigidBody : public PhysicsComponent{
-    public:
-        RigidBody(const float &mass = 1.0f, const float &friction = 0.0f );
-        ~RigidBody() {};
+     public:
+        RigidBody (const float &mass = 1.0f, const float &friction = 0.0f );
+        ~RigidBody() {}
 
         float mMass;
         float mFriction;

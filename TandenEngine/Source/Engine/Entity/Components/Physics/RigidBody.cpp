@@ -11,12 +11,11 @@ namespace TandenEngine {
     RigidBody::RigidBody(const float &mass, const float &friction) {
         mMass = mass;
         mFriction = friction;
-        mCenterOfMass = mTransform->mTransformData.r1; // default to center of object
-
+        mCenterOfMass = mTransform->mTransformData.r1;  // default to center of object
     }
 
     void RigidBody::Update() {
-        //mTransform->mTransformData.r1.x = sin(Timer::mCurrentTime) * 10;
+        // mTransform->mTransformData.r1.x = sin(Timer::mCurrentTime) * 10;
 
         UpdateGravity();
 
