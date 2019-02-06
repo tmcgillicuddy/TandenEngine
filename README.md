@@ -21,3 +21,43 @@ Tanden Engine uses these libraries:
 Clone the repo and run 'git submodule update --init --recursive' to get the submodules
 
 Make sure you have [CMake](https://cmake.org/download/) and the [Vulkan SDK](https://vulkan.lunarg.com/sdk/home#windows) downloaded and installed.
+
+## Using cpplint:
+
+### Installing
+Use ``` pip ``` to install cpplint with the bash command:
+
+ ```
+ C:/Python27/Scripts/pip.exe install cpplint --user
+```
+then set up alias for cpplint
+
+On Desktop:
+
+ ``` 
+ touch bashsrc
+ 
+ vim bashsrc
+ ```
+ 
+Insert line and save:
+
+  ```
+  alias lint='C:/Python27/Scripts/cpplint.exe'
+  ```
+  
+On Desktop
+
+```
+source bashsrc
+```
+
+Now ```lint``` will run cpplint on given files
+
+### Running
+
+Navigate to the engine directory and run the ```lint``` command with the ```--recursive``` flag
+
+```
+lint --recursive TandenEngine/Source/....
+``` 
