@@ -35,17 +35,18 @@ namespace TandenEngine {
 
         void Update() override;
 
-        void SetParent(Transform * target){};
+        void SetParent(Transform * target);
 
-        void AddChild(Transform * target){};
+        void AddChild(Transform * target);
 
-        void RemoveChild(Transform * target){};
+        void RemoveChild(Transform * target);
 
-        std::string ToString() override{ return "";};
+        std::string ToString() override;
+        
         // Takes in some string data and will output a transform object
-        Component * ConvertFromString(std::vector<std::string> input) override {return nullptr;};
+        Component * ConvertFromString(std::vector<std::string> input) override;
 
-        std::unique_ptr<Component> Clone() override {return nullptr;};
+        std::unique_ptr<Component> Clone() override;
     };
 }  // namespace TandenEngine
 
