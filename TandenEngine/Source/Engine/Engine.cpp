@@ -2,7 +2,7 @@
 #include "Engine.h"
 #include "Entity/Components/ComponentHeader.h"
 #include "ResourceManager/BufferManager.h"
-#include "../Core/Debugger/Debug.h"
+#include "Debug.h"
 
 namespace TandenEngine {
 
@@ -52,6 +52,8 @@ namespace TandenEngine {
         MeshFilter * tempFilter = dynamic_cast<MeshFilter*>(tempObj->AddComponent<MeshFilter>());
         MeshRenderer* tempComp =  dynamic_cast<MeshRenderer*>(tempObj->AddComponent<MeshRenderer>());
 
+        // test rb
+        RigidBody* tempRB = dynamic_cast<RigidBody*>(tempObj->AddComponent<RigidBody>());
 
         //give rend comp model
         tempFilter->mModelResource = tempModel;
