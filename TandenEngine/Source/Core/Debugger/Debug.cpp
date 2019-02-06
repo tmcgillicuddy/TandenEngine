@@ -23,7 +23,7 @@ namespace TandenEngine {
         for (int index = 0; input[index] != '\0'; index++) {
             switch (input[index]) {
                 case '\n':
-                    std::cout << "Invalid Format, dont use \\n \n";
+                    std::cout << "Invalid Format, dont use \\n in format\n";
                     return;
             }
         }
