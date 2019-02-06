@@ -23,6 +23,6 @@ namespace TandenEngine {
         Component * ConvertFromString(std::vector<std::string> input) override; //Takes in some string data and will output a Mesh Filter object
     };
 
-}
+}  // namespace TandenEngine
 
-#endif //TANDENENGINE_MESHFILTER_H
+#endif  // TANDENENGINE_MESHFILTER_H

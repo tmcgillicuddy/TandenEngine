@@ -116,4 +116,8 @@ namespace TandenEngine {
 
         return "";
     }
+
+    void Debug::LogError(char *format, ...) {
+
+    }
 }  // namespace TandenEngine

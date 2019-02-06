@@ -11,7 +11,7 @@
 namespace TandenEngine {
 
     class MeshRenderer : public Renderer {
-    public:
+     public:
         MeshRenderer();
 
         ~MeshRenderer();
@@ -21,13 +21,14 @@ namespace TandenEngine {
         std::string ToString() override;
 
         std::unique_ptr<Component> Clone() override;
-
+        // Takes in some string data and will output a Mesh Renderer object
         Component * ConvertFromString(std::vector<std::string> input) override; //Takes in some string data and will output a Mesh Renderer object
 
     public:
         MeshFilter *mpMesh{}; //Pointer to mesh component to draw (must be on the same gameobject)
+
     };
 
-}
+}  // namespace TandenEngine
 
-#endif //TANDENENGINE_MESHRENDERER_H
+#endif  // TANDENENGINE_MESHRENDERER_H

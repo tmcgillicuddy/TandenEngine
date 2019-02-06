@@ -11,7 +11,7 @@ namespace TandenEngine {
     namespace GUI {
         class MenuItem : public GUIElement {
         };
-    }
-}
+    }  // namespace GUI
+}  // namespace TandenEngine
 
-#endif //TANDENENGINE_MENUITEM_H
+#endif  // TANDENENGINE_MENUITEM_H

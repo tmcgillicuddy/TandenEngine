@@ -5,9 +5,9 @@
 #ifndef TANDENENGINE_COLLIDER_H
 #define TANDENENGINE_COLLIDER_H
 
+#include <iostream>
 #include "../Component.h"
 #include "Vectors/vec3.h"
-#include <iostream>
 #include "../Transform.h"
 
 namespace TandenEngine {
@@ -15,23 +15,22 @@ namespace TandenEngine {
     class GameObject;
 
     class Collider : public Component {
-        public:
-            friend class PhysicsSystem;
+     public:
+        friend class PhysicsSystem;
 
-            Collider();
-            ~Collider() {};
+        Collider();
+        ~Collider() {}
 
-            vec3 mLocalPosition;
-            vec3 mGlobalPosition;
-            vec3 mLocalRotation;
-            vec3 mGlobalRotation;
-            vec3 mScale = vec3(1.0, 1.0, 1.0);
+        vec3 mLocalPosition;
+        vec3 mGlobalPosition;
+        vec3 mLocalRotation;
+        vec3 mGlobalRotation;
+        vec3 mScale = vec3(1.0, 1.0, 1.0);
 
 
-        //Component Overrides
-            void Register() override;
+        // Component Overrides
+        void Register() override;
     };
-}
+}  // namespace TandenEngine
 
-
-#endif //TANDENENGINE_COLLIDER_H
+#endif  // TANDENENGINE_COLLIDER_H

@@ -7,30 +7,30 @@
 
 #include "GUIElement.h"
 
-//Buttons
+// Buttons
 #include "Buttons/Button.h"
 #include "Buttons/RadioButton.h"
 #include "Buttons/Checkbox.h"
 
-//Formatting
+// Formatting
 #include "Formatting/Menu.h"
 #include "Formatting/MenuItem.h"
 #include "Formatting/BeginMenuBar.h"
 #include "Formatting/EndMenuBar.h"
 
-//Input Fields
+// Input Fields
 #include "InputField/IntField.h"
 #include "InputField/FloatField.h"
 #include "InputField/TextField.h"
 
-//Sliders
+// Sliders
 #include "Sliders/FloatSlider.h"
 #include "Sliders/IntSlider.h"
 
-//Utilities
+// Utilities
 #include "Util/ColorEditor.h"
 #include "Util/ProgressBar.h"
 #include "Util/Text.h"
 #include "Util/ToolTip.h"
 
-#endif //TANDENENGINE_GUIHEADER_H
+#endif  // TANDENENGINE_GUIHEADER_H
