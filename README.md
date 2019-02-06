@@ -7,7 +7,13 @@
 
 ## Features
 Current Features Supported:
- * WIP
+ * Vulkan Rendering
+ * Rigidbody Dynamics
+ * Model file loading
+ * Image file loading
+ * Scene, Prefab, and Material saving
+ * Component System
+ * Ray Tracing
 
 ## Dependecies
 Tanden Engine uses these libraries:
@@ -15,7 +21,8 @@ Tanden Engine uses these libraries:
  * [Vulkan](https://www.khronos.org/vulkan) - Vulkan interface
  * [GLFW](https://github.com/glfw/glfw) - Window creation
  * [Imgui](https://github.com/ocornut/imgui) - GUI generation
- * [TinyObjLoader](https://github.com/syoyo/tinyobjloader) - Obj File loading
+ * [TinyObjLoader](https://github.com/syoyo/tinyobjloader) - Obj File Loading
+ * [Stb](https://github.com/nothings/stb) - Image File Loading
 
 ## Compiling:
 Clone the repo and run 'git submodule update --init --recursive' to get the submodules

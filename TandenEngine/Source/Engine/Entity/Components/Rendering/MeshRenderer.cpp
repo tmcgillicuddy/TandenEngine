@@ -2,9 +2,9 @@
 // Created by thomas.mcgillicuddy on 10/31/2018.
 //
 
+#include <iostream>
 #include "../../../../Core/Debugger/Debug.h"
 #include "MeshRenderer.h"
-#include <iostream>
 
 namespace TandenEngine {
 
@@ -16,17 +16,10 @@ namespace TandenEngine {
     }
 
     void MeshRenderer::Draw() {
-        //std::cout << "Drawing Mesh Renderer\n";
-
-
-        for (const auto &vertices : mpMesh->mModelResource->mLocalVertices)
-        {
+        // std::cout << "Drawing Mesh Renderer\n";
+        for (const auto &vertices : mpMesh->mModelResource->mLocalVertices) {
             std::cout << vertices.mPos << std::endl << vertices.mColor << std::endl;
         }
-
-
-
-
     }
 
     std::string MeshRenderer::ToString() {

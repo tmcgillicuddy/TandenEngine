@@ -28,7 +28,7 @@ namespace TandenEngine {
 
         std::vector<MeshVertex> mLocalVertices = {};
 
-        //VkBuffer vertexBuffer;
+        // VkBuffer vertexBuffer;
         static bool CheckIfSupported(std::string extension);
         void CreateVertexBuffer();
 

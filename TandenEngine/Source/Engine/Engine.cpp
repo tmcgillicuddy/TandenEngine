@@ -17,13 +17,13 @@ namespace TandenEngine {
         RenderingSystem::InitSystem();
         ResourceManager::ImportAssetsFolder();
 
-        //Make model
+        // Make model
         Model * tempModel = new Model();
-        //Pass model to manager //TODO move this from buffermanager instance
+        // Pass model to manager //TODO(Rosser) move this from buffermanager instance
 
         BufferManager::setModel(tempModel);
 
-        //ResourceManager::AddResource(tempModel);
+        // ResourceManager::AddResource(tempModel);
 
         RenderingSystem::InitGraphicsPipeline();
 
@@ -41,26 +41,27 @@ namespace TandenEngine {
             mGame->StartUpGame();
         }
 
-        //make scene
+        // make scene
         Scene * test = new Scene();
         mLoadedScenes.emplace_back(test);
 
-        //make game obj
+        // make game obj
         GameObject * tempObj = test->CreateGameObject();
 
-        //give filter and render
+        // give filter and render
         MeshFilter * tempFilter = dynamic_cast<MeshFilter*>(tempObj->AddComponent<MeshFilter>());
-        MeshRenderer* tempComp =  dynamic_cast<MeshRenderer*>(tempObj->AddComponent<MeshRenderer>());
+        MeshRenderer* tempComp =  dynamic_cast<MeshRenderer*>
+                (tempObj->AddComponent<MeshRenderer>());
 
         // test rb
         RigidBody* tempRB = dynamic_cast<RigidBody*>(tempObj->AddComponent<RigidBody>());
 
-        //give rend comp model
+        // give rend comp model
         tempFilter->mModelResource = tempModel;
 
 
         tempComp->mpMesh = tempFilter;
-        std::cout<<"ENGINE INITIALIZATION COMPLETE\n";
+        std::cout <<"ENGINE INITIALIZATION COMPLETE\n";
     }
 
     void Engine::RunEngine() {
@@ -74,7 +75,7 @@ namespace TandenEngine {
             }
             // Process Events
             EventSystem::ProcessEvents();
-            std::cout<<"process events\n";
+            std::cout <<"process events\n";
 
 
             // Update all registered physics objects
@@ -90,16 +91,15 @@ namespace TandenEngine {
             if (mGame != nullptr)
                 mGame->UpdateGame();
 
-            std::cout<<"draw complete\n";
+            std::cout <<"draw complete\n";
             // Render all registered renderer components
             RenderingSystem::Draw();
 
             // Wait for frame time
             Timer::WaitForFrameTime();
-            std::cout<<"waiting for frame\n";
+            std::cout <<"waiting for frame\n";
 
             std::cout << "FRAME COMPLETE \n";
-
         }
     }
 
