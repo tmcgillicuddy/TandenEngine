@@ -24,4 +24,4 @@ labels = Array.new
 labels << "WIP" if github.pr_title.include? "[WIP]"
 labels << "physics" if git.added_files.include?("physics") or git.modified_files.include?("physics")
 labels << "linter" if git.added_files.include?("lint") or git.modified_files.include?("lint")
-github.api.add_labels_to_an_issue("tmcgillicuddy/tandenengine", github.pr_json.number, labels) if not labels.empty?
+github.api.add_labels_to_an_issue("tmcgillicuddy/nilsmath", github.pr_json.number, labels) if not labels.empty?
