@@ -53,7 +53,7 @@ namespace TandenEngine {
             VK_KHR_SWAPCHAIN_EXTENSION_NAME
     };
 
-    //validation layers for finding common errors
+    // validation layers for finding common errors
     const std::vector<const char*> ValidationLayers = {
             "VK_LAYER_LUNARG_standard_validation"
     };
@@ -67,6 +67,7 @@ namespace TandenEngine {
     struct VulkanInfo {
         // TODO(Rosser) make pointers to allow initialization without allocation
         VkInstance VulkanInstance;                   // vulkan instance
+        VkDebugUtilsMessengerEXT debugMessenger;     // debugs validation layers
         VkPhysicalDevice physicalDevice;             // our graphics card
         VkDevice logicalDevice;                      // logical interface with graphics card
         VkQueue gfxQueue;                            // graphics queue for graphics events
@@ -99,6 +100,21 @@ namespace TandenEngine {
      private:
         void InitVKInstance();
         bool CheckValidationLayerSupport();
+
+        VkResult CreateDebugUtilsMessengerEXT(VkInstance instance,
+                const VkDebugUtilsMessengerCreateInfoEXT* pCreateInfo,
+                const VkAllocationCallbacks* pAllocator,
+                VkDebugUtilsMessengerEXT* pDebugMessenger);
+        void SetupDebugMessenger();
+        std::vector<const char*> GetRequiredExtensions();
+
+        static VKAPI_ATTR VkBool32 VKAPI_CALL DebugCallback(
+                VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity,
+                VkDebugUtilsMessageTypeFlagsEXT messageType,
+                const VkDebugUtilsMessengerCallbackDataEXT* pCallbackData,
+                void* pUserData);
+
+        void DestroyDebugUtilsMessengerEXT(VkInstance instance, VkDebugUtilsMessengerEXT debugMessenger, const VkAllocationCallbacks* pAllocator);
         void SelectPhysicalDevice();
         bool SuitableDevice(VkPhysicalDevice targetDevice);
         QueueFamilyIndices FindQueueFamilies(VkPhysicalDevice targetDevice);
