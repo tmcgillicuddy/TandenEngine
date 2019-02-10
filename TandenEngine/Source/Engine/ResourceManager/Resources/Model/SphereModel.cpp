@@ -3,3 +3,8 @@
 //
 
 #include "SphereModel.h"
+
+namespace TandenEngine {
+    SphereModel::SphereModel() {
+    }
+}

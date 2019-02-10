@@ -3,3 +3,8 @@
 //
 
 #include "CylinderModel.h"
+
+namespace TandenEngine {
+    CylinderModel::CylinderModel() {
+    }
+}
