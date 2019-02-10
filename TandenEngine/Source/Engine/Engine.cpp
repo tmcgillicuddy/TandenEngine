@@ -9,7 +9,6 @@ namespace TandenEngine {
     Game * Engine::mGame;
 
     void Engine::StartEngine() {
-        Debug::Log("\n");
         std::cout<< "Please specify Project File directory: ";
         std::cin >> mProjectDirectory;
 
