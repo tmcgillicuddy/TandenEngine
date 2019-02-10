@@ -3,6 +3,7 @@
 //
 
 #include "ResourceManager.h"
+#include "Resources/Model/Primitive.h"
 namespace TandenEngine {
 
     std::vector<Resource *> ResourceManager::mResourceFiles;
@@ -50,6 +51,9 @@ namespace TandenEngine {
     }
 
     void ResourceManager::ImportAssetsFolder() {
+        // Init any default assets
+        Primitive::InitPrimitives();
+
         std::vector<std::string> filePaths;
         // Get list of all file paths from existing meta files
         for (MetaData * data : mMetaData) {

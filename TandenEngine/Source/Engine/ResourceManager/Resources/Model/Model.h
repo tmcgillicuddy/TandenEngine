@@ -18,15 +18,13 @@ namespace TandenEngine {
 
     class Model : public Resource{
      public:
-        std::vector<MeshVertex> verticies;
-        std::vector<uint32_t> indices;
-
         VkBuffer  vertexBuffer;
         VkDeviceMemory vertexBufferMemory;
 
         Model();
 
-        std::vector<MeshVertex> mLocalVertices = {};
+        std::vector<MeshVertex> mVertices = {};
+        std::vector<uint16_t> mIndices;
 
         // VkBuffer vertexBuffer;
         static bool CheckIfSupported(std::string extension);

@@ -21,11 +21,8 @@ namespace TandenEngine {
 
     class BufferManager {
      public:
-        static Model *testModel;
-        static void setModel(Model * targetModel) {testModel = targetModel;}
-
-        static std::vector<MeshVertex> mVertices;  // test vertices
-        static std::vector<uint16_t> mIndices;     // test indices
+        static std::vector<Model*> modelList;  // TODO(Rosser) Remove this(?)
+        static void AddModel(Model * targetModel) {modelList.push_back(targetModel);}
 
         static std::vector<VkDeviceMemory> mVertexBufferMemoryList;
         static std::vector<VkDeviceMemory> mIndexBufferMemoryList;
@@ -43,7 +40,6 @@ namespace TandenEngine {
         static void AddVertexBuffer(VkBuffer newBuffer, VkDeviceMemory newDeviceMemory);
         static void AddIndexBuffer(VkBuffer newBuffer, VkDeviceMemory newDeviceMemory);
 
-        static void CreateVertexBufferForModel(Model * targetModel);
         // TODO(Rosser) make this for target models, or all models that have been loaded
         static void CreateVertexBufferForTargetModel();
         static void CreateIndexBufferForTargetModel();

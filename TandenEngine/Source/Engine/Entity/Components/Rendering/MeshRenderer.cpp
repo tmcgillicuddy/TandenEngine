@@ -17,7 +17,7 @@ namespace TandenEngine {
 
     void MeshRenderer::Draw() {
         // std::cout << "Drawing Mesh Renderer\n";
-        for (const auto &vertices : mpMesh->mModelResource->mLocalVertices) {
+        for (const auto &vertices : mpMesh->mModelResource->mVertices) {
             std::cout << vertices.mPos << std::endl << vertices.mColor << std::endl;
         }
     }
