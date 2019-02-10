@@ -58,15 +58,15 @@ namespace TandenEngine {
 
                 // If this is a unique vertex add to verticies vector
                 if (uniqueVertices.count(vertex) == 0) {
-                    uniqueVertices[vertex] = static_cast<uint32_t>(verticies.size());
-                    verticies.push_back(vertex);
+                    uniqueVertices[vertex] = static_cast<uint32_t>(mVertices.size());
+                    mVertices.push_back(vertex);
                 }
 
-                indices.push_back(indices.size());
+                mIndices.push_back(mIndices.size());
             }
         }
 
-        std::cout<< "Num verts " << verticies.size();
+        std::cout<< "Num verts " << mVertices.size();
         // TODO(Rosser) Create API to make buffer from model data
         // BufferManager::CreateVertexBufferForModel(this);
     }

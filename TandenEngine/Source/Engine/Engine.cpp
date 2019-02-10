@@ -2,6 +2,7 @@
 #include "Engine.h"
 #include "Entity/Components/ComponentHeader.h"
 #include "ResourceManager/BufferManager.h"
+#include "ResourceManager/Resources/Model/Primitive.h"
 #include "Debug.h"
 
 namespace TandenEngine {
@@ -15,15 +16,8 @@ namespace TandenEngine {
         mProjectSettings = Serializer::LoadProject(mProjectDirectory);
 
         RenderingSystem::InitSystem();
+
         ResourceManager::ImportAssetsFolder();
-
-        // Make model
-        Model * tempModel = new Model();
-        // Pass model to manager //TODO(Rosser) move this from buffermanager instance
-
-        BufferManager::setModel(tempModel);
-
-        // ResourceManager::AddResource(tempModel);
 
         RenderingSystem::InitGraphicsPipeline();
 
@@ -57,7 +51,7 @@ namespace TandenEngine {
         RigidBody* tempRB = dynamic_cast<RigidBody*>(tempObj->AddComponent<RigidBody>());
 
         // give rend comp model
-        tempFilter->mModelResource = tempModel;
+        tempFilter->mModelResource = &Primitive::Cube;
 
 
         tempComp->mpMesh = tempFilter;

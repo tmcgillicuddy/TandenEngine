@@ -690,7 +690,7 @@ namespace TandenEngine {
 
             vkCmdDrawIndexed(
                     commandBuffers[i],
-                    static_cast<uint32_t>(BufferManager::mIndices.size()),
+                    static_cast<uint32_t>(BufferManager::modelList[0]->mIndices.size()),
                     1, 0, 0, 0);
             // draw non indexed
             // vkCmdDraw(

@@ -3,10 +3,15 @@
 //
 
 #include "Primitive.h"
+#include "../../BufferManager.h"
 
 namespace TandenEngine {
 
-    const CubeModel Primitive::Cube = CubeModel();
-    const SphereModel Primitive::Sphere = SphereModel();
-    const CylinderModel Primitive::Cylinder = CylinderModel();
+    CubeModel Primitive::Cube = CubeModel();
+    SphereModel Primitive::Sphere = SphereModel();
+    CylinderModel Primitive::Cylinder = CylinderModel();
+
+    void Primitive::InitPrimitives() {
+        BufferManager::AddModel(&Cube);
+    }
 }  // namespace TandenEngine
