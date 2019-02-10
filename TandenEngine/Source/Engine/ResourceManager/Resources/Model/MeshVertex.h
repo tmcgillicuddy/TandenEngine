@@ -5,9 +5,9 @@
 #ifndef TANDENENGINE_MESHVERTEX_H
 #define TANDENENGINE_MESHVERTEX_H
 
+#include <vulkan/vulkan.h>
 #include <array>
 #include "NilsMath.h"
-#include "../../../RenderingSystem/VulkanInfo.h"
 
 namespace TandenEngine {
 

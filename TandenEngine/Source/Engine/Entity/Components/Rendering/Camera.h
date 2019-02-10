@@ -18,6 +18,7 @@ namespace TandenEngine {
         std::string ToString() override;
         // Takes in some string data and will output a mesh collider object
         Component * ConvertFromString(std::vector<std::string> input) override;
+
     };
 }  // namespace TandenEngine
 
