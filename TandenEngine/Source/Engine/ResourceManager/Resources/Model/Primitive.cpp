@@ -13,5 +13,7 @@ namespace TandenEngine {
 
     void Primitive::InitPrimitives() {
         BufferManager::AddModel(&Cube);
+        BufferManager::AddModel(&Sphere);
+        BufferManager::AddModel(&Cylinder);
     }
 }  // namespace TandenEngine
