@@ -12,7 +12,7 @@ namespace TandenEngine {
     class RayTracingSystem {
      public:
         // Ray Trace from the camera into the world
-        void RayTraceToTexture(Camera targetCam, int width, int height);
+        static void RayTraceToTexture(Camera targetCam, int width, int height);
     };
 
 }  // namespace TandenEngine

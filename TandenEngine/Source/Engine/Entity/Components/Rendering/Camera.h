@@ -19,6 +19,8 @@ namespace TandenEngine {
         // Takes in some string data and will output a mesh collider object
         Component * ConvertFromString(std::vector<std::string> input) override;
 
+        // Call Raytrace on this camera
+        void RayTraceThisCam();
     };
 }  // namespace TandenEngine
 

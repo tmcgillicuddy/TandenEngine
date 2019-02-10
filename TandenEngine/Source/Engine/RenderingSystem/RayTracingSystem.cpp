@@ -17,7 +17,6 @@ namespace TandenEngine {
                 // If hit set pixel to integrated material info
 
                 // If not hit, set pixel to skybox
-
             }
         }
 
@@ -25,4 +24,4 @@ namespace TandenEngine {
 
         // Output texture
     }
-}
+}  // namespace TandenEngine
