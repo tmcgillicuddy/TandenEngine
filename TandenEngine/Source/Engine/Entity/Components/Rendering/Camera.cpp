@@ -3,6 +3,7 @@
 //
 
 #include "Camera.h"
+#include "../../../RenderingSystem/RayTracingSystem.h"
 
 namespace TandenEngine {
 
@@ -22,5 +23,10 @@ namespace TandenEngine {
 
     Component *Camera::ConvertFromString(std::vector<std::string> input) {
         return nullptr;
+    }
+
+    void Camera::RayTraceThisCam() {
+        // TODO(Anyone) Use an input width and height
+        RayTracingSystem::RayTraceToTexture(*this, 1920, 1080);
     }
 }  // namespace TandenEngine

@@ -15,6 +15,8 @@ namespace TandenEngine {
     }
 
     void Transform::Update() {
+        // TODO(Nils) update local and ws transforms data based on parent
+        // TODO(Nils) update the relative vector macros (forward, right, up)
     }
 
     void Transform::SetParent(Transform *target) {
