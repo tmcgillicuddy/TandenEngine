@@ -6,7 +6,7 @@
 
 namespace TandenEngine {
 
-    CubeModel Primitive::Cube = CubeModel();
-    SphereModel Primitive::Sphere = SphereModel();
-    CylinderModel Primitive::Cylinder = CylinderModel();
+    const CubeModel Primitive::Cube = CubeModel();
+    const SphereModel Primitive::Sphere = SphereModel();
+    const CylinderModel Primitive::Cylinder = CylinderModel();
 }  // namespace TandenEngine

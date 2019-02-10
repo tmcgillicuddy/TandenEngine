@@ -11,9 +11,9 @@
 
 namespace TandenEngine {
     class Primitive {
-        static CubeModel Cube;
-        static SphereModel Sphere;
-        static CylinderModel Cylinder;
+        static const CubeModel Cube;
+        static const SphereModel Sphere;
+        static const CylinderModel Cylinder;
     };
 }
 
