@@ -6,5 +6,6 @@
 
 namespace TandenEngine {
     CubeModel::CubeModel() {
+        // TODO(Anyone) implement logic for creating a model with cube vertices
     }
 }
