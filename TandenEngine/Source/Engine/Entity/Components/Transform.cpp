@@ -20,11 +20,18 @@ namespace TandenEngine {
     }
 
     void Transform::SetParent(Transform *target) {
+        mParent = target;
+        target->AddChild(this);
+        Update();  // Call update once to update relative info
     }
+
     void Transform::AddChild(Transform *target) {
+        mChildren.push_back(target);
     }
 
     void Transform::RemoveChild(Transform *target) {
+        auto it = std::find(mChildren.begin(), mChildren.end(), target);
+        if (it != mChildren.end()) { mChildren.erase(it); }
     }
 
     std::string Transform::ToString() {
