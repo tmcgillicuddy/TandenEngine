@@ -6,7 +6,7 @@
 
 namespace TandenEngine {
     SphereModel::SphereModel() {
-        for (uint32_t i = 0; i < mSlices + 1; i++) {
+        for (int i = 0; i < mSlices + 1; i++) {
             float iDivLong = static_cast<float>(i) / static_cast<float>(mSlices);
             // TODO(Nils) add PI to math
             float theta = (i == 0 || i == mSlices) ? 0.0f : iDivLong * 2.0f * 3.14f;
@@ -18,7 +18,8 @@ namespace TandenEngine {
 
                 vec3 normal = vec3(std::cos(phi) * std::sin(theta),
                         std::cos(theta), std::sin(phi) * std::sin(theta));
-                vec3 position = normal * mRadius;
+                // TODO(Nils) fix inplace multiplication
+                vec3 position = vec3(mRadius * normal.x, mRadius * normal.y, mRadius * normal.z);
                 vec2 uvs = vec2(1.0f - jDivLat, 1.0f - iDivLong);
                 vec3 tangent = vec3();
                 mVertices.emplace_back(MeshVertex(position, tangent));
