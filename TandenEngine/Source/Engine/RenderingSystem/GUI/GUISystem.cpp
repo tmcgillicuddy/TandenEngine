@@ -41,7 +41,17 @@ namespace TandenEngine {
 
             ImGui_ImplGlfw_InitForVulkan(RenderingSystem::GetWindow()->GetWindowRef(), true);
 
-
+            // Set ImGui Vulkan Info
+            mInitInfo.Instance = RenderingSystem::GetVulkanInfo()->VulkanInstance;
+            mInitInfo.PhysicalDevice = RenderingSystem::GetVulkanInfo()->physicalDevice;
+            mInitInfo.Device = RenderingSystem::GetVulkanInfo()->logicalDevice;
+            mInitInfo.QueueFamily = 0; //TODO (Thomas) use queue family (?)
+            mInitInfo.Queue = RenderingSystem::GetVulkanInfo()->presentationQueue;
+            // mInitInfo.PipelineCache = g_PipelineCache;
+            // mInitInfo.DescriptorPool = g_DescriptorPool;
+            mInitInfo.Allocator = RenderingSystem::GetVulkanInfo()->mAllocator;
+            // mInitInfo.CheckVkResultFn = check_vk_result;
+            ImGui_ImplVulkan_Init(&mInitInfo, wd->RenderPass);
             // Build and load the texture atlas into a texture
             // (In the examples/ app this is usually done within
             // the ImGui_ImplXXX_Init() function from one of the demo Renderer)
