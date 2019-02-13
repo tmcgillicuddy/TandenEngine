@@ -83,6 +83,9 @@ namespace TandenEngine {
         BufferManager::CreateVertexBufferForTargetModel();
         BufferManager::CreateIndexBufferForTargetModel();
         BufferManager::CreateUniformBuffers();
+        CreateDescriptorPool();
+        CreateDescriptorSets();
+
         CreateCommandBuffers();
         CreateSyncObjects();
     }
@@ -572,7 +575,7 @@ namespace TandenEngine {
         rasterizer.polygonMode = VK_POLYGON_MODE_FILL;   // fill type, other options: LINE or POINT
         rasterizer.lineWidth = 1.0f;                     // line thickness between verts
         rasterizer.cullMode = VK_CULL_MODE_BACK_BIT;     // face culling
-        rasterizer.frontFace = VK_FRONT_FACE_CLOCKWISE;  // face culling direction
+        rasterizer.frontFace = VK_FRONT_FACE_CLOCKWISE;  // culling direction
         rasterizer.depthBiasEnable = VK_FALSE;           // toggle depth bias
 
         // multisampling, for anti aliasing
@@ -781,6 +784,11 @@ namespace TandenEngine {
                     0,
                     VK_INDEX_TYPE_UINT16);
 
+            // TODO(Rosser) uncomment when matrices work
+            // bind descriptor sets from uniform buffers
+            // vkCmdBindDescriptorSets(commandBuffers[i], VK_PIPELINE_BIND_POINT_GRAPHICS,
+            // pipelineLayout, 0, 1, &descriptorSets[i], 0, nullptr);
+
             vkCmdDrawIndexed(
                     commandBuffers[i],
                     static_cast<uint32_t>(BufferManager::mIndices.size()),
@@ -986,6 +994,66 @@ namespace TandenEngine {
     }
 
 
+    void VulkanInfo::CreateDescriptorPool() {
+        // create descriptor pool
+        VkDescriptorPoolSize poolSize = {};
+        poolSize.type = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
+        poolSize.descriptorCount = static_cast<uint32_t>(swapChainImages.size());
+
+        //info for pool
+        VkDescriptorPoolCreateInfo poolInfo = {};
+        poolInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_POOL_CREATE_INFO;
+        poolInfo.poolSizeCount = 1;
+        poolInfo.pPoolSizes = &poolSize;
+        poolInfo.maxSets = static_cast<uint32_t>(swapChainImages.size());
+
+        if (vkCreateDescriptorPool(logicalDevice, &poolInfo, nullptr, &descriptorPool) != VK_SUCCESS) {
+            throw std::runtime_error("failed to create descriptor pool!");
+        }
+
+    }
+
+    void VulkanInfo::CreateDescriptorSets() {
+
+        // create descriptor sets for pool
+        std::vector<VkDescriptorSetLayout> layouts(swapChainImages.size(), descriptorSetLayout);
+        VkDescriptorSetAllocateInfo allocInfo = {};
+        allocInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_ALLOCATE_INFO;
+        allocInfo.descriptorPool = descriptorPool;
+        allocInfo.descriptorSetCount = static_cast<uint32_t>(swapChainImages.size());
+        allocInfo.pSetLayouts = layouts.data();
+
+        // change size based on uniform buffers
+        descriptorSets.resize(swapChainImages.size());
+
+        if (vkAllocateDescriptorSets(logicalDevice, &allocInfo, descriptorSets.data()) != VK_SUCCESS) {
+            throw std::runtime_error("failed to allocate descriptor sets!");
+        }
+
+        // write sets from buffers to swapchain images
+        for (size_t i = 0; i < swapChainImages.size(); i++) {
+
+            VkDescriptorBufferInfo bufferInfo = {};
+            bufferInfo.buffer = BufferManager::mUniformBufferList[i];
+            bufferInfo.offset = 0;
+            bufferInfo.range = sizeof(UniformBufferObject);
+
+            // write new sets based on
+            VkWriteDescriptorSet descriptorWrite = {};
+            descriptorWrite.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
+            descriptorWrite.dstSet = descriptorSets[i];
+            descriptorWrite.dstBinding = 0;
+            descriptorWrite.dstArrayElement = 0;
+            descriptorWrite.descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
+            descriptorWrite.descriptorCount = 1;
+            descriptorWrite.pBufferInfo = &bufferInfo;
+
+            // update sets
+            vkUpdateDescriptorSets(logicalDevice, 1, &descriptorWrite, 0, nullptr);
+        }
+    }
+
+
 
     void VulkanInfo::CleanupVulkan() {
 
@@ -993,6 +1061,9 @@ namespace TandenEngine {
         for (size_t i = 0; i < swapChainFramebuffers.size(); i++) {
             vkDestroyFramebuffer(logicalDevice, swapChainFramebuffers[i], nullptr);
         }
+
+        vkDestroyDescriptorPool(logicalDevice, descriptorPool, nullptr);
+
 
         vkDestroyDescriptorSetLayout(logicalDevice, descriptorSetLayout, nullptr);
 
