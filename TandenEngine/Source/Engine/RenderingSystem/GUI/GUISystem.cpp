@@ -120,7 +120,8 @@ namespace TandenEngine {
             }
 
             // Select Surface Format
-            const VkFormat requestSurfaceImageFormat[] = { VK_FORMAT_B8G8R8A8_UNORM, VK_FORMAT_R8G8B8A8_UNORM, VK_FORMAT_B8G8R8_UNORM, VK_FORMAT_R8G8B8_UNORM };
+            const VkFormat requestSurfaceImageFormat[] = { VK_FORMAT_B8G8R8A8_UNORM, VK_FORMAT_R8G8B8A8_UNORM,
+                                                           VK_FORMAT_B8G8R8_UNORM, VK_FORMAT_R8G8B8_UNORM };
             const VkColorSpaceKHR requestSurfaceColorSpace = VK_COLORSPACE_SRGB_NONLINEAR_KHR;
             wd->SurfaceFormat = ImGui_ImplVulkanH_SelectSurfaceFormat(RenderingSystem::GetVulkanInfo()->physicalDevice, wd->Surface,
                     requestSurfaceImageFormat, (size_t)IM_ARRAYSIZE(requestSurfaceImageFormat), requestSurfaceColorSpace);
@@ -137,9 +138,11 @@ namespace TandenEngine {
 
             // Create SwapChain, RenderPass, Framebuffer, etc.
             ImGui_ImplVulkanH_CreateWindowDataCommandBuffers(RenderingSystem::GetVulkanInfo()->physicalDevice,
-                    RenderingSystem::GetVulkanInfo()->logicalDevice, 0, wd, RenderingSystem::GetVulkanInfo()->mAllocator);  //TODO (Thomas) use queue family (?)
+                    RenderingSystem::GetVulkanInfo()->logicalDevice, 0, wd,  //TODO (Thomas) use queue family (?)
+                    RenderingSystem::GetVulkanInfo()->mAllocator);
             ImGui_ImplVulkanH_CreateWindowDataSwapChainAndFramebuffer(RenderingSystem::GetVulkanInfo()->physicalDevice,
-                    RenderingSystem::GetVulkanInfo()->logicalDevice, wd, RenderingSystem::GetVulkanInfo()->mAllocator, width, height);
+                    RenderingSystem::GetVulkanInfo()->logicalDevice, wd,
+                    RenderingSystem::GetVulkanInfo()->mAllocator, width, height);
         }
 
     }  // namespace GUI

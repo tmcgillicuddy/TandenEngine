@@ -253,8 +253,6 @@ namespace TandenEngine {
     }
 
     void BufferManager::Cleanup() {
-
-
         for (int i = 0; i < mVertexBufferMemoryList.size(); ++i) {
             // vertex buffers
             vkDestroyBuffer(RenderingSystem::GetVulkanInfo()->logicalDevice,
@@ -269,8 +267,10 @@ namespace TandenEngine {
                     mVertexBufferMemoryList[i], nullptr);
 
             //uniform buffers
-            vkDestroyBuffer(RenderingSystem::GetVulkanInfo()->logicalDevice, mUniformBufferList[i], nullptr);
-            vkFreeMemory(RenderingSystem::GetVulkanInfo()->logicalDevice, mUniformBufferMemoryList[i], nullptr);
+            vkDestroyBuffer(RenderingSystem::GetVulkanInfo()->logicalDevice,
+                    mUniformBufferList[i], nullptr);
+            vkFreeMemory(RenderingSystem::GetVulkanInfo()->logicalDevice,
+                    mUniformBufferMemoryList[i], nullptr);
         }
     }
 }  // namespace TandenEngine
