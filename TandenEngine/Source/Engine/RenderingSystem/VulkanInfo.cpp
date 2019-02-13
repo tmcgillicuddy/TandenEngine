@@ -9,9 +9,66 @@ namespace TandenEngine {
 
     void VulkanInfo::InitVulkan() {
         InitVKInstance();
+        SetupDebugMessenger();
         InitWindowSurface();
         SelectPhysicalDevice();
         InitLogicalDevice();
+    }
+
+    VkResult VulkanInfo::CreateDebugUtilsMessengerEXT(VkInstance instance, const VkDebugUtilsMessengerCreateInfoEXT* pCreateInfo, const VkAllocationCallbacks* pAllocator, VkDebugUtilsMessengerEXT* pDebugMessenger) {
+        // create debug messenger
+        auto func = (PFN_vkCreateDebugUtilsMessengerEXT) vkGetInstanceProcAddr(instance, "vkCreateDebugUtilsMessengerEXT");
+        if (func != nullptr) {
+            return func(instance, pCreateInfo, pAllocator, pDebugMessenger);
+        } else {
+            return VK_ERROR_EXTENSION_NOT_PRESENT;
+        }
+    }
+
+    void VulkanInfo::DestroyDebugUtilsMessengerEXT(VkInstance instance, VkDebugUtilsMessengerEXT debugMessenger, const VkAllocationCallbacks* pAllocator) {
+        // destroy debug messenger
+        auto func = (PFN_vkDestroyDebugUtilsMessengerEXT) vkGetInstanceProcAddr(instance, "vkDestroyDebugUtilsMessengerEXT");
+        if (func != nullptr) {
+            func(instance, debugMessenger, pAllocator);
+        }
+    }
+
+    std::vector<const char*> VulkanInfo::GetRequiredExtensions() {
+        uint32_t glfwExtensionCount = 0;
+        const char** glfwExtensions;
+        glfwExtensions = glfwGetRequiredInstanceExtensions(&glfwExtensionCount);
+
+        std::vector<const char*> extensions(glfwExtensions, glfwExtensions + glfwExtensionCount);
+
+        if (enableValidationLayers) {
+            extensions.push_back(VK_EXT_DEBUG_UTILS_EXTENSION_NAME);
+        }
+
+        return extensions;
+    }
+
+    void VulkanInfo::SetupDebugMessenger() {
+        if (!enableValidationLayers) return;
+
+        VkDebugUtilsMessengerCreateInfoEXT createInfo = {};
+        createInfo.sType = VK_STRUCTURE_TYPE_DEBUG_UTILS_MESSENGER_CREATE_INFO_EXT;
+        createInfo.messageSeverity = VK_DEBUG_UTILS_MESSAGE_SEVERITY_VERBOSE_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT;
+        createInfo.messageType = VK_DEBUG_UTILS_MESSAGE_TYPE_GENERAL_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_TYPE_VALIDATION_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_TYPE_PERFORMANCE_BIT_EXT;
+        createInfo.pfnUserCallback = DebugCallback;
+
+        if (CreateDebugUtilsMessengerEXT(VulkanInstance, &createInfo, nullptr, &debugMessenger) != VK_SUCCESS) {
+            throw std::runtime_error("failed to set up debug messenger!");
+        }
+    }
+
+    VKAPI_ATTR VkBool32 VKAPI_CALL VulkanInfo::DebugCallback(
+            VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity,
+            VkDebugUtilsMessageTypeFlagsEXT messageType,
+            const VkDebugUtilsMessengerCallbackDataEXT* pCallbackData,
+            void* pUserData) {
+        std::cerr << "validation layer: " << pCallbackData->pMessage << std::endl;
+
+        return VK_FALSE;
     }
 
 
@@ -19,16 +76,55 @@ namespace TandenEngine {
         CreateSwapChain();
         CreateImageViews();
         CreateRenderPass();
+        CreateDescriptorSetLayout();
         CreateGraphicsPipeline();
         CreateFramebuffers();
         CreateCommandPool();
         BufferManager::CreateVertexBufferForTargetModel();
         BufferManager::CreateIndexBufferForTargetModel();
+        BufferManager::CreateUniformBuffers();
+        CreateDescriptorPool();
+        CreateDescriptorSets();
+
         CreateCommandBuffers();
         CreateSyncObjects();
     }
 
+    bool VulkanInfo::CheckValidationLayerSupport() {
+
+        // find layer count, put into vector
+        uint32_t layerCount;
+        vkEnumerateInstanceLayerProperties(&layerCount, nullptr);
+
+        std::vector<VkLayerProperties> availableLayers(layerCount);
+        vkEnumerateInstanceLayerProperties(&layerCount, availableLayers.data());
+
+        // check if all validation layers are in list of avaliable layers
+        for (const char* layerName : ValidationLayers) {
+            bool layerFound = false;
+
+            for (const auto& layerProperties : availableLayers) {
+                if (strcmp(layerName, layerProperties.layerName) == 0) {
+                    layerFound = true;
+                    break;
+                }
+            }
+
+            if (!layerFound) {
+                return false;
+            }
+        }
+
+        // true if we support, false if we  dont
+        return true;
+    }
+
     void VulkanInfo::InitVKInstance() {
+        //enable validation layers
+        if (enableValidationLayers && !CheckValidationLayerSupport()) {
+            throw std::runtime_error("validation layers requested, but not available!");
+        }
+
         //  create instance
         VkApplicationInfo appInfo = {};
         appInfo.sType = VK_STRUCTURE_TYPE_APPLICATION_INFO;
@@ -42,19 +138,18 @@ namespace TandenEngine {
         createInfo.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
         createInfo.pApplicationInfo = &appInfo;
 
-        uint32_t glfwExtensionCount = 0;
-        const char** glfwExtensions;
+        auto extensions = GetRequiredExtensions();
+        createInfo.enabledExtensionCount = static_cast<uint32_t>(extensions.size());
+        createInfo.ppEnabledExtensionNames = extensions.data();
 
-        glfwExtensions = glfwGetRequiredInstanceExtensions(&glfwExtensionCount);
+        if (enableValidationLayers) {
+            createInfo.enabledLayerCount = static_cast<uint32_t>(ValidationLayers.size());
+            createInfo.ppEnabledLayerNames = ValidationLayers.data();
+        }
+        else
+            createInfo.enabledLayerCount = 0;
 
-        createInfo.enabledExtensionCount = glfwExtensionCount;
-        createInfo.ppEnabledExtensionNames = glfwExtensions;
-
-        createInfo.enabledLayerCount = 0;
-
-        VkResult result = vkCreateInstance(&createInfo, mAllocator, &VulkanInstance);
-
-        if (vkCreateInstance(&createInfo, nullptr, &VulkanInstance) != VK_SUCCESS) {
+        if (vkCreateInstance(&createInfo, mAllocator, &VulkanInstance) != VK_SUCCESS) {
             throw std::runtime_error("failed to create instance!");
         }
     }
@@ -477,7 +572,7 @@ namespace TandenEngine {
         rasterizer.polygonMode = VK_POLYGON_MODE_FILL;   // fill type, other options: LINE or POINT
         rasterizer.lineWidth = 1.0f;                     // line thickness between verts
         rasterizer.cullMode = VK_CULL_MODE_BACK_BIT;     // face culling
-        rasterizer.frontFace = VK_FRONT_FACE_CLOCKWISE;  // face culling direction
+        rasterizer.frontFace = VK_FRONT_FACE_CLOCKWISE;  // culling direction
         rasterizer.depthBiasEnable = VK_FALSE;           // toggle depth bias
 
         // multisampling, for anti aliasing
@@ -531,10 +626,8 @@ namespace TandenEngine {
         // pipeline layout for uniform creation
         VkPipelineLayoutCreateInfo pipelineLayoutInfo = {};
         pipelineLayoutInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO;
-        pipelineLayoutInfo.setLayoutCount = 0;  //  Optional
-        pipelineLayoutInfo.pSetLayouts = nullptr;  //  Optional
-        pipelineLayoutInfo.pushConstantRangeCount = 0;  //  Optional
-        pipelineLayoutInfo.pPushConstantRanges = nullptr;  //  Optional
+        pipelineLayoutInfo.setLayoutCount = 1;
+        pipelineLayoutInfo.pSetLayouts = &descriptorSetLayout;
 
         if (vkCreatePipelineLayout(
                 logicalDevice,
@@ -687,6 +780,11 @@ namespace TandenEngine {
                     BufferManager::mIndexBufferList.at(0),
                     0,
                     VK_INDEX_TYPE_UINT16);
+
+            // TODO(Rosser) uncomment when matrices work
+            // bind descriptor sets from uniform buffers
+            // vkCmdBindDescriptorSets(commandBuffers[i], VK_PIPELINE_BIND_POINT_GRAPHICS,
+            // pipelineLayout, 0, 1, &descriptorSets[i], 0, nullptr);
 
             vkCmdDrawIndexed(
                     commandBuffers[i],
@@ -870,11 +968,101 @@ namespace TandenEngine {
     }
 
 
+
+    void VulkanInfo::CreateDescriptorSetLayout(){
+
+        //layout for uniform buffer object
+        VkDescriptorSetLayoutBinding uboLayoutBinding = {};
+        uboLayoutBinding.binding = 0;
+        uboLayoutBinding.descriptorCount = 1;
+        uboLayoutBinding.descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
+        uboLayoutBinding.pImmutableSamplers = nullptr;
+        uboLayoutBinding.stageFlags = VK_SHADER_STAGE_VERTEX_BIT;
+
+        VkDescriptorSetLayoutCreateInfo layoutInfo = {};
+        layoutInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_LAYOUT_CREATE_INFO;
+        layoutInfo.bindingCount = 1;
+        layoutInfo.pBindings = &uboLayoutBinding;
+
+        if (vkCreateDescriptorSetLayout(logicalDevice, &layoutInfo, nullptr, &descriptorSetLayout) != VK_SUCCESS) {
+            throw std::runtime_error("failed to create descriptor set layout!");
+        }
+
+    }
+
+
+    void VulkanInfo::CreateDescriptorPool() {
+        // create descriptor pool
+        VkDescriptorPoolSize poolSize = {};
+        poolSize.type = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
+        poolSize.descriptorCount = static_cast<uint32_t>(swapChainImages.size());
+
+        //info for pool
+        VkDescriptorPoolCreateInfo poolInfo = {};
+        poolInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_POOL_CREATE_INFO;
+        poolInfo.poolSizeCount = 1;
+        poolInfo.pPoolSizes = &poolSize;
+        poolInfo.maxSets = static_cast<uint32_t>(swapChainImages.size());
+
+        if (vkCreateDescriptorPool(logicalDevice, &poolInfo, nullptr, &descriptorPool) != VK_SUCCESS) {
+            throw std::runtime_error("failed to create descriptor pool!");
+        }
+
+    }
+
+    void VulkanInfo::CreateDescriptorSets() {
+
+        // create descriptor sets for pool
+        std::vector<VkDescriptorSetLayout> layouts(swapChainImages.size(), descriptorSetLayout);
+        VkDescriptorSetAllocateInfo allocInfo = {};
+        allocInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_ALLOCATE_INFO;
+        allocInfo.descriptorPool = descriptorPool;
+        allocInfo.descriptorSetCount = static_cast<uint32_t>(swapChainImages.size());
+        allocInfo.pSetLayouts = layouts.data();
+
+        // change size based on uniform buffers
+        descriptorSets.resize(swapChainImages.size());
+
+        if (vkAllocateDescriptorSets(logicalDevice, &allocInfo, descriptorSets.data()) != VK_SUCCESS) {
+            throw std::runtime_error("failed to allocate descriptor sets!");
+        }
+
+        // write sets from buffers to swapchain images
+        for (size_t i = 0; i < swapChainImages.size(); i++) {
+
+            VkDescriptorBufferInfo bufferInfo = {};
+            bufferInfo.buffer = BufferManager::mUniformBufferList[i];
+            bufferInfo.offset = 0;
+            bufferInfo.range = sizeof(UniformBufferObject);
+
+            // write new sets based on
+            VkWriteDescriptorSet descriptorWrite = {};
+            descriptorWrite.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
+            descriptorWrite.dstSet = descriptorSets[i];
+            descriptorWrite.dstBinding = 0;
+            descriptorWrite.dstArrayElement = 0;
+            descriptorWrite.descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
+            descriptorWrite.descriptorCount = 1;
+            descriptorWrite.pBufferInfo = &bufferInfo;
+
+            // update sets
+            vkUpdateDescriptorSets(logicalDevice, 1, &descriptorWrite, 0, nullptr);
+        }
+    }
+
+
+
     void VulkanInfo::CleanupVulkan() {
+
         // swapchain cleanup
         for (size_t i = 0; i < swapChainFramebuffers.size(); i++) {
             vkDestroyFramebuffer(logicalDevice, swapChainFramebuffers[i], nullptr);
         }
+
+        vkDestroyDescriptorPool(logicalDevice, descriptorPool, nullptr);
+
+
+        vkDestroyDescriptorSetLayout(logicalDevice, descriptorSetLayout, nullptr);
 
         // free command buffers
         vkFreeCommandBuffers(
@@ -916,6 +1104,10 @@ namespace TandenEngine {
         vkDestroySwapchainKHR(logicalDevice, swapChain, nullptr);
 
         vkDestroyDevice(logicalDevice, nullptr);
+
+        if (enableValidationLayers) {
+            DestroyDebugUtilsMessengerEXT(VulkanInstance, debugMessenger, nullptr);
+        }
 
         vkDestroyInstance(VulkanInstance, nullptr);
     }

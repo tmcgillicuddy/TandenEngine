@@ -48,7 +48,7 @@ namespace TandenEngine {
             mInitInfo.QueueFamily = 0; //TODO (Thomas) use queue family (?)
             mInitInfo.Queue = RenderingSystem::GetVulkanInfo()->presentationQueue;
             // mInitInfo.PipelineCache = g_PipelineCache;
-            // mInitInfo.DescriptorPool = g_DescriptorPool;
+            mInitInfo.DescriptorPool = RenderingSystem::GetVulkanInfo()->descriptorPool;
             mInitInfo.Allocator = RenderingSystem::GetVulkanInfo()->mAllocator;
             // mInitInfo.CheckVkResultFn = check_vk_result;
             ImGui_ImplVulkan_Init(&mInitInfo, wd->RenderPass);

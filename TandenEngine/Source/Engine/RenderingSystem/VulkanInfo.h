@@ -5,6 +5,8 @@
 #ifndef TANDENENGINE_VULKANINFO_H
 #define TANDENENGINE_VULKANINFO_H
 
+
+
 #include <vulkan/vulkan.h>
 
 #include <Windows.h>
@@ -23,6 +25,7 @@
 #include "../ResourceManager/Resources/Model/Model.h"
 
 #include "GLFW/glfw3.h"
+
 
 
 namespace TandenEngine {
@@ -50,9 +53,21 @@ namespace TandenEngine {
             VK_KHR_SWAPCHAIN_EXTENSION_NAME
     };
 
+    // validation layers for finding common errors
+    const std::vector<const char*> ValidationLayers = {
+            "VK_LAYER_LUNARG_standard_validation"
+    };
+
+#ifdef NDEBUG
+    const bool enableValidationLayers = false;
+#else
+    const bool enableValidationLayers = true;
+#endif
+
     struct VulkanInfo {
         // TODO(Rosser) make pointers to allow initialization without allocation
         VkInstance VulkanInstance;                   // vulkan instance
+        VkDebugUtilsMessengerEXT debugMessenger;     // debugs validation layers
         VkPhysicalDevice physicalDevice;             // our graphics card
         VkDevice logicalDevice;                      // logical interface with graphics card
         VkQueue gfxQueue;                            // graphics queue for graphics events
@@ -63,6 +78,10 @@ namespace TandenEngine {
         std::vector<VkImage> swapChainImages;
         std::vector<VkImageView> swapChainImageViews;
         VkExtent2D swapChainExtent;
+        VkDescriptorSetLayout descriptorSetLayout;
+        VkDescriptorPool descriptorPool;
+        std::vector<VkDescriptorSet> descriptorSets;
+
         VkPipelineLayout pipelineLayout;
         VkRenderPass renderPass;
         VkPipeline graphicsPipeline;
@@ -85,7 +104,22 @@ namespace TandenEngine {
 
      private:
         void InitVKInstance();
+        bool CheckValidationLayerSupport();
 
+        VkResult CreateDebugUtilsMessengerEXT(VkInstance instance,
+                const VkDebugUtilsMessengerCreateInfoEXT* pCreateInfo,
+                const VkAllocationCallbacks* pAllocator,
+                VkDebugUtilsMessengerEXT* pDebugMessenger);
+        void SetupDebugMessenger();
+        std::vector<const char*> GetRequiredExtensions();
+
+        static VKAPI_ATTR VkBool32 VKAPI_CALL DebugCallback(
+                VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity,
+                VkDebugUtilsMessageTypeFlagsEXT messageType,
+                const VkDebugUtilsMessengerCallbackDataEXT* pCallbackData,
+                void* pUserData);
+
+        void DestroyDebugUtilsMessengerEXT(VkInstance instance, VkDebugUtilsMessengerEXT debugMessenger, const VkAllocationCallbacks* pAllocator);
         void SelectPhysicalDevice();
         bool SuitableDevice(VkPhysicalDevice targetDevice);
         QueueFamilyIndices FindQueueFamilies(VkPhysicalDevice targetDevice);
@@ -106,6 +140,10 @@ namespace TandenEngine {
 
         std::vector<char> ReadFile(const std::string& filename);
         VkShaderModule CreateShaderModule(const std::vector<char>& code);
+
+        void CreateDescriptorSetLayout();
+        void CreateDescriptorPool();
+        void CreateDescriptorSets();
 
         void CreateSwapChain();
         void CreateImageViews();
