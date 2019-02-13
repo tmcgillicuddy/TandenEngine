@@ -12,7 +12,8 @@ set(GLFW_BUILD_TESTS OFF CACHE BOOL "" FORCE)
 set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
 
 set(IMGUI_DIR "Libraries/imgui")
-set(IMGUI_SOURCES ${IMGUI_DIR}/imgui.cpp ${IMGUI_DIR}/imgui_demo.cpp ${IMGUI_DIR}/imgui_draw.cpp ${IMGUI_DIR}/imgui_widgets.cpp Source/Engine/ResourceManager/BufferManager.cpp Source/Engine/ResourceManager/BufferManager.h)
+set(IMGUI_SOURCES ${IMGUI_DIR}/imgui.cpp ${IMGUI_DIR}/imgui_demo.cpp ${IMGUI_DIR}/imgui_draw.cpp ${IMGUI_DIR}/imgui_widgets.cpp
+        ${IMGUI_DIR}/examples/imgui_impl_vulkan.h ${IMGUI_DIR}/examples/imgui_impl_vulkan.cpp ${IMGUI_DIR}/examples/imgui_impl_glfw.h ${IMGUI_DIR}/examples/imgui_impl_glfw.cpp)
 
 #add_library(TandenEngine
  #       ./Source/Core/EventSystem/EventListener.cpp
@@ -180,6 +181,7 @@ set(IMGUI_SOURCES ${IMGUI_DIR}/imgui.cpp ${IMGUI_DIR}/imgui_demo.cpp ${IMGUI_DIR
 
 #Add imgui library
 include_directories("Libraries/imgui")
+include_directories("Libraries/imgui/examples")
 
 #Add glfw headers
 include_directories("Libraries/GLFW/include")

@@ -25,8 +25,7 @@ namespace TandenEngine {
             }
 
             // Draw GUI Elements
-            GUI::GUISystem::DrawGUI();
-            std::cout << "draw gui \n";
+            GUI::GUISystem::BindGUI();
 
             PollWindowEvents();
             std::cout << "poll for events \n";
@@ -45,12 +44,11 @@ namespace TandenEngine {
         InitGLFW();
         InitWindow(windowWidth, windowHeight, "Tanden Engine");
         mVulkanInfo.InitVulkan();
-
-        GUI::GUISystem::InitGUISystem();
     }
 
     void RenderingSystem::InitGraphicsPipeline() {
         mVulkanInfo.InitVulkanPipeline();
+        GUI::GUISystem::InitGUISystem();
     }
 
 
@@ -121,7 +119,8 @@ namespace TandenEngine {
                 {mVulkanInfo.renderFinishedSemaphores[mVulkanInfo.currentFrame]};
         submitInfo.signalSemaphoreCount = 1;
         submitInfo.pSignalSemaphores = signalSemaphores;
-
+        // std::cout << "draw gui \n";
+        // GUI::GUISystem::DrawGUI();
         // reset fences
         vkResetFences(
                 mVulkanInfo.logicalDevice,

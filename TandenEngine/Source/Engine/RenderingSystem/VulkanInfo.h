@@ -92,6 +92,7 @@ namespace TandenEngine {
         std::vector<VkSemaphore> imageAvailableSemaphores;
         std::vector<VkSemaphore> renderFinishedSemaphores;
         std::vector<VkFence> inFlightFences;
+        VkAllocationCallbacks* mAllocator;
         size_t currentFrame = 0;
         const int maxFramesInFlight = 2;  // max concurrent frames to be processed
         bool framebufferResized = false;
@@ -118,7 +119,8 @@ namespace TandenEngine {
                 const VkDebugUtilsMessengerCallbackDataEXT* pCallbackData,
                 void* pUserData);
 
-        void DestroyDebugUtilsMessengerEXT(VkInstance instance, VkDebugUtilsMessengerEXT debugMessenger, const VkAllocationCallbacks* pAllocator);
+        void DestroyDebugUtilsMessengerEXT(VkInstance instance,
+                VkDebugUtilsMessengerEXT debugMessenger, const VkAllocationCallbacks* pAllocator);
         void SelectPhysicalDevice();
         bool SuitableDevice(VkPhysicalDevice targetDevice);
         QueueFamilyIndices FindQueueFamilies(VkPhysicalDevice targetDevice);
