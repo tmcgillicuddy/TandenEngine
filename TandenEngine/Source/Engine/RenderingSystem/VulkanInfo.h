@@ -119,7 +119,8 @@ namespace TandenEngine {
                 const VkDebugUtilsMessengerCallbackDataEXT* pCallbackData,
                 void* pUserData);
 
-        void DestroyDebugUtilsMessengerEXT(VkInstance instance, VkDebugUtilsMessengerEXT debugMessenger, const VkAllocationCallbacks* pAllocator);
+        void DestroyDebugUtilsMessengerEXT(VkInstance instance,
+                VkDebugUtilsMessengerEXT debugMessenger, const VkAllocationCallbacks* pAllocator);
         void SelectPhysicalDevice();
         bool SuitableDevice(VkPhysicalDevice targetDevice);
         QueueFamilyIndices FindQueueFamilies(VkPhysicalDevice targetDevice);

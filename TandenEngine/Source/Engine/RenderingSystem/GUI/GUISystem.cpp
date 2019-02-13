@@ -29,7 +29,7 @@ namespace TandenEngine {
             // Draw the data to back buffer
             // Rendering
             ImGui::Render();
-            //memcpy(&wd->ClearValue.color.float32[0], &clear_color, 4 * sizeof(float));
+            // memcpy(&wd->ClearValue.color.float32[0], &clear_color, 4 * sizeof(float));
          //   FrameRender(wd);
 
         //    FramePresent(wd);
@@ -43,7 +43,8 @@ namespace TandenEngine {
             std::cout << "Initing GUI System\n";
             wd = &mWindowData;
             SetupVulkanWindowData(wd, RenderingSystem::GetVulkanInfo()->WindowSurface,
-                    RenderingSystem::GetWindow()->GetWidth(),RenderingSystem::GetWindow()->GetHeight());
+                    RenderingSystem::GetWindow()->GetWidth(),
+                    RenderingSystem::GetWindow()->GetHeight());
 
             IMGUI_CHECKVERSION();
 
@@ -56,7 +57,7 @@ namespace TandenEngine {
             mInitInfo.Instance = RenderingSystem::GetVulkanInfo()->VulkanInstance;
             mInitInfo.PhysicalDevice = RenderingSystem::GetVulkanInfo()->physicalDevice;
             mInitInfo.Device = RenderingSystem::GetVulkanInfo()->logicalDevice;
-            mInitInfo.QueueFamily = 0; //TODO (Thomas) use queue family (?)
+            mInitInfo.QueueFamily = 0;  // TODO(Thomas) use queue family (?)
             mInitInfo.Queue = RenderingSystem::GetVulkanInfo()->presentationQueue;
             // mInitInfo.PipelineCache = g_PipelineCache;
             mInitInfo.DescriptorPool = RenderingSystem::GetVulkanInfo()->descriptorPool;
@@ -106,41 +107,53 @@ namespace TandenEngine {
             // Shutdown
         }
 
-        void GUISystem::SetupVulkanWindowData(ImGui_ImplVulkanH_WindowData* wd, VkSurfaceKHR surface, int width, int height)
-        {
+        void GUISystem::SetupVulkanWindowData(ImGui_ImplVulkanH_WindowData* wd,
+                VkSurfaceKHR surface, int width, int height) {
             wd->Surface = surface;
 
             // Check for WSI support
-            VkBool32 res;                                                                //TODO (Thomas) use queue family (?)
-            vkGetPhysicalDeviceSurfaceSupportKHR(RenderingSystem::GetVulkanInfo()->physicalDevice, 0, wd->Surface, &res);
-            if (res != VK_TRUE)
-            {
+            VkBool32 res;
+            vkGetPhysicalDeviceSurfaceSupportKHR(RenderingSystem::GetVulkanInfo()->physicalDevice,
+                    0, wd->Surface, &res);  // TODO(Thomas) use queue family (?)
+            if (res != VK_TRUE) {
                 fprintf(stderr, "Error no WSI support on physical device 0\n");
                 exit(-1);
             }
 
             // Select Surface Format
-            const VkFormat requestSurfaceImageFormat[] = { VK_FORMAT_B8G8R8A8_UNORM, VK_FORMAT_R8G8B8A8_UNORM,
-                                                           VK_FORMAT_B8G8R8_UNORM, VK_FORMAT_R8G8B8_UNORM };
+            const VkFormat requestSurfaceImageFormat[] = {
+                    VK_FORMAT_B8G8R8A8_UNORM, VK_FORMAT_R8G8B8A8_UNORM,
+                    VK_FORMAT_B8G8R8_UNORM, VK_FORMAT_R8G8B8_UNORM
+            };
+
             const VkColorSpaceKHR requestSurfaceColorSpace = VK_COLORSPACE_SRGB_NONLINEAR_KHR;
-            wd->SurfaceFormat = ImGui_ImplVulkanH_SelectSurfaceFormat(RenderingSystem::GetVulkanInfo()->physicalDevice, wd->Surface,
-                    requestSurfaceImageFormat, (size_t)IM_ARRAYSIZE(requestSurfaceImageFormat), requestSurfaceColorSpace);
+            wd->SurfaceFormat = ImGui_ImplVulkanH_SelectSurfaceFormat(
+                    RenderingSystem::GetVulkanInfo()->physicalDevice, wd->Surface,
+                    requestSurfaceImageFormat, (size_t)IM_ARRAYSIZE(requestSurfaceImageFormat),
+                    requestSurfaceColorSpace);
 
             // Select Present Mode
 #ifdef IMGUI_UNLIMITED_FRAME_RATE
-            VkPresentModeKHR present_modes[] = { VK_PRESENT_MODE_MAILBOX_KHR, VK_PRESENT_MODE_IMMEDIATE_KHR, VK_PRESENT_MODE_FIFO_KHR };
+            VkPresentModeKHR present_modes[] = {
+                    VK_PRESENT_MODE_MAILBOX_KHR, VK_PRESENT_MODE_IMMEDIATE_KHR,
+                    VK_PRESENT_MODE_FIFO_KHR
+            };
 #else
             VkPresentModeKHR present_modes[] = { VK_PRESENT_MODE_FIFO_KHR };
 #endif
-            wd->PresentMode = ImGui_ImplVulkanH_SelectPresentMode(RenderingSystem::GetVulkanInfo()->physicalDevice,
+            wd->PresentMode = ImGui_ImplVulkanH_SelectPresentMode(
+                    RenderingSystem::GetVulkanInfo()->physicalDevice,
                     wd->Surface, &present_modes[0], IM_ARRAYSIZE(present_modes));
-            //printf("[vulkan] Selected PresentMode = %d\n", wd->PresentMode);
+            // printf("[vulkan] Selected PresentMode = %d\n", wd->PresentMode);
 
             // Create SwapChain, RenderPass, Framebuffer, etc.
-            ImGui_ImplVulkanH_CreateWindowDataCommandBuffers(RenderingSystem::GetVulkanInfo()->physicalDevice,
-                    RenderingSystem::GetVulkanInfo()->logicalDevice, 0, wd,  //TODO (Thomas) use queue family (?)
+            // TODO(Thomas) use queue family (?)
+            ImGui_ImplVulkanH_CreateWindowDataCommandBuffers(
+                    RenderingSystem::GetVulkanInfo()->physicalDevice,
+                    RenderingSystem::GetVulkanInfo()->logicalDevice, 0, wd,
                     RenderingSystem::GetVulkanInfo()->mAllocator);
-            ImGui_ImplVulkanH_CreateWindowDataSwapChainAndFramebuffer(RenderingSystem::GetVulkanInfo()->physicalDevice,
+            ImGui_ImplVulkanH_CreateWindowDataSwapChainAndFramebuffer(
+                    RenderingSystem::GetVulkanInfo()->physicalDevice,
                     RenderingSystem::GetVulkanInfo()->logicalDevice, wd,
                     RenderingSystem::GetVulkanInfo()->mAllocator, width, height);
         }
