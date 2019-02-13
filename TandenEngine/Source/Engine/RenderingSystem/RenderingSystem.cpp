@@ -25,8 +25,8 @@ namespace TandenEngine {
             }
 
             // Draw GUI Elements
-            GUI::GUISystem::DrawGUI();
             std::cout << "draw gui \n";
+            GUI::GUISystem::DrawGUI();
 
             PollWindowEvents();
             std::cout << "poll for events \n";
@@ -48,8 +48,9 @@ namespace TandenEngine {
     }
 
     void RenderingSystem::InitGraphicsPipeline() {
-        GUI::GUISystem::InitGUISystem();
         mVulkanInfo.InitVulkanPipeline();
+        GUI::GUISystem::InitGUISystem();
+        system("pause");
     }
 
 

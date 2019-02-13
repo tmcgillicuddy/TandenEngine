@@ -12,9 +12,14 @@ namespace TandenEngine {
         ImGuiIO *GUISystem::mIo;
         ImGui_ImplVulkanH_WindowData GUISystem::mWindowData;
         ImGui_ImplVulkan_InitInfo GUISystem::mInitInfo = {};
+        ImGui_ImplVulkanH_WindowData *GUISystem::wd;
 
         void GUISystem::DrawGUI() {
-            // ImGui::NewFrame(); //Marks beginning of gui element allocation
+            // Start the Dear ImGui frame
+            ImGui_ImplVulkan_NewFrame();
+            ImGui_ImplGlfw_NewFrame();
+            ImGui::NewFrame();
+
             for (const auto &element : mGuiElements) {
                 element->DrawGUI();
             }
@@ -22,6 +27,12 @@ namespace TandenEngine {
             // ImGui::Render(); //Generate vertex buffers of the elements
             // ImDrawData* draw_data = ImGui::GetDrawData(); //Get that rendered data
             // Draw the data to back buffer
+            // Rendering
+            ImGui::Render();
+            //memcpy(&wd->ClearValue.color.float32[0], &clear_color, 4 * sizeof(float));
+         //   FrameRender(wd);
+
+        //    FramePresent(wd);
         }
 
         void GUISystem::RegisterGUIElement(GUIElement *newElement) {
@@ -30,7 +41,7 @@ namespace TandenEngine {
 
         void GUISystem::InitGUISystem() {
             std::cout << "Initing GUI System\n";
-            ImGui_ImplVulkanH_WindowData* wd = &mWindowData;
+            wd = &mWindowData;
             SetupVulkanWindowData(wd, RenderingSystem::GetVulkanInfo()->WindowSurface,
                     RenderingSystem::GetWindow()->GetWidth(),RenderingSystem::GetWindow()->GetHeight());
 
@@ -52,10 +63,43 @@ namespace TandenEngine {
             mInitInfo.Allocator = RenderingSystem::GetVulkanInfo()->mAllocator;
             // mInitInfo.CheckVkResultFn = check_vk_result;
             ImGui_ImplVulkan_Init(&mInitInfo, wd->RenderPass);
+
+            // Setup Style
+            ImGui::StyleColorsDark();
+
             // Build and load the texture atlas into a texture
             // (In the examples/ app this is usually done within
             // the ImGui_ImplXXX_Init() function from one of the demo Renderer)
+            VkResult err;
+            // Upload Fonts
+            {
+                // Use any command queue
+                VkCommandPool command_pool = wd->Frames[wd->FrameIndex].CommandPool;
+                VkCommandBuffer command_buffer = wd->Frames[wd->FrameIndex].CommandBuffer;
 
+                err = vkResetCommandPool(mInitInfo.Device, command_pool, 0);
+                // TODO(Thomas) Error check
+                VkCommandBufferBeginInfo begin_info = {};
+                begin_info.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
+                begin_info.flags |= VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT;
+                err = vkBeginCommandBuffer(command_buffer, &begin_info);
+                // TODO(Thomas) Error check
+
+                ImGui_ImplVulkan_CreateFontsTexture(command_buffer);
+
+                VkSubmitInfo end_info = {};
+                end_info.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
+                end_info.commandBufferCount = 1;
+                end_info.pCommandBuffers = &command_buffer;
+                err = vkEndCommandBuffer(command_buffer);
+                // TODO(Thomas) Error check
+                err = vkQueueSubmit(mInitInfo.Queue, 1, &end_info, VK_NULL_HANDLE);
+                // TODO(Thomas) Error check
+
+                err = vkDeviceWaitIdle(mInitInfo.Device);
+                // TODO(Thomas) Error check
+                ImGui_ImplVulkan_InvalidateFontUploadObjects();
+            }
         }
 
         void GUISystem::ShutDownGuiSystem() {

@@ -20,6 +20,7 @@ namespace TandenEngine {
             static ImGuiIO* mIo;  // ImGui io struct, filled with Tanden data
             static ImGui_ImplVulkanH_WindowData mWindowData;
             static ImGui_ImplVulkan_InitInfo mInitInfo;
+            static ImGui_ImplVulkanH_WindowData * wd;
 
             static void SetupVulkanWindowData(ImGui_ImplVulkanH_WindowData* wd, VkSurfaceKHR surface, int width, int height);
          public:
