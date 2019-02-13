@@ -10,6 +10,9 @@
 namespace TandenEngine {
 
     class SphereModel : public Model {
+     private:
+        const int mSlices = 8, mStacks = 5;
+        const float mRadius = 1;
      public:
         SphereModel();
     };

@@ -10,6 +10,9 @@
 namespace TandenEngine {
 
     class CylinderModel : public Model {
+     private:
+        const int mSlices = 8, mStacks = 2;
+        const float mHeight = 2, mRadius = 1;
      public:
         CylinderModel();
     };
