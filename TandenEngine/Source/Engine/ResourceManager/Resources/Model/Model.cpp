@@ -62,7 +62,7 @@ namespace TandenEngine {
                     mVertices.push_back(vertex);
                 }
 
-                mIndices.push_back(mIndices.size());
+                mIndices.push_back(uniqueVertices[vertex]);
             }
         }
 
