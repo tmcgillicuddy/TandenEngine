@@ -14,7 +14,7 @@ namespace TandenEngine {
         ImGui_ImplVulkan_InitInfo GUISystem::mInitInfo = {};
         ImGui_ImplVulkanH_WindowData *GUISystem::wd;
 
-        void GUISystem::DrawGUI() {
+        void GUISystem::BindGUI() {
             // Start the Dear ImGui frame
             ImGui_ImplVulkan_NewFrame();
             ImGui_ImplGlfw_NewFrame();
@@ -23,12 +23,20 @@ namespace TandenEngine {
             for (const auto &element : mGuiElements) {
                 element->DrawGUI();
             }
-            // ImGui::EndFrame(); //Marks end of gui element allocation
-            // ImGui::Render(); //Generate vertex buffers of the elements
-            // ImDrawData* draw_data = ImGui::GetDrawData(); //Get that rendered data
-            // Draw the data to back buffer
+            // Test Data
+            ImGui::Begin("Hello, world!");
+            ImGui::Text("This is some useful text.");
+            ImGui::End();
+        }
+
+        void GUISystem::DrawGUI() {
+
             // Rendering
             ImGui::Render();
+            ImGui_ImplVulkanH_FrameData* fd = &wd->Frames[wd->FrameIndex];
+
+            ImGui_ImplVulkan_RenderDrawData(ImGui::GetDrawData(), fd->CommandBuffer);
+
             // memcpy(&wd->ClearValue.color.float32[0], &clear_color, 4 * sizeof(float));
          //   FrameRender(wd);
 
@@ -68,9 +76,6 @@ namespace TandenEngine {
             // Setup Style
             ImGui::StyleColorsDark();
 
-            // Build and load the texture atlas into a texture
-            // (In the examples/ app this is usually done within
-            // the ImGui_ImplXXX_Init() function from one of the demo Renderer)
             VkResult err;
             // Upload Fonts
             {
@@ -157,6 +162,5 @@ namespace TandenEngine {
                     RenderingSystem::GetVulkanInfo()->logicalDevice, wd,
                     RenderingSystem::GetVulkanInfo()->mAllocator, width, height);
         }
-
     }  // namespace GUI
 }  // namespace TandenEngine
