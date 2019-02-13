@@ -45,11 +45,10 @@ namespace TandenEngine {
         InitGLFW();
         InitWindow(windowWidth, windowHeight, "Tanden Engine");
         mVulkanInfo.InitVulkan();
-
-        GUI::GUISystem::InitGUISystem();
     }
 
     void RenderingSystem::InitGraphicsPipeline() {
+        GUI::GUISystem::InitGUISystem();
         mVulkanInfo.InitVulkanPipeline();
     }
 

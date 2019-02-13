@@ -52,7 +52,7 @@ namespace TandenEngine {
 
         createInfo.enabledLayerCount = 0;
 
-        VkResult result = vkCreateInstance(&createInfo, nullptr, &VulkanInstance);
+        VkResult result = vkCreateInstance(&createInfo, mAllocator, &VulkanInstance);
 
         if (vkCreateInstance(&createInfo, nullptr, &VulkanInstance) != VK_SUCCESS) {
             throw std::runtime_error("failed to create instance!");
@@ -130,7 +130,7 @@ namespace TandenEngine {
         newDeviceInfo.ppEnabledExtensionNames = DeviceExtensions.data();
 
         // create the actual device and set it to our instance of logical device
-        if (vkCreateDevice(physicalDevice, &newDeviceInfo, nullptr, &logicalDevice) != VK_SUCCESS) {
+        if (vkCreateDevice(physicalDevice, &newDeviceInfo, mAllocator, &logicalDevice) != VK_SUCCESS) {
             throw std::runtime_error("failed to create logical device!");
         }
 
@@ -833,7 +833,7 @@ namespace TandenEngine {
         if (glfwCreateWindowSurface(
                 VulkanInstance,
                 RenderingSystem::GetWindow()->GetWindowRef(),
-                nullptr,
+                mAllocator,
                 &WindowSurface) != VK_SUCCESS) {
             throw std::runtime_error("failed to create window surface!");
         }

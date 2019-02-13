@@ -73,6 +73,7 @@ namespace TandenEngine {
         std::vector<VkSemaphore> imageAvailableSemaphores;
         std::vector<VkSemaphore> renderFinishedSemaphores;
         std::vector<VkFence> inFlightFences;
+        VkAllocationCallbacks* mAllocator;
         size_t currentFrame = 0;
         const int maxFramesInFlight = 2;  // max concurrent frames to be processed
         bool framebufferResized = false;
