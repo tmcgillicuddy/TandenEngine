@@ -12,12 +12,19 @@
 #include "../ResourceManager/Resources/Model/Model.h"
 #include "Resources/Model/MeshVertex.h"
 #include "Resources/Model/Model.h"
+#include "NilsMath.h"
 
 
 namespace TandenEngine {
 
     class MeshVertex;
     class Model;
+
+    struct UniformBufferObject {
+        mat4 model;
+        mat4 view;
+        mat4 projection;
+    };
 
     class BufferManager {
      public:
@@ -29,9 +36,13 @@ namespace TandenEngine {
 
         static std::vector<VkDeviceMemory> mVertexBufferMemoryList;
         static std::vector<VkDeviceMemory> mIndexBufferMemoryList;
+        static std::vector<VkDeviceMemory> mUniformBufferMemoryList;
+
 
         static std::vector<VkBuffer> mVertexBufferList;
         static std::vector<VkBuffer> mIndexBufferList;
+        static std::vector<VkBuffer> mUniformBufferList;
+
 
         static uint32_t FindMemoryType(uint32_t typeFilter, VkMemoryPropertyFlags properties);
 
@@ -50,7 +61,11 @@ namespace TandenEngine {
 
         static void CreateStagingBuffer();
 
-        static void Cleanup();
+        static void CreateUniformBuffers();
+        static void CreateDescriptorSetLayout();
+
+
+            static void Cleanup();
     };
 }  // namespace TandenEngine
 

@@ -78,6 +78,7 @@ namespace TandenEngine {
         std::vector<VkImage> swapChainImages;
         std::vector<VkImageView> swapChainImageViews;
         VkExtent2D swapChainExtent;
+        VkDescriptorSetLayout descriptorSetLayout;
         VkPipelineLayout pipelineLayout;
         VkRenderPass renderPass;
         VkPipeline graphicsPipeline;
@@ -135,6 +136,8 @@ namespace TandenEngine {
 
         std::vector<char> ReadFile(const std::string& filename);
         VkShaderModule CreateShaderModule(const std::vector<char>& code);
+
+        void CreateDescriptorSetLayout();
 
         void CreateSwapChain();
         void CreateImageViews();

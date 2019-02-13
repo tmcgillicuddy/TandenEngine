@@ -215,7 +215,26 @@ namespace TandenEngine {
     }
 
 
+
+
+    void BufferManager::CreateUniformBuffers() {
+        //resize to size of swapchains
+        VkDeviceSize bufferSize = sizeof(UniformBufferObject);
+
+        mUniformBufferList.resize(RenderingSystem::GetVulkanInfo()->swapChainImages.size());
+        mUniformBufferMemoryList.resize(RenderingSystem::GetVulkanInfo()->swapChainImages.size());
+
+        //create uniform buffers
+        for (size_t i = 0; i < RenderingSystem::GetVulkanInfo()->swapChainImages.size(); i++) {
+            createBuffer(bufferSize, VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT, VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT, uniformBuffers[i], uniformBuffersMemory[i]);
+        }
+    }
+
+
+
     void BufferManager::Cleanup() {
+
+
         for (int i = 0; i < mVertexBufferMemoryList.size(); ++i) {
             // vertex buffers
             vkDestroyBuffer(RenderingSystem::GetVulkanInfo()->logicalDevice,
@@ -228,6 +247,10 @@ namespace TandenEngine {
                     mVertexBufferList[i], nullptr);
             vkFreeMemory(RenderingSystem::GetVulkanInfo()->logicalDevice,
                     mVertexBufferMemoryList[i], nullptr);
+
+            //uniform buffers
+            vkDestroyBuffer(RenderingSystem::GetVulkanInfo()->logicalDevice, mUniformBufferList[i], nullptr);
+            vkFreeMemory(RenderingSystem::GetVulkanInfo()->logicalDevice, mUniformBufferMemoryList[i], nullptr);
         }
     }
 }  // namespace TandenEngine

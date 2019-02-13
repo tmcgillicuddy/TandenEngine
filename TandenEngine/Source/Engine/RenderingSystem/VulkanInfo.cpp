@@ -624,10 +624,8 @@ namespace TandenEngine {
         // pipeline layout for uniform creation
         VkPipelineLayoutCreateInfo pipelineLayoutInfo = {};
         pipelineLayoutInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO;
-        pipelineLayoutInfo.setLayoutCount = 0;  //  Optional
-        pipelineLayoutInfo.pSetLayouts = nullptr;  //  Optional
-        pipelineLayoutInfo.pushConstantRangeCount = 0;  //  Optional
-        pipelineLayoutInfo.pPushConstantRanges = nullptr;  //  Optional
+        pipelineLayoutInfo.setLayoutCount = 1;
+        pipelineLayoutInfo.pSetLayouts = &descriptorSetLayout;
 
         if (vkCreatePipelineLayout(
                 logicalDevice,
@@ -963,14 +961,38 @@ namespace TandenEngine {
     }
 
 
+
+    void VulkanInfo::CreateDescriptorSetLayout(){
+
+        //layout for uniform buffer object
+        VkDescriptorSetLayoutBinding uboLayoutBinding = {};
+        uboLayoutBinding.binding = 0;
+        uboLayoutBinding.descriptorCount = 1;
+        uboLayoutBinding.descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
+        uboLayoutBinding.pImmutableSamplers = nullptr;
+        uboLayoutBinding.stageFlags = VK_SHADER_STAGE_VERTEX_BIT;
+
+        VkDescriptorSetLayoutCreateInfo layoutInfo = {};
+        layoutInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_LAYOUT_CREATE_INFO;
+        layoutInfo.bindingCount = 1;
+        layoutInfo.pBindings = &uboLayoutBinding;
+
+        if (vkCreateDescriptorSetLayout(logicalDevice, &layoutInfo, nullptr, &descriptorSetLayout) != VK_SUCCESS) {
+            throw std::runtime_error("failed to create descriptor set layout!");
+        }
+
+    }
+
+
+
     void VulkanInfo::CleanupVulkan() {
-
-
 
         // swapchain cleanup
         for (size_t i = 0; i < swapChainFramebuffers.size(); i++) {
             vkDestroyFramebuffer(logicalDevice, swapChainFramebuffers[i], nullptr);
         }
+
+        vkDestroyDescriptorSetLayout(logicalDevice, descriptorSetLayout, nullptr);
 
         // free command buffers
         vkFreeCommandBuffers(
