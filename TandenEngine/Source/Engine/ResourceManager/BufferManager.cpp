@@ -4,6 +4,8 @@
 
 #include "BufferManager.h"
 #include <vulkan/vulkan.h>
+
+
 #include "Debug.h"
 
 namespace TandenEngine {
@@ -21,8 +23,11 @@ namespace TandenEngine {
 
     std::vector<VkDeviceMemory> BufferManager::mVertexBufferMemoryList;
     std::vector<VkDeviceMemory> BufferManager::mIndexBufferMemoryList;
+    std::vector<VkDeviceMemory> BufferManager::mUniformBufferMemoryList;
     std::vector<VkBuffer> BufferManager::mVertexBufferList;
     std::vector<VkBuffer> BufferManager::mIndexBufferList;
+    std::vector<VkBuffer> BufferManager::mUniformBufferList;
+
 
     Model* BufferManager::testModel;
 
@@ -226,11 +231,35 @@ namespace TandenEngine {
 
         //create uniform buffers
         for (size_t i = 0; i < RenderingSystem::GetVulkanInfo()->swapChainImages.size(); i++) {
-            createBuffer(bufferSize, VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT, VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT, uniformBuffers[i], uniformBuffersMemory[i]);
+            CreateBuffer(bufferSize,
+                    VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT,
+                    VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT |
+                    VK_MEMORY_PROPERTY_HOST_COHERENT_BIT,
+                    mUniformBufferList[i], mUniformBufferMemoryList[i]);
         }
     }
 
+    void BufferManager::UpdateUniformBuffers(uint32_t currentImage) {
+        // pass time
+        static auto startTime = std::chrono::high_resolution_clock::now();
 
+        auto currentTime = std::chrono::high_resolution_clock::now();
+        float time = std::chrono::duration<float, std::chrono::seconds::period>(currentTime - startTime).count();
+
+        UniformBufferObject ubo = {};
+        // TODO(Rosser) Add rotation, need radians, work with nils to figure this out
+        // ubo.model = glm::rotate(glm::mat4(1.0f), time * glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+        // ubo.view = glm::lookAt(glm::vec3(2.0f, 2.0f, 2.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+        // ubo.proj = glm::perspective(glm::radians(45.0f), RenderingSystem::GetVulkanInfo()->swapChainExtent.width / (float) RenderingSystem::GetVulkanInfo()->swapChainExtent.height, 0.1f, 10.0f);
+        // ubo.proj[1][1] *= -1;
+
+
+        void* data;
+        vkMapMemory(RenderingSystem::GetVulkanInfo()->logicalDevice, mUniformBufferMemoryList[currentImage], 0, sizeof(ubo), 0, &data);
+        memcpy(data, &ubo, sizeof(ubo));
+        vkUnmapMemory(RenderingSystem::GetVulkanInfo()->logicalDevice, mUniformBufferMemoryList[currentImage]);
+
+    }
 
     void BufferManager::Cleanup() {
 

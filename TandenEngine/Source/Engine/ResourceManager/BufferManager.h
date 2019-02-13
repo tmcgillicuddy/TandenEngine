@@ -12,6 +12,7 @@
 #include "../ResourceManager/Resources/Model/Model.h"
 #include "Resources/Model/MeshVertex.h"
 #include "Resources/Model/Model.h"
+
 #include "NilsMath.h"
 
 
@@ -23,7 +24,7 @@ namespace TandenEngine {
     struct UniformBufferObject {
         mat4 model;
         mat4 view;
-        mat4 projection;
+        mat4 proj;
     };
 
     class BufferManager {
@@ -63,6 +64,8 @@ namespace TandenEngine {
 
         static void CreateUniformBuffers();
         static void CreateDescriptorSetLayout();
+
+        static void UpdateUniformBuffers(uint32_t currentImage);
 
 
             static void Cleanup();

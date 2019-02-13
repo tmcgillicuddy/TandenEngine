@@ -76,11 +76,13 @@ namespace TandenEngine {
         CreateSwapChain();
         CreateImageViews();
         CreateRenderPass();
+        CreateDescriptorSetLayout();
         CreateGraphicsPipeline();
         CreateFramebuffers();
         CreateCommandPool();
         BufferManager::CreateVertexBufferForTargetModel();
         BufferManager::CreateIndexBufferForTargetModel();
+        BufferManager::CreateUniformBuffers();
         CreateCommandBuffers();
         CreateSyncObjects();
     }
