@@ -30,7 +30,6 @@ namespace TandenEngine {
         }
 
         void GUISystem::DrawGUI() {
-
             // Rendering
             ImGui::Render();
             ImGui_ImplVulkanH_FrameData* fd = &wd->Frames[wd->FrameIndex];
