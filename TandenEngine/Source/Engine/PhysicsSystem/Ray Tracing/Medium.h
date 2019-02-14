@@ -8,22 +8,22 @@
 namespace TandenEngine {
 
     class Medium {
-    public:
+     public:
       //  virtual Spectrum Tr(const Ray &ray, Sampler &sampler) const =0;
     };
 
     struct MediumInterface {
         MediumInterface(const Medium *medium)
-        : inside(medium), outside(medium){ }
+        : inside(medium), outside(medium) { }
 
         MediumInterface(const Medium *inside, const Medium *outside)
-        : inside(inside), outside(outside) {};
+        : inside(inside), outside(outside) {}
 
         bool IsMediumTransition() const {return inside !=outside; }
 
         const Medium *inside, *outside;
     };
 
-}
+}  // namespace TandenEngine
 
-#endif //TANDENENGINE_MEDIUM_H
+#endif  // TANDENENGINE_MEDIUM_H

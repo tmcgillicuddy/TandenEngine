@@ -1,7 +1,9 @@
 #include <iostream>
 #include "Engine.h"
 #include "Entity/Components/ComponentHeader.h"
-#include "../Core/Debugger/Debug.h"
+#include "ResourceManager/BufferManager.h"
+#include "ResourceManager/Resources/Model/Primitive.h"
+#include "Debug.h"
 
 namespace TandenEngine {
 
@@ -14,7 +16,9 @@ namespace TandenEngine {
         mProjectSettings = Serializer::LoadProject(mProjectDirectory);
 
         RenderingSystem::InitSystem();
+
         ResourceManager::ImportAssetsFolder();
+
         RenderingSystem::InitGraphicsPipeline();
 
         if (mProjectSettings != nullptr) {
@@ -31,7 +35,27 @@ namespace TandenEngine {
             mGame->StartUpGame();
         }
 
-        std::cout << "Start Main\n";
+        // make scene
+        Scene * test = new Scene();
+        mLoadedScenes.emplace_back(test);
+
+        // make game obj
+        GameObject * tempObj = test->CreateGameObject();
+
+        // give filter and render
+        MeshFilter * tempFilter = dynamic_cast<MeshFilter*>(tempObj->AddComponent<MeshFilter>());
+        MeshRenderer* tempComp =  dynamic_cast<MeshRenderer*>
+                (tempObj->AddComponent<MeshRenderer>());
+
+        // test rb
+        RigidBody* tempRB = dynamic_cast<RigidBody*>(tempObj->AddComponent<RigidBody>());
+
+        // give rend comp model
+        tempFilter->mModelResource = &Primitive::Cube;
+
+
+        tempComp->mpMesh = tempFilter;
+        std::cout <<"ENGINE INITIALIZATION COMPLETE\n";
     }
 
     void Engine::RunEngine() {
@@ -45,6 +69,8 @@ namespace TandenEngine {
             }
             // Process Events
             EventSystem::ProcessEvents();
+            std::cout <<"process events\n";
+
 
             // Update all registered physics objects
             PhysicsSystem::PhysicsUpdate();
@@ -59,11 +85,15 @@ namespace TandenEngine {
             if (mGame != nullptr)
                 mGame->UpdateGame();
 
+            std::cout <<"draw complete\n";
             // Render all registered renderer components
             RenderingSystem::Draw();
 
             // Wait for frame time
             Timer::WaitForFrameTime();
+            std::cout <<"waiting for frame\n";
+
+            std::cout << "FRAME COMPLETE \n";
         }
     }
 

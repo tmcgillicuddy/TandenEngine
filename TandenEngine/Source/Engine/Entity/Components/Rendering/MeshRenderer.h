@@ -24,9 +24,7 @@ namespace TandenEngine {
         // Takes in some string data and will output a Mesh Renderer object
         Component * ConvertFromString(std::vector<std::string> input) override;
 
-     private:
-        // Pointer to mesh component to draw (must be on the same gameobject)
-        MeshFilter *mpMesh{};
+        MeshFilter *mpMesh{};  // Pointer to mesh component to draw (must be on the same gameobject)
     };
 
 }  // namespace TandenEngine

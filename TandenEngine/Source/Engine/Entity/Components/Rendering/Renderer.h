@@ -19,6 +19,7 @@ namespace TandenEngine {
         void Register() override;
 
         std::string ToString() override {return std::string();};
+
         // Takes in some string data and will output a renderer object
         Component * ConvertFromString(std::vector<std::string>) override { return NULL;}
     };

@@ -9,19 +9,26 @@
 
 #include "imgui.h"
 #include "imgui_internal.h"
+#include "imgui_impl_glfw.h"
+#include "imgui_impl_vulkan.h"
 #include "GUIElements/GUIHeader.h"
 
 namespace TandenEngine {
     namespace GUI {
         class GUISystem {
             static std::vector<GUIElement *> mGuiElements;  // List of gui elements
-            static ImGuiIO* io;  // ImGui io struct, filled with Tanden data
+            static ImGuiIO* mIo;  // ImGui io struct, filled with Tanden data
+            static ImGui_ImplVulkanH_WindowData mWindowData;
+            static ImGui_ImplVulkan_InitInfo mInitInfo;
+            static ImGui_ImplVulkanH_WindowData * wd;
 
+            static void SetupVulkanWindowData(ImGui_ImplVulkanH_WindowData* wd,
+                    VkSurfaceKHR surface, int width, int height);
          public:
             static void InitGUISystem();  // Init the GUI system
 
             static void ShutDownGuiSystem();
-
+            static void BindGUI();
             static void DrawGUI();  // Draw GUI elements
             // Register the GUI elements
             static void RegisterGUIElement(GUIElement *newElement);

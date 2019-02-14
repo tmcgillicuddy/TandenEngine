@@ -1,12 +1,13 @@
 //
-// Created by thomas.mcgillicuddy on 10/31/2018.
+//  Created by thomas.mcgillicuddy on 10/31/2018.
 //
 #define GLFW_INCLUDE_VULKAN
+#define NOMINMAX
 
+#include "../../Core/Debugger/Debug.h"
 #include "RenderingSystem.h"
 
 namespace TandenEngine {
-
 
     std::vector<Renderer *> RenderingSystem::mRenderers;
 
@@ -14,100 +15,155 @@ namespace TandenEngine {
 
     VulkanInfo RenderingSystem::mVulkanInfo;
 
-    void RenderingSystem::Draw()
-    {
+    void RenderingSystem::Draw() {
         if (!glfwWindowShouldClose(mWindow->GetWindowRef())) {
-
-            //Draw gameobject renderers
+            // Draw gameobject renderers
             for (const auto &rend : mRenderers) {
-                rend->Draw();
+            //     rend->Draw();
+            // TODO(Rosser) fix draw to PROVIDE resources so this function
+            //  (RenderingSystem::Draw) actually draws instead of each object drawing themselves
             }
 
-            //Draw GUI Elements
-            GUI::GUISystem::DrawGUI();
+            // Draw GUI Elements
+            GUI::GUISystem::BindGUI();
 
             PollWindowEvents();
-            DrawWindow();
-        }
+            std::cout << "poll for events \n";
 
-        //vkDeviceWaitIdle(logicalDevice);
+            DrawWindow();
+            std::cout << "draw window \n";
+        }
+        // vkDeviceWaitIdle(logicalDevice);
     }
 
-    void RenderingSystem::RegisterRenderer(Renderer *newRenderer)
-    {
+    void RenderingSystem::RegisterRenderer(Renderer *newRenderer) {
         mRenderers.emplace_back(newRenderer);
     }
 
-    void RenderingSystem::InitSystem()
-    {
+    void RenderingSystem::InitSystem() {
         InitGLFW();
-        InitWindow(windowWidth, windowHeight, "eat my ass");
+        InitWindow(windowWidth, windowHeight, "Tanden Engine");
         mVulkanInfo.InitVulkan();
-
-        GUI::GUISystem::InitGUISystem();
     }
 
     void RenderingSystem::InitGraphicsPipeline() {
         mVulkanInfo.InitVulkanPipeline();
+        GUI::GUISystem::InitGUISystem();
     }
 
 
-    void RenderingSystem::InitGLFW()
-    {
-
+    void RenderingSystem::InitGLFW() {
         glfwInit();
 
         glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
         glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
-
     }
 
-    void RenderingSystem::InitWindow(int windowWidth, int windowHeight, std::string windowName)
-    {
-        //create test window
 
+
+    void RenderingSystem::InitWindow(int windowWidth, int windowHeight, std::string windowName) {
+        // create test window
         mWindow = new Window(windowWidth, windowHeight, windowName);
 
         mWindow->initWindow();
     }
 
-    void RenderingSystem::PollWindowEvents()
-    {
+    void RenderingSystem::PollWindowEvents() {
         glfwPollEvents();
     }
 
+    void RenderingSystem::DrawWindow() {
+        // wait for frame to be finished
+        vkWaitForFences(
+                mVulkanInfo.logicalDevice,
+                1,
+                &mVulkanInfo.inFlightFences[mVulkanInfo.currentFrame],
+                VK_TRUE,
+                std::numeric_limits<uint64_t>::max());
+
+        // get next image from swapchain and trigger avaliable semaphore
+        uint32_t imageIndex;
+        VkResult result = vkAcquireNextImageKHR(
+                mVulkanInfo.logicalDevice,
+                mVulkanInfo.swapChain,
+                std::numeric_limits<uint64_t>::max(),
+                mVulkanInfo.imageAvailableSemaphores[mVulkanInfo.currentFrame],
+                VK_NULL_HANDLE, &imageIndex);
+
+        if (result == VK_ERROR_OUT_OF_DATE_KHR) {
+            mVulkanInfo.framebufferResized = false;
+            mVulkanInfo.RecreateSwapChain();
+            return;
+        } else if (result != VK_SUCCESS && result != VK_SUBOPTIMAL_KHR) {
+            throw std::runtime_error("failed to acquire swap chain image!");
+        }
+
+        // info for submission to queue
+        VkSubmitInfo submitInfo = {};
+        submitInfo.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
+
+        // determine which semaphores wait on eachother
+        VkSemaphore waitSemaphores[] =
+                {mVulkanInfo.imageAvailableSemaphores[mVulkanInfo.currentFrame]};
+        VkPipelineStageFlags waitStages[] = {VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT};
+        submitInfo.waitSemaphoreCount = 1;
+        submitInfo.pWaitSemaphores = waitSemaphores;
+        submitInfo.pWaitDstStageMask = waitStages;
+
+        // determine which command buffers to bind for the color attachment
+        submitInfo.commandBufferCount = 1;
+        submitInfo.pCommandBuffers = &mVulkanInfo.commandBuffers[imageIndex];
+
+        // determine which semaphore will signal once command buffer finishes
+        VkSemaphore signalSemaphores[] =
+                {mVulkanInfo.renderFinishedSemaphores[mVulkanInfo.currentFrame]};
+        submitInfo.signalSemaphoreCount = 1;
+        submitInfo.pSignalSemaphores = signalSemaphores;
+        // std::cout << "draw gui \n";
+        // GUI::GUISystem::DrawGUI();
+        // reset fences
+        vkResetFences(
+                mVulkanInfo.logicalDevice,
+                1,
+                &mVulkanInfo.inFlightFences[mVulkanInfo.currentFrame]);
+
+        // failed to submit
+        if (vkQueueSubmit(mVulkanInfo.gfxQueue, 1, &submitInfo, VK_NULL_HANDLE) != VK_SUCCESS) {
+            throw std::runtime_error("failed to submit draw command buffer!");
+        }
+
+        // presentation info
+        VkPresentInfoKHR presentInfo = {};
+        presentInfo.sType = VK_STRUCTURE_TYPE_PRESENT_INFO_KHR;
+
+        // which semaphores to wait on for presentation
+        presentInfo.waitSemaphoreCount = 1;
+        presentInfo.pWaitSemaphores = signalSemaphores;
+
+        // specify swap chain to present images and the index of the target image
+        VkSwapchainKHR swapChains[] = {mVulkanInfo.swapChain};
+        presentInfo.swapchainCount = 1;
+        presentInfo.pSwapchains = swapChains;
+        presentInfo.pImageIndices = &imageIndex;
+
+        // not necessary with one swapchain but this checks
+        // if all swapchain presentation was successful or not
+        presentInfo.pResults = nullptr;  //  Optional
+
+        // present image to swapchain
+        vkQueuePresentKHR(mVulkanInfo.presentationQueue, &presentInfo);
+
+        vkQueueWaitIdle(mVulkanInfo.presentationQueue);
+
+        // increment frames
+        mVulkanInfo.currentFrame = (mVulkanInfo.currentFrame + 1) % mVulkanInfo.maxFramesInFlight;
+    }
+
     void RenderingSystem::Cleanup() {
-        //Bring it on! I'll destroy you all!
-
-        //TODO move vulkan specific clean up to vulkaninfo class
-        vkDestroySemaphore(mVulkanInfo.logicalDevice, mVulkanInfo.renderFinishedSemaphore, nullptr);
-        vkDestroySemaphore(mVulkanInfo.logicalDevice, mVulkanInfo.imageAvailableSemaphore, nullptr);
-
-        vkDestroyCommandPool(mVulkanInfo.logicalDevice, mVulkanInfo.commandPool, nullptr);
-
-        for (auto framebuffer : mVulkanInfo.swapChainFramebuffers) {
-            vkDestroyFramebuffer(mVulkanInfo.logicalDevice, framebuffer, nullptr);
-        }
-
-        vkDestroyPipeline(mVulkanInfo.logicalDevice, mVulkanInfo.graphicsPipeline, nullptr);
-        vkDestroyPipelineLayout(mVulkanInfo.logicalDevice, mVulkanInfo.pipelineLayout, nullptr);
-        vkDestroyRenderPass(mVulkanInfo.logicalDevice, mVulkanInfo.renderPass, nullptr);
-
-        for (auto imageView : mVulkanInfo.swapChainImageViews) {
-            vkDestroyImageView(mVulkanInfo.logicalDevice, imageView, nullptr);
-        }
-
-        vkDestroyPipelineLayout(mVulkanInfo.logicalDevice, mVulkanInfo.pipelineLayout, nullptr);
+        // Bring it on! I'll destroy you all!
+        mVulkanInfo.CleanupVulkan();
 
         GUI::GUISystem::ShutDownGuiSystem();
-
-        vkDestroySurfaceKHR(mVulkanInfo.VulkanInstance, mVulkanInfo.WindowSurface, nullptr);
-
-        vkDestroySwapchainKHR(mVulkanInfo.logicalDevice, mVulkanInfo.swapChain, nullptr);
-
-        vkDestroyDevice(mVulkanInfo.logicalDevice, nullptr);
-
-        vkDestroyInstance(mVulkanInfo.VulkanInstance, nullptr);
 
         glfwDestroyWindow(mWindow->GetWindowRef());
 
@@ -121,6 +177,4 @@ namespace TandenEngine {
     Window *RenderingSystem::GetWindow() {
         return mWindow;
     }
-
-
-}
+}  // namespace TandenEngine

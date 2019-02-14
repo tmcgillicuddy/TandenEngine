@@ -10,11 +10,11 @@
 namespace TandenEngine {
 
     class RayDifferential : public Ray {
-    public:
+     public:
         bool mHasDifferential;
         vec3 mXOrigin, mYOrigin;
         vec3 mXDirection, mYDirection;
     };
-}
+}  // namespace TandenEngine
 
-#endif //TANDENENGINE_RAYDIFFERENTIAL_H
+#endif  // TANDENENGINE_RAYDIFFERENTIAL_H

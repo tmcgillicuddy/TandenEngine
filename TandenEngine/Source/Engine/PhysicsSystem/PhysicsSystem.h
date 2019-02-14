@@ -11,6 +11,7 @@
 #include "../Entity/Components/Physics/Collider.h"
 #include "../Entity/Components/Physics/BoxCollider.h"
 #include "../Entity/Components/Physics/SphereCollider.h"
+#include "../Entity/Components/Physics/RigidBody.h"
 
 namespace TandenEngine {
 
@@ -18,7 +19,7 @@ namespace TandenEngine {
         static std::vector<PhysicsComponent *> mPhysicsObjects;
         static std::vector<Collider *> mColliders;
 
-    public:
+     public:
         static void PhysicsUpdate();
 
         static void CollisionUpdate();
@@ -31,6 +32,6 @@ namespace TandenEngine {
         static void RegisterPhysicsObject(PhysicsComponent * newObject);
         static void RegisterColliderObject(Collider * newObject);
     };
-}
+}  // namespace TandenEngine
 
-#endif //TANDENENGINE_PHYSICSSYSTEM_H
+#endif  // TANDENENGINE_PHYSICSSYSTEM_H

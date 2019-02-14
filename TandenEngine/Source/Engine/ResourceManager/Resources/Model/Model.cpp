@@ -1,10 +1,11 @@
 #define TINYOBJLOADER_IMPLEMENTATION  // define this in only *one* .cc
 
 #include <tiny_obj_loader.h>
+#include <unordered_map>
 
 #include "Model.h"
+#include "../../BufferManager.h"
 
-#include <unordered_map>
 
 namespace TandenEngine {
 
@@ -14,6 +15,10 @@ namespace TandenEngine {
 
     bool Model::CheckIfSupported(std::string extension) {
         return (extension == ".fbx" || extension == ".obj");
+    }
+
+    void Model::CreateVertexBuffer() {
+        // BufferManager::CreateVertexBufferForTargetModel(this);
     }
 
     Model::Model(MetaData *inputData) {
@@ -28,8 +33,8 @@ namespace TandenEngine {
         std::string warn, err;
 
         // Load model data into temporary buffer
-        // TODO(Thomas) change model path to reference the meta data dir path
-        if (!::tinyobj::LoadObj(&attrib, &shapes, &materials, &warn, &err, mMetaData->mFileDir.c_str())) {
+        if (!::tinyobj::LoadObj(&attrib, &shapes, &materials,
+                &warn, &err, mMetaData->mFileDir.c_str())) {
             std::cout <<"Error loading model\n";
             throw std::runtime_error(warn + err);
         }
@@ -39,7 +44,7 @@ namespace TandenEngine {
         // Iterate through all shapes and add their vertex data to main vector
         for (const auto &shape : shapes) {
             for (const auto &index : shape.mesh.indices) {
-                MeshVertex vertex = {};
+                MeshVertex vertex = MeshVertex();
                 vertex.mPos = vec3(
                         attrib.vertices[3 * index.vertex_index + 0],
                         attrib.vertices[3 * index.vertex_index + 1],
@@ -53,14 +58,16 @@ namespace TandenEngine {
 
                 // If this is a unique vertex add to verticies vector
                 if (uniqueVertices.count(vertex) == 0) {
-                    uniqueVertices[vertex] = static_cast<uint32_t>(verticies.size());
-                    verticies.push_back(vertex);
+                    uniqueVertices[vertex] = static_cast<uint32_t>(mVertices.size());
+                    mVertices.push_back(vertex);
                 }
 
-                indices.push_back(indices.size());
+                mIndices.push_back(uniqueVertices[vertex]);
             }
         }
 
-        std::cout<< "Num verts " << verticies.size();
+        std::cout<< "Num verts " << mVertices.size();
+        // TODO(Rosser) Create API to make buffer from model data
+        // BufferManager::CreateVertexBufferForModel(this);
     }
 }  // namespace TandenEngine

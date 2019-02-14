@@ -13,12 +13,12 @@ namespace TandenEngine {
     };
 
     struct LightBehavior {
-    public:
+     public:
         LightType mLightType;
 
         LightBehavior(LightType type);
     };
 
-}
+}  // namespace TandenEngine
 
-#endif //TANDENENGINE_LIGHTBEHAVIOR_H
+#endif  // TANDENENGINE_LIGHTBEHAVIOR_H

@@ -24,8 +24,8 @@ namespace TandenEngine {
         std::vector<Transform*> mChildren;
 
         Transform();
-
         ~Transform() {}
+
 
         void Translate(vec3 dir);
 
@@ -42,6 +42,7 @@ namespace TandenEngine {
         void RemoveChild(Transform * target);
 
         std::string ToString() override;
+
         // Takes in some string data and will output a transform object
         Component * ConvertFromString(std::vector<std::string> input) override;
 

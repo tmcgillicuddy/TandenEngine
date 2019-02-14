@@ -84,7 +84,7 @@ namespace TandenEngine {
     }
     void PhysicsSystem::SphereSphereCollision(Collider * colA, Collider * colB) {
         float distance;
-        distance = vec3::Distance(colA->mGlobalPosition, colB->mGlobalPosition);
+        distance = NilsMath::Dist(colA->mGlobalPosition, colB->mGlobalPosition);
         if (distance < (colA->mScale.x + colB->mScale.x)) {
             std::cout << "Sphere v Sphere Collision between " <<
                 colA->mParentObject->GetName() << " and " <<
@@ -102,7 +102,7 @@ namespace TandenEngine {
                     fmin(colB->mGlobalPosition.z, colA->mGlobalPosition.z + colA->mScale.z / 2));
 
             float distance;
-            distance = vec3::Distance(testPoint, colB->mGlobalPosition);
+            distance = NilsMath::Dist(testPoint, colB->mGlobalPosition);
             if (distance < colB->mScale.x) {
                 std::cout << "Box v Sphere Collision between "
                         << colA->mParentObject->GetName() << " and "
@@ -118,7 +118,7 @@ namespace TandenEngine {
                     fmin(colA->mGlobalPosition.z, colB->mGlobalPosition.z + colB->mScale.z / 2));
 
             float distance;
-            distance = vec3::Distance(colA->mGlobalPosition, testPoint);
+            distance = NilsMath::Dist(colA->mGlobalPosition, testPoint);
             if (distance < colA->mScale.x) {
                 std::cout << "Sphere v Box Collision between "
                         << colA->mParentObject->GetName() << " and "

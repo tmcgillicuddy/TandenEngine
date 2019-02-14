@@ -19,6 +19,17 @@ namespace TandenEngine {
         unsigned int i;
         char *s;
 
+        // Validate input format to not include bad characters
+        for (int index = 0; input[index] != '\0'; index++) {
+            switch (input[index]) {
+                case '\n':
+                    std::cout << "Invalid Format, dont use \\n in format\n";
+                    return;
+            }
+        }
+
+
+
         // Module 1: Initializing Myprintf's arguments
         va_list arg;
         va_start(arg, input);
@@ -44,7 +55,6 @@ namespace TandenEngine {
                     }
                     finalMessage +=i;
                     break;
-
                 case 's': s = va_arg(arg, char *);  // String Argument
                     finalMessage += s;
                     break;
@@ -56,6 +66,9 @@ namespace TandenEngine {
                     index++;
                     finalMessage += LogMatrix(input[index], arg);
                     break;
+                case 'n':
+                    index++;
+                    finalMessage += '\n';
             }
         }
 
@@ -118,6 +131,5 @@ namespace TandenEngine {
     }
 
     void Debug::LogError(char *format, ...) {
-
     }
 }  // namespace TandenEngine
