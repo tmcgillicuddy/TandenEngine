@@ -7,6 +7,7 @@
 
 #include <vulkan/vulkan.h>
 #include <vector>
+#include <vulkan/vulkan.h>
 
 #include "MeshVertex.h"
 #include "../Resource.h"
