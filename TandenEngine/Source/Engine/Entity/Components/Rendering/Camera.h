@@ -10,6 +10,9 @@
 namespace TandenEngine {
     class Camera : public Component {
      public:
+        float mFOV;  // Field of View
+        float nNearClipDist;  // Near clipping plane distance
+        float mFarClipDist;  // Far clipping plane distance
         Camera();
 
         // Component Overrides

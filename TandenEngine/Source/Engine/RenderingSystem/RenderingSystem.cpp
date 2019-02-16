@@ -12,17 +12,22 @@ namespace TandenEngine {
     std::vector<Renderer *> RenderingSystem::mRenderers;
 
     Window* RenderingSystem::mWindow;
+    Camera* RenderingSystem::mMainCam;
 
     VulkanInfo RenderingSystem::mVulkanInfo;
 
     void RenderingSystem::Draw() {
         if (!glfwWindowShouldClose(mWindow->GetWindowRef())) {
-            // Bind gameobject buffers
+            // Bind renderer vertex buffers
             for (const auto &rend : mRenderers) {
             //     rend->Draw();
             // TODO(Rosser) fix draw to PROVIDE resources so this function
             //  (RenderingSystem::Draw) actually draws instead of each object drawing themselves
             }
+
+            // Bind uniform buffers
+
+            // Use mMainCam transform info for MVP (have default if it's null)
 
             // Bind and Update GUI Elements
             GUI::GUISystem::BindGUI();
@@ -31,7 +36,7 @@ namespace TandenEngine {
             // Draw command buffers
 
 
-            //Present Render
+            // Present Render
             PollWindowEvents();
             std::cout << "poll for events \n";
 

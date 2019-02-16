@@ -28,10 +28,10 @@ namespace TandenEngine {
             ImGui::Text("This is some useful text.");
             ImGui::End();
 
-            ImGui::Render(); //Generate the desired buffers
+            ImGui::Render();  // Generate the desired buffers
         }
 
-        void GUISystem::UpdateBuffers(){
+        void GUISystem::UpdateBuffers() {
             // Rendering
             ImGui::Render();
             ImGui_ImplVulkanH_FrameData* fd = &wd->Frames[wd->FrameIndex];
