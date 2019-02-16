@@ -17,16 +17,21 @@ namespace TandenEngine {
 
     void RenderingSystem::Draw() {
         if (!glfwWindowShouldClose(mWindow->GetWindowRef())) {
-            // Draw gameobject renderers
+            // Bind gameobject buffers
             for (const auto &rend : mRenderers) {
             //     rend->Draw();
             // TODO(Rosser) fix draw to PROVIDE resources so this function
             //  (RenderingSystem::Draw) actually draws instead of each object drawing themselves
             }
 
-            // Draw GUI Elements
+            // Bind and Update GUI Elements
             GUI::GUISystem::BindGUI();
+            GUI::GUISystem::UpdateBuffers();
 
+            // Draw command buffers
+
+
+            //Present Render
             PollWindowEvents();
             std::cout << "poll for events \n";
 
