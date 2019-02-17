@@ -7,16 +7,34 @@ namespace TandenEngine {
     }
 
     void Transform::Translate(vec3 dir) {
+        mTransformLocal.r1 += dir;
+    }
+
+    void Transform::SetPosition(vec3 pos) {
+        mTransformLocal.r1 = pos;
     }
 
     void Transform::LookAt(Transform *target) {
     }
 
+    void Transform::Scale(vec3 scale) {
+        mTransformLocal.r3 *= scale;
+    }
+
+    void Transform::SetScale(vec3 scale) {
+        mTransformLocal.r3 = scale;
+    }
+
     void Transform::Rotate(vec3 euler) {
+        mTransformLocal.r2 += euler;
+    }
+
+    void Transform::SetRotation(TandenEngine::vec3 euler){
+        mTransformLocal.r2 = euler;
     }
 
     void Transform::Update() {
-        // TODO(Nils) update local and ws transforms data based on parent
+        mTransformGlobal = mParent->mTransformGlobal + mTransformLocal;
         // TODO(Nils) update the relative vector macros (forward, right, up)
     }
 
@@ -38,30 +56,41 @@ namespace TandenEngine {
     std::string Transform::ToString() {
         std::string data = Component::ToString();  // Call the base to string function
         // Add component specific attributes
-        data += "Pos: " + std::to_string(mTransformData.r1.x) +
-                " " + std::to_string(mTransformData.r1.y) +
-                " " + std::to_string(mTransformData.r1.z) + '\n';
+        data += "Local Pos: " + std::to_string(mTransformLocal.r1.x) +
+                " " + std::to_string(mTransformLocal.r1.y) +
+                " " + std::to_string(mTransformLocal.r1.z) + '\n';
 
-        data += "Rot: " + std::to_string(mTransformData.r2.x) +
-                " " + std::to_string(mTransformData.r2.y) +
-                " " + std::to_string(mTransformData.r2.z)+ '\n';
+        data += "Local Rot: " + std::to_string(mTransformLocal.r2.x) +
+                " " + std::to_string(mTransformLocal.r2.y) +
+                " " + std::to_string(mTransformLocal.r2.z)+ '\n';
 
-        data += "Scale: " + std::to_string(mTransformData.r3.x) +
-                " " + std::to_string(mTransformData.r3.y) +
-                " " + std::to_string(mTransformData.r3.z)+ '\n';
+        data += "Local Scale: " + std::to_string(mTransformLocal.r3.x) +
+                " " + std::to_string(mTransformLocal.r3.y) +
+                " " + std::to_string(mTransformLocal.r3.z)+ '\n';
 
+        data += "Global Pos: " + std::to_string(mTransformGlobal.r1.x) +
+                " " + std::to_string(mTransformGlobal.r1.y) +
+                " " + std::to_string(mTransformGlobal.r1.z) + '\n';
+
+        data += "Global Rot: " + std::to_string(mTransformGlobal.r2.x) +
+                " " + std::to_string(mTransformGlobal.r2.y) +
+                " " + std::to_string(mTransformGlobal.r2.z)+ '\n';
+
+        data += "Global Scale: " + std::to_string(mTransformGlobal.r3.x) +
+                " " + std::to_string(mTransformGlobal.r3.y) +
+                " " + std::to_string(mTransformGlobal.r3.z)+ '\n';
         return data;
     }
 
     Component * Transform::ConvertFromString(std::vector<std::string> data) {
         Transform * newComp = new Transform();
-        newComp->mTransformData.r1 =
+        newComp->mTransformLocal.r1 =
                 vec3(std::stof(data.at(2)), std::stof(data.at(3)), std::stof(data.at(4)));
 
-        newComp->mTransformData.r2 =
+        newComp->mTransformLocal.r2 =
                 vec3(std::stof(data.at(6)), std::stof(data.at(7)), std::stof(data.at(8)));
 
-        newComp->mTransformData.r3 =
+        newComp->mTransformLocal.r3 =
                 vec3(std::stof(data.at(10)), std::stof(data.at(11)), std::stof(data.at(12)));
 
         return newComp;
@@ -70,4 +99,5 @@ namespace TandenEngine {
     std::unique_ptr<Component> Transform::Clone() {
        return std::unique_ptr<Transform>();
     }
+
 }   // namespace TandenEngine

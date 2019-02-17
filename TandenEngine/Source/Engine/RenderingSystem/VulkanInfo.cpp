@@ -188,6 +188,8 @@ namespace TandenEngine {
         if (physicalDevice == VK_NULL_HANDLE) {
             throw std::runtime_error("failed to find a suitable GPU!");
         }
+
+        vkGetPhysicalDeviceMemoryProperties(physicalDevice, &memoryProperties);
     }
 
     void VulkanInfo::InitLogicalDevice() {
@@ -667,7 +669,7 @@ namespace TandenEngine {
         pipelineInfo.layout = pipelineLayout;
 
         // set render pass for pipeline
-        pipelineInfo.renderPass = renderPass;
+        pipelineInfo.renderPass = mRenderPass;
         pipelineInfo.subpass = 0;
 
         // pipeline extension, but not required here since we dont have a base pipeline
@@ -700,7 +702,7 @@ namespace TandenEngine {
 
             VkFramebufferCreateInfo framebufferInfo = {};
             framebufferInfo.sType = VK_STRUCTURE_TYPE_FRAMEBUFFER_CREATE_INFO;
-            framebufferInfo.renderPass = renderPass;
+            framebufferInfo.renderPass = mRenderPass;
             framebufferInfo.attachmentCount = 1;
             framebufferInfo.pAttachments = attachments;
             framebufferInfo.width = swapChainExtent.width;
@@ -763,7 +765,7 @@ namespace TandenEngine {
             // configure render pass for command buffer
             VkRenderPassBeginInfo renderPassInfo = {};
             renderPassInfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
-            renderPassInfo.renderPass = renderPass;
+            renderPassInfo.renderPass = mRenderPass;
             renderPassInfo.framebuffer = swapChainFramebuffers[i];
             // size of render area on screen
             renderPassInfo.renderArea.offset = {0, 0};
@@ -917,7 +919,7 @@ namespace TandenEngine {
                 logicalDevice,
                 &renderPassInfo,
                 nullptr,
-                &renderPass) != VK_SUCCESS) {
+                &mRenderPass) != VK_SUCCESS) {
             throw std::runtime_error("failed to create render pass!");
         }
 
@@ -1113,7 +1115,7 @@ namespace TandenEngine {
 
         vkDestroyPipeline(logicalDevice, graphicsPipeline, nullptr);
         vkDestroyPipelineLayout(logicalDevice, pipelineLayout, nullptr);
-        vkDestroyRenderPass(logicalDevice, renderPass, nullptr);
+        vkDestroyRenderPass(logicalDevice, mRenderPass, nullptr);
 
         for (auto imageView : swapChainImageViews) {
             vkDestroyImageView(logicalDevice, imageView, nullptr);
@@ -1132,5 +1134,27 @@ namespace TandenEngine {
         }
 
         vkDestroyInstance(VulkanInstance, nullptr);
+    }
+
+    uint32_t VulkanInfo::GetMemoryType(uint32_t typeBits,
+            VkMemoryPropertyFlags properties, VkBool32 *memTypeFound) {
+        for (uint32_t i = 0; i < memoryProperties.memoryTypeCount; i++) {
+            if ((typeBits & 1) == 1) {
+                if ((memoryProperties.memoryTypes[i].propertyFlags & properties) == properties) {
+                    if (memTypeFound) {
+                        *memTypeFound = true;
+                    }
+                    return i;
+                }
+            }
+            typeBits >>= 1;
+        }
+
+        if (memTypeFound) {
+            *memTypeFound = false;
+            return 0;
+        } else {
+            throw std::runtime_error("Could not find a matching memory type");
+        }
     }
 }  // namespace TandenEngine

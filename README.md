@@ -66,5 +66,5 @@ Now ```lint``` will run cpplint on given files
 Navigate to the engine directory and run the ```lint``` command with the ```--recursive``` flag
 
 ```
-lint --recursive TandenEngine/Source/....
+lint --recursive --quiet TandenEngine/Source/....
 ``` 

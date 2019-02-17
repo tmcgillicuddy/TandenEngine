@@ -12,26 +12,34 @@ namespace TandenEngine {
     std::vector<Renderer *> RenderingSystem::mRenderers;
 
     Window* RenderingSystem::mWindow;
+    Camera* RenderingSystem::mMainCam;
 
     VulkanInfo RenderingSystem::mVulkanInfo;
 
     void RenderingSystem::Draw() {
         if (!glfwWindowShouldClose(mWindow->GetWindowRef())) {
-            // Draw gameobject renderers
+            // Bind renderer vertex buffers
             for (const auto &rend : mRenderers) {
             //     rend->Draw();
             // TODO(Rosser) fix draw to PROVIDE resources so this function
             //  (RenderingSystem::Draw) actually draws instead of each object drawing themselves
             }
 
-            // Draw GUI Elements
-            GUI::GUISystem::BindGUI();
+            // Bind uniform buffers
 
+            // Use mMainCam transform info for MVP (have default if it's null)
+
+            // Bind and Update GUI Elements
+            GUI::GUISystem::BindGUI();
+            GUI::GUISystem::UpdateBuffers();
+
+            // Draw command buffers
+
+
+            // Present Render
             PollWindowEvents();
-            std::cout << "poll for events \n";
 
             DrawWindow();
-            std::cout << "draw window \n";
         }
         // vkDeviceWaitIdle(logicalDevice);
     }
@@ -74,12 +82,12 @@ namespace TandenEngine {
 
     void RenderingSystem::DrawWindow() {
         // wait for frame to be finished
-        vkWaitForFences(
-                mVulkanInfo.logicalDevice,
-                1,
-                &mVulkanInfo.inFlightFences[mVulkanInfo.currentFrame],
-                VK_TRUE,
-                std::numeric_limits<uint64_t>::max());
+        // vkWaitForFences(
+        //        mVulkanInfo.logicalDevice,
+        //        1,
+        //        &mVulkanInfo.inFlightFences[mVulkanInfo.currentFrame],
+        //        VK_TRUE,
+        //        std::numeric_limits<uint64_t>::max());
 
         // get next image from swapchain and trigger avaliable semaphore
         uint32_t imageIndex;

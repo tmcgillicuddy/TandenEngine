@@ -35,8 +35,8 @@ namespace TandenEngine {
         // In theory, this should only be happening to GameObjects that are actually moving
         int n = mColliders.size();
         for (auto col : mColliders) {
-            col->mGlobalPosition = col->mTransform->mTransformData.r1 + col->mLocalPosition;
-            col->mGlobalRotation = col->mTransform->mTransformData.r2 + col->mLocalRotation;
+            col->mGlobalPosition = col->mTransform->mTransformGlobal.r1 + col->mLocalPosition;
+            col->mGlobalRotation = col->mTransform->mTransformGlobal.r2 + col->mLocalRotation;
         }
 
         Collider *colA, *colB;

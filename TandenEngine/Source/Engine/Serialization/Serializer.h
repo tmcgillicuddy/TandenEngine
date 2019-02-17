@@ -4,14 +4,14 @@
 #ifndef TANDENENGINE_SERIALIZER_H
 #define TANDENENGINE_SERIALIZER_H
 
-#include "ProjectSettings.h"
-
+#include <stdio.h>
 #include <windows.h>
 #include <filesystem>
-#include <stdio.h>
 #include <iostream>
 #include <string>
 #include <fstream>
+
+#include "ProjectSettings.h"
 
 namespace TandenEngine {
 

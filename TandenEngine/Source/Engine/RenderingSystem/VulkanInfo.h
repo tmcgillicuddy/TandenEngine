@@ -69,6 +69,7 @@ namespace TandenEngine {
         VkInstance VulkanInstance;                   // vulkan instance
         VkDebugUtilsMessengerEXT debugMessenger;     // debugs validation layers
         VkPhysicalDevice physicalDevice;             // our graphics card
+        VkPhysicalDeviceMemoryProperties memoryProperties;
         VkDevice logicalDevice;                      // logical interface with graphics card
         VkQueue gfxQueue;                            // graphics queue for graphics events
         VkQueue presentationQueue;
@@ -83,7 +84,7 @@ namespace TandenEngine {
         std::vector<VkDescriptorSet> descriptorSets;
 
         VkPipelineLayout pipelineLayout;
-        VkRenderPass renderPass;
+        VkRenderPass mRenderPass;
         VkPipeline graphicsPipeline;
         std::vector<VkFramebuffer> swapChainFramebuffers;
         VkCommandPool commandPool;
@@ -101,6 +102,9 @@ namespace TandenEngine {
         void InitVulkanPipeline();
         void RecreateSwapChain();
         void CleanupVulkan();
+
+        uint32_t GetMemoryType(uint32_t typeBits, VkMemoryPropertyFlags properties,
+                VkBool32 *memTypeFound = nullptr);
 
      private:
         void InitVKInstance();
