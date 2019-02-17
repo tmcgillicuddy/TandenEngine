@@ -82,7 +82,7 @@ namespace TandenEngine {
 
     void RenderingSystem::DrawWindow() {
         // wait for frame to be finished
-        //vkWaitForFences(
+        // vkWaitForFences(
         //        mVulkanInfo.logicalDevice,
         //        1,
         //        &mVulkanInfo.inFlightFences[mVulkanInfo.currentFrame],
