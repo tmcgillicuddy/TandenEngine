@@ -17,13 +17,11 @@ namespace TandenEngine {
     namespace GUI {
         class GUISystem {
             static std::vector<GUIElement *> mGuiElements;  // List of gui elements
-            static ImGuiIO* mIo;  // ImGui io struct, filled with Tanden data
-            static ImGui_ImplVulkanH_WindowData mWindowData;
-            static ImGui_ImplVulkan_InitInfo mInitInfo;
-            static ImGui_ImplVulkanH_WindowData * wd;
+            static VkImage fontImage;
+            static VkDeviceMemory fontMemory;
 
-            static void SetupVulkanWindowData(ImGui_ImplVulkanH_WindowData* wd,
-                    VkSurfaceKHR surface, int width, int height);
+
+            static void InitGUIPipeline();
          public:
             static void InitGUISystem();  // Init the GUI system
 

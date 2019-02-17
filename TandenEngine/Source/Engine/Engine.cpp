@@ -69,8 +69,6 @@ namespace TandenEngine {
             }
             // Process Events
             EventSystem::ProcessEvents();
-            std::cout <<"process events\n";
-
 
             // Update all registered physics objects
             PhysicsSystem::PhysicsUpdate();
@@ -85,15 +83,11 @@ namespace TandenEngine {
             if (mGame != nullptr)
                 mGame->UpdateGame();
 
-            std::cout <<"draw complete\n";
             // Render all registered renderer components
             RenderingSystem::Draw();
 
             // Wait for frame time
             Timer::WaitForFrameTime();
-            std::cout <<"waiting for frame\n";
-
-            std::cout << "FRAME COMPLETE \n";
         }
     }
 

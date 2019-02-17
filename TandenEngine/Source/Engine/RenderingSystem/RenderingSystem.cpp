@@ -38,10 +38,8 @@ namespace TandenEngine {
 
             // Present Render
             PollWindowEvents();
-            std::cout << "poll for events \n";
 
             DrawWindow();
-            std::cout << "draw window \n";
         }
         // vkDeviceWaitIdle(logicalDevice);
     }
@@ -84,12 +82,12 @@ namespace TandenEngine {
 
     void RenderingSystem::DrawWindow() {
         // wait for frame to be finished
-        vkWaitForFences(
-                mVulkanInfo.logicalDevice,
-                1,
-                &mVulkanInfo.inFlightFences[mVulkanInfo.currentFrame],
-                VK_TRUE,
-                std::numeric_limits<uint64_t>::max());
+        //vkWaitForFences(
+        //        mVulkanInfo.logicalDevice,
+        //        1,
+        //        &mVulkanInfo.inFlightFences[mVulkanInfo.currentFrame],
+        //        VK_TRUE,
+        //        std::numeric_limits<uint64_t>::max());
 
         // get next image from swapchain and trigger avaliable semaphore
         uint32_t imageIndex;
