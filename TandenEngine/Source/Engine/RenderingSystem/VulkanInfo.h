@@ -103,9 +103,9 @@ namespace TandenEngine {
         void RecreateSwapChain();
         void CleanupVulkan();
 
-        uint32_t GetMemoryType(uint32_t typeBits, VkMemoryPropertyFlags properties, VkBool32 *memTypeFound = nullptr);
+        uint32_t GetMemoryType(uint32_t typeBits, VkMemoryPropertyFlags properties,
+                VkBool32 *memTypeFound = nullptr);
 
-        static void CheckVKError(VkResult res);
      private:
         void InitVKInstance();
         bool CheckValidationLayerSupport();
@@ -158,8 +158,6 @@ namespace TandenEngine {
         void CreateCommandPool();
         void CreateCommandBuffers();
         void CreateSyncObjects();
-
-        static std::string errorString(VkResult errorCode);
     };
 
 }  // namespace TandenEngine

@@ -4,6 +4,7 @@
 
 #include "GUISystem.h"
 #include "../RenderingSystem.h"
+#include "Debug.h"
 
 namespace TandenEngine {
 
@@ -77,15 +78,19 @@ namespace TandenEngine {
             imageInfo.usage = VK_IMAGE_USAGE_SAMPLED_BIT | VK_IMAGE_USAGE_TRANSFER_DST_BIT;
             imageInfo.sharingMode = VK_SHARING_MODE_EXCLUSIVE;
             imageInfo.initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
-            VulkanInfo::CheckVKError(vkCreateImage(vInfo.logicalDevice, &imageInfo, nullptr, &fontImage));
+            Debug::CheckVKResult(vkCreateImage(vInfo.logicalDevice,
+                    &imageInfo, nullptr, &fontImage));
             VkMemoryRequirements memReqs;
             vkGetImageMemoryRequirements(vInfo.logicalDevice, fontImage, &memReqs);
             VkMemoryAllocateInfo memAllocInfo {};
             memAllocInfo.sType = VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_INFO;
             memAllocInfo.allocationSize = memReqs.size;
-            memAllocInfo.memoryTypeIndex = vInfo.GetMemoryType(memReqs.memoryTypeBits, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT);
-            VulkanInfo::CheckVKError(vkAllocateMemory(vInfo.logicalDevice, &memAllocInfo, nullptr, &fontMemory));
-            VulkanInfo::CheckVKError(vkBindImageMemory(vInfo.logicalDevice, fontImage, fontMemory, 0));
+            memAllocInfo.memoryTypeIndex = vInfo.GetMemoryType(memReqs.memoryTypeBits,
+                    VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT);
+            Debug::CheckVKResult(vkAllocateMemory(vInfo.logicalDevice,
+                    &memAllocInfo, nullptr, &fontMemory));
+            Debug::CheckVKResult(vkBindImageMemory(vInfo.logicalDevice,
+                    fontImage, fontMemory, 0));
         }
 
         void GUISystem::ShutDownGuiSystem() {
