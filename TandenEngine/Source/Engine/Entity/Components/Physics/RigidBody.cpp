@@ -20,13 +20,13 @@ namespace TandenEngine {
     void RigidBody::PhysicsUpdate() {
         // update transforms based on velocity
         if (!mStatic) {
-            mTransform->mTransformData.r1.x += mVelocityLinear.x;
-            mTransform->mTransformData.r1.y += mVelocityLinear.y;
-            mTransform->mTransformData.r1.z += mVelocityLinear.z;
+            mTransform->mTransformLocal.r1.x += mVelocityLinear.x;
+            mTransform->mTransformLocal.r1.y += mVelocityLinear.y;
+            mTransform->mTransformLocal.r1.z += mVelocityLinear.z;
 
-            mTransform->mTransformData.r2.x += mVelocityAngular.x;
-            mTransform->mTransformData.r2.y += mVelocityAngular.y;
-            mTransform->mTransformData.r2.z += mVelocityAngular.z;
+            mTransform->mTransformLocal.r2.x += mVelocityAngular.x;
+            mTransform->mTransformLocal.r2.y += mVelocityAngular.y;
+            mTransform->mTransformLocal.r2.z += mVelocityAngular.z;
         }
 
         // update velocities based on accelerations and drag force acting against it
@@ -40,8 +40,8 @@ namespace TandenEngine {
         // Debug::Log("%v3", mLinearVelocity);
 
         // reset forces, because they're only applied for a frame
-        mAccelerationLinear -= mForceLinear * (1.0 / mMass);
-        mAccelerationLinear -= mForceAngular * (1.0 / mMass);
+        mAccelerationLinear -= mForceLinear * (1.0f / mMass);
+        mAccelerationLinear -= mForceAngular * (1.0f / mMass);
         mForceLinear = vec3(0.0, 0.0, 0.0);
         mForceAngular = vec3(0.0, 0.0, 0.0);
     }
@@ -56,12 +56,12 @@ namespace TandenEngine {
     // Add force for a single update
     void RigidBody::AddForceLinear(const vec3& toAdd) {
         mForceLinear = toAdd;
-        mAccelerationLinear += mForceLinear * (1.0 / mMass);
+        mAccelerationLinear += mForceLinear * (1.0f / mMass);
     }
 
     void RigidBody::AddForceAngular(const vec3& toAdd) {
         mForceAngular = toAdd;
-        mAccelerationAngular += mForceAngular * (1.0 / mMass);
+        mAccelerationAngular += mForceAngular * (1.0f / mMass);
     }
 
     // Returns the calculated drag, in case you need it for anything

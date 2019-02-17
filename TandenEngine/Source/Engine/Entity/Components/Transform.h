@@ -14,7 +14,8 @@ namespace TandenEngine {
 
     class Transform : public Component {
      public:
-        mat3 mTransformData;
+        mat3 mTransformLocal;
+        mat3 mTransformGlobal;
 
         vec3 mForward;
         vec3 mRight;
@@ -28,10 +29,15 @@ namespace TandenEngine {
 
 
         void Translate(vec3 dir);
+        void SetPosition(vec3 pos);
 
         void LookAt(Transform * target);
 
+        void Scale(vec3 scale);
+        void SetScale(vec3 scale);
+
         void Rotate(vec3 euler);
+        void SetRotation(vec3 euler);
 
         void Update() override;
 
