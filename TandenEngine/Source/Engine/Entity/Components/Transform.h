@@ -29,10 +29,15 @@ namespace TandenEngine {
 
 
         void Translate(vec3 dir);
+        void SetPosition(vec3 pos);
 
         void LookAt(Transform * target);
 
+        void Scale(vec3 scale);
+        void SetScale(vec3 scale);
+
         void Rotate(vec3 euler);
+        void SetRotation(vec3 euler);
 
         void Update() override;
 

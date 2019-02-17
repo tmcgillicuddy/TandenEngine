@@ -7,12 +7,30 @@ namespace TandenEngine {
     }
 
     void Transform::Translate(vec3 dir) {
+        mTransformLocal.r1 += dir;
+    }
+
+    void Transform::SetPosition(vec3 pos) {
+        mTransformLocal.r1 = pos;
     }
 
     void Transform::LookAt(Transform *target) {
     }
 
+    void Transform::Scale(vec3 scale) {
+        mTransformLocal.r3 *= scale;
+    }
+
+    void Transform::SetScale(vec3 scale) {
+        mTransformLocal.r3 = scale;
+    }
+
     void Transform::Rotate(vec3 euler) {
+        mTransformLocal.r2 += euler;
+    }
+
+    void Transform::SetRotation(TandenEngine::vec3 euler){
+        mTransformLocal.r2 = euler;
     }
 
     void Transform::Update() {
@@ -81,4 +99,5 @@ namespace TandenEngine {
     std::unique_ptr<Component> Transform::Clone() {
        return std::unique_ptr<Transform>();
     }
+
 }   // namespace TandenEngine
