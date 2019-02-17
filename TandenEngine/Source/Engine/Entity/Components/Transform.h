@@ -14,7 +14,8 @@ namespace TandenEngine {
 
     class Transform : public Component {
      public:
-        mat3 mTransformData;
+        mat3 mTransformLocal;
+        mat3 mTransformGlobal;
 
         vec3 mForward;
         vec3 mRight;
