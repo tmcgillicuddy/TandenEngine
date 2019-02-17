@@ -17,6 +17,7 @@
 
 #include "Window.h"
 #include "../Entity/Components/Rendering/Renderer.h"
+#include "../Entity/Components/Rendering/Camera.h"
 #include "VulkanInfo.h"
 
 const int windowWidth = 800;  // TODO(Rosser) move these varibles to a base level source file
@@ -41,6 +42,7 @@ namespace TandenEngine {
         static void PollWindowEvents();
 
      public:
+        static Camera * mMainCam;  // Main Camera
         static void Draw();
 
         static void RegisterRenderer(Renderer *newRenderer);

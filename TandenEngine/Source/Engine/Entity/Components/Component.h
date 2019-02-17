@@ -18,7 +18,6 @@ namespace TandenEngine {
         TRANSFORM = 0,
         MESHFILTER = 1,
         MESHRENDERER = 2,
-        PHYSICSCOMPONENT = 3,
         RENDERER = 4,
         SPRITERENDERER = 5,
         BOXCOLLIDER = 6,

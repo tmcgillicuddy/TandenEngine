@@ -9,15 +9,12 @@ namespace TandenEngine {
 
     namespace GUI {
         std::vector<GUIElement *> GUISystem::mGuiElements;
-        ImGuiIO *GUISystem::mIo;
-        ImGui_ImplVulkanH_WindowData GUISystem::mWindowData;
-        ImGui_ImplVulkan_InitInfo GUISystem::mInitInfo = {};
-        ImGui_ImplVulkanH_WindowData *GUISystem::wd;
+        VkImage GUISystem::fontImage = VK_NULL_HANDLE;
+        VkDeviceMemory GUISystem::fontMemory = VK_NULL_HANDLE;
+
 
         void GUISystem::BindGUI() {
             // Start the Dear ImGui frame
-            ImGui_ImplVulkan_NewFrame();
-            ImGui_ImplGlfw_NewFrame();
             ImGui::NewFrame();
 
             for (const auto &element : mGuiElements) {
@@ -27,139 +24,77 @@ namespace TandenEngine {
             ImGui::Begin("Hello, world!");
             ImGui::Text("This is some useful text.");
             ImGui::End();
+
+            ImGui::Render();  // Generate the desired buffers
         }
 
-        void GUISystem::DrawGUI() {
-            // Rendering
-            ImGui::Render();
-            ImGui_ImplVulkanH_FrameData* fd = &wd->Frames[wd->FrameIndex];
-
-            ImGui_ImplVulkan_RenderDrawData(ImGui::GetDrawData(), fd->CommandBuffer);
-
-            // memcpy(&wd->ClearValue.color.float32[0], &clear_color, 4 * sizeof(float));
-         //   FrameRender(wd);
-
-        //    FramePresent(wd);
-        }
-
-        void GUISystem::RegisterGUIElement(GUIElement *newElement) {
-            mGuiElements.emplace_back(newElement);
+        void GUISystem::UpdateBuffers() {
+           // Update render system command buffers
+           ImDrawData* drawData = ImGui::GetDrawData();
         }
 
         void GUISystem::InitGUISystem() {
             std::cout << "Initing GUI System\n";
-            wd = &mWindowData;
-            SetupVulkanWindowData(wd, RenderingSystem::GetVulkanInfo()->WindowSurface,
-                    RenderingSystem::GetWindow()->GetWidth(),
-                    RenderingSystem::GetWindow()->GetHeight());
-
             IMGUI_CHECKVERSION();
-
             ImGui::CreateContext();
+
+            // Color scheme TODO(Anyone) find our color scheme
+            ImGui::StyleColorsDark();
+            // Dimensions
+            ImGuiIO& io = ImGui::GetIO();
+            io.DisplaySize = ImVec2(RenderingSystem::GetWindow()->GetWidth(),
+                    RenderingSystem::GetWindow()->GetHeight());
+            io.DisplayFramebufferScale = ImVec2(1.0f, 1.0f);
+
+            // UI Render Pipeline
+            InitGUIPipeline();
+        }
+
+        void GUISystem::InitGUIPipeline() {
+            VulkanInfo vInfo = *RenderingSystem::GetVulkanInfo();
+
+            VkRenderPass renderPass = vInfo.mRenderPass;
             ImGuiIO& io = ImGui::GetIO();
 
-            ImGui_ImplGlfw_InitForVulkan(RenderingSystem::GetWindow()->GetWindowRef(), true);
+            // Create font texture
+            unsigned char* fontData;
+            int texWidth, texHeight;
+            io.Fonts->GetTexDataAsRGBA32(&fontData, &texWidth, &texHeight);
+            VkDeviceSize uploadSize = texWidth*texHeight * 4 * sizeof(char);
 
-            // Set ImGui Vulkan Info
-            mInitInfo.Instance = RenderingSystem::GetVulkanInfo()->VulkanInstance;
-            mInitInfo.PhysicalDevice = RenderingSystem::GetVulkanInfo()->physicalDevice;
-            mInitInfo.Device = RenderingSystem::GetVulkanInfo()->logicalDevice;
-            mInitInfo.QueueFamily = 0;  // TODO(Thomas) use queue family (?)
-            mInitInfo.Queue = RenderingSystem::GetVulkanInfo()->presentationQueue;
-            // mInitInfo.PipelineCache = g_PipelineCache;
-            mInitInfo.DescriptorPool = RenderingSystem::GetVulkanInfo()->descriptorPool;
-            mInitInfo.Allocator = RenderingSystem::GetVulkanInfo()->mAllocator;
-            // mInitInfo.CheckVkResultFn = check_vk_result;
-            ImGui_ImplVulkan_Init(&mInitInfo, wd->RenderPass);
-
-            // Setup Style
-            ImGui::StyleColorsDark();
-
-            VkResult err;
-            // Upload Fonts
-            {
-                // Use any command queue
-                VkCommandPool command_pool = wd->Frames[wd->FrameIndex].CommandPool;
-                VkCommandBuffer command_buffer = wd->Frames[wd->FrameIndex].CommandBuffer;
-
-                err = vkResetCommandPool(mInitInfo.Device, command_pool, 0);
-                // TODO(Thomas) Error check
-                VkCommandBufferBeginInfo begin_info = {};
-                begin_info.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
-                begin_info.flags |= VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT;
-                err = vkBeginCommandBuffer(command_buffer, &begin_info);
-                // TODO(Thomas) Error check
-
-                ImGui_ImplVulkan_CreateFontsTexture(command_buffer);
-
-                VkSubmitInfo end_info = {};
-                end_info.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
-                end_info.commandBufferCount = 1;
-                end_info.pCommandBuffers = &command_buffer;
-                err = vkEndCommandBuffer(command_buffer);
-                // TODO(Thomas) Error check
-                err = vkQueueSubmit(mInitInfo.Queue, 1, &end_info, VK_NULL_HANDLE);
-                // TODO(Thomas) Error check
-
-                err = vkDeviceWaitIdle(mInitInfo.Device);
-                // TODO(Thomas) Error check
-                ImGui_ImplVulkan_InvalidateFontUploadObjects();
-            }
+            // Create target image for copy
+            VkImageCreateInfo imageInfo {};
+            imageInfo.sType = VK_STRUCTURE_TYPE_IMAGE_CREATE_INFO;
+            imageInfo.imageType = VK_IMAGE_TYPE_2D;
+            imageInfo.format = VK_FORMAT_R8G8B8A8_UNORM;
+            imageInfo.extent.width = texWidth;
+            imageInfo.extent.height = texHeight;
+            imageInfo.extent.depth = 1;
+            imageInfo.mipLevels = 1;
+            imageInfo.arrayLayers = 1;
+            imageInfo.samples = VK_SAMPLE_COUNT_1_BIT;
+            imageInfo.tiling = VK_IMAGE_TILING_OPTIMAL;
+            imageInfo.usage = VK_IMAGE_USAGE_SAMPLED_BIT | VK_IMAGE_USAGE_TRANSFER_DST_BIT;
+            imageInfo.sharingMode = VK_SHARING_MODE_EXCLUSIVE;
+            imageInfo.initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
+            VulkanInfo::CheckVKError(vkCreateImage(vInfo.logicalDevice, &imageInfo, nullptr, &fontImage));
+            VkMemoryRequirements memReqs;
+            vkGetImageMemoryRequirements(vInfo.logicalDevice, fontImage, &memReqs);
+            VkMemoryAllocateInfo memAllocInfo {};
+            memAllocInfo.sType = VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_INFO;
+            memAllocInfo.allocationSize = memReqs.size;
+            memAllocInfo.memoryTypeIndex = vInfo.GetMemoryType(memReqs.memoryTypeBits, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT);
+            VulkanInfo::CheckVKError(vkAllocateMemory(vInfo.logicalDevice, &memAllocInfo, nullptr, &fontMemory));
+            VulkanInfo::CheckVKError(vkBindImageMemory(vInfo.logicalDevice, fontImage, fontMemory, 0));
         }
 
         void GUISystem::ShutDownGuiSystem() {
             // Shutdown
+            ImGui::DestroyContext();
         }
 
-        void GUISystem::SetupVulkanWindowData(ImGui_ImplVulkanH_WindowData* wd,
-                VkSurfaceKHR surface, int width, int height) {
-            wd->Surface = surface;
-
-            // Check for WSI support
-            VkBool32 res;
-            vkGetPhysicalDeviceSurfaceSupportKHR(RenderingSystem::GetVulkanInfo()->physicalDevice,
-                    0, wd->Surface, &res);  // TODO(Thomas) use queue family (?)
-            if (res != VK_TRUE) {
-                fprintf(stderr, "Error no WSI support on physical device 0\n");
-                exit(-1);
-            }
-
-            // Select Surface Format
-            const VkFormat requestSurfaceImageFormat[] = {
-                    VK_FORMAT_B8G8R8A8_UNORM, VK_FORMAT_R8G8B8A8_UNORM,
-                    VK_FORMAT_B8G8R8_UNORM, VK_FORMAT_R8G8B8_UNORM
-            };
-
-            const VkColorSpaceKHR requestSurfaceColorSpace = VK_COLORSPACE_SRGB_NONLINEAR_KHR;
-            wd->SurfaceFormat = ImGui_ImplVulkanH_SelectSurfaceFormat(
-                    RenderingSystem::GetVulkanInfo()->physicalDevice, wd->Surface,
-                    requestSurfaceImageFormat, (size_t)IM_ARRAYSIZE(requestSurfaceImageFormat),
-                    requestSurfaceColorSpace);
-
-            // Select Present Mode
-#ifdef IMGUI_UNLIMITED_FRAME_RATE
-            VkPresentModeKHR present_modes[] = {
-                    VK_PRESENT_MODE_MAILBOX_KHR, VK_PRESENT_MODE_IMMEDIATE_KHR,
-                    VK_PRESENT_MODE_FIFO_KHR
-            };
-#else
-            VkPresentModeKHR present_modes[] = { VK_PRESENT_MODE_FIFO_KHR };
-#endif
-            wd->PresentMode = ImGui_ImplVulkanH_SelectPresentMode(
-                    RenderingSystem::GetVulkanInfo()->physicalDevice,
-                    wd->Surface, &present_modes[0], IM_ARRAYSIZE(present_modes));
-            // printf("[vulkan] Selected PresentMode = %d\n", wd->PresentMode);
-
-            // Create SwapChain, RenderPass, Framebuffer, etc.
-            // TODO(Thomas) use queue family (?)
-            ImGui_ImplVulkanH_CreateWindowDataCommandBuffers(
-                    RenderingSystem::GetVulkanInfo()->physicalDevice,
-                    RenderingSystem::GetVulkanInfo()->logicalDevice, 0, wd,
-                    RenderingSystem::GetVulkanInfo()->mAllocator);
-            ImGui_ImplVulkanH_CreateWindowDataSwapChainAndFramebuffer(
-                    RenderingSystem::GetVulkanInfo()->physicalDevice,
-                    RenderingSystem::GetVulkanInfo()->logicalDevice, wd,
-                    RenderingSystem::GetVulkanInfo()->mAllocator, width, height);
+        void GUISystem::RegisterGUIElement(GUIElement *newElement) {
+            mGuiElements.emplace_back(newElement);
         }
     }  // namespace GUI
 }  // namespace TandenEngine
