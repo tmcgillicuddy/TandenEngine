@@ -86,8 +86,6 @@ namespace TandenEngine {
             memAllocInfo.memoryTypeIndex = vInfo.GetMemoryType(memReqs.memoryTypeBits, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT);
             VulkanInfo::CheckVKError(vkAllocateMemory(vInfo.logicalDevice, &memAllocInfo, nullptr, &fontMemory));
             VulkanInfo::CheckVKError(vkBindImageMemory(vInfo.logicalDevice, fontImage, fontMemory, 0));
-
-
         }
 
         void GUISystem::ShutDownGuiSystem() {
