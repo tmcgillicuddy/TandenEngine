@@ -18,17 +18,26 @@ namespace TandenEngine {
 
         unsigned int i;
         char *s;
-
+        bool b;
+        int argCount = 0;
         // Validate input format to not include bad characters
         for (int index = 0; input[index] != '\0'; index++) {
             switch (input[index]) {
+                case '%':
+                    argCount++;
+                    return;
                 case '\n':
                     std::cout << "Invalid Format, dont use \\n in format\n";
                     return;
             }
         }
 
-
+        if(argCount <= 0)
+        {
+            std::cout << input;  // Output to console
+            buffer.push_back(input);  // Add input to buffer
+            return;
+        }
 
         // Module 1: Initializing Myprintf's arguments
         va_list arg;
@@ -69,13 +78,20 @@ namespace TandenEngine {
                 case 'n':
                     index++;
                     finalMessage += '\n';
+                case 'b':
+                    b = va_arg(arg, bool);  // String Argument
+                    if(b)
+                        finalMessage += "True";
+                    else
+                        finalMessage += "False";
+                    break;
             }
         }
 
         // Module 3: Closing argument list to necessary clean-up
         va_end(arg);
 
-        std::cout << finalMessage <<std::endl;  // Output to console
+        std::cout << finalMessage;  // Output to console
 
         buffer.push_back(finalMessage);  // Add input to buffer
     }
@@ -172,4 +188,88 @@ namespace TandenEngine {
             return "UNKNOWN_ERROR";
     }
 }
+
+    void Debug::LogPause(char *input, ...) {
+        std::string finalMessage = "";
+
+        unsigned int i;
+        char *s;
+        bool b;
+        int argCount = 0;
+        // Validate input format to not include bad characters
+        for (int index = 0; input[index] != '\0'; index++) {
+            switch (input[index]) {
+                case '%':
+                    argCount++;
+                    return;
+                case '\n':
+                    std::cout << "Invalid Format, dont use \\n in format\n";
+                    return;
+            }
+        }
+
+        if(argCount <= 0)
+        {
+            std::cout << input;  // Output to console
+            buffer.push_back(input);  // Add input to buffer
+            system("pause");
+            return;
+        }
+
+        // Module 1: Initializing Myprintf's arguments
+        va_list arg;
+                va_start(arg, input);
+
+        for (int index = 0; input[index] != '\0'; index++) {
+            while ( input[index] != '%' ) {
+                finalMessage += input[index];
+                index++;
+            }
+
+            index++;
+
+            // Module 2: Fetching and executing arguments
+            switch (input[index]) {
+                case 'c' : i = va_arg(arg, int);  // Character Argument
+                    finalMessage += i;
+                    break;
+
+                case 'd' : i = va_arg(arg, int);  // Decimal Argument
+                    if (i < 0) {
+                        i = -i;
+                        finalMessage += '-';
+                    }
+                    finalMessage +=i;
+                    break;
+                case 's': s = va_arg(arg, char *);  // String Argument
+                    finalMessage += s;
+                    break;
+                case 'v':  // Vector Argument
+                    index++;
+                    finalMessage += LogVector(input[index], arg);
+                    break;
+                case 'm':  // Matrix Argument
+                    index++;
+                    finalMessage += LogMatrix(input[index], arg);
+                    break;
+                case 'n':
+                    index++;
+                    finalMessage += '\n';
+                case 'b':
+                    b = va_arg(arg, bool);  // String Argument
+                    if(b)
+                        finalMessage += "True";
+                    else
+                        finalMessage += "False";
+                    break;
+            }
+        }
+
+        // Module 3: Closing argument list to necessary clean-up
+                va_end(arg);
+
+        std::cout << finalMessage;  // Output to console
+        buffer.push_back(finalMessage);  // Add input to buffer
+        system("pause");
+    }
 }  // namespace TandenEngine

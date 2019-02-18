@@ -15,6 +15,7 @@ namespace TandenEngine {
         static std::vector<std::string> buffer;
      public:
         static void Log(char* format, ...);  // Basic log API
+        static void LogPause(char* format, ...);  // Basic log API, but also pauses
         static void LogError(char* format, ...);
         // TODO(Anyone) call from seperate thread
         static void DumpBuffer();   // Dump buffer to log file

@@ -55,7 +55,9 @@ namespace TandenEngine {
 
 
         tempComp->mpMesh = tempFilter;
-        std::cout <<"ENGINE INITIALIZATION COMPLETE\n";
+
+        exitStatus = false;
+        Debug::Log("ENGINE INITIALIZATION COMPLETE");
     }
 
     void Engine::RunEngine() {
@@ -67,9 +69,9 @@ namespace TandenEngine {
                 exitStatus = 1;
                 continue;
             }
+
             // Process Events
             EventSystem::ProcessEvents();
-
             // Update all registered physics objects
             PhysicsSystem::PhysicsUpdate();
 
@@ -83,9 +85,8 @@ namespace TandenEngine {
             if (mGame != nullptr)
                 mGame->UpdateGame();
 
-            // Render all registered renderer components
+            // Render
             RenderingSystem::DrawWindow();
-
             // Wait for frame time
             Timer::WaitForFrameTime();
         }
