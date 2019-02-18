@@ -69,9 +69,9 @@ namespace TandenEngine {
                 exitStatus = 1;
                 continue;
             }
-
             // Process Events
             EventSystem::ProcessEvents();
+
             // Update all registered physics objects
             PhysicsSystem::PhysicsUpdate();
 

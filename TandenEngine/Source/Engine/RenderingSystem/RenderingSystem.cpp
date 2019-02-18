@@ -22,7 +22,6 @@ namespace TandenEngine {
     void RenderingSystem::DrawWindow() {
         if (!glfwWindowShouldClose(mWindow->GetWindowRef())) {
             // Update Uniforms/Command Buffers
-            Debug::LogPause("Updating Buffers");
             UpdateBuffers();
 
             // Render Command buffers
@@ -33,7 +32,7 @@ namespace TandenEngine {
             PollWindowEvents();
 
             // Present Render
-            Debug::Log("Presenting Render");
+            Debug::LogPause("Presenting Render");
             Present();
         }
         // vkDeviceWaitIdle(logicalDevice);
@@ -102,7 +101,7 @@ namespace TandenEngine {
 
         if (result == VK_ERROR_OUT_OF_DATE_KHR) {
             mVulkanInfo.framebufferResized = false;
-            mVulkanInfo.RecreateSwapChain();
+            //mVulkanInfo.RecreateSwapChain();
             return;
         } else if (result != VK_SUCCESS && result != VK_SUBOPTIMAL_KHR) {
             Debug::CheckVKResult(result);
