@@ -10,6 +10,10 @@ namespace TandenEngine {
 
     MeshRenderer::MeshRenderer() {
         mType = ComponentType::MESHRENDERER;
+
+        // Prepare uniform buffer
+        // TODO(Rosser) create uniform buffer (size of mvpubo)
+        mUniformBuffer.map();
     }
 
     MeshRenderer::~MeshRenderer() {

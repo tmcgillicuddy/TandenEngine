@@ -25,6 +25,13 @@ const int windowHeight = 600;
 
 namespace TandenEngine {
 
+    struct mvpubo
+    {
+        mat4 projection;
+        mat4 model;
+        mat4 view;
+    };
+
     struct VulkanInfo;
     // TODO(Rosser) remove forward declaration once window dimensions vars are moved
     class RenderingSystem {
