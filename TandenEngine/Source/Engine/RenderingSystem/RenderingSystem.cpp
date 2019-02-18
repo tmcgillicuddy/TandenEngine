@@ -18,7 +18,10 @@ namespace TandenEngine {
 
     void RenderingSystem::Draw() {
         if (!glfwWindowShouldClose(mWindow->GetWindowRef())) {
-            // Bind renderer vertex buffers
+            // Foreach renderer
+            // - Bind Vertex Buffer
+            // - Bind Uniform buffers
+
             for (const auto &rend : mRenderers) {
             //     rend->Draw();
             // TODO(Rosser) fix draw to PROVIDE resources so this function
@@ -33,7 +36,9 @@ namespace TandenEngine {
             GUI::GUISystem::BindGUI();
             GUI::GUISystem::UpdateBuffers();
 
-            // Draw command buffers
+            // Foreach command buffer
+            // - Draw indexed buffer
+            // - Draw GUI
 
 
             // Present Render

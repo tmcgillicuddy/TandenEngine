@@ -4,7 +4,7 @@
 #include <unordered_map>
 
 #include "Model.h"
-#include "../../BufferManager.h"
+#include "../../BufferManager/BufferManager.h"
 
 
 namespace TandenEngine {

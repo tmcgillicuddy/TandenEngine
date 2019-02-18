@@ -3,7 +3,7 @@
 //
 
 #include "Primitive.h"
-#include "../../BufferManager.h"
+#include "../../BufferManager/BufferManager.h"
 
 namespace TandenEngine {
 

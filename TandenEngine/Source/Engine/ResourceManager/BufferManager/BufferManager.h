@@ -8,10 +8,10 @@
 #include <vulkan/vulkan.h>
 #include <vector>
 
-#include "../RenderingSystem/RenderingSystem.h"
-#include "../ResourceManager/Resources/Model/Model.h"
-#include "Resources/Model/MeshVertex.h"
-#include "Resources/Model/Model.h"
+#include "../../RenderingSystem/RenderingSystem.h"
+#include "../Resources/Model/Model.h"
+#include "../Resources/Model/MeshVertex.h"
+#include "../Resources/Model/Model.h"
 
 #include "NilsMath.h"
 
