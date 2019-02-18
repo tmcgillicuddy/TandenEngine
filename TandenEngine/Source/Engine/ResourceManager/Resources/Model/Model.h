@@ -7,20 +7,18 @@
 
 #include <vulkan/vulkan.h>
 #include <vector>
-#include <vulkan/vulkan.h>
 
 #include "MeshVertex.h"
 #include "../Resource.h"
-#include <vulkan/vulkan.h>
-
+#include "../../BufferManager/Buffer.h"
 class MeshVertex;
 
 namespace TandenEngine {
 
     class Model : public Resource{
      public:
-        VkBuffer  vertexBuffer;
-        VkDeviceMemory vertexBufferMemory;
+        Buffer mVertexBuffer;
+        Buffer mIndexBuffer;
 
         Model();
 

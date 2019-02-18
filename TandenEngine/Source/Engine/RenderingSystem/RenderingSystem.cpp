@@ -4,8 +4,9 @@
 #define GLFW_INCLUDE_VULKAN
 #define NOMINMAX
 
-#include "../../Core/Debugger/Debug.h"
+#include "Debug.h"
 #include "RenderingSystem.h"
+#include "../Entity/Components/ComponentHeader.h"
 
 namespace TandenEngine {
 
@@ -18,33 +19,79 @@ namespace TandenEngine {
 
     void RenderingSystem::Draw() {
         if (!glfwWindowShouldClose(mWindow->GetWindowRef())) {
-            // Foreach renderer
-            // - Bind Vertex Buffer
-            // - Bind Uniform buffers
+            //Update Uniforms/Command Buffers
 
-            for (const auto &rend : mRenderers) {
-            //     rend->Draw();
-            // TODO(Rosser) fix draw to PROVIDE resources so this function
-            //  (RenderingSystem::Draw) actually draws instead of each object drawing themselves
+            VkCommandBufferBeginInfo cmdBufInfo = {};
+            cmdBufInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
+
+            // configure render pass for command buffer
+            VkRenderPassBeginInfo renderPassInfo = {};
+            renderPassInfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
+            renderPassInfo.renderPass = mVulkanInfo.mRenderPass;
+            // size of render area on screen
+            renderPassInfo.renderArea.offset = {0, 0};
+            renderPassInfo.renderArea.extent = mVulkanInfo.swapChainExtent;
+
+            // clear color for render pass
+            VkClearValue clearColor = {0.0f, 0.0f, 0.0f, 1.0f};
+            renderPassInfo.clearValueCount = 1;
+            renderPassInfo.pClearValues = &clearColor;
+
+            //Render Command buffers
+            for (int32_t i = 0; i < mVulkanInfo.commandBuffers.size(); ++i) {
+                //Current Command Buffer
+                VkCommandBuffer cmdBuffer = mVulkanInfo.commandBuffers[i];
+
+                renderPassInfo.framebuffer = mVulkanInfo.swapChainFramebuffers[i];
+
+                Debug::CheckVKResult(vkBeginCommandBuffer(cmdBuffer, &cmdBufInfo));
+
+                vkCmdBeginRenderPass(cmdBuffer, &renderPassInfo, VK_SUBPASS_CONTENTS_INLINE);
+
+                VkViewport viewport = {};
+                viewport.width = windowWidth;
+                viewport.height = windowHeight;
+                viewport.minDepth = 0.0f;
+                viewport.maxDepth = 1.0f;
+                vkCmdSetViewport(cmdBuffer, 0, 1, &viewport);
+
+                VkRect2D scissor = {};
+                scissor.extent.width = windowWidth;
+                scissor.extent.height = windowHeight;
+                scissor.offset.x = 0;
+                scissor.offset.y = 0;
+                vkCmdSetScissor(cmdBuffer, 0, 1, &scissor);
+
+                vkCmdBindDescriptorSets(cmdBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, mVulkanInfo.pipelineLayout,
+                        0, 1, &mVulkanInfo.descriptorSets[0], 0, NULL);
+
+                // Foreach renderer
+                // - Bind Vertex Buffer
+                // - Draw Indexed Buffer
+                for (const auto &rend : mRenderers) {
+                    if (MeshRenderer *meshRend = dynamic_cast<MeshRenderer *>(rend)) {
+                        VkDeviceSize offsets[1] = {0};
+                        vkCmdBindPipeline(cmdBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, mVulkanInfo.graphicsPipeline);
+                        vkCmdBindVertexBuffers(cmdBuffer, 0, 1,
+                                               &meshRend->mpMesh->mModelResource->mVertexBuffer.mBuffer, offsets);
+                        vkCmdBindIndexBuffer(cmdBuffer, meshRend->mpMesh->mModelResource->mIndexBuffer.mBuffer,
+                                             0, VK_INDEX_TYPE_UINT32);
+                        vkCmdDrawIndexed(cmdBuffer, meshRend->mpMesh->mModelResource->mIndices.size(), 1, 0, 0, 0);
+                    }
+                }
+
+                GUI::GUISystem::DrawGUI(cmdBuffer);
+
+                vkCmdEndRenderPass(cmdBuffer);
+
+                Debug::CheckVKResult(vkEndCommandBuffer(cmdBuffer));
             }
 
-            // Bind uniform buffers
-
-            // Use mMainCam transform info for MVP (have default if it's null)
-
-            // Bind and Update GUI Elements
-            GUI::GUISystem::BindGUI();
-            GUI::GUISystem::UpdateBuffers();
-
-            // Foreach command buffer
-            // - Draw indexed buffer
-            // - Draw GUI
-
-
             // Present Render
+
             PollWindowEvents();
 
-            DrawWindow();
+            // DrawWindow();
         }
         // vkDeviceWaitIdle(logicalDevice);
     }
