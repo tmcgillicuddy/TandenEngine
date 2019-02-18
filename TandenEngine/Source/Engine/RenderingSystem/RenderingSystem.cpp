@@ -25,12 +25,14 @@ namespace TandenEngine {
             UpdateBuffers();
 
             // Render Command buffers
+            Debug::LogPause("Rendering Buffers");
             Render();
 
             //Poll window events
             PollWindowEvents();
 
             // Present Render
+            Debug::LogPause("Presenting Render");
             Present();
         }
         // vkDeviceWaitIdle(logicalDevice);
@@ -51,15 +53,12 @@ namespace TandenEngine {
         GUI::GUISystem::InitGUISystem();
     }
 
-
     void RenderingSystem::InitGLFW() {
         glfwInit();
 
         glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
         glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
     }
-
-
 
     void RenderingSystem::InitWindow(int windowWidth, int windowHeight, std::string windowName) {
         // create test window
@@ -71,12 +70,6 @@ namespace TandenEngine {
     void RenderingSystem::PollWindowEvents() {
         glfwPollEvents();
     }
-
-//    void RenderingSystem::DrawWindow() {
-//
-//
-//
-//    }
 
     void RenderingSystem::Cleanup() {
         // Bring it on! I'll destroy you all!
@@ -108,7 +101,7 @@ namespace TandenEngine {
 
         if (result == VK_ERROR_OUT_OF_DATE_KHR) {
             mVulkanInfo.framebufferResized = false;
-            mVulkanInfo.RecreateSwapChain();
+            //mVulkanInfo.RecreateSwapChain();
             return;
         } else if (result != VK_SUCCESS && result != VK_SUBOPTIMAL_KHR) {
             Debug::CheckVKResult(result);
@@ -164,7 +157,9 @@ namespace TandenEngine {
             for (const auto &rend : mRenderers) {
                 if (MeshRenderer *meshRend = dynamic_cast<MeshRenderer *>(rend)) {
                     VkDeviceSize offsets[1] = {0};
+                    //TODO(Anyone) use shader attached to material on object(?)
                     vkCmdBindPipeline(cmdBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, mVulkanInfo.graphicsPipeline);
+                    //TODO(Rosser) create vertex/index buffers and store on models
                     vkCmdBindVertexBuffers(cmdBuffer, 0, 1,
                                            &meshRend->mpMesh->mModelResource->mVertexBuffer.mBuffer, offsets);
                     vkCmdBindIndexBuffer(cmdBuffer, meshRend->mpMesh->mModelResource->mIndexBuffer.mBuffer,
@@ -244,6 +239,21 @@ namespace TandenEngine {
     }
 
     void RenderingSystem::UpdateBuffers() {
+        mVulkanInfo.commandBuffers.resize(mVulkanInfo.swapChainFramebuffers.size());
 
+        // create command buffer info
+        VkCommandBufferAllocateInfo allocInfo = {};
+        allocInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO;
+        allocInfo.commandPool = mVulkanInfo.commandPool;
+        allocInfo.level = VK_COMMAND_BUFFER_LEVEL_PRIMARY;
+        allocInfo.commandBufferCount = (uint32_t) mVulkanInfo.commandBuffers.size();
+
+        // throw if failed allocation
+        if (vkAllocateCommandBuffers(
+                mVulkanInfo.logicalDevice,
+                &allocInfo,
+                mVulkanInfo.commandBuffers.data()) != VK_SUCCESS) {
+            throw std::runtime_error("failed to allocate command buffers!");
+        }
     }
 }  // namespace TandenEngine
