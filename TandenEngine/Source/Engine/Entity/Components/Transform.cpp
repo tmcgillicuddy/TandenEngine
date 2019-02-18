@@ -34,7 +34,11 @@ namespace TandenEngine {
     }
 
     void Transform::Update() {
-        mTransformGlobal = mParent->mTransformGlobal + mTransformLocal;
+        if(mParent) {
+            mTransformGlobal.r1 = mParent->mTransformGlobal.r1 + mTransformLocal.r1;
+            mTransformGlobal.r2 = mParent->mTransformGlobal.r2 + mTransformLocal.r2;
+            mTransformGlobal.r3 = mParent->mTransformGlobal.r3 * mTransformLocal.r3;
+        }
         // TODO(Nils) update the relative vector macros (forward, right, up)
     }
 
