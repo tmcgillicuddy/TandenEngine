@@ -33,17 +33,20 @@ namespace TandenEngine {
 
         static std::vector<Renderer *> mRenderers;       // vector of renderers
         static Window* mWindow;                          // window instance (just one for now)
+        static uint32_t mImageIndex;
 
         static void InitGLFW();
-
-        static void DrawWindow();
 
         static void InitWindow(int windowWidth, int windowHeight, std::string windowName);
         static void PollWindowEvents();
 
+        static void Render();  // Render command buffers
+        static void Present();  // Present the final render
+        static void UpdateBuffers();  // Update buffers
+
      public:
         static Camera * mMainCam;  // Main Camera
-        static void Draw();
+        static void DrawWindow();
 
         static void RegisterRenderer(Renderer *newRenderer);
         // Accessor
