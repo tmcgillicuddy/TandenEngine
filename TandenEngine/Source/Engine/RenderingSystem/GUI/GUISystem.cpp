@@ -45,21 +45,28 @@ namespace TandenEngine {
                 return;
             }
 
-            // Set vertex buffer data
-            if (/*(vertexBuffer.buffer == VK_NULL_HANDLE) ||*/
-            (mVertexCount != drawData->TotalVtxCount)) {
-
+            if ((mVertexBuffer.mBuffer == VK_NULL_HANDLE) || (mVertexCount != drawData->TotalVtxCount)) {
+                mVertexBuffer.unmap();
+                mVertexBuffer.destroy();
+                // Debug::CheckVKResult(device->createBuffer(VK_BUFFER_USAGE_VERTEX_BUFFER_BIT,
+                // VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT, &mVertexBuffer, vertexBufferSize));
                 mVertexCount = drawData->TotalVtxCount;
+                mVertexBuffer.unmap();
+                mVertexBuffer.map();
             }
 
-            // Set index buffer data
+            // Index buffer
             VkDeviceSize indexSize = drawData->TotalIdxCount * sizeof(ImDrawIdx);
-            if (/*(indexBuffer.buffer == VK_NULL_HANDLE) ||*/
-            (mIndexCount < drawData->TotalIdxCount)) {
+            if ((mIndexBuffer.mBuffer == VK_NULL_HANDLE) || (mIndexCount < drawData->TotalIdxCount)) {
+                mIndexBuffer.unmap();
+                mIndexBuffer.destroy();
+                // Debug::CheckVKResult(device->createBuffer(VK_BUFFER_USAGE_INDEX_BUFFER_BIT,
+                // VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT, &mIndexBuffer, indexBufferSize));
                 mIndexCount = drawData->TotalIdxCount;
+                mIndexBuffer.map();
             }
 
-            // Upload data
+            // Upload data to command buffers
             ImDrawVert* vtxDst = (ImDrawVert*)mVertexBuffer.mMapped;
             ImDrawIdx* idxDst = (ImDrawIdx*)mIndexBuffer.mMapped;
 
@@ -142,6 +149,52 @@ namespace TandenEngine {
 
         void GUISystem::RegisterGUIElement(GUIElement *newElement) {
             mGuiElements.emplace_back(newElement);
+        }
+
+        void GUISystem::DrawGUI(VkCommandBuffer commandBuffer) {
+            ImGuiIO& io = ImGui::GetIO();
+
+            vkCmdBindDescriptorSets(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipelineLayout, 0, 1, &descriptorSet, 0, nullptr);
+            vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipeline);
+
+            VkViewport viewport = vks::initializers::viewport(ImGui::GetIO().DisplaySize.x, ImGui::GetIO().DisplaySize.y, 0.0f, 1.0f);
+            vkCmdSetViewport(commandBuffer, 0, 1, &viewport);
+
+            // UI scale and translate via push constants
+            pushConstBlock.scale = vec2(2.0f / io.DisplaySize.x, 2.0f / io.DisplaySize.y);
+            pushConstBlock.translate = vec2(-1.0f, -1.0f);
+            vkCmdPushConstants(commandBuffer, pipelineLayout, VK_SHADER_STAGE_VERTEX_BIT, 0, sizeof(PushConstBlock), &pushConstBlock);
+
+            // Render commands
+            ImDrawData* imDrawData = ImGui::GetDrawData();
+            int32_t vertexOffset = 0;
+            int32_t indexOffset = 0;
+
+            if (imDrawData->CmdListsCount > 0) {
+
+                VkDeviceSize offsets[1] = { 0 };
+                vkCmdBindVertexBuffers(commandBuffer, 0, 1, &mVertexBuffer.mBuffer, offsets);
+                vkCmdBindIndexBuffer(commandBuffer, mIndexBuffer.mBuffer, 0, VK_INDEX_TYPE_UINT16);
+
+                for (int32_t i = 0; i < imDrawData->CmdListsCount; i++)
+                {
+                    const ImDrawList* cmd_list = imDrawData->CmdLists[i];
+                    for (int32_t j = 0; j < cmd_list->CmdBuffer.Size; j++)
+                    {
+                        const ImDrawCmd* pcmd = &cmd_list->CmdBuffer[j];
+                        VkRect2D scissorRect;
+                        scissorRect.offset.x = std::max((int32_t)(pcmd->ClipRect.x), 0);
+                        scissorRect.offset.y = std::max((int32_t)(pcmd->ClipRect.y), 0);
+                        scissorRect.extent.width = (uint32_t)(pcmd->ClipRect.z - pcmd->ClipRect.x);
+                        scissorRect.extent.height = (uint32_t)(pcmd->ClipRect.w - pcmd->ClipRect.y);
+                        vkCmdSetScissor(commandBuffer, 0, 1, &scissorRect);
+                        vkCmdDrawIndexed(commandBuffer, pcmd->ElemCount, 1, indexOffset, vertexOffset, 0);
+                        indexOffset += pcmd->ElemCount;
+                    }
+                    vertexOffset += cmd_list->VtxBuffer.Size;
+                }
+            }
+        }
         }
     }  // namespace GUI
 }  // namespace TandenEngine

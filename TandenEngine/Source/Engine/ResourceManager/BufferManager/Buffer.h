@@ -11,30 +11,32 @@ namespace TandenEngine {
 
     class Buffer {
 
-    private:
+    public:
         VkBuffer mBuffer = VK_NULL_HANDLE;
-        VkDevice mDevice = VK_NULL_HANDLE;
-        VkDeviceMemory mMemory;
+        VkDevice mDevice;
+        VkDeviceMemory mMemory = VK_NULL_HANDLE;
         VkDeviceSize mSize;
 
-    public:
         void* mMapped = nullptr;
 
-        VkBuffer GetBuffer() { return mBuffer; };
+        VkResult map(VkDeviceSize size = VK_WHOLE_SIZE, VkDeviceSize offset = 0)
+        {
+            return vkMapMemory(mDevice, mMapped, offset, size, 0, &mMapped);
+        }
 
-        VkDevice GetDevice() { return mDevice; };
+        void unmap()
+        {
+            if (mMapped)
+            {
+                vkUnmapMemory(mDevice, mMemory);
+                mMapped = nullptr;
+            }
+        }
 
-        VkDeviceMemory GetMemory() { return mMemory; };
+        // Free memory for memory domain to use
+        VkResult flush(VkDeviceSize size = VK_WHOLE_SIZE, VkDeviceSize offset = 0);
 
-        VkDeviceSize GetSize() { return mSize; };
-
-        void SetBuffer(VkBuffer newBuffer) { mBuffer = newBuffer; };
-
-        void SetDevice(VkDevice newDevice) { mDevice = newDevice; };
-
-        void SetMemory(VkDeviceMemory newMemory) { mMemory = newMemory; };
-
-        void SetSize(VkDeviceSize newSize) { mSize = newSize; };
+        void destroy();  // Destroy buffer
 
     };
 
