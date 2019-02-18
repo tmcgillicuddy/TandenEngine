@@ -84,7 +84,7 @@ namespace TandenEngine {
                 mGame->UpdateGame();
 
             // Render all registered renderer components
-            RenderingSystem::Draw();
+            RenderingSystem::DrawWindow();
 
             // Wait for frame time
             Timer::WaitForFrameTime();
