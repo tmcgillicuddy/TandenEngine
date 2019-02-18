@@ -3,3 +3,7 @@
 //
 
 #include "Buffer.h"
+
+namespace TandenEngine {
+
+}  // namespace TandenEngine

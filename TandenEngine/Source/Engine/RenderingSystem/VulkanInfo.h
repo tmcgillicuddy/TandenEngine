@@ -21,7 +21,7 @@
 
 #include "RenderingSystem.h"
 
-#include "../ResourceManager/BufferManager.h"
+#include "../ResourceManager/BufferManager/BufferManager.h"
 #include "../ResourceManager/Resources/Model/Model.h"
 
 #include "GLFW/glfw3.h"

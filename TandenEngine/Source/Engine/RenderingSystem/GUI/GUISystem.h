@@ -12,6 +12,7 @@
 #include "imgui_impl_glfw.h"
 #include "imgui_impl_vulkan.h"
 #include "GUIElements/GUIHeader.h"
+#include "../../ResourceManager/BufferManager/Buffer.h"
 
 namespace TandenEngine {
     namespace GUI {
@@ -19,7 +20,10 @@ namespace TandenEngine {
             static std::vector<GUIElement *> mGuiElements;  // List of gui elements
             static VkImage fontImage;
             static VkDeviceMemory fontMemory;
-
+            static Buffer mVertexBuffer;
+            static Buffer mIndexBuffer;
+            static int32_t mVertexCount; // Count of all vertices in GUI
+            static int32_t mIndexCount; // Count of all indices in GUI
 
             static void InitGUIPipeline();
          public:

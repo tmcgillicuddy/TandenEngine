@@ -1,7 +1,7 @@
 #include <iostream>
 #include "Engine.h"
 #include "Entity/Components/ComponentHeader.h"
-#include "ResourceManager/BufferManager.h"
+#include "ResourceManager/BufferManager/BufferManager.h"
 #include "ResourceManager/Resources/Model/Primitive.h"
 #include "Debug.h"
 

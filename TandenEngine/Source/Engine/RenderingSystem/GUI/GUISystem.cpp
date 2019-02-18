@@ -12,6 +12,10 @@ namespace TandenEngine {
         std::vector<GUIElement *> GUISystem::mGuiElements;
         VkImage GUISystem::fontImage = VK_NULL_HANDLE;
         VkDeviceMemory GUISystem::fontMemory = VK_NULL_HANDLE;
+        Buffer GUISystem::mVertexBuffer;
+        Buffer GUISystem::mIndexBuffer;
+        int32_t GUISystem::mVertexCount = 0;
+        int32_t GUISystem::mIndexCount = 0;
 
 
         void GUISystem::BindGUI() {
@@ -32,6 +36,44 @@ namespace TandenEngine {
         void GUISystem::UpdateBuffers() {
            // Update render system command buffers
            ImDrawData* drawData = ImGui::GetDrawData();
+
+            // Note: Alignment is done inside buffer creation
+            VkDeviceSize vertexBufferSize = drawData->TotalVtxCount * sizeof(ImDrawVert);
+            VkDeviceSize indexBufferSize = drawData->TotalIdxCount * sizeof(ImDrawIdx);
+
+            if ((vertexBufferSize == 0) || (indexBufferSize == 0)) {
+                return;
+            }
+
+            // Set vertex buffer data
+            if (/*(vertexBuffer.buffer == VK_NULL_HANDLE) ||*/
+            (mVertexCount != drawData->TotalVtxCount)) {
+
+                mVertexCount = drawData->TotalVtxCount;
+            }
+
+            // Set index buffer data
+            VkDeviceSize indexSize = drawData->TotalIdxCount * sizeof(ImDrawIdx);
+            if (/*(indexBuffer.buffer == VK_NULL_HANDLE) ||*/
+            (mIndexCount < drawData->TotalIdxCount)) {
+                mIndexCount = drawData->TotalIdxCount;
+            }
+
+            // Upload data
+            ImDrawVert* vtxDst = (ImDrawVert*)mVertexBuffer.mMapped;
+            ImDrawIdx* idxDst = (ImDrawIdx*)mIndexBuffer.mMapped;
+
+            for (int n = 0; n < drawData->CmdListsCount; n++) {
+                const ImDrawList* cmd_list = drawData->CmdLists[n];
+                memcpy(vtxDst, cmd_list->VtxBuffer.Data, cmd_list->VtxBuffer.Size * sizeof(ImDrawVert));
+                memcpy(idxDst, cmd_list->IdxBuffer.Data, cmd_list->IdxBuffer.Size * sizeof(ImDrawIdx));
+                vtxDst += cmd_list->VtxBuffer.Size;
+                idxDst += cmd_list->IdxBuffer.Size;
+            }
+
+            // Flush to make writes visible to GPU
+            mVertexBuffer.flush();
+            mIndexBuffer.flush();
         }
 
         void GUISystem::InitGUISystem() {
