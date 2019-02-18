@@ -1,6 +1,7 @@
 //
 // Created by thomas.mcgillicuddy on 12/3/2018.
 //
+#define NOMINMAX
 
 #include "GUISystem.h"
 #include "../RenderingSystem.h"
@@ -92,8 +93,8 @@ namespace TandenEngine {
             ImGui::StyleColorsDark();
             // Dimensions
             ImGuiIO& io = ImGui::GetIO();
-            io.DisplaySize = ImVec2(RenderingSystem::GetWindow()->GetWidth(),
-                    RenderingSystem::GetWindow()->GetHeight());
+            io.DisplaySize = ImVec2((float)RenderingSystem::GetWindow()->GetWidth(),
+                                    (float)RenderingSystem::GetWindow()->GetHeight());
             io.DisplayFramebufferScale = ImVec2(1.0f, 1.0f);
 
             // UI Render Pipeline
@@ -161,8 +162,8 @@ namespace TandenEngine {
             // vkCmdSetViewport(commandBuffer, 0, 1, &viewport);
 
             // UI scale and translate via push constants
-            pushConstBlock.scale = vec2(2.0f / io.DisplaySize.x, 2.0f / io.DisplaySize.y);
-            pushConstBlock.translate = vec2(-1.0f, -1.0f);
+            // pushConstBlock.scale = vec2(2.0f / io.DisplaySize.x, 2.0f / io.DisplaySize.y);
+            // pushConstBlock.translate = vec2(-1.0f, -1.0f);
             // vkCmdPushConstants(commandBuffer, pipelineLayout, VK_SHADER_STAGE_VERTEX_BIT, 0, sizeof(PushConstBlock), &pushConstBlock);
 
             // Render commands
@@ -194,7 +195,6 @@ namespace TandenEngine {
                     vertexOffset += cmd_list->VtxBuffer.Size;
                 }
             }
-        }
         }
     }  // namespace GUI
 }  // namespace TandenEngine

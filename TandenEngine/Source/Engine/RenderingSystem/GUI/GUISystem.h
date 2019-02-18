@@ -26,7 +26,7 @@ namespace TandenEngine {
 
             static void InitGUIPipeline();
 
-            static struct PushConstBlock {
+            struct PushConstBlock {
                 vec2 scale;
                 vec2 translate;
             } pushConstBlock;

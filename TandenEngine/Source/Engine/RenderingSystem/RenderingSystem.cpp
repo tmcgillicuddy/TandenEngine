@@ -130,6 +130,7 @@ namespace TandenEngine {
         renderPassInfo.clearValueCount = 1;
         renderPassInfo.pClearValues = &clearColor;
 
+        // Draw each model
         for (int32_t i = 0; i < mVulkanInfo.commandBuffers.size(); ++i) {
             //Current Command Buffer
             VkCommandBuffer cmdBuffer = mVulkanInfo.commandBuffers[i];

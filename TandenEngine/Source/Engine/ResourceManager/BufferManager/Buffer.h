@@ -19,15 +19,12 @@ namespace TandenEngine {
 
         void* mMapped = nullptr;
 
-        VkResult map(VkDeviceSize size = VK_WHOLE_SIZE, VkDeviceSize offset = 0)
-        {
-            return vkMapMemory(mDevice, mMapped, offset, size, 0, &mMapped);
+        VkResult map(VkDeviceSize size = VK_WHOLE_SIZE, VkDeviceSize offset = 0) {
+            return vkMapMemory(mDevice, mMemory, offset, size, 0, &mMapped);
         }
 
-        void unmap()
-        {
-            if (mMapped)
-            {
+        void unmap() {
+            if (mMapped) {
                 vkUnmapMemory(mDevice, mMemory);
                 mMapped = nullptr;
             }
