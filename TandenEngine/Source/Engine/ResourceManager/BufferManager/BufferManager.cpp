@@ -29,6 +29,7 @@ namespace TandenEngine {
         mIndexBufferMemoryList.push_back(newDeviceMemory);
     }
 
+    // TODO(Rosser) Deprecate
     void BufferManager::CreateVertexBufferForTargetModel() {
         for (auto targetModel : modelList) {
             VkDeviceSize bufferSize = sizeof(targetModel->mVertices[0])
@@ -75,6 +76,7 @@ namespace TandenEngine {
         }
     }
 
+    // TODO(Rosser) Deprecate
     void BufferManager::CreateIndexBufferForTargetModel() {
         for (auto targetModel : modelList) {
             VkDeviceSize bufferSize = sizeof(uint16_t) * targetModel->mIndices.size();
@@ -118,6 +120,7 @@ namespace TandenEngine {
         }
     }
 
+    // TODO(Rosser) Deprecate
     void BufferManager::CreateBuffer(VkDeviceSize size, VkBufferUsageFlags usage,
             VkMemoryPropertyFlags properties, VkBuffer& buffer, VkDeviceMemory& bufferMemory) {
         VkBufferCreateInfo bufferInfo = {};
@@ -210,9 +213,7 @@ namespace TandenEngine {
                 RenderingSystem::GetVulkanInfo()->commandPool, 1, &commandBuffer);
     }
 
-
-
-
+    // TODO(Rosser) Deprecate
     void BufferManager::CreateUniformBuffers() {
         // resize to size of swapchains
         VkDeviceSize bufferSize = sizeof(UniformBufferObject);

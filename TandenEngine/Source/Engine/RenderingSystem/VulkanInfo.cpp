@@ -490,6 +490,7 @@ namespace TandenEngine {
         }
     }
 
+    //TODO(Rosser) Deprecate
     std::vector<char> VulkanInfo::ReadFile(const std::string& filename) {
         std::ifstream file(filename, std::ios::ate | std::ios::binary);
 
@@ -733,6 +734,7 @@ namespace TandenEngine {
         }
     }
 
+    // TODO(Rosser) Deprecate
     void VulkanInfo::CreateCommandBuffers() {
         commandBuffers.resize(swapChainFramebuffers.size());
 
