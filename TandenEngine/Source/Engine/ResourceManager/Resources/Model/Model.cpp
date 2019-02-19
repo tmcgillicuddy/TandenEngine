@@ -17,10 +17,6 @@ namespace TandenEngine {
         return (extension == ".fbx" || extension == ".obj");
     }
 
-    void Model::CreateVertexBuffer() {
-        // BufferManager::CreateVertexBufferForTargetModel(this);
-    }
-
     Model::Model(MetaData *inputData) {
         mMetaData = inputData;
         LoadModel();

@@ -21,7 +21,7 @@ namespace TandenEngine {
         vec3 mRight;
         vec3 mUp;
 
-        Transform * mParent;
+        Transform * mParent = nullptr;
         std::vector<Transform*> mChildren;
 
         Transform();

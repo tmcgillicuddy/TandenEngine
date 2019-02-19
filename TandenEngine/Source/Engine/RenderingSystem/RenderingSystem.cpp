@@ -25,9 +25,9 @@ namespace TandenEngine {
             UpdateBuffers();
 
             // Render Command buffers
-            // Debug::LogPause("Rendering Buffers");
+            Debug::LogPause("Rendering Buffers");
             Render();
-
+            Debug::LogPause("Finished Rendering Buffers");
             //Poll window events
             PollWindowEvents();
 
@@ -249,7 +249,6 @@ namespace TandenEngine {
             // ubo.projection // Default to 60 degree FOV
             // ubo.view  // Default to origin
         }
-
         // Update Uniform Buffers
         for (const auto &rend : mRenderers) {
             if (MeshRenderer *meshRend = dynamic_cast<MeshRenderer *>(rend)) {
@@ -259,6 +258,7 @@ namespace TandenEngine {
             }
         }
 
+        // Recreate command buffers
         mVulkanInfo.commandBuffers.resize(mVulkanInfo.swapChainFramebuffers.size());
 
         // create command buffer info
@@ -267,7 +267,6 @@ namespace TandenEngine {
         allocInfo.commandPool = mVulkanInfo.commandPool;
         allocInfo.level = VK_COMMAND_BUFFER_LEVEL_PRIMARY;
         allocInfo.commandBufferCount = (uint32_t) mVulkanInfo.commandBuffers.size();
-
         // throw if failed allocation
         if (vkAllocateCommandBuffers(
                 mVulkanInfo.logicalDevice,

@@ -25,9 +25,7 @@ namespace TandenEngine {
         std::vector<MeshVertex> mVertices = {};
         std::vector<uint16_t> mIndices;
 
-        // VkBuffer vertexBuffer;
         static bool CheckIfSupported(std::string extension);
-        void CreateVertexBuffer();
 
         Model(MetaData* inputData);  // Create a model resource from meta data input
 
