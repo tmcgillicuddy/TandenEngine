@@ -19,13 +19,6 @@ namespace TandenEngine {
     MeshRenderer::~MeshRenderer() {
     }
 
-    void MeshRenderer::Draw() {
-        // std::cout << "Drawing Mesh Renderer\n";
-        for (const auto &vertices : mpMesh->mModelResource->mVertices) {
-            std::cout << vertices.mPos << std::endl << vertices.mColor << std::endl;
-        }
-    }
-
     std::string MeshRenderer::ToString() {
         std::string data = Component::ToString();  // Call the base to string function
         // Add component specific attributes

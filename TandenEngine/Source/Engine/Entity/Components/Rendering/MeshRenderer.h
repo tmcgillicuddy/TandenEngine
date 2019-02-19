@@ -19,8 +19,6 @@ namespace TandenEngine {
 
         ~MeshRenderer();
 
-        void Draw() override;
-
         std::string ToString() override;
 
         std::unique_ptr<Component> Clone() override;
