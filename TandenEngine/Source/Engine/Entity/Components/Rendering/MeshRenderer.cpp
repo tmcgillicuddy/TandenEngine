@@ -3,23 +3,26 @@
 //
 
 #include <iostream>
-#include "../../../../Core/Debugger/Debug.h"
+#include "Debug.h"
+#include "../../../ResourceManager/BufferManager/BufferManager.h"
 #include "MeshRenderer.h"
+#include "../../../RenderingSystem/RenderingSystem.h"
 
 namespace TandenEngine {
 
     MeshRenderer::MeshRenderer() {
         mType = ComponentType::MESHRENDERER;
+
+        // Prepare uniform buffer
+        // TODO(Rosser) create uniform buffer (size of mvpubo)
+        Debug::CheckVKResult(BufferManager::CreateBuffer(VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT,
+                VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT,
+                &mUniformBuffer,
+                sizeof(mvpubo))));
+        mUniformBuffer.map();
     }
 
     MeshRenderer::~MeshRenderer() {
-    }
-
-    void MeshRenderer::Draw() {
-        // std::cout << "Drawing Mesh Renderer\n";
-        for (const auto &vertices : mpMesh->mModelResource->mVertices) {
-            std::cout << vertices.mPos << std::endl << vertices.mColor << std::endl;
-        }
     }
 
     std::string MeshRenderer::ToString() {

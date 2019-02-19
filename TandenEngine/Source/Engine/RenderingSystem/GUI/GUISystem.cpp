@@ -141,6 +141,8 @@ namespace TandenEngine {
                     &memAllocInfo, nullptr, &fontMemory));
             Debug::CheckVKResult(vkBindImageMemory(vInfo.logicalDevice,
                     fontImage, fontMemory, 0));
+
+            //TODO(Thomas) load gui shaders and save pipeline
         }
 
         void GUISystem::ShutDownGuiSystem() {

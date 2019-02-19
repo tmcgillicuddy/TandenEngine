@@ -12,8 +12,6 @@ namespace TandenEngine {
     class Renderer : public Component {
         friend class RenderingSystem;
 
-        virtual void Draw() = 0;
-
         void Update() override {};
 
         void Register() override;

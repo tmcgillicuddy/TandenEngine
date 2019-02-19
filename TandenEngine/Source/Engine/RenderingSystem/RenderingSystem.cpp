@@ -25,14 +25,14 @@ namespace TandenEngine {
             UpdateBuffers();
 
             // Render Command buffers
-            Debug::LogPause("Rendering Buffers");
+            // Debug::LogPause("Rendering Buffers");
             Render();
 
             //Poll window events
             PollWindowEvents();
 
             // Present Render
-            Debug::LogPause("Presenting Render");
+            // Debug::LogPause("Presenting Render");
             Present();
         }
         // vkDeviceWaitIdle(logicalDevice);
@@ -239,6 +239,26 @@ namespace TandenEngine {
     }
 
     void RenderingSystem::UpdateBuffers() {
+        mvpubo ubo;
+
+        // Set Main Camera Info for perspective
+        if(mMainCam) {
+
+        } else {  // Use default vals
+            // TODO(Nils/Rosser) Set projection and view matrix
+            // ubo.projection // Default to 60 degree FOV
+            // ubo.view  // Default to origin
+        }
+
+        // Update Uniform Buffers
+        for (const auto &rend : mRenderers) {
+            if (MeshRenderer *meshRend = dynamic_cast<MeshRenderer *>(rend)) {
+                ubo.model = mat4(1);
+                // TODO(Anyone) Set model to transform data of mesh renderer
+                memcpy(meshRend->mUniformBuffer.mMapped, &ubo, sizeof(ubo));
+            }
+        }
+
         mVulkanInfo.commandBuffers.resize(mVulkanInfo.swapChainFramebuffers.size());
 
         // create command buffer info

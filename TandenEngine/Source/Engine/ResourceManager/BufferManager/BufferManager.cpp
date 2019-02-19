@@ -230,34 +230,6 @@ namespace TandenEngine {
         }
     }
 
-    void BufferManager::UpdateUniformBuffers(uint32_t currentImage) {
-        // pass time
-        static auto startTime = std::chrono::high_resolution_clock::now();
-        // TODO(Rosser) Use our Timer class
-        auto currentTime = std::chrono::high_resolution_clock::now();
-        float time = std::chrono::duration<float,
-        std::chrono::seconds::period>(currentTime - startTime).count();
-
-        UniformBufferObject ubo = {};
-        // TODO(Rosser) Add rotation, need radians, work with nils to figure this out
-        // ubo.model = glm::rotate(glm::mat4(1.0f),
-        // time * glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 1.0f));
-        // ubo.view = glm::lookAt(glm::vec3(2.0f, 2.0f, 2.0f),
-        // glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 1.0f));
-        // ubo.proj = glm::perspective(glm::radians(45.0f),
-        // RenderingSystem::GetVulkanInfo()->swapChainExtent.width /
-        // (float) RenderingSystem::GetVulkanInfo()->swapChainExtent.height, 0.1f, 10.0f);
-        // ubo.proj[1][1] *= -1;
-
-
-        void* data;
-        vkMapMemory(RenderingSystem::GetVulkanInfo()->logicalDevice,
-                mUniformBufferMemoryList[currentImage], 0, sizeof(ubo), 0, &data);
-        memcpy(data, &ubo, sizeof(ubo));
-        vkUnmapMemory(RenderingSystem::GetVulkanInfo()->logicalDevice,
-                mUniformBufferMemoryList[currentImage]);
-    }
-
     void BufferManager::Cleanup() {
         for (int i = 0; i < mVertexBufferMemoryList.size(); ++i) {
             // vertex buffers
@@ -278,5 +250,50 @@ namespace TandenEngine {
             vkFreeMemory(RenderingSystem::GetVulkanInfo()->logicalDevice,
                     mUniformBufferMemoryList[i], nullptr);
         }
+    }
+
+    VkResult BufferManager::CreateBuffer(VkBufferUsageFlags usageFlags, VkMemoryPropertyFlags memoryPropertyFlags,
+                                         Buffer *buffer, VkDeviceSize size, void *data) {
+        VulkanInfo vInfo = *RenderingSystem::GetVulkanInfo();
+        buffer->mDevice = vInfo.logicalDevice;
+
+        // Create the buffer handle
+        VkBufferCreateInfo bufferCreateInfo = {};
+        bufferCreateInfo.sType = VK_STRUCTURE_TYPE_BUFFER_CREATE_INFO;
+        bufferCreateInfo.flags = usageFlags;
+        bufferCreateInfo.size = size;
+        Debug::CheckVKResult(vkCreateBuffer(vInfo.logicalDevice, &bufferCreateInfo, nullptr, &buffer->mBuffer));
+
+        // Create the memory backing up the buffer handle
+        VkMemoryRequirements memReqs;
+        VkMemoryAllocateInfo memAlloc = {};
+        memAlloc.sType = VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_INFO;
+        vkGetBufferMemoryRequirements(vInfo.logicalDevice, buffer->mBuffer, &memReqs);
+        memAlloc.allocationSize = memReqs.size;
+        // Find a memory type index that fits the properties of the buffer
+        memAlloc.memoryTypeIndex = vInfo.GetMemoryType(memReqs.memoryTypeBits, memoryPropertyFlags);
+        Debug::CheckVKResult(vkAllocateMemory(vInfo.logicalDevice, &memAlloc, nullptr, &buffer->mMemory));
+
+        buffer->mAlignment = memReqs.alignment;
+        buffer->mSize = memAlloc.allocationSize;
+        buffer->mUsageFlags = usageFlags;
+        buffer->mMemoryPropertyFlags = memoryPropertyFlags;
+
+        // If a pointer to the buffer data has been passed, map the buffer and copy over the data
+        if (data != nullptr)
+        {
+            Debug::CheckVKResult(buffer->map());
+            memcpy(buffer->mMapped, data, size);
+            if ((memoryPropertyFlags & VK_MEMORY_PROPERTY_HOST_COHERENT_BIT) == 0)
+                buffer->flush();
+
+            buffer->unmap();
+        }
+
+        // Initialize a default descriptor that covers the whole buffer size
+        buffer->setupDescriptor();
+
+        // Attach the memory to the buffer object
+        return buffer->bind();
     }
 }  // namespace TandenEngine

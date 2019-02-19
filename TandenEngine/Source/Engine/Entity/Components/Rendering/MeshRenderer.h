@@ -7,16 +7,17 @@
 
 #include "Renderer.h"
 #include "MeshFilter.h"
+#include "../../../ResourceManager/BufferManager/Buffer.h"
 
 namespace TandenEngine {
 
     class MeshRenderer : public Renderer {
      public:
+        Buffer mUniformBuffer;
+
         MeshRenderer();
 
         ~MeshRenderer();
-
-        void Draw() override;
 
         std::string ToString() override;
 

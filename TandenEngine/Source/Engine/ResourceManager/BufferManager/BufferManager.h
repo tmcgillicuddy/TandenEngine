@@ -61,10 +61,12 @@ namespace TandenEngine {
         static void CreateUniformBuffers();
         static void CreateDescriptorSetLayout();
 
-        static void UpdateUniformBuffers(uint32_t currentImage);
+        static void Cleanup();
 
-
-            static void Cleanup();
+        // General Init buffer function
+        static VkResult CreateBuffer(VkBufferUsageFlags usageFlags,
+                VkMemoryPropertyFlags memoryPropertyFlags, Buffer *buffer,
+                VkDeviceSize size, void *data = nullptr);
     };
 }  // namespace TandenEngine
 

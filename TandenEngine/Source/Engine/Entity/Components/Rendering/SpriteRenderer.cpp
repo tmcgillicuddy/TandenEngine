@@ -6,9 +6,6 @@
 
 namespace TandenEngine {
 
-    void SpriteRenderer::Draw() {
-    }
-
     std::string SpriteRenderer::ToString() {
         std::string data = Component::ToString();  // Call the base to string function
         // Add component specific attributes
