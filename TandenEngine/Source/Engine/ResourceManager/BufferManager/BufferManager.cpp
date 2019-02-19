@@ -260,7 +260,7 @@ namespace TandenEngine {
         // Create the buffer handle
         VkBufferCreateInfo bufferCreateInfo = {};
         bufferCreateInfo.sType = VK_STRUCTURE_TYPE_BUFFER_CREATE_INFO;
-        bufferCreateInfo.flags = usageFlags;
+        bufferCreateInfo.usage = usageFlags;
         bufferCreateInfo.size = size;
         Debug::CheckVKResult(vkCreateBuffer(vInfo.logicalDevice, &bufferCreateInfo, nullptr, &buffer->mBuffer));
 
