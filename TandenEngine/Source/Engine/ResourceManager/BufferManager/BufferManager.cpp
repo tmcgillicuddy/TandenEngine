@@ -9,21 +9,21 @@
 #include "Debug.h"
 
 namespace TandenEngine {
-    std::vector<VkDeviceMemory> BufferManager::mVertexBufferMemoryList;
-    std::vector<VkDeviceMemory> BufferManager::mIndexBufferMemoryList;
-    std::vector<VkDeviceMemory> BufferManager::mUniformBufferMemoryList;
-    std::vector<VkBuffer> BufferManager::mVertexBufferList;
-    std::vector<VkBuffer> BufferManager::mIndexBufferList;
-    std::vector<VkBuffer> BufferManager::mUniformBufferList;
+    std::vector<VkDeviceMemory> BufferManager::mVertexBufferMemoryList;    // TODO(Rosser) Deprecate
+    std::vector<VkDeviceMemory> BufferManager::mIndexBufferMemoryList;    // TODO(Rosser) Deprecate
+    std::vector<VkDeviceMemory> BufferManager::mUniformBufferMemoryList;     // TODO(Rosser) Deprecate
+    std::vector<VkBuffer> BufferManager::mVertexBufferList;    // TODO(Rosser) Deprecate
+    std::vector<VkBuffer> BufferManager::mIndexBufferList;    // TODO(Rosser) Deprecate
+    std::vector<VkBuffer> BufferManager::mUniformBufferList;    // TODO(Rosser) Deprecate
 
+    std::vector<Model*> BufferManager::modelList;    // TODO(Rosser) Deprecate
 
-    std::vector<Model*> BufferManager::modelList;
-
+    // TODO(Rosser) Deprecate
     void BufferManager::AddVertexBuffer(VkBuffer newBuffer, VkDeviceMemory newDeviceMemory) {
         mVertexBufferList.push_back(newBuffer);
         mVertexBufferMemoryList.push_back(newDeviceMemory);
     }
-
+    // TODO(Rosser) Deprecate
     void BufferManager::AddIndexBuffer(VkBuffer newBuffer, VkDeviceMemory newDeviceMemory) {
         mIndexBufferList.push_back(newBuffer);
         mIndexBufferMemoryList.push_back(newDeviceMemory);
@@ -169,6 +169,7 @@ namespace TandenEngine {
         throw std::runtime_error("failed to find suitable memory type!");
     }
 
+    // TODO(Rosser) Deprecate (add to buffer class)
     void BufferManager::CopyBuffer(VkBuffer srcBuffer, VkBuffer dstBuffer, VkDeviceSize size) {
         // allocation info
         VkCommandBufferAllocateInfo allocInfo = {};
@@ -272,7 +273,7 @@ namespace TandenEngine {
         vkGetBufferMemoryRequirements(vInfo.logicalDevice, buffer->mBuffer, &memReqs);
         memAlloc.allocationSize = memReqs.size;
         // Find a memory type index that fits the properties of the buffer
-        memAlloc.memoryTypeIndex = vInfo.GetMemoryType(memReqs.memoryTypeBits, memoryPropertyFlags);
+        memAlloc.memoryTypeIndex = FindMemoryType(memReqs.memoryTypeBits, memoryPropertyFlags);
         Debug::CheckVKResult(vkAllocateMemory(vInfo.logicalDevice, &memAlloc, nullptr, &buffer->mMemory));
 
         buffer->mAlignment = memReqs.alignment;

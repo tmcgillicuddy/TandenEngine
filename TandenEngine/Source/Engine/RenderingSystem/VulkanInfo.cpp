@@ -98,7 +98,7 @@ namespace TandenEngine {
         CreateDescriptorPool();
         CreateDescriptorSets();
 
-        CreateCommandBuffers();
+        CreateCommandBuffers();  //TODO(Rosser) use an init function, vbuffers will be made later
         CreateSyncObjects();
     }
 
@@ -510,6 +510,8 @@ namespace TandenEngine {
         return buffer;
     }
 
+    // TODO(Rosser) return pipeline (can use to create multiple pipelines)
+    // TODO(Rosser) take input file path/resource
     void VulkanInfo::CreateGraphicsPipeline() {
         // read files
         auto vsCode = ReadFile("./ContentFiles/Shaders/vert.spv");
@@ -858,8 +860,6 @@ namespace TandenEngine {
         }
     }
 
-
-
     VkShaderModule VulkanInfo::CreateShaderModule(const std::vector<char>& code) {
         VkShaderModuleCreateInfo createInfo = {};
         createInfo.sType = VK_STRUCTURE_TYPE_SHADER_MODULE_CREATE_INFO;
@@ -971,7 +971,7 @@ namespace TandenEngine {
         return indices.isComplete() && extensionsSupported && swapChainAdequate;
     }
 
-
+    // TODO(Rosser) Deprecate
     void VulkanInfo::RecreateSwapChain() {
         vkDeviceWaitIdle(logicalDevice);
 
@@ -982,8 +982,6 @@ namespace TandenEngine {
         CreateFramebuffers();
         // CreateCommandBuffers();
     }
-
-
 
     void VulkanInfo::CreateDescriptorSetLayout() {
         // layout for uniform buffer object
@@ -1077,8 +1075,6 @@ namespace TandenEngine {
         }
     }
 
-
-
     void VulkanInfo::CleanupVulkan() {
         // swapchain cleanup
         for (size_t i = 0; i < swapChainFramebuffers.size(); i++) {
@@ -1136,27 +1132,5 @@ namespace TandenEngine {
         }
 
         vkDestroyInstance(VulkanInstance, nullptr);
-    }
-
-    uint32_t VulkanInfo::GetMemoryType(uint32_t typeBits,
-            VkMemoryPropertyFlags properties, VkBool32 *memTypeFound) {
-        for (uint32_t i = 0; i < memoryProperties.memoryTypeCount; i++) {
-            if ((typeBits & 1) == 1) {
-                if ((memoryProperties.memoryTypes[i].propertyFlags & properties) == properties) {
-                    if (memTypeFound) {
-                        *memTypeFound = true;
-                    }
-                    return i;
-                }
-            }
-            typeBits >>= 1;
-        }
-
-        if (memTypeFound) {
-            *memTypeFound = false;
-            return 0;
-        } else {
-            throw std::runtime_error("Could not find a matching memory type");
-        }
     }
 }  // namespace TandenEngine
