@@ -12,6 +12,8 @@
 #include "NilsMath.h"
 #include "GUIElements/GUIHeader.h"
 #include "../../ResourceManager/BufferManager/Buffer.h"
+#include "../../ResourceManager/BufferManager/BufferManager.h"
+
 
 namespace TandenEngine {
     namespace GUI {

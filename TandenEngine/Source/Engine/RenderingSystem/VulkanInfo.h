@@ -103,9 +103,6 @@ namespace TandenEngine {
         void RecreateSwapChain();
         void CleanupVulkan();
 
-        uint32_t GetMemoryType(uint32_t typeBits, VkMemoryPropertyFlags properties,
-                VkBool32 *memTypeFound = nullptr);
-
      private:
         void InitVKInstance();
         bool CheckValidationLayerSupport();
