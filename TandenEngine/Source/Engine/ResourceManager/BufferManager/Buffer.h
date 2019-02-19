@@ -16,8 +16,14 @@ namespace TandenEngine {
         VkDevice mDevice;
         VkDeviceMemory mMemory = VK_NULL_HANDLE;
         VkDeviceSize mSize;
+        VkDeviceSize mAlignment = 0;
+        VkDescriptorBufferInfo mDescriptor;
 
         void* mMapped = nullptr;
+
+        VkBufferUsageFlags mUsageFlags;
+
+        VkMemoryPropertyFlags mMemoryPropertyFlags;
 
         VkResult map(VkDeviceSize size = VK_WHOLE_SIZE, VkDeviceSize offset = 0) {
             return vkMapMemory(mDevice, mMemory, offset, size, 0, &mMapped);
@@ -32,6 +38,18 @@ namespace TandenEngine {
 
         // Free memory for memory domain to use
         VkResult flush(VkDeviceSize size = VK_WHOLE_SIZE, VkDeviceSize offset = 0);
+
+        VkResult bind(VkDeviceSize offset = 0)
+        {
+            return vkBindBufferMemory(mDevice, mBuffer, mMemory, offset);
+        }
+
+        void setupDescriptor(VkDeviceSize size = VK_WHOLE_SIZE, VkDeviceSize offset = 0)
+        {
+            mDescriptor.offset = offset;
+            mDescriptor.buffer = mBuffer;
+            mDescriptor.range = size;
+        }
 
         void destroy();  // Destroy buffer
 

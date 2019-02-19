@@ -3,8 +3,10 @@
 //
 
 #include <iostream>
-#include "../../../../Core/Debugger/Debug.h"
+#include "Debug.h"
+#include "../../../ResourceManager/BufferManager/BufferManager.h"
 #include "MeshRenderer.h"
+#include "../../../RenderingSystem/RenderingSystem.h"
 
 namespace TandenEngine {
 
@@ -13,6 +15,10 @@ namespace TandenEngine {
 
         // Prepare uniform buffer
         // TODO(Rosser) create uniform buffer (size of mvpubo)
+        Debug::CheckVKResult(BufferManager::CreateBuffer(VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT,
+                VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT,
+                &mUniformBuffer,
+                sizeof(mvpubo))));
         mUniformBuffer.map();
     }
 
