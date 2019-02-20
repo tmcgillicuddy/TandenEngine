@@ -28,7 +28,7 @@ namespace TandenEngine {
             Debug::Log("Rendering Buffers %n");
             Render();
             Debug::Log("Finished Rendering Buffers %n");
-            //Poll window events
+            // Poll window events
             PollWindowEvents();
 
             // Present Render
@@ -101,7 +101,7 @@ namespace TandenEngine {
 
         if (result == VK_ERROR_OUT_OF_DATE_KHR) {
             mVulkanInfo.framebufferResized = false;
-            //mVulkanInfo.RecreateSwapChain();
+            // mVulkanInfo.RecreateSwapChain();
             return;
         } else if (result != VK_SUCCESS && result != VK_SUBOPTIMAL_KHR) {
             Debug::CheckVKResult(result);
@@ -125,7 +125,7 @@ namespace TandenEngine {
 
         // Draw each model
         for (int32_t i = 0; i < mVulkanInfo.commandBuffers.size(); ++i) {
-            //Current Command Buffer
+            // Current Command Buffer
             VkCommandBuffer cmdBuffer = mVulkanInfo.commandBuffers[i];
 
             renderPassInfo.framebuffer = mVulkanInfo.swapChainFramebuffers[i];
@@ -151,21 +151,22 @@ namespace TandenEngine {
             // Foreach renderer
             // - Bind Vertex Buffer
             // - Draw Indexed Buffer
-            //TODO(Anyone) use shader(pipeline) attached to material on object(?)
-            vkCmdBindPipeline(cmdBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, mVulkanInfo.graphicsPipeline);
+            // TODO(Anyone) use shader(pipeline) attached to material on object(?)
+            vkCmdBindPipeline(cmdBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS,
+                    mVulkanInfo.graphicsPipeline);
             for (const auto &rend : mRenderers) {
                 if (MeshRenderer *meshRend = dynamic_cast<MeshRenderer *>(rend)) {
                     VkDeviceSize offsets[1] = {0};
 
-                    //Bind Uniform buffer on Mesh Renderer
+                    // Bind Uniform buffer on Mesh Renderer
                     vkCmdBindDescriptorSets(cmdBuffer,
                             VK_PIPELINE_BIND_POINT_GRAPHICS, mVulkanInfo.pipelineLayout, 0, 1,
                             &meshRend->mDescriptorSet, 0, NULL);
 
-                    //Bind Vertex Buffer on Model
+                    // Bind Vertex Buffer on Model
                     vkCmdBindVertexBuffers(cmdBuffer, 0, 1,
                                            &meshRend->mpMesh->mModelResource->mVertexBuffer.mBuffer, offsets);
-                    //Bind Index Buffer on Model
+                    // Bind Index Buffer on Model
                     vkCmdBindIndexBuffer(cmdBuffer, meshRend->mpMesh->mModelResource->mIndexBuffer.mBuffer,
                                          0, VK_INDEX_TYPE_UINT32);
                     vkCmdDrawIndexed(cmdBuffer, meshRend->mpMesh->mModelResource->mIndices.size(), 1, 0, 0, 0);
