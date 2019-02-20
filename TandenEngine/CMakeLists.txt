@@ -14,7 +14,8 @@ set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
 set(IMGUI_DIR "Libraries/imgui")
 set(IMGUI_SOURCES ${IMGUI_DIR}/imgui.cpp ${IMGUI_DIR}/imgui_demo.cpp ${IMGUI_DIR}/imgui_draw.cpp ${IMGUI_DIR}/imgui_widgets.cpp
         ${IMGUI_DIR}/examples/imgui_impl_vulkan.h ${IMGUI_DIR}/examples/imgui_impl_vulkan.cpp ${IMGUI_DIR}/examples/imgui_impl_glfw.h ${IMGUI_DIR}/examples/imgui_impl_glfw.cpp
-        ${IMGUI_DIR}/examples/imgui_impl_sdl.h ${IMGUI_DIR}/examples/imgui_impl_sdl.cpp ${IMGUI_DIR}/examples/imgui_impl_opengl3.h ${IMGUI_DIR}/examples/imgui_impl_opengl3.cpp)
+        ${IMGUI_DIR}/examples/imgui_impl_sdl.h ${IMGUI_DIR}/examples/imgui_impl_sdl.cpp ${IMGUI_DIR}/examples/imgui_impl_opengl3.h ${IMGUI_DIR}/examples/imgui_impl_opengl3.cpp
+        ${IMGUI_DIR}/examples/libs/gl3w/GL/gl3w.c)
 
 add_library(TandenEngine
         ./Source/Core/Debugger/Debug.cpp
@@ -193,9 +194,6 @@ add_library(TandenEngine
         ./Source/Engine/Serialization/Serializer.cpp
         ./Source/Engine/Serialization/Serializer.h
         ./Source/main.cpp
-
-
-      ${IMGUI_SOURCES}
       )
 
 #Add imgui library
