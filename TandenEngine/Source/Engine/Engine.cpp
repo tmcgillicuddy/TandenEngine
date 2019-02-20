@@ -19,6 +19,8 @@ namespace TandenEngine {
 
         RenderingSystem::InitGraphicsPipeline();
 
+        Debug::Log("Finished init pipeline");
+
         ResourceManager::ImportAssetsFolder();
         if (mProjectSettings != nullptr) {
             // Display the info to make sure it's correct
@@ -50,7 +52,7 @@ namespace TandenEngine {
         RigidBody* tempRB = dynamic_cast<RigidBody*>(tempObj->AddComponent<RigidBody>());
 
         // give rend comp model
-        // tempFilter->mModelResource = &Primitive::Cube;
+        tempFilter->mModelResource = &Primitive::Cube;
 
 
         tempComp->mpMesh = tempFilter;

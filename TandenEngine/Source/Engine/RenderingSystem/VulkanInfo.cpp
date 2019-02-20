@@ -786,16 +786,16 @@ namespace TandenEngine {
 
             // bind vertex buffers from buffer list
             // TODO(Rosser) iterate through all vertex buffers
-            VkBuffer vertexBuffers[] = {BufferManager::mVertexBufferList.at(0)};
-            VkDeviceSize offsets[] = {0};
-            vkCmdBindVertexBuffers(commandBuffers[i], 0, 1, vertexBuffers, offsets);
-
-            // draw indexed vertices
-            vkCmdBindIndexBuffer(
-                    commandBuffers[i],
-                    BufferManager::mIndexBufferList.at(0),
-                    0,
-                    VK_INDEX_TYPE_UINT16);
+            // VkBuffer vertexBuffers[] = {BufferManager::mVertexBufferList.at(0)};
+            // VkDeviceSize offsets[] = {0};
+            // vkCmdBindVertexBuffers(commandBuffers[i], 0, 1, vertexBuffers, offsets);
+//
+            // // draw indexed vertices
+            // vkCmdBindIndexBuffer(
+            //         commandBuffers[i],
+            //         BufferManager::mIndexBufferList.at(0),
+            //         0,
+            //         VK_INDEX_TYPE_UINT16);
 
             // TODO(Rosser) uncomment when matrices work
             // bind descriptor sets from uniform buffers
@@ -1054,27 +1054,26 @@ namespace TandenEngine {
                 descriptorSets.data()) != VK_SUCCESS) {
             throw std::runtime_error("failed to allocate descriptor sets!");
         }
-
         // write sets from buffers to swapchain images
-        for (size_t i = 0; i < swapChainImages.size(); i++) {
-            VkDescriptorBufferInfo bufferInfo = {};
-            bufferInfo.buffer = BufferManager::mUniformBufferList[i];
-            bufferInfo.offset = 0;
-            bufferInfo.range = sizeof(UniformBufferObject);
+        //for (size_t i = 0; i < swapChainImages.size(); i++) {
+        //    VkDescriptorBufferInfo bufferInfo = {};
+        //    //bufferInfo.buffer = BufferManager::mUniformBufferList[i];
+        //    bufferInfo.offset = 0;
+        //    bufferInfo.range = sizeof(UniformBufferObject);
 
-            // write new sets based on
-            VkWriteDescriptorSet descriptorWrite = {};
-            descriptorWrite.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
-            descriptorWrite.dstSet = descriptorSets[i];
-            descriptorWrite.dstBinding = 0;
-            descriptorWrite.dstArrayElement = 0;
-            descriptorWrite.descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
-            descriptorWrite.descriptorCount = 1;
-            descriptorWrite.pBufferInfo = &bufferInfo;
+        //    // write new sets based on
+        //    VkWriteDescriptorSet descriptorWrite = {};
+        //    descriptorWrite.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
+        //    descriptorWrite.dstSet = descriptorSets[i];
+        //    descriptorWrite.dstBinding = 0;
+        //    descriptorWrite.dstArrayElement = 0;
+        //    descriptorWrite.descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
+        //    descriptorWrite.descriptorCount = 1;
+        //    descriptorWrite.pBufferInfo = &bufferInfo;
 
-            // update sets
-            vkUpdateDescriptorSets(logicalDevice, 1, &descriptorWrite, 0, nullptr);
-        }
+        //    // update sets
+        //    vkUpdateDescriptorSets(logicalDevice, 1, &descriptorWrite, 0, nullptr);
+        //}
     }
 
 

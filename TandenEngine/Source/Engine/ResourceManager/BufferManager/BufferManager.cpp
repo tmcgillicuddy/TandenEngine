@@ -9,23 +9,6 @@
 #include "Debug.h"
 
 namespace TandenEngine {
-    std::vector<VkDeviceMemory> BufferManager::mVertexBufferMemoryList;
-    std::vector<VkDeviceMemory> BufferManager::mIndexBufferMemoryList;
-    std::vector<VkDeviceMemory> BufferManager::mUniformBufferMemoryList;
-    std::vector<VkBuffer> BufferManager::mVertexBufferList;
-    std::vector<VkBuffer> BufferManager::mIndexBufferList;
-    std::vector<VkBuffer> BufferManager::mUniformBufferList;
-
-    void BufferManager::AddVertexBuffer(VkBuffer newBuffer, VkDeviceMemory newDeviceMemory) {
-        mVertexBufferList.push_back(newBuffer);
-        mVertexBufferMemoryList.push_back(newDeviceMemory);
-    }
-
-    void BufferManager::AddIndexBuffer(VkBuffer newBuffer, VkDeviceMemory newDeviceMemory) {
-        mIndexBufferList.push_back(newBuffer);
-        mIndexBufferMemoryList.push_back(newDeviceMemory);
-    }
-
     // TODO(Rosser) Deprecate
     void BufferManager::CreateBuffer(VkDeviceSize size, VkBufferUsageFlags usage,
             VkMemoryPropertyFlags properties, VkBuffer& buffer, VkDeviceMemory& bufferMemory) {
@@ -119,44 +102,7 @@ namespace TandenEngine {
                 RenderingSystem::GetVulkanInfo()->commandPool, 1, &commandBuffer);
     }
 
-    // TODO(Rosser) Deprecate
-    void BufferManager::CreateUniformBuffers() {
-        // resize to size of swapchains
-        VkDeviceSize bufferSize = sizeof(UniformBufferObject);
-
-        mUniformBufferList.resize(RenderingSystem::GetVulkanInfo()->swapChainImages.size());
-        mUniformBufferMemoryList.resize(RenderingSystem::GetVulkanInfo()->swapChainImages.size());
-
-        // create uniform buffers
-        for (size_t i = 0; i < RenderingSystem::GetVulkanInfo()->swapChainImages.size(); i++) {
-            CreateBuffer(bufferSize,
-                    VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT,
-                    VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT |
-                    VK_MEMORY_PROPERTY_HOST_COHERENT_BIT,
-                    mUniformBufferList[i], mUniformBufferMemoryList[i]);
-        }
-    }
-
     void BufferManager::Cleanup() {
-        for (int i = 0; i < mVertexBufferMemoryList.size(); ++i) {
-            // vertex buffers
-            vkDestroyBuffer(RenderingSystem::GetVulkanInfo()->logicalDevice,
-                    mVertexBufferList[i], nullptr);
-            vkFreeMemory(RenderingSystem::GetVulkanInfo()->logicalDevice,
-                    mVertexBufferMemoryList[i], nullptr);
-
-            // index buffers
-            vkDestroyBuffer(RenderingSystem::GetVulkanInfo()->logicalDevice,
-                    mVertexBufferList[i], nullptr);
-            vkFreeMemory(RenderingSystem::GetVulkanInfo()->logicalDevice,
-                    mVertexBufferMemoryList[i], nullptr);
-
-            // uniform buffers
-            vkDestroyBuffer(RenderingSystem::GetVulkanInfo()->logicalDevice,
-                    mUniformBufferList[i], nullptr);
-            vkFreeMemory(RenderingSystem::GetVulkanInfo()->logicalDevice,
-                    mUniformBufferMemoryList[i], nullptr);
-        }
     }
 
     VkResult BufferManager::CreateBuffer(VkBufferUsageFlags usageFlags, VkMemoryPropertyFlags memoryPropertyFlags,

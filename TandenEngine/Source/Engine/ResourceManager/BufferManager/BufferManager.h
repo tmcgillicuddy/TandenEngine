@@ -29,16 +29,6 @@ namespace TandenEngine {
 
     class BufferManager {
      public:
-        static std::vector<VkDeviceMemory> mVertexBufferMemoryList;
-        static std::vector<VkDeviceMemory> mIndexBufferMemoryList;
-        static std::vector<VkDeviceMemory> mUniformBufferMemoryList;
-
-
-        static std::vector<VkBuffer> mVertexBufferList;
-        static std::vector<VkBuffer> mIndexBufferList;
-        static std::vector<VkBuffer> mUniformBufferList;
-
-
         static uint32_t FindMemoryType(uint32_t typeFilter, VkMemoryPropertyFlags properties);
 
         static void CopyBuffer(VkBuffer srcBuffer, VkBuffer dstBuffer, VkDeviceSize size);
@@ -46,12 +36,8 @@ namespace TandenEngine {
         static void CreateBuffer(VkDeviceSize size, VkBufferUsageFlags usage,
                 VkMemoryPropertyFlags properties, VkBuffer& buffer, VkDeviceMemory& bufferMemory);
 
-        static void AddVertexBuffer(VkBuffer newBuffer, VkDeviceMemory newDeviceMemory);
-        static void AddIndexBuffer(VkBuffer newBuffer, VkDeviceMemory newDeviceMemory);
-
         static void CreateStagingBuffer();
 
-        static void CreateUniformBuffers();
         static void CreateDescriptorSetLayout();
 
         static void Cleanup();
