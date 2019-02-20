@@ -151,8 +151,8 @@ add_library(TandenEngine
         ./Source/Engine/RenderingSystem/VulkanInfo.h
         ./Source/Engine/RenderingSystem/Window.cpp
         ./Source/Engine/RenderingSystem/Window.h
-        ./Source/Engine/ResourceManager/BufferManager.cpp
-        ./Source/Engine/ResourceManager/BufferManager.h
+        ./Source/Engine/ResourceManager/BufferManager/BufferManager.cpp
+        ./Source/Engine/ResourceManager/BufferManager/BufferManager.h
         ./Source/Engine/ResourceManager/MetaData.cpp
         ./Source/Engine/ResourceManager/MetaData.h
         ./Source/Engine/ResourceManager/ResourceManager.cpp
@@ -209,7 +209,7 @@ add_subdirectory("Libraries/GLFW")
 file(GLOB_RECURSE TANDEN_SOURCE "Source/*.h" "Source/*.cpp")
 
 #Put all the source file dirs into their proper place
-add_executable(TandenEngine ${TANDEN_SOURCE} ${IMGUI_SOURCES})
+#add_executable(TandenEngine ${TANDEN_SOURCE} ${IMGUI_SOURCES})
 
 #Include Math lib headers
 include_directories("Source/Core/Math")
