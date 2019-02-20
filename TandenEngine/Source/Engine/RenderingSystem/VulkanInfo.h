@@ -81,7 +81,6 @@ namespace TandenEngine {
         VkExtent2D swapChainExtent;
         VkDescriptorSetLayout descriptorSetLayout;
         VkDescriptorPool descriptorPool;
-        std::vector<VkDescriptorSet> descriptorSets;
 
         VkPipelineLayout pipelineLayout;
         VkRenderPass mRenderPass;
@@ -148,7 +147,6 @@ namespace TandenEngine {
 
         void CreateDescriptorSetLayout();
         void CreateDescriptorPool();
-        void CreateDescriptorSets();
 
         void CreateSwapChain();
         void CreateImageViews();

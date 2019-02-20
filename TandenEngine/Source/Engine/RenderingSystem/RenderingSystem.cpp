@@ -25,9 +25,9 @@ namespace TandenEngine {
             UpdateBuffers();
 
             // Render Command buffers
-            Debug::LogPause("Rendering Buffers");
+            Debug::Log("Rendering Buffers %n");
             Render();
-            Debug::LogPause("Finished Rendering Buffers");
+            Debug::Log("Finished Rendering Buffers %n");
             //Poll window events
             PollWindowEvents();
 
@@ -148,17 +148,15 @@ namespace TandenEngine {
             scissor.offset.y = 0;
             vkCmdSetScissor(cmdBuffer, 0, 1, &scissor);
 
-            vkCmdBindDescriptorSets(cmdBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, mVulkanInfo.pipelineLayout,
-                                    0, 1, &mVulkanInfo.descriptorSets[0], 0, NULL);
-
             // Foreach renderer
             // - Bind Vertex Buffer
             // - Draw Indexed Buffer
+            //TODO(Anyone) use shader(pipeline) attached to material on object(?)
+            vkCmdBindPipeline(cmdBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, mVulkanInfo.graphicsPipeline);
             for (const auto &rend : mRenderers) {
                 if (MeshRenderer *meshRend = dynamic_cast<MeshRenderer *>(rend)) {
                     VkDeviceSize offsets[1] = {0};
-                    //TODO(Anyone) use shader attached to material on object(?)
-                    vkCmdBindPipeline(cmdBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, mVulkanInfo.graphicsPipeline);
+
                     //Bind Uniform buffer on Mesh Renderer
                     vkCmdBindDescriptorSets(cmdBuffer,
                             VK_PIPELINE_BIND_POINT_GRAPHICS, mVulkanInfo.pipelineLayout, 0, 1,
@@ -173,9 +171,8 @@ namespace TandenEngine {
                     vkCmdDrawIndexed(cmdBuffer, meshRend->mpMesh->mModelResource->mIndices.size(), 1, 0, 0, 0);
                 }
             }
-
             // GUI uses different graphics pipeline, so draw buffers differently
-            GUI::GUISystem::DrawGUI(cmdBuffer);
+            // GUI::GUISystem::DrawGUI(cmdBuffer);
 
             vkCmdEndRenderPass(cmdBuffer);
 
