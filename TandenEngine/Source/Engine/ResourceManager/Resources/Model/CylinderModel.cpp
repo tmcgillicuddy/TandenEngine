@@ -43,6 +43,6 @@ namespace TandenEngine {
     }
 
     void CylinderModel::LoadModel() {
-        CreateModelBuffers();
+        SetupModel();
     }
 }  // namespace TandenEngine

@@ -43,6 +43,6 @@ namespace TandenEngine {
     }
 
     void SphereModel::LoadModel() {
-        CreateModelBuffers();
+        SetupModel();
     }
 }  // namespace TandenEngine

@@ -14,6 +14,7 @@ namespace TandenEngine {
     class MeshRenderer : public Renderer {
      public:
         Buffer mUniformBuffer;
+        VkDescriptorSet mDescriptorSet;
 
         MeshRenderer();
 

@@ -159,9 +159,15 @@ namespace TandenEngine {
                     VkDeviceSize offsets[1] = {0};
                     //TODO(Anyone) use shader attached to material on object(?)
                     vkCmdBindPipeline(cmdBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, mVulkanInfo.graphicsPipeline);
-                    //TODO(Rosser) create vertex/index buffers and store on models
+                    //Bind Uniform buffer on Mesh Renderer
+                    vkCmdBindDescriptorSets(cmdBuffer,
+                            VK_PIPELINE_BIND_POINT_GRAPHICS, mVulkanInfo.pipelineLayout, 0, 1,
+                            &meshRend->mDescriptorSet, 0, NULL);
+
+                    //Bind Vertex Buffer on Model
                     vkCmdBindVertexBuffers(cmdBuffer, 0, 1,
                                            &meshRend->mpMesh->mModelResource->mVertexBuffer.mBuffer, offsets);
+                    //Bind Index Buffer on Model
                     vkCmdBindIndexBuffer(cmdBuffer, meshRend->mpMesh->mModelResource->mIndexBuffer.mBuffer,
                                          0, VK_INDEX_TYPE_UINT32);
                     vkCmdDrawIndexed(cmdBuffer, meshRend->mpMesh->mModelResource->mIndices.size(), 1, 0, 0, 0);

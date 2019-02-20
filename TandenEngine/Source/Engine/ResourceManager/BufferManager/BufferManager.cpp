@@ -149,4 +149,27 @@ namespace TandenEngine {
         // Attach the memory to the buffer object
         return buffer->bind();
     }
+
+    void BufferManager::SetupDescriptorSet(VkDescriptorSet dSet, VkDescriptorBufferInfo* bufferInfo) {
+        VulkanInfo vInfo = *RenderingSystem::GetVulkanInfo();
+
+        VkDescriptorSetAllocateInfo allocInfo = {};
+        allocInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_ALLOCATE_INFO;
+        allocInfo.descriptorPool = vInfo.descriptorPool;
+        allocInfo.pSetLayouts = &vInfo.descriptorSetLayout;
+        allocInfo.descriptorSetCount = 1;
+
+        Debug::CheckVKResult(vkAllocateDescriptorSets(vInfo.logicalDevice, &allocInfo, &dSet));
+
+        // Binding 0 : Vertex shader uniform buffer
+        VkWriteDescriptorSet writeDescriptorSet = {};
+        writeDescriptorSet.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
+        writeDescriptorSet.dstSet = dSet;
+        writeDescriptorSet.descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
+        writeDescriptorSet.dstBinding = 0;
+        writeDescriptorSet.pBufferInfo = bufferInfo;
+        writeDescriptorSet.descriptorCount = 1;
+
+        vkUpdateDescriptorSets(vInfo.logicalDevice, 1, &writeDescriptorSet, 0, NULL);
+    }
 }  // namespace TandenEngine

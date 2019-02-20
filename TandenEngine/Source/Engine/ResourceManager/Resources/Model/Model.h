@@ -26,7 +26,7 @@ namespace TandenEngine {
 
         static bool CheckIfSupported(std::string extension);
 
-        void CreateModelBuffers();
+        void SetupModel();
 
         Model(MetaData* inputData);  // Create a model resource from meta data input
 

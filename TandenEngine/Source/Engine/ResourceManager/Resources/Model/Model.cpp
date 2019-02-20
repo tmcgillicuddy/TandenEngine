@@ -20,7 +20,7 @@ namespace TandenEngine {
     Model::Model(MetaData *inputData) {
         mMetaData = inputData;
         LoadModel();
-        CreateModelBuffers();
+        SetupModel();
     }
 
     void Model::LoadModel() {
@@ -64,7 +64,7 @@ namespace TandenEngine {
         }
     }
 
-    void Model::CreateModelBuffers() {
+    void Model::SetupModel() {
         // Vertex Buffer
         BufferManager::CreateBuffer(VK_BUFFER_USAGE_VERTEX_BUFFER_BIT,
                                     VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT,
