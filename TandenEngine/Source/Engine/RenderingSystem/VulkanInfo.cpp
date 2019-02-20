@@ -91,7 +91,7 @@ namespace TandenEngine {
         CreateCommandPool();
         CreateDescriptorPool();
 
-        // CreateCommandBuffers();
+        CreateCommandBuffers(); // Create
         CreateSyncObjects();
     }
 
@@ -729,7 +729,6 @@ namespace TandenEngine {
         }
     }
 
-    // TODO(Rosser) Deprecate
     void VulkanInfo::CreateCommandBuffers() {
         commandBuffers.resize(swapChainFramebuffers.size());
 
@@ -741,80 +740,10 @@ namespace TandenEngine {
         allocInfo.commandBufferCount = (uint32_t) commandBuffers.size();
 
         // throw if failed allocation
-        if (vkAllocateCommandBuffers(
+        Debug::CheckVKResult(vkAllocateCommandBuffers(
                 logicalDevice,
                 &allocInfo,
-                commandBuffers.data()) != VK_SUCCESS) {
-            throw std::runtime_error("failed to allocate command buffers!");
-        }
-
-        // recording command buffer
-        for (size_t i = 0; i < commandBuffers.size(); i++) {
-            VkCommandBufferBeginInfo beginInfo = {};
-            beginInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
-            beginInfo.flags = VK_COMMAND_BUFFER_USAGE_SIMULTANEOUS_USE_BIT;
-            beginInfo.pInheritanceInfo = nullptr;  //  Optional
-
-            if (vkBeginCommandBuffer(commandBuffers[i], &beginInfo) != VK_SUCCESS) {
-                throw std::runtime_error("failed to begin recording command buffer!");
-            }
-
-            // configure render pass for command buffer
-            VkRenderPassBeginInfo renderPassInfo = {};
-            renderPassInfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
-            renderPassInfo.renderPass = mRenderPass;
-            renderPassInfo.framebuffer = swapChainFramebuffers[i];
-            // size of render area on screen
-            renderPassInfo.renderArea.offset = {0, 0};
-            renderPassInfo.renderArea.extent = swapChainExtent;
-
-            // clear color for render pass
-            VkClearValue clearColor = {0.0f, 0.0f, 0.0f, 1.0f};
-            renderPassInfo.clearValueCount = 1;
-            renderPassInfo.pClearValues = &clearColor;
-
-            // begin the render pass!
-            vkCmdBeginRenderPass(commandBuffers[i], &renderPassInfo, VK_SUBPASS_CONTENTS_INLINE);
-
-            // bind our graphics pipeline
-            vkCmdBindPipeline(commandBuffers[i], VK_PIPELINE_BIND_POINT_GRAPHICS, graphicsPipeline);
-
-            // bind vertex buffers from buffer list
-            // TODO(Rosser) iterate through all vertex buffers
-            // VkBuffer vertexBuffers[] = {BufferManager::mVertexBufferList.at(0)};
-            // VkDeviceSize offsets[] = {0};
-            // vkCmdBindVertexBuffers(commandBuffers[i], 0, 1, vertexBuffers, offsets);
-//
-            // // draw indexed vertices
-            // vkCmdBindIndexBuffer(
-            //         commandBuffers[i],
-            //         BufferManager::mIndexBufferList.at(0),
-            //         0,
-            //         VK_INDEX_TYPE_UINT16);
-
-            // TODO(Rosser) uncomment when matrices work
-            // bind descriptor sets from uniform buffers
-            // vkCmdBindDescriptorSets(commandBuffers[i], VK_PIPELINE_BIND_POINT_GRAPHICS,
-            // pipelineLayout, 0, 1, &descriptorSets[i], 0, nullptr);
-
-            // vkCmdDrawIndexed(
-            //         commandBuffers[i],
-            //         static_cast<uint32_t>(BufferManager::modelList[0]->mIndices.size()),
-            //         1, 0, 0, 0);
-            // draw non indexed
-            // vkCmdDraw(
-            // commandBuffers[i],
-            // static_cast<uint32_t>(BufferManager::mVertices.size()),
-            // 1, 0, 0);
-
-            // end render pass
-            vkCmdEndRenderPass(commandBuffers[i]);
-
-            // finish recording command buffer, throw if failed
-            if (vkEndCommandBuffer(commandBuffers[i]) != VK_SUCCESS) {
-                throw std::runtime_error("failed to record command buffer!");
-            }
-        }
+                commandBuffers.data()));
     }
 
     void VulkanInfo::CreateSyncObjects() {

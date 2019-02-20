@@ -101,7 +101,6 @@ namespace TandenEngine {
 
         if (result == VK_ERROR_OUT_OF_DATE_KHR) {
             mVulkanInfo.framebufferResized = false;
-            // mVulkanInfo.RecreateSwapChain();
             return;
         } else if (result != VK_SUCCESS && result != VK_SUBOPTIMAL_KHR) {
             Debug::CheckVKResult(result);
@@ -157,16 +156,17 @@ namespace TandenEngine {
             for (const auto &rend : mRenderers) {
                 if (MeshRenderer *meshRend = dynamic_cast<MeshRenderer *>(rend)) {
                     VkDeviceSize offsets[1] = {0};
-
+                    // TODO(Rosser) it's breaking here
                     // Bind Uniform buffer on Mesh Renderer
-                    vkCmdBindDescriptorSets(cmdBuffer,
-                            VK_PIPELINE_BIND_POINT_GRAPHICS, mVulkanInfo.pipelineLayout, 0, 1,
-                            &meshRend->mDescriptorSet, 0, NULL);
-
+                    // vkCmdBindDescriptorSets(cmdBuffer,
+                    //         VK_PIPELINE_BIND_POINT_GRAPHICS, mVulkanInfo.pipelineLayout, 0, 1,
+                    //         &meshRend->mDescriptorSet, 0, NULL);
+                    
                     // Bind Vertex Buffer on Model
                     vkCmdBindVertexBuffers(cmdBuffer, 0, 1,
                                            &meshRend->mpMesh
                                            ->mModelResource->mVertexBuffer.mBuffer, offsets);
+                    system("pause");
                     // Bind Index Buffer on Model
                     vkCmdBindIndexBuffer(cmdBuffer,
                             meshRend->mpMesh->mModelResource->mIndexBuffer.mBuffer,
@@ -262,23 +262,6 @@ namespace TandenEngine {
                 // TODO(Anyone) Set model to transform data of mesh renderer
                 memcpy(meshRend->mUniformBuffer.mMapped, &ubo, sizeof(ubo));
             }
-        }
-
-        // Recreate command buffers
-        mVulkanInfo.commandBuffers.resize(mVulkanInfo.swapChainFramebuffers.size());
-
-        // create command buffer info
-        VkCommandBufferAllocateInfo allocInfo = {};
-        allocInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO;
-        allocInfo.commandPool = mVulkanInfo.commandPool;
-        allocInfo.level = VK_COMMAND_BUFFER_LEVEL_PRIMARY;
-        allocInfo.commandBufferCount = (uint32_t) mVulkanInfo.commandBuffers.size();
-        // throw if failed allocation
-        if (vkAllocateCommandBuffers(
-                mVulkanInfo.logicalDevice,
-                &allocInfo,
-                mVulkanInfo.commandBuffers.data()) != VK_SUCCESS) {
-            throw std::runtime_error("failed to allocate command buffers!");
         }
     }
 }  // namespace TandenEngine
