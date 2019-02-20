@@ -153,6 +153,8 @@ add_library(TandenEngine
         ./Source/Engine/RenderingSystem/Window.h
         ./Source/Engine/ResourceManager/BufferManager/BufferManager.cpp
         ./Source/Engine/ResourceManager/BufferManager/BufferManager.h
+        ./Source/Engine/ResourceManager/BufferManager/Buffer.cpp
+        ./Source/Engine/ResourceManager/BufferManager/Buffer.h
         ./Source/Engine/ResourceManager/MetaData.cpp
         ./Source/Engine/ResourceManager/MetaData.h
         ./Source/Engine/ResourceManager/ResourceManager.cpp
