@@ -101,7 +101,6 @@ namespace TandenEngine {
 
         if (result == VK_ERROR_OUT_OF_DATE_KHR) {
             mVulkanInfo.framebufferResized = false;
-            // mVulkanInfo.RecreateSwapChain();
             return;
         } else if (result != VK_SUCCESS && result != VK_SUBOPTIMAL_KHR) {
             Debug::CheckVKResult(result);
@@ -157,7 +156,7 @@ namespace TandenEngine {
             for (const auto &rend : mRenderers) {
                 if (MeshRenderer *meshRend = dynamic_cast<MeshRenderer *>(rend)) {
                     VkDeviceSize offsets[1] = {0};
-
+                    // TODO(Rosser) it's breaking here
                     // Bind Uniform buffer on Mesh Renderer
                     // vkCmdBindDescriptorSets(cmdBuffer,
                     //         VK_PIPELINE_BIND_POINT_GRAPHICS, mVulkanInfo.pipelineLayout, 0, 1,
