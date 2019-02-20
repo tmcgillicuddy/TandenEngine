@@ -52,5 +52,7 @@ namespace TandenEngine {
                 12, 22, 13,  // Right
                 15, 23, 16,
         };
+
+        CreateModelBuffers();
     }
 }  // namespace TandenEngine

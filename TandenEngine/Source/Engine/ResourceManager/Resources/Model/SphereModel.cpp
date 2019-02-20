@@ -40,5 +40,7 @@ namespace TandenEngine {
                 mIndices.emplace_back(second + 1);
             }
         }
+
+        CreateModelBuffers();
     }
 }  // namespace TandenEngine

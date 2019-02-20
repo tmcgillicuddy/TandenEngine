@@ -17,10 +17,9 @@ namespace TandenEngine {
 
         RenderingSystem::InitSystem();
 
-        ResourceManager::ImportAssetsFolder();
-
         RenderingSystem::InitGraphicsPipeline();
 
+        ResourceManager::ImportAssetsFolder();
         if (mProjectSettings != nullptr) {
             // Display the info to make sure it's correct
             mProjectSettings->PrintProjectInfo();
@@ -51,7 +50,7 @@ namespace TandenEngine {
         RigidBody* tempRB = dynamic_cast<RigidBody*>(tempObj->AddComponent<RigidBody>());
 
         // give rend comp model
-        tempFilter->mModelResource = &Primitive::Cube;
+        // tempFilter->mModelResource = &Primitive::Cube;
 
 
         tempComp->mpMesh = tempFilter;

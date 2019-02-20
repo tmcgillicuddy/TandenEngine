@@ -92,13 +92,13 @@ namespace TandenEngine {
         CreateGraphicsPipeline();
         CreateFramebuffers();
         CreateCommandPool();
-        BufferManager::CreateVertexBufferForTargetModel();
-        BufferManager::CreateIndexBufferForTargetModel();
-        BufferManager::CreateUniformBuffers();
+        // BufferManager::CreateVertexBufferForTargetModel();
+        // BufferManager::CreateIndexBufferForTargetModel();
+        // BufferManager::CreateUniformBuffers();
         CreateDescriptorPool();
         CreateDescriptorSets();
 
-        CreateCommandBuffers();
+        // CreateCommandBuffers();
         CreateSyncObjects();
     }
 

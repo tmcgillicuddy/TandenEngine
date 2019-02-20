@@ -20,6 +20,7 @@ namespace TandenEngine {
     Model::Model(MetaData *inputData) {
         mMetaData = inputData;
         LoadModel();
+        CreateModelBuffers();
     }
 
     void Model::LoadModel() {
@@ -61,9 +62,21 @@ namespace TandenEngine {
                 mIndices.push_back(uniqueVertices[vertex]);
             }
         }
-
-        std::cout<< "Num verts " << mVertices.size();
-        // TODO(Rosser) Create API to make buffer from model data
-        // BufferManager::CreateVertexBufferForModel(this);
     }
+
+    void Model::CreateModelBuffers() {
+        // Vertex Buffer
+        BufferManager::CreateBuffer(VK_BUFFER_USAGE_VERTEX_BUFFER_BIT,
+                                    VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT,
+                                    &mVertexBuffer,
+                                    mVertices.size()*sizeof(MeshVertex),
+                                    mVertices.data());
+        // Index Buffer
+        BufferManager::CreateBuffer(VK_BUFFER_USAGE_INDEX_BUFFER_BIT,
+                                    VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT,
+                                    &mIndexBuffer,
+                                    mIndices.size()*sizeof(uint32_t),
+                                    mIndices.data());
+    }
+
 }  // namespace TandenEngine

@@ -40,6 +40,7 @@ namespace TandenEngine {
                 mIndices.emplace_back(first + 1);
             }
         }
-        // TODO(Anyone) possibly reverse indices vector
+
+        CreateModelBuffers();
     }
 }  // namespace TandenEngine
