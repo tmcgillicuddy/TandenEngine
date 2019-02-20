@@ -26,6 +26,7 @@ namespace TandenEngine {
         throw std::runtime_error("failed to find suitable memory type!");
     }
 
+    // TODO(Rosser) Deprecate (add to buffer class)
     void BufferManager::CopyBuffer(VkBuffer srcBuffer, VkBuffer dstBuffer, VkDeviceSize size) {
         // allocation info
         VkCommandBufferAllocateInfo allocInfo = {};
@@ -92,7 +93,7 @@ namespace TandenEngine {
         vkGetBufferMemoryRequirements(vInfo.logicalDevice, buffer->mBuffer, &memReqs);
         memAlloc.allocationSize = memReqs.size;
         // Find a memory type index that fits the properties of the buffer
-        memAlloc.memoryTypeIndex = vInfo.GetMemoryType(memReqs.memoryTypeBits, memoryPropertyFlags);
+        memAlloc.memoryTypeIndex = FindMemoryType(memReqs.memoryTypeBits, memoryPropertyFlags);
         Debug::CheckVKResult(vkAllocateMemory(vInfo.logicalDevice, &memAlloc, nullptr, &buffer->mMemory));
 
         buffer->mAlignment = memReqs.alignment;
