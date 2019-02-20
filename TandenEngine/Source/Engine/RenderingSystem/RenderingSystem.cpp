@@ -166,7 +166,7 @@ namespace TandenEngine {
                     // Bind Vertex Buffer on Model
                     vkCmdBindVertexBuffers(cmdBuffer, 0, 1,
                                            &meshRend->mpMesh
-                                           ->mModelResource->mVertexBuffer.mBuffer,offsets);
+                                           ->mModelResource->mVertexBuffer.mBuffer, offsets);
                     // Bind Index Buffer on Model
                     vkCmdBindIndexBuffer(cmdBuffer,
                             meshRend->mpMesh->mModelResource->mIndexBuffer.mBuffer,
