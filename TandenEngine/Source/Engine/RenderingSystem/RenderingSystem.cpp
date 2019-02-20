@@ -165,11 +165,14 @@ namespace TandenEngine {
 
                     // Bind Vertex Buffer on Model
                     vkCmdBindVertexBuffers(cmdBuffer, 0, 1,
-                                           &meshRend->mpMesh->mModelResource->mVertexBuffer.mBuffer, offsets);
+                                           &meshRend->mpMesh
+                                           ->mModelResource->mVertexBuffer.mBuffer,offsets);
                     // Bind Index Buffer on Model
-                    vkCmdBindIndexBuffer(cmdBuffer, meshRend->mpMesh->mModelResource->mIndexBuffer.mBuffer,
+                    vkCmdBindIndexBuffer(cmdBuffer,
+                            meshRend->mpMesh->mModelResource->mIndexBuffer.mBuffer,
                                          0, VK_INDEX_TYPE_UINT32);
-                    vkCmdDrawIndexed(cmdBuffer, meshRend->mpMesh->mModelResource->mIndices.size(), 1, 0, 0, 0);
+                    vkCmdDrawIndexed(cmdBuffer,
+                            meshRend->mpMesh->mModelResource->mIndices.size(), 1, 0, 0, 0);
                 }
             }
             // GUI uses different graphics pipeline, so draw buffers differently
@@ -246,8 +249,7 @@ namespace TandenEngine {
         mvpubo ubo;
 
         // Set Main Camera Info for perspective
-        if(mMainCam) {
-
+        if (mMainCam) {
         } else {  // Use default vals
             // TODO(Nils/Rosser) Set projection and view matrix
             // ubo.projection // Default to 60 degree FOV

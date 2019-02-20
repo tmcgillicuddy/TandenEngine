@@ -74,8 +74,9 @@ namespace TandenEngine {
     void BufferManager::Cleanup() {
     }
 
-    VkResult BufferManager::CreateBuffer(VkBufferUsageFlags usageFlags, VkMemoryPropertyFlags memoryPropertyFlags,
-                                         Buffer *buffer, VkDeviceSize size, void *data) {
+    VkResult BufferManager::CreateBuffer(VkBufferUsageFlags usageFlags,
+                        VkMemoryPropertyFlags memoryPropertyFlags,
+                        Buffer *buffer, VkDeviceSize size, void *data) {
         VulkanInfo vInfo = *RenderingSystem::GetVulkanInfo();
         buffer->mDevice = vInfo.logicalDevice;
 
@@ -84,7 +85,8 @@ namespace TandenEngine {
         bufferCreateInfo.sType = VK_STRUCTURE_TYPE_BUFFER_CREATE_INFO;
         bufferCreateInfo.usage = usageFlags;
         bufferCreateInfo.size = size;
-        Debug::CheckVKResult(vkCreateBuffer(vInfo.logicalDevice, &bufferCreateInfo, nullptr, &buffer->mBuffer));
+        Debug::CheckVKResult(vkCreateBuffer(vInfo.logicalDevice,
+                &bufferCreateInfo, nullptr, &buffer->mBuffer));
 
         // Create the memory backing up the buffer handle
         VkMemoryRequirements memReqs;
@@ -94,7 +96,8 @@ namespace TandenEngine {
         memAlloc.allocationSize = memReqs.size;
         // Find a memory type index that fits the properties of the buffer
         memAlloc.memoryTypeIndex = FindMemoryType(memReqs.memoryTypeBits, memoryPropertyFlags);
-        Debug::CheckVKResult(vkAllocateMemory(vInfo.logicalDevice, &memAlloc, nullptr, &buffer->mMemory));
+        Debug::CheckVKResult(vkAllocateMemory(vInfo.logicalDevice,
+                &memAlloc, nullptr, &buffer->mMemory));
 
         buffer->mAlignment = memReqs.alignment;
         buffer->mSize = memAlloc.allocationSize;
@@ -102,8 +105,7 @@ namespace TandenEngine {
         buffer->mMemoryPropertyFlags = memoryPropertyFlags;
 
         // If a pointer to the buffer data has been passed, map the buffer and copy over the data
-        if (data != nullptr)
-        {
+        if (data != nullptr) {
             Debug::CheckVKResult(buffer->map());
             memcpy(buffer->mMapped, data, size);
             if ((memoryPropertyFlags & VK_MEMORY_PROPERTY_HOST_COHERENT_BIT) == 0)
@@ -119,7 +121,8 @@ namespace TandenEngine {
         return buffer->bind();
     }
 
-    void BufferManager::SetupDescriptorSet(VkDescriptorSet dSet, VkDescriptorBufferInfo* bufferInfo) {
+    void BufferManager::SetupDescriptorSet(VkDescriptorSet dSet,
+            VkDescriptorBufferInfo* bufferInfo) {
         VulkanInfo vInfo = *RenderingSystem::GetVulkanInfo();
 
         VkDescriptorSetAllocateInfo allocInfo = {};

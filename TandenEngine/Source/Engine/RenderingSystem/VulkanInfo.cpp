@@ -483,7 +483,7 @@ namespace TandenEngine {
         }
     }
 
-    //TODO(Rosser) Deprecate
+    // TODO(Rosser) Deprecate
     std::vector<char> VulkanInfo::ReadFile(const std::string& filename) {
         std::ifstream file(filename, std::ios::ate | std::ios::binary);
 
@@ -1025,7 +1025,7 @@ namespace TandenEngine {
             throw std::runtime_error("failed to create descriptor pool!");
         }
     }
-  
+
     void VulkanInfo::CleanupVulkan() {
         // swapchain cleanup
         for (size_t i = 0; i < swapChainFramebuffers.size(); i++) {
