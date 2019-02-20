@@ -4,9 +4,6 @@
 #include <Debug.h>
 namespace TandenEngine {
 
-
-
-
     void VulkanInfo::InitVulkan() {
         InitVKInstance();
         SetupDebugMessenger();
@@ -92,13 +89,9 @@ namespace TandenEngine {
         CreateGraphicsPipeline();
         CreateFramebuffers();
         CreateCommandPool();
-        BufferManager::CreateVertexBufferForTargetModel();
-        BufferManager::CreateIndexBufferForTargetModel();
-        BufferManager::CreateUniformBuffers();
         CreateDescriptorPool();
-        CreateDescriptorSets();
 
-        CreateCommandBuffers();  //TODO(Rosser) use an init function, vbuffers will be made later
+        // CreateCommandBuffers();
         CreateSyncObjects();
     }
 
@@ -490,7 +483,7 @@ namespace TandenEngine {
         }
     }
 
-    //TODO(Rosser) Deprecate
+    // TODO(Rosser) Deprecate
     std::vector<char> VulkanInfo::ReadFile(const std::string& filename) {
         std::ifstream file(filename, std::ios::ate | std::ios::binary);
 
@@ -788,26 +781,26 @@ namespace TandenEngine {
 
             // bind vertex buffers from buffer list
             // TODO(Rosser) iterate through all vertex buffers
-            VkBuffer vertexBuffers[] = {BufferManager::mVertexBufferList.at(0)};
-            VkDeviceSize offsets[] = {0};
-            vkCmdBindVertexBuffers(commandBuffers[i], 0, 1, vertexBuffers, offsets);
-
-            // draw indexed vertices
-            vkCmdBindIndexBuffer(
-                    commandBuffers[i],
-                    BufferManager::mIndexBufferList.at(0),
-                    0,
-                    VK_INDEX_TYPE_UINT16);
+            // VkBuffer vertexBuffers[] = {BufferManager::mVertexBufferList.at(0)};
+            // VkDeviceSize offsets[] = {0};
+            // vkCmdBindVertexBuffers(commandBuffers[i], 0, 1, vertexBuffers, offsets);
+//
+            // // draw indexed vertices
+            // vkCmdBindIndexBuffer(
+            //         commandBuffers[i],
+            //         BufferManager::mIndexBufferList.at(0),
+            //         0,
+            //         VK_INDEX_TYPE_UINT16);
 
             // TODO(Rosser) uncomment when matrices work
             // bind descriptor sets from uniform buffers
             // vkCmdBindDescriptorSets(commandBuffers[i], VK_PIPELINE_BIND_POINT_GRAPHICS,
             // pipelineLayout, 0, 1, &descriptorSets[i], 0, nullptr);
 
-            vkCmdDrawIndexed(
-                    commandBuffers[i],
-                    static_cast<uint32_t>(BufferManager::modelList[0]->mIndices.size()),
-                    1, 0, 0, 0);
+            // vkCmdDrawIndexed(
+            //         commandBuffers[i],
+            //         static_cast<uint32_t>(BufferManager::modelList[0]->mIndices.size()),
+            //         1, 0, 0, 0);
             // draw non indexed
             // vkCmdDraw(
             // commandBuffers[i],
@@ -1018,8 +1011,6 @@ namespace TandenEngine {
                 { VK_DESCRIPTOR_TYPE_STORAGE_BUFFER_DYNAMIC, 1000 },
                 { VK_DESCRIPTOR_TYPE_INPUT_ATTACHMENT, 1000 }
         };
-        // poolSize.type = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
-        // poolSize.descriptorCount = static_cast<uint32_t>(swapChainImages.size());
 
         // info for pool
         VkDescriptorPoolCreateInfo poolInfo = {};
@@ -1028,50 +1019,10 @@ namespace TandenEngine {
         poolInfo.maxSets = 1000;
         poolInfo.poolSizeCount = _countof(poolSize);
         poolInfo.pPoolSizes = poolSize;
-        // poolInfo.maxSets = static_cast<uint32_t>(swapChainImages.size());
 
         if (vkCreateDescriptorPool(logicalDevice, &poolInfo,
                 mAllocator, &descriptorPool) != VK_SUCCESS) {
             throw std::runtime_error("failed to create descriptor pool!");
-        }
-    }
-
-    void VulkanInfo::CreateDescriptorSets() {
-        // create descriptor sets for pool
-        std::vector<VkDescriptorSetLayout> layouts(swapChainImages.size(), descriptorSetLayout);
-        VkDescriptorSetAllocateInfo allocInfo = {};
-        allocInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_ALLOCATE_INFO;
-        allocInfo.descriptorPool = descriptorPool;
-        allocInfo.descriptorSetCount = static_cast<uint32_t>(swapChainImages.size());
-        allocInfo.pSetLayouts = layouts.data();
-
-        // change size based on uniform buffers
-        descriptorSets.resize(swapChainImages.size());
-
-        if (vkAllocateDescriptorSets(logicalDevice, &allocInfo,
-                descriptorSets.data()) != VK_SUCCESS) {
-            throw std::runtime_error("failed to allocate descriptor sets!");
-        }
-
-        // write sets from buffers to swapchain images
-        for (size_t i = 0; i < swapChainImages.size(); i++) {
-            VkDescriptorBufferInfo bufferInfo = {};
-            bufferInfo.buffer = BufferManager::mUniformBufferList[i];
-            bufferInfo.offset = 0;
-            bufferInfo.range = sizeof(UniformBufferObject);
-
-            // write new sets based on
-            VkWriteDescriptorSet descriptorWrite = {};
-            descriptorWrite.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
-            descriptorWrite.dstSet = descriptorSets[i];
-            descriptorWrite.dstBinding = 0;
-            descriptorWrite.dstArrayElement = 0;
-            descriptorWrite.descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
-            descriptorWrite.descriptorCount = 1;
-            descriptorWrite.pBufferInfo = &bufferInfo;
-
-            // update sets
-            vkUpdateDescriptorSets(logicalDevice, 1, &descriptorWrite, 0, nullptr);
         }
     }
 

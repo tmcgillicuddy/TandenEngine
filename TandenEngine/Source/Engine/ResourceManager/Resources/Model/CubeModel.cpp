@@ -53,4 +53,8 @@ namespace TandenEngine {
                 15, 23, 16,
         };
     }
+
+    void CubeModel::LoadModel() {
+        SetupModel();
+    }
 }  // namespace TandenEngine

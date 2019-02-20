@@ -19,6 +19,8 @@ namespace TandenEngine {
                 &mUniformBuffer,
                 sizeof(mvpubo)));
         mUniformBuffer.map();
+
+        BufferManager::SetupDescriptorSet(mDescriptorSet, &mUniformBuffer.mDescriptor);
     }
 
     MeshRenderer::~MeshRenderer() {

@@ -41,4 +41,8 @@ namespace TandenEngine {
             }
         }
     }
+
+    void SphereModel::LoadModel() {
+        SetupModel();
+    }
 }  // namespace TandenEngine

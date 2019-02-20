@@ -9,149 +9,6 @@
 #include "Debug.h"
 
 namespace TandenEngine {
-    std::vector<VkDeviceMemory> BufferManager::mVertexBufferMemoryList;    // TODO(Rosser) Deprecate
-    std::vector<VkDeviceMemory> BufferManager::mIndexBufferMemoryList;    // TODO(Rosser) Deprecate
-    std::vector<VkDeviceMemory> BufferManager::mUniformBufferMemoryList;     // TODO(Rosser) Deprecate
-    std::vector<VkBuffer> BufferManager::mVertexBufferList;    // TODO(Rosser) Deprecate
-    std::vector<VkBuffer> BufferManager::mIndexBufferList;    // TODO(Rosser) Deprecate
-    std::vector<VkBuffer> BufferManager::mUniformBufferList;    // TODO(Rosser) Deprecate
-
-    std::vector<Model*> BufferManager::modelList;    // TODO(Rosser) Deprecate
-
-    // TODO(Rosser) Deprecate
-    void BufferManager::AddVertexBuffer(VkBuffer newBuffer, VkDeviceMemory newDeviceMemory) {
-        mVertexBufferList.push_back(newBuffer);
-        mVertexBufferMemoryList.push_back(newDeviceMemory);
-    }
-    // TODO(Rosser) Deprecate
-    void BufferManager::AddIndexBuffer(VkBuffer newBuffer, VkDeviceMemory newDeviceMemory) {
-        mIndexBufferList.push_back(newBuffer);
-        mIndexBufferMemoryList.push_back(newDeviceMemory);
-    }
-
-    // TODO(Rosser) Deprecate
-    void BufferManager::CreateVertexBufferForTargetModel() {
-        for (auto targetModel : modelList) {
-            VkDeviceSize bufferSize = sizeof(targetModel->mVertices[0])
-                    * targetModel->mVertices.size();
-
-            // created locally and then trashed forever after creating the VB
-            VkBuffer stagingBuffer;
-            VkDeviceMemory stagingBufferMemory;
-
-            // create staging buffer
-            CreateBuffer(bufferSize, VK_BUFFER_USAGE_TRANSFER_SRC_BIT,
-                         VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT,
-                         stagingBuffer, stagingBufferMemory);
-            std::cout << "Test";
-
-            // write staging buffer to memory
-            void *data;
-            vkMapMemory(RenderingSystem::GetVulkanInfo()->logicalDevice,
-                        stagingBufferMemory, 0, bufferSize, 0, &data);
-            memcpy(data, targetModel->mVertices.data(), (size_t) bufferSize);
-            vkUnmapMemory(RenderingSystem::GetVulkanInfo()->logicalDevice, stagingBufferMemory);
-
-            // create memory for new vertex buffer
-            VkBuffer newVertexBuffer;
-            VkDeviceMemory newVertexBufferMemory;
-
-            // create vertex buffer
-            CreateBuffer(bufferSize,
-                         VK_BUFFER_USAGE_TRANSFER_DST_BIT | VK_BUFFER_USAGE_VERTEX_BUFFER_BIT,
-                         VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT, newVertexBuffer,
-                         newVertexBufferMemory);
-
-            // add vertex buffer and memory to list
-            AddVertexBuffer(newVertexBuffer, newVertexBufferMemory);
-
-            // copy data from staging to vertex buffer
-            CopyBuffer(stagingBuffer, newVertexBuffer, bufferSize);
-
-            // cleanup
-            vkDestroyBuffer(RenderingSystem::GetVulkanInfo()->logicalDevice,
-                    stagingBuffer, nullptr);
-            vkFreeMemory(RenderingSystem::GetVulkanInfo()->logicalDevice,
-                    stagingBufferMemory, nullptr);
-        }
-    }
-
-    // TODO(Rosser) Deprecate
-    void BufferManager::CreateIndexBufferForTargetModel() {
-        for (auto targetModel : modelList) {
-            VkDeviceSize bufferSize = sizeof(uint16_t) * targetModel->mIndices.size();
-
-            // created locally and then trashed forever after creating the VB
-            VkBuffer stagingBuffer;
-            VkDeviceMemory stagingBufferMemory;
-
-            // create staging buffer
-            CreateBuffer(bufferSize, VK_BUFFER_USAGE_TRANSFER_SRC_BIT,
-                         VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT,
-                         stagingBuffer, stagingBufferMemory);
-
-            // write staging buffer to memory
-            void *data;
-            vkMapMemory(RenderingSystem::GetVulkanInfo()->logicalDevice,
-                        stagingBufferMemory, 0, bufferSize, 0, &data);
-            memcpy(data, targetModel->mIndices.data(), (size_t) bufferSize);
-            vkUnmapMemory(RenderingSystem::GetVulkanInfo()->logicalDevice, stagingBufferMemory);
-
-            // create memory for new vertex buffer
-            VkBuffer newIndexBuffer;
-            VkDeviceMemory newIndexBufferMemory;
-
-            // create vertex buffer
-            CreateBuffer(bufferSize, VK_BUFFER_USAGE_TRANSFER_DST_BIT |
-            VK_BUFFER_USAGE_VERTEX_BUFFER_BIT, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT,
-                         newIndexBuffer, newIndexBufferMemory);
-
-            // add vertex buffer and memory to list
-            AddIndexBuffer(newIndexBuffer, newIndexBufferMemory);
-
-            // copy data from staging to vertex buffer
-            CopyBuffer(stagingBuffer, newIndexBuffer, bufferSize);
-
-            // cleanup
-            vkDestroyBuffer(RenderingSystem::GetVulkanInfo()->logicalDevice,
-                    stagingBuffer, nullptr);
-            vkFreeMemory(RenderingSystem::GetVulkanInfo()->logicalDevice,
-                    stagingBufferMemory, nullptr);
-        }
-    }
-
-    // TODO(Rosser) Deprecate
-    void BufferManager::CreateBuffer(VkDeviceSize size, VkBufferUsageFlags usage,
-            VkMemoryPropertyFlags properties, VkBuffer& buffer, VkDeviceMemory& bufferMemory) {
-        VkBufferCreateInfo bufferInfo = {};
-        bufferInfo.sType = VK_STRUCTURE_TYPE_BUFFER_CREATE_INFO;
-        bufferInfo.size = size;
-        bufferInfo.usage = usage;
-        bufferInfo.sharingMode = VK_SHARING_MODE_EXCLUSIVE;
-
-        if (vkCreateBuffer(RenderingSystem::GetVulkanInfo()->logicalDevice,
-                &bufferInfo, nullptr, &buffer) != VK_SUCCESS) {
-            throw std::runtime_error("failed to create buffer!");
-        }
-
-        VkMemoryRequirements memRequirements;
-        vkGetBufferMemoryRequirements(RenderingSystem::GetVulkanInfo()->logicalDevice,
-                buffer, &memRequirements);
-
-        VkMemoryAllocateInfo allocInfo = {};
-        allocInfo.sType = VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_INFO;
-        allocInfo.allocationSize = memRequirements.size;
-        allocInfo.memoryTypeIndex = FindMemoryType(memRequirements.memoryTypeBits, properties);
-
-        if (vkAllocateMemory(RenderingSystem::GetVulkanInfo()->logicalDevice,
-                &allocInfo, nullptr, &bufferMemory) != VK_SUCCESS) {
-            throw std::runtime_error("failed to allocate buffer memory!");
-        }
-
-        vkBindBufferMemory(RenderingSystem::GetVulkanInfo()->logicalDevice,
-                buffer, bufferMemory, 0);
-    }
-
     uint32_t BufferManager::FindMemoryType(uint32_t typeFilter, VkMemoryPropertyFlags properties) {
         // get properties of physical device memory
         VkPhysicalDeviceMemoryProperties memProperties;
@@ -214,48 +71,12 @@ namespace TandenEngine {
                 RenderingSystem::GetVulkanInfo()->commandPool, 1, &commandBuffer);
     }
 
-    // TODO(Rosser) Deprecate
-    void BufferManager::CreateUniformBuffers() {
-        // resize to size of swapchains
-        VkDeviceSize bufferSize = sizeof(UniformBufferObject);
-
-        mUniformBufferList.resize(RenderingSystem::GetVulkanInfo()->swapChainImages.size());
-        mUniformBufferMemoryList.resize(RenderingSystem::GetVulkanInfo()->swapChainImages.size());
-
-        // create uniform buffers
-        for (size_t i = 0; i < RenderingSystem::GetVulkanInfo()->swapChainImages.size(); i++) {
-            CreateBuffer(bufferSize,
-                    VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT,
-                    VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT |
-                    VK_MEMORY_PROPERTY_HOST_COHERENT_BIT,
-                    mUniformBufferList[i], mUniformBufferMemoryList[i]);
-        }
-    }
-
     void BufferManager::Cleanup() {
-        for (int i = 0; i < mVertexBufferMemoryList.size(); ++i) {
-            // vertex buffers
-            vkDestroyBuffer(RenderingSystem::GetVulkanInfo()->logicalDevice,
-                    mVertexBufferList[i], nullptr);
-            vkFreeMemory(RenderingSystem::GetVulkanInfo()->logicalDevice,
-                    mVertexBufferMemoryList[i], nullptr);
-
-            // index buffers
-            vkDestroyBuffer(RenderingSystem::GetVulkanInfo()->logicalDevice,
-                    mVertexBufferList[i], nullptr);
-            vkFreeMemory(RenderingSystem::GetVulkanInfo()->logicalDevice,
-                    mVertexBufferMemoryList[i], nullptr);
-
-            // uniform buffers
-            vkDestroyBuffer(RenderingSystem::GetVulkanInfo()->logicalDevice,
-                    mUniformBufferList[i], nullptr);
-            vkFreeMemory(RenderingSystem::GetVulkanInfo()->logicalDevice,
-                    mUniformBufferMemoryList[i], nullptr);
-        }
     }
 
-    VkResult BufferManager::CreateBuffer(VkBufferUsageFlags usageFlags, VkMemoryPropertyFlags memoryPropertyFlags,
-                                         Buffer *buffer, VkDeviceSize size, void *data) {
+    VkResult BufferManager::CreateBuffer(VkBufferUsageFlags usageFlags,
+                        VkMemoryPropertyFlags memoryPropertyFlags,
+                        Buffer *buffer, VkDeviceSize size, void *data) {
         VulkanInfo vInfo = *RenderingSystem::GetVulkanInfo();
         buffer->mDevice = vInfo.logicalDevice;
 
@@ -264,7 +85,8 @@ namespace TandenEngine {
         bufferCreateInfo.sType = VK_STRUCTURE_TYPE_BUFFER_CREATE_INFO;
         bufferCreateInfo.usage = usageFlags;
         bufferCreateInfo.size = size;
-        Debug::CheckVKResult(vkCreateBuffer(vInfo.logicalDevice, &bufferCreateInfo, nullptr, &buffer->mBuffer));
+        Debug::CheckVKResult(vkCreateBuffer(vInfo.logicalDevice,
+                &bufferCreateInfo, nullptr, &buffer->mBuffer));
 
         // Create the memory backing up the buffer handle
         VkMemoryRequirements memReqs;
@@ -274,7 +96,8 @@ namespace TandenEngine {
         memAlloc.allocationSize = memReqs.size;
         // Find a memory type index that fits the properties of the buffer
         memAlloc.memoryTypeIndex = FindMemoryType(memReqs.memoryTypeBits, memoryPropertyFlags);
-        Debug::CheckVKResult(vkAllocateMemory(vInfo.logicalDevice, &memAlloc, nullptr, &buffer->mMemory));
+        Debug::CheckVKResult(vkAllocateMemory(vInfo.logicalDevice,
+                &memAlloc, nullptr, &buffer->mMemory));
 
         buffer->mAlignment = memReqs.alignment;
         buffer->mSize = memAlloc.allocationSize;
@@ -282,8 +105,7 @@ namespace TandenEngine {
         buffer->mMemoryPropertyFlags = memoryPropertyFlags;
 
         // If a pointer to the buffer data has been passed, map the buffer and copy over the data
-        if (data != nullptr)
-        {
+        if (data != nullptr) {
             Debug::CheckVKResult(buffer->map());
             memcpy(buffer->mMapped, data, size);
             if ((memoryPropertyFlags & VK_MEMORY_PROPERTY_HOST_COHERENT_BIT) == 0)
@@ -297,5 +119,29 @@ namespace TandenEngine {
 
         // Attach the memory to the buffer object
         return buffer->bind();
+    }
+
+    void BufferManager::SetupDescriptorSet(VkDescriptorSet dSet,
+            VkDescriptorBufferInfo* bufferInfo) {
+        VulkanInfo vInfo = *RenderingSystem::GetVulkanInfo();
+
+        VkDescriptorSetAllocateInfo allocInfo = {};
+        allocInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_ALLOCATE_INFO;
+        allocInfo.descriptorPool = vInfo.descriptorPool;
+        allocInfo.pSetLayouts = &vInfo.descriptorSetLayout;
+        allocInfo.descriptorSetCount = 1;
+
+        Debug::CheckVKResult(vkAllocateDescriptorSets(vInfo.logicalDevice, &allocInfo, &dSet));
+
+        // Binding 0 : Vertex shader uniform buffer
+        VkWriteDescriptorSet writeDescriptorSet = {};
+        writeDescriptorSet.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
+        writeDescriptorSet.dstSet = dSet;
+        writeDescriptorSet.descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
+        writeDescriptorSet.dstBinding = 0;
+        writeDescriptorSet.pBufferInfo = bufferInfo;
+        writeDescriptorSet.descriptorCount = 1;
+
+        vkUpdateDescriptorSets(vInfo.logicalDevice, 1, &writeDescriptorSet, 0, NULL);
     }
 }  // namespace TandenEngine

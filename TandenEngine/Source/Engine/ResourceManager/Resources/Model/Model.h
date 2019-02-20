@@ -19,13 +19,14 @@ namespace TandenEngine {
      public:
         Buffer mVertexBuffer;
         Buffer mIndexBuffer;
-
-        Model();
-
         std::vector<MeshVertex> mVertices = {};
         std::vector<uint16_t> mIndices;
 
+        Model();
+
         static bool CheckIfSupported(std::string extension);
+
+        void SetupModel();
 
         Model(MetaData* inputData);  // Create a model resource from meta data input
 

@@ -25,10 +25,10 @@ namespace TandenEngine {
             UpdateBuffers();
 
             // Render Command buffers
-            Debug::LogPause("Rendering Buffers");
+            Debug::Log("Rendering Buffers %n");
             Render();
-            Debug::LogPause("Finished Rendering Buffers");
-            //Poll window events
+            Debug::Log("Finished Rendering Buffers %n");
+            // Poll window events
             PollWindowEvents();
 
             // Present Render
@@ -101,7 +101,7 @@ namespace TandenEngine {
 
         if (result == VK_ERROR_OUT_OF_DATE_KHR) {
             mVulkanInfo.framebufferResized = false;
-            //mVulkanInfo.RecreateSwapChain();
+            // mVulkanInfo.RecreateSwapChain();
             return;
         } else if (result != VK_SUCCESS && result != VK_SUBOPTIMAL_KHR) {
             Debug::CheckVKResult(result);
@@ -125,7 +125,7 @@ namespace TandenEngine {
 
         // Draw each model
         for (int32_t i = 0; i < mVulkanInfo.commandBuffers.size(); ++i) {
-            //Current Command Buffer
+            // Current Command Buffer
             VkCommandBuffer cmdBuffer = mVulkanInfo.commandBuffers[i];
 
             renderPassInfo.framebuffer = mVulkanInfo.swapChainFramebuffers[i];
@@ -148,28 +148,35 @@ namespace TandenEngine {
             scissor.offset.y = 0;
             vkCmdSetScissor(cmdBuffer, 0, 1, &scissor);
 
-            vkCmdBindDescriptorSets(cmdBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, mVulkanInfo.pipelineLayout,
-                                    0, 1, &mVulkanInfo.descriptorSets[0], 0, NULL);
-
             // Foreach renderer
             // - Bind Vertex Buffer
             // - Draw Indexed Buffer
+            // TODO(Anyone) use shader(pipeline) attached to material on object(?)
+            vkCmdBindPipeline(cmdBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS,
+                    mVulkanInfo.graphicsPipeline);
             for (const auto &rend : mRenderers) {
                 if (MeshRenderer *meshRend = dynamic_cast<MeshRenderer *>(rend)) {
                     VkDeviceSize offsets[1] = {0};
-                    //TODO(Anyone) use shader attached to material on object(?)
-                    vkCmdBindPipeline(cmdBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, mVulkanInfo.graphicsPipeline);
-                    //TODO(Rosser) create vertex/index buffers and store on models
+
+                    // Bind Uniform buffer on Mesh Renderer
+                    vkCmdBindDescriptorSets(cmdBuffer,
+                            VK_PIPELINE_BIND_POINT_GRAPHICS, mVulkanInfo.pipelineLayout, 0, 1,
+                            &meshRend->mDescriptorSet, 0, NULL);
+
+                    // Bind Vertex Buffer on Model
                     vkCmdBindVertexBuffers(cmdBuffer, 0, 1,
-                                           &meshRend->mpMesh->mModelResource->mVertexBuffer.mBuffer, offsets);
-                    vkCmdBindIndexBuffer(cmdBuffer, meshRend->mpMesh->mModelResource->mIndexBuffer.mBuffer,
+                                           &meshRend->mpMesh
+                                           ->mModelResource->mVertexBuffer.mBuffer, offsets);
+                    // Bind Index Buffer on Model
+                    vkCmdBindIndexBuffer(cmdBuffer,
+                            meshRend->mpMesh->mModelResource->mIndexBuffer.mBuffer,
                                          0, VK_INDEX_TYPE_UINT32);
-                    vkCmdDrawIndexed(cmdBuffer, meshRend->mpMesh->mModelResource->mIndices.size(), 1, 0, 0, 0);
+                    vkCmdDrawIndexed(cmdBuffer,
+                            meshRend->mpMesh->mModelResource->mIndices.size(), 1, 0, 0, 0);
                 }
             }
-
             // GUI uses different graphics pipeline, so draw buffers differently
-            GUI::GUISystem::DrawGUI(cmdBuffer);
+            // GUI::GUISystem::DrawGUI(cmdBuffer);
 
             vkCmdEndRenderPass(cmdBuffer);
 
@@ -242,8 +249,7 @@ namespace TandenEngine {
         mvpubo ubo;
 
         // Set Main Camera Info for perspective
-        if(mMainCam) {
-
+        if (mMainCam) {
         } else {  // Use default vals
             // TODO(Nils/Rosser) Set projection and view matrix
             // ubo.projection // Default to 60 degree FOV

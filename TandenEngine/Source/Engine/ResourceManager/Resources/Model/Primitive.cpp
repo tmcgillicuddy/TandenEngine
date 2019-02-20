@@ -7,13 +7,13 @@
 
 namespace TandenEngine {
 
-    CubeModel Primitive::Cube = CubeModel();
-    SphereModel Primitive::Sphere = SphereModel();
-    CylinderModel Primitive::Cylinder = CylinderModel();
+    CubeModel Primitive::Cube;
+    SphereModel Primitive::Sphere;
+    CylinderModel Primitive::Cylinder;
 
     void Primitive::InitPrimitives() {
-        BufferManager::AddModel(&Cube);
-        BufferManager::AddModel(&Sphere);
-        BufferManager::AddModel(&Cylinder);
+        Cube.LoadModel();
+        Sphere.LoadModel();
+        Cylinder.LoadModel();
     }
 }  // namespace TandenEngine

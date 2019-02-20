@@ -40,6 +40,9 @@ namespace TandenEngine {
                 mIndices.emplace_back(first + 1);
             }
         }
-        // TODO(Anyone) possibly reverse indices vector
+    }
+
+    void CylinderModel::LoadModel() {
+        SetupModel();
     }
 }  // namespace TandenEngine
