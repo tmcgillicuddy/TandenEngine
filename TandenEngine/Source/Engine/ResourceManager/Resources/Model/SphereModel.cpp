@@ -40,7 +40,9 @@ namespace TandenEngine {
                 mIndices.emplace_back(second + 1);
             }
         }
+    }
 
+    void SphereModel::LoadModel() {
         CreateModelBuffers();
     }
 }  // namespace TandenEngine

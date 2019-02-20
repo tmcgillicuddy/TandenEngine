@@ -15,6 +15,7 @@ namespace TandenEngine {
         float mRadius = 1;
      public:
         SphereModel();
+        void LoadModel();
     };
 
 }  // namespace TandenEngine

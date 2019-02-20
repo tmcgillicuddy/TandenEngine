@@ -40,7 +40,9 @@ namespace TandenEngine {
                 mIndices.emplace_back(first + 1);
             }
         }
+    }
 
+    void CylinderModel::LoadModel() {
         CreateModelBuffers();
     }
 }  // namespace TandenEngine

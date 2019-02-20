@@ -15,6 +15,7 @@ namespace TandenEngine {
         const float mHeight = 2, mRadius = 1;
      public:
         CylinderModel();
+        void LoadModel();
     };
 
 }  // namespace TandenEngine

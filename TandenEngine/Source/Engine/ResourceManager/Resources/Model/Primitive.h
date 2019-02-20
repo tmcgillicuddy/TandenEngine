@@ -12,9 +12,9 @@
 namespace TandenEngine {
     class Primitive {
      public:
-        // static CubeModel Cube;
-        // static SphereModel Sphere;
-        // static CylinderModel Cylinder;
+        static CubeModel Cube;
+        static SphereModel Sphere;
+        static CylinderModel Cylinder;
 
         static void InitPrimitives();
     };

@@ -12,6 +12,8 @@ namespace TandenEngine {
     class CubeModel : public Model{
      public:
         CubeModel();
+
+        void LoadModel();
     };
 
 }  // namespace TandenEngine

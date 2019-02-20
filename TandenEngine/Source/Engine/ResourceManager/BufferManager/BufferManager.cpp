@@ -16,9 +16,6 @@ namespace TandenEngine {
     std::vector<VkBuffer> BufferManager::mIndexBufferList;
     std::vector<VkBuffer> BufferManager::mUniformBufferList;
 
-
-    std::vector<Model*> BufferManager::modelList;
-
     void BufferManager::AddVertexBuffer(VkBuffer newBuffer, VkDeviceMemory newDeviceMemory) {
         mVertexBufferList.push_back(newBuffer);
         mVertexBufferMemoryList.push_back(newDeviceMemory);
@@ -27,97 +24,6 @@ namespace TandenEngine {
     void BufferManager::AddIndexBuffer(VkBuffer newBuffer, VkDeviceMemory newDeviceMemory) {
         mIndexBufferList.push_back(newBuffer);
         mIndexBufferMemoryList.push_back(newDeviceMemory);
-    }
-
-    // TODO(Rosser) Deprecate
-    void BufferManager::CreateVertexBufferForTargetModel() {
-        for (auto targetModel : modelList) {
-            VkDeviceSize bufferSize = sizeof(targetModel->mVertices[0])
-                    * targetModel->mVertices.size();
-
-            // created locally and then trashed forever after creating the VB
-            VkBuffer stagingBuffer;
-            VkDeviceMemory stagingBufferMemory;
-
-            // create staging buffer
-            CreateBuffer(bufferSize, VK_BUFFER_USAGE_TRANSFER_SRC_BIT,
-                         VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT,
-                         stagingBuffer, stagingBufferMemory);
-            std::cout << "Test";
-
-            // write staging buffer to memory
-            void *data;
-            vkMapMemory(RenderingSystem::GetVulkanInfo()->logicalDevice,
-                        stagingBufferMemory, 0, bufferSize, 0, &data);
-            memcpy(data, targetModel->mVertices.data(), (size_t) bufferSize);
-            vkUnmapMemory(RenderingSystem::GetVulkanInfo()->logicalDevice, stagingBufferMemory);
-
-            // create memory for new vertex buffer
-            VkBuffer newVertexBuffer;
-            VkDeviceMemory newVertexBufferMemory;
-
-            // create vertex buffer
-            CreateBuffer(bufferSize,
-                         VK_BUFFER_USAGE_TRANSFER_DST_BIT | VK_BUFFER_USAGE_VERTEX_BUFFER_BIT,
-                         VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT, newVertexBuffer,
-                         newVertexBufferMemory);
-
-            // add vertex buffer and memory to list
-            AddVertexBuffer(newVertexBuffer, newVertexBufferMemory);
-
-            // copy data from staging to vertex buffer
-            CopyBuffer(stagingBuffer, newVertexBuffer, bufferSize);
-
-            // cleanup
-            vkDestroyBuffer(RenderingSystem::GetVulkanInfo()->logicalDevice,
-                    stagingBuffer, nullptr);
-            vkFreeMemory(RenderingSystem::GetVulkanInfo()->logicalDevice,
-                    stagingBufferMemory, nullptr);
-        }
-    }
-
-    // TODO(Rosser) Deprecate
-    void BufferManager::CreateIndexBufferForTargetModel() {
-        for (auto targetModel : modelList) {
-            VkDeviceSize bufferSize = sizeof(uint16_t) * targetModel->mIndices.size();
-
-            // created locally and then trashed forever after creating the VB
-            VkBuffer stagingBuffer;
-            VkDeviceMemory stagingBufferMemory;
-
-            // create staging buffer
-            CreateBuffer(bufferSize, VK_BUFFER_USAGE_TRANSFER_SRC_BIT,
-                         VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT,
-                         stagingBuffer, stagingBufferMemory);
-
-            // write staging buffer to memory
-            void *data;
-            vkMapMemory(RenderingSystem::GetVulkanInfo()->logicalDevice,
-                        stagingBufferMemory, 0, bufferSize, 0, &data);
-            memcpy(data, targetModel->mIndices.data(), (size_t) bufferSize);
-            vkUnmapMemory(RenderingSystem::GetVulkanInfo()->logicalDevice, stagingBufferMemory);
-
-            // create memory for new vertex buffer
-            VkBuffer newIndexBuffer;
-            VkDeviceMemory newIndexBufferMemory;
-
-            // create vertex buffer
-            CreateBuffer(bufferSize, VK_BUFFER_USAGE_TRANSFER_DST_BIT |
-            VK_BUFFER_USAGE_VERTEX_BUFFER_BIT, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT,
-                         newIndexBuffer, newIndexBufferMemory);
-
-            // add vertex buffer and memory to list
-            AddIndexBuffer(newIndexBuffer, newIndexBufferMemory);
-
-            // copy data from staging to vertex buffer
-            CopyBuffer(stagingBuffer, newIndexBuffer, bufferSize);
-
-            // cleanup
-            vkDestroyBuffer(RenderingSystem::GetVulkanInfo()->logicalDevice,
-                    stagingBuffer, nullptr);
-            vkFreeMemory(RenderingSystem::GetVulkanInfo()->logicalDevice,
-                    stagingBufferMemory, nullptr);
-        }
     }
 
     // TODO(Rosser) Deprecate
