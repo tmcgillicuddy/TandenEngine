@@ -135,7 +135,7 @@ namespace TandenEngine {
             VkMemoryAllocateInfo memAllocInfo {};
             memAllocInfo.sType = VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_INFO;
             memAllocInfo.allocationSize = memReqs.size;
-            memAllocInfo.memoryTypeIndex = vInfo.GetMemoryType(memReqs.memoryTypeBits,
+            memAllocInfo.memoryTypeIndex = BufferManager::FindMemoryType(memReqs.memoryTypeBits,
                     VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT);
             Debug::CheckVKResult(vkAllocateMemory(vInfo.logicalDevice,
                     &memAllocInfo, nullptr, &fontMemory));
