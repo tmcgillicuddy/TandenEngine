@@ -42,15 +42,15 @@ namespace TandenEngine {
         GameObject * tempObj = test->CreateGameObject();
 
         // give filter and render
-        // MeshFilter * tempFilter = dynamic_cast<MeshFilter*>(tempObj->AddComponent<MeshFilter>());
-        // MeshRenderer* tempComp =  dynamic_cast<MeshRenderer*>
-        //        (tempObj->AddComponent<MeshRenderer>());
+        MeshFilter * tempFilter = dynamic_cast<MeshFilter*>(tempObj->AddComponent<MeshFilter>());
+        MeshRenderer* tempComp =  dynamic_cast<MeshRenderer*>
+               (tempObj->AddComponent<MeshRenderer>());
 
         // test rb
         RigidBody* tempRB = dynamic_cast<RigidBody*>(tempObj->AddComponent<RigidBody>());
 
         // give rend comp model
-        // tempFilter->mModelResource = &Primitive::Cube;
+        tempFilter->mModelResource = &Primitive::Cube;
 
 
         // tempComp->mpMesh = tempFilter;
