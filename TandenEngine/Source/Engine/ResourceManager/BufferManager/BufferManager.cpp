@@ -26,50 +26,7 @@ namespace TandenEngine {
         throw std::runtime_error("failed to find suitable memory type!");
     }
 
-    // TODO(Rosser) Deprecate (add to buffer class)
-    void BufferManager::CopyBuffer(VkBuffer srcBuffer, VkBuffer dstBuffer, VkDeviceSize size) {
-        // allocation info
-        VkCommandBufferAllocateInfo allocInfo = {};
-        allocInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO;
-        allocInfo.level = VK_COMMAND_BUFFER_LEVEL_PRIMARY;
-        allocInfo.commandPool = RenderingSystem::GetVulkanInfo()->commandPool;
-        allocInfo.commandBufferCount = 1;
 
-        // need command buffers for memory transfer operations, create temp one for copy
-        VkCommandBuffer commandBuffer;
-
-        // allocate command buffers
-        vkAllocateCommandBuffers(RenderingSystem::GetVulkanInfo()->logicalDevice,
-                &allocInfo, &commandBuffer);
-
-        // start recording
-        VkCommandBufferBeginInfo beginInfo = {};
-        beginInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
-        beginInfo.flags = VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT;
-
-        vkBeginCommandBuffer(commandBuffer, &beginInfo);
-
-        // copy
-        VkBufferCopy copyRegion = {};
-        copyRegion.size = size;
-        vkCmdCopyBuffer(commandBuffer, srcBuffer, dstBuffer, 1, &copyRegion);
-
-        // end copy
-        vkEndCommandBuffer(commandBuffer);
-
-        VkSubmitInfo submitInfo = {};
-        submitInfo.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
-        submitInfo.commandBufferCount = 1;
-        submitInfo.pCommandBuffers = &commandBuffer;
-
-        // submit to queue and wait
-        vkQueueSubmit(RenderingSystem::GetVulkanInfo()->gfxQueue, 1, &submitInfo, VK_NULL_HANDLE);
-        vkQueueWaitIdle(RenderingSystem::GetVulkanInfo()->gfxQueue);
-
-        // cleanup
-        vkFreeCommandBuffers(RenderingSystem::GetVulkanInfo()->logicalDevice,
-                RenderingSystem::GetVulkanInfo()->commandPool, 1, &commandBuffer);
-    }
 
     void BufferManager::Cleanup() {
     }
@@ -77,6 +34,7 @@ namespace TandenEngine {
     VkResult BufferManager::CreateBuffer(VkBufferUsageFlags usageFlags,
                         VkMemoryPropertyFlags memoryPropertyFlags,
                         Buffer *buffer, VkDeviceSize size, void *data) {
+
         VulkanInfo vInfo = *RenderingSystem::GetVulkanInfo();
         buffer->mDevice = vInfo.logicalDevice;
 

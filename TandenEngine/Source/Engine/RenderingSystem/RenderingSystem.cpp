@@ -147,6 +147,10 @@ namespace TandenEngine {
             scissor.offset.y = 0;
             vkCmdSetScissor(cmdBuffer, 0, 1, &scissor);
 
+            std::cout << "YOOOOOOOOOOOOO" << std::endl;
+            system("pause");
+
+
             // Foreach renderer
             // - Bind Vertex Buffer
             // - Draw Indexed Buffer

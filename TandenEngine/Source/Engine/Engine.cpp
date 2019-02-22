@@ -20,6 +20,7 @@ namespace TandenEngine {
         RenderingSystem::InitGraphicsPipeline();
 
         ResourceManager::ImportAssetsFolder();
+
         if (mProjectSettings != nullptr) {
             // Display the info to make sure it's correct
             mProjectSettings->PrintProjectInfo();
@@ -32,6 +33,8 @@ namespace TandenEngine {
             // return;
         } else {
             mGame->StartUpGame();
+            std::cout << "Game instance created\n";
+
         }
 
         // make scene

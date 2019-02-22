@@ -15,6 +15,7 @@
 #include <cstdlib>
 #include "GUI/GUISystem.h"
 
+#incluide
 #include "Window.h"
 #include "../Entity/Components/Rendering/Renderer.h"
 #include "../Entity/Components/Rendering/Camera.h"
@@ -30,6 +31,11 @@ namespace TandenEngine {
         mat4 projection;
         mat4 model;
         mat4 view;
+        //causes crashes
+        //glm::mat4 model;
+        //glm::mat4 view;
+        //glm::mat4 projection;
+
     };
 
     struct VulkanInfo;
