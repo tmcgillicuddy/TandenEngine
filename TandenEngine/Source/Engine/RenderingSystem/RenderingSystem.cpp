@@ -147,10 +147,6 @@ namespace TandenEngine {
             scissor.offset.y = 0;
             vkCmdSetScissor(cmdBuffer, 0, 1, &scissor);
 
-            std::cout << "YOOOOOOOOOOOOO" << std::endl;
-            system("pause");
-
-
             // Foreach renderer
             // - Bind Vertex Buffer
             // - Draw Indexed Buffer
@@ -160,21 +156,24 @@ namespace TandenEngine {
             for (const auto &rend : mRenderers) {
                 if (MeshRenderer *meshRend = dynamic_cast<MeshRenderer *>(rend)) {
                     VkDeviceSize offsets[1] = {0};
-                    // TODO(Rosser) it's breaking here
-                    // Bind Uniform buffer on Mesh Renderer
-                    // vkCmdBindDescriptorSets(cmdBuffer,
-                    //         VK_PIPELINE_BIND_POINT_GRAPHICS, mVulkanInfo.pipelineLayout, 0, 1,
-                    //         &meshRend->mDescriptorSet, 0, NULL);
+
                     
                     // Bind Vertex Buffer on Model
                     vkCmdBindVertexBuffers(cmdBuffer, 0, 1,
                                            &meshRend->mpMesh
                                            ->mModelResource->mVertexBuffer.mBuffer, offsets);
-                    system("pause");
+
                     // Bind Index Buffer on Model
                     vkCmdBindIndexBuffer(cmdBuffer,
                             meshRend->mpMesh->mModelResource->mIndexBuffer.mBuffer,
                                          0, VK_INDEX_TYPE_UINT32);
+
+                    // TODO(Rosser) it's breaking here
+                    // Bind Uniform buffer on Mesh Renderer
+                    vkCmdBindDescriptorSets(cmdBuffer,
+                                            VK_PIPELINE_BIND_POINT_GRAPHICS, mVulkanInfo.pipelineLayout, 0, 1,
+                                            &meshRend->mDescriptorSet, 0, NULL);
+
                     vkCmdDrawIndexed(cmdBuffer,
                             meshRend->mpMesh->mModelResource->mIndices.size(), 1, 0, 0, 0);
                 }
@@ -250,7 +249,7 @@ namespace TandenEngine {
     }
 
     void RenderingSystem::UpdateBuffers() {
-        mvpubo ubo;
+        mvpUniforms ubo;
 
         // Set Main Camera Info for perspective
         if (mMainCam) {
@@ -262,7 +261,7 @@ namespace TandenEngine {
         // Update Uniform Buffers
         for (const auto &rend : mRenderers) {
             if (MeshRenderer *meshRend = dynamic_cast<MeshRenderer *>(rend)) {
-                ubo.model = mat4(1);
+//                ubo.model = mat4(1);
                 // TODO(Anyone) Set model to transform data of mesh renderer
                 memcpy(meshRend->mUniformBuffer.mMapped, &ubo, sizeof(ubo));
             }
