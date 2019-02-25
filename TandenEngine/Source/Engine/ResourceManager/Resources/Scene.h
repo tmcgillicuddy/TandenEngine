@@ -14,10 +14,8 @@
 namespace TandenEngine {
 
     class Scene : public Resource {
-     private:
-        std::vector<std::unique_ptr<GameObject>> mGameObjects;
-
      public:
+        std::vector<std::unique_ptr<GameObject>> mGameObjects;
         Scene();  // Just create a new scene (generates scene setting file)
 
         Scene(MetaData* inputMeta);
