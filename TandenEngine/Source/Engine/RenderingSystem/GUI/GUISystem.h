@@ -18,7 +18,6 @@
 namespace TandenEngine {
     namespace GUI {
         class GUISystem {
-            static std::vector<GUIElement *> mGuiElements;  // List of gui elements
             static VkImage fontImage;
             static VkDeviceMemory fontMemory;
             static Buffer mVertexBuffer;
@@ -34,6 +33,7 @@ namespace TandenEngine {
             } pushConstBlock;
 
          public:
+            static std::vector<GUIElement *> mGuiElements;  // List of gui elements
             static void InitGUISystem();  // Init the GUI system
 
             static void ShutDownGuiSystem();
