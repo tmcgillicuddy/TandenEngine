@@ -122,6 +122,8 @@ add_library(TandenEngine
         ./Source/Engine/RenderingSystem/GUI/GUIElements/GUIElement.cpp
         ./Source/Engine/RenderingSystem/GUI/GUIElements/GUIElement.h
         ./Source/Engine/RenderingSystem/GUI/GUIElements/GUIHeader.h
+        Source/Engine/RenderingSystem/GUI/GUIElements/GUIWindow.cpp
+        Source/Engine/RenderingSystem/GUI/GUIElements/GUIWindow.h
         ./Source/Engine/RenderingSystem/GUI/GUIElements/InputField/FloatField.cpp
         ./Source/Engine/RenderingSystem/GUI/GUIElements/InputField/FloatField.h
         ./Source/Engine/RenderingSystem/GUI/GUIElements/InputField/IntField.cpp

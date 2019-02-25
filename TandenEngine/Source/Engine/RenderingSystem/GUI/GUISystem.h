@@ -40,9 +40,6 @@ namespace TandenEngine {
             static void BindGUI();  // Create the buffers for the GUI
             static void UpdateBuffers();  // Update the vertex/index buffers
             static void DrawGUI(VkCommandBuffer commandBuffer);  // Draw the GUI command buffers
-
-            // Register the GUI elements
-            static void RegisterGUIElement(GUIElement *newElement);
         };
     }  // namespace GUI
 }  // namespace TandenEngine

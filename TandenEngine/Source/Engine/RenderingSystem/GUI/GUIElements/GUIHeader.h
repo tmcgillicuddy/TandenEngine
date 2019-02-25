@@ -33,4 +33,6 @@
 #include "Util/Text.h"
 #include "Util/ToolTip.h"
 
+#include "GUIWindow.h"
+
 #endif  // TANDENENGINE_GUIHEADER_H
