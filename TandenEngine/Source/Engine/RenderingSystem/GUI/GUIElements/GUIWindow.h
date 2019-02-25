@@ -14,7 +14,7 @@ namespace TandenEngine {
             bool mShow = true;
             ImGuiWindowFlags mFlags;
         public:
-            GUIWindow(char * name,  ImGuiWindowFlags flags);
+            GUIWindow(char * name,  ImGuiWindowFlags flags = 0);
             void DrawGUI() override;
         };
 
