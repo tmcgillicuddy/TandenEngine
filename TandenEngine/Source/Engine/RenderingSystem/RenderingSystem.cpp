@@ -26,14 +26,28 @@ namespace TandenEngine {
 
             // Render Command buffers
             Debug::Log("Rendering Buffers %n");
+
+            std::cout << "render \n" ;
+            system("pause");
+
             Render();
+            std::cout << "success \n" ;
+
+
             Debug::Log("Finished Rendering Buffers %n");
             // Poll window events
             PollWindowEvents();
 
             // Present Render
             // Debug::LogPause("Presenting Render");
+            std::cout << "present \n" ;
+            system("pause");
+
+
             Present();
+            std::cout << "success  \n" ;
+
+
         }
         // vkDeviceWaitIdle(logicalDevice);
     }
@@ -153,33 +167,53 @@ namespace TandenEngine {
             // TODO(Anyone) use shader(pipeline) attached to material on object(?)
             vkCmdBindPipeline(cmdBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS,
                     mVulkanInfo.graphicsPipeline);
+
             for (const auto &rend : mRenderers) {
                 if (MeshRenderer *meshRend = dynamic_cast<MeshRenderer *>(rend)) {
                     VkDeviceSize offsets[1] = {0};
 
-                    
                     // Bind Vertex Buffer on Model
                     vkCmdBindVertexBuffers(cmdBuffer, 0, 1,
-                                           &meshRend->mpMesh
-                                           ->mModelResource->mVertexBuffer.mBuffer, offsets);
+                            &meshRend->mpMesh->mModelResource->mVertexBuffer.mBuffer, offsets);
 
+
+
+                    std::cout << "2 \n";
+
+                    system("pause");
                     // Bind Index Buffer on Model
                     vkCmdBindIndexBuffer(cmdBuffer,
                             meshRend->mpMesh->mModelResource->mIndexBuffer.mBuffer,
                                          0, VK_INDEX_TYPE_UINT32);
+
+                    std::cout << "3 \n";
+
+                    system("pause");
+
 
                     // TODO(Rosser) it's breaking here
                     // Bind Uniform buffer on Mesh Renderer
                     vkCmdBindDescriptorSets(cmdBuffer,
                                             VK_PIPELINE_BIND_POINT_GRAPHICS, mVulkanInfo.pipelineLayout, 0, 1,
                                             &meshRend->mDescriptorSet, 0, NULL);
+                    std::cout << "4 \n";
+
+                    system("pause");
+
 
                     vkCmdDrawIndexed(cmdBuffer,
                             meshRend->mpMesh->mModelResource->mIndices.size(), 1, 0, 0, 0);
+
+                    std::cout << "5 \n";
+
+                    system("pause");
+
                 }
             }
             // GUI uses different graphics pipeline, so draw buffers differently
             // GUI::GUISystem::DrawGUI(cmdBuffer);
+
+            std::cout << "10 \n";
 
             vkCmdEndRenderPass(cmdBuffer);
 

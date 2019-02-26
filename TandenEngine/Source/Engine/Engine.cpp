@@ -52,14 +52,16 @@ namespace TandenEngine {
         // test rb
         RigidBody* tempRB = dynamic_cast<RigidBody*>(tempObj->AddComponent<RigidBody>());
 
+
         // give rend comp model
         tempFilter->mModelResource = &Primitive::Cube;
 
+        system("pause");
 
-        // tempComp->mpMesh = tempFilter;
+        tempComp->mpMesh = tempFilter;
 
         exitStatus = false;
-        Debug::Log("ENGINE INITIALIZATION COMPLETE%n");
+        //Debug::Log("ENGINE INITIALIZATION COMPLETE%n");
     }
 
     void Engine::RunEngine() {
@@ -90,6 +92,9 @@ namespace TandenEngine {
             // Render
             Debug::LogPause("Rendering%n");
             RenderingSystem::DrawWindow();
+
+
+
             Debug::LogPause("Finish Rendering%n");
             // Wait for frame time
             Timer::WaitForFrameTime();

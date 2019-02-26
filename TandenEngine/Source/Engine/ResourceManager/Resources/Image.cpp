@@ -40,9 +40,11 @@ namespace TandenEngine {
         //create tmp staging buffer
         Buffer *stagingBuffer;
         // Create a the buffer to hold the texture data
-        BufferManager::CreateBuffer(imageSize, VK_BUFFER_USAGE_TRANSFER_SRC_BIT,
-                     VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT
-                     | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT, stagingBuffer->mBuffer, stagingBuffer->mMemory);
+        //TODO(Rosser) Re enable this for texture uniforms
+        //TODO(Rosser) notice that image size is in the wrong order paramwise
+        //BufferManager::CreateBuffer(imageSize, VK_BUFFER_USAGE_TRANSFER_SRC_BIT,
+        //             VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT
+        //             | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT, stagingBuffer->mBuffer, stagingBuffer->mMemory);
 
         void *data;
 

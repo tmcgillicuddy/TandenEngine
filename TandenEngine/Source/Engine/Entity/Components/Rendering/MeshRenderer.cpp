@@ -18,9 +18,11 @@ namespace TandenEngine {
                 VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT,
                 &mUniformBuffer,
                 sizeof(mvpUniforms)));
+
         mUniformBuffer.map();
 
         BufferManager::SetupDescriptorSet(mDescriptorSet, &mUniformBuffer.mDescriptor);
+
     }
 
     MeshRenderer::~MeshRenderer() {
