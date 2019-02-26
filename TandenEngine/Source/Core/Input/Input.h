@@ -49,7 +49,8 @@ namespace TandenEngine {
         Shift = 16,
         Control = 17,
         Alt = 18,
-        ESC = 27
+        ESC = 27,
+        DEL = 127
     };
 
     class Input {
