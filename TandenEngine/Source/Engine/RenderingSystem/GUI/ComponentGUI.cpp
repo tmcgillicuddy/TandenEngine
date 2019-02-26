@@ -11,6 +11,28 @@ namespace TandenEngine {
         ImGui::TextColored(ImVec4(1,0,0,1), "GENGUI NOT IMPLEMENTED");
     }
 
+    void AudioSource::GenGUI() {
+        ImGui::Text("Audio Source");
+        //TODO(Thomas) add vars
+    }
+
+    void BoxCollider::GenGUI() {
+        ImGui::Text("Box Collider");
+        //TODO(Thomas) add vars
+    }
+
+    void SphereCollider::GenGUI() {
+        ImGui::Text("Sphere Collider");
+        ImGui::InputFloat("Radius", &mRadius);
+    }
+
+    void RigidBody::GenGUI() {
+        ImGui::Text("Rigidbody");
+        ImGui::Checkbox("Static", &mStatic);
+        ImGui::InputFloat("Mass", &mMass);
+        ImGui::InputFloat("Friction", &mFriction);
+    }
+
     void Camera::GenGUI() {
         ImGui::Text("Camera");
         ImGui::SliderFloat("FOV", &mFOV, 0, 90);
