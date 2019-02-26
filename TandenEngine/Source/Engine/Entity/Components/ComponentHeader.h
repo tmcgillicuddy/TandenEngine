@@ -22,6 +22,7 @@
 #include "Rendering/LightComponent.h"
 #include "Rendering/MeshFilter.h"
 #include "Rendering/SpriteRenderer.h"
+#include "Rendering/MaterialComp.h"
 
 namespace TandenEngine {
     const std::unordered_map<ComponentType, const char *> CompNamesMap = {
