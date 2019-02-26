@@ -103,5 +103,4 @@ namespace TandenEngine {
     std::unique_ptr<Component> Transform::Clone() {
        return std::unique_ptr<Transform>();
     }
-
 }   // namespace TandenEngine

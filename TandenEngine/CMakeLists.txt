@@ -90,6 +90,8 @@ add_library(TandenEngine
         ./Source/Engine/Entity/Components/Rendering/Renderer.h
         ./Source/Engine/Entity/Components/Rendering/SpriteRenderer.cpp
         ./Source/Engine/Entity/Components/Rendering/SpriteRenderer.h
+        Source/Engine/Entity/Components/Rendering/MaterialComp.cpp
+        Source/Engine/Entity/Components/Rendering/MaterialComp.h
         ./Source/Engine/Entity/Components/Transform.cpp
         ./Source/Engine/Entity/Components/Transform.h
         ./Source/Engine/Entity/GameObject.cpp
@@ -122,6 +124,8 @@ add_library(TandenEngine
         ./Source/Engine/RenderingSystem/GUI/GUIElements/GUIElement.cpp
         ./Source/Engine/RenderingSystem/GUI/GUIElements/GUIElement.h
         ./Source/Engine/RenderingSystem/GUI/GUIElements/GUIHeader.h
+        Source/Engine/RenderingSystem/GUI/GUIElements/GUIWindow.cpp
+        Source/Engine/RenderingSystem/GUI/GUIElements/GUIWindow.h
         ./Source/Engine/RenderingSystem/GUI/GUIElements/InputField/FloatField.cpp
         ./Source/Engine/RenderingSystem/GUI/GUIElements/InputField/FloatField.h
         ./Source/Engine/RenderingSystem/GUI/GUIElements/InputField/IntField.cpp
@@ -142,6 +146,7 @@ add_library(TandenEngine
         ./Source/Engine/RenderingSystem/GUI/GUIElements/Util/ToolTip.h
         ./Source/Engine/RenderingSystem/GUI/GUISystem.cpp
         ./Source/Engine/RenderingSystem/GUI/GUISystem.h
+        ./Source/Engine/RenderingSystem/GUI/ComponentGUI.cpp
         ./Source/Engine/RenderingSystem/LightBehaviors/LightBehavior.cpp
         ./Source/Engine/RenderingSystem/LightBehaviors/LightBehavior.h
         ./Source/Engine/RenderingSystem/RayTracingSystem.cpp
