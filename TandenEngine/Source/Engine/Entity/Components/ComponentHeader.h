@@ -25,19 +25,20 @@
 
 namespace TandenEngine {
     const std::unordered_map<ComponentType, const char *> CompNamesMap = {
-            {ComponentType::AUDIOLISTENER,   "Audio Listener"},
-            {ComponentType::AUDIOSOURCE,     "Audio Source"},
-            {ComponentType::BOXCOLLIDER,     "Box Collider"},
-            {ComponentType::SPHERECOLLIDER,  "Sphere Collider"},
+            {ComponentType::AUDIOLISTENER, "Audio Listener"},
+            {ComponentType::AUDIOSOURCE, "Audio Source"},
+            {ComponentType::BOXCOLLIDER, "Box Collider"},
+            {ComponentType::SPHERECOLLIDER, "Sphere Collider"},
             {ComponentType::CAPSULECOLLIDER, "Capsule Collider"},
-            {ComponentType::MESHCOLLIDER,    "Mesh Collider"},
-            {ComponentType::RIGIDBODY,       "Rigidbody"},
-            {ComponentType::PARTICLESYSTEM,  "Particle System"},
-            {ComponentType::CAMERA,          "Camera"},
-            {ComponentType::LIGHTCOMPONENT,  "Light"},
-            {ComponentType::MESHFILTER,      "Mesh Filter"},
-            {ComponentType::SPRITERENDERER,  "Sprite Renderer"},
-            {ComponentType::MESHRENDERER,    "Mesh Renderer"}
+            {ComponentType::MESHCOLLIDER, "Mesh Collider"},
+            {ComponentType::RIGIDBODY, "Rigidbody"},
+            {ComponentType::PARTICLESYSTEM, "Particle System"},
+            {ComponentType::CAMERA, "Camera"},
+            {ComponentType::LIGHTCOMPONENT, "Light"},
+            {ComponentType::MESHFILTER, "Mesh Filter"},
+            {ComponentType::SPRITERENDERER, "Sprite Renderer"},
+            {ComponentType::MESHRENDERER, "Mesh Renderer"},
+            {ComponentType::MATERIALCOMP, "Material"}
     };
 
 //Function to check if a string is substring, case insensitive

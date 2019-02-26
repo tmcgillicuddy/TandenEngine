@@ -7,7 +7,7 @@
 
 #include <string>
 #include <vector>
-
+#include "NilsMath.h"
 
 namespace TandenEngine {
 
@@ -29,7 +29,8 @@ namespace TandenEngine {
         PARTICLESYSTEM = 12,
         RIGIDBODY = 13,
         CAMERA = 14,
-        LIGHTCOMPONENT = 15
+        LIGHTCOMPONENT = 15,
+        MATERIALCOMP = 16
     };
 
     class Component {

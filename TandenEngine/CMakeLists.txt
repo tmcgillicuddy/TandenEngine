@@ -90,6 +90,8 @@ add_library(TandenEngine
         ./Source/Engine/Entity/Components/Rendering/Renderer.h
         ./Source/Engine/Entity/Components/Rendering/SpriteRenderer.cpp
         ./Source/Engine/Entity/Components/Rendering/SpriteRenderer.h
+        Source/Engine/Entity/Components/Rendering/MaterialComp.cpp
+        Source/Engine/Entity/Components/Rendering/MaterialComp.h
         ./Source/Engine/Entity/Components/Transform.cpp
         ./Source/Engine/Entity/Components/Transform.h
         ./Source/Engine/Entity/GameObject.cpp

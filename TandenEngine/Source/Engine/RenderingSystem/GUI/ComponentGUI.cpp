@@ -11,26 +11,19 @@ namespace TandenEngine {
         ImGui::TextColored(ImVec4(1,0,0,1), "GENGUI NOT IMPLEMENTED");
     }
 
+    void Camera::GenGUI() {
+        ImGui::Text("Camera");
+        ImGui::SliderFloat("FOV", &mFOV, 0, 90);
+        ImGui::InputFloat("Near Clip Dist", &mNearClipDist);
+        ImGui::InputFloat("Far Clip Dist", &mFarClipDist);
+        ImGui::ColorEdit4("Clear Color", mClearColor.v);
+    }
+
     void Transform::GenGUI() {
         ImGui::Text("Transform");
-        float posData[3] = {
-               mTransformLocal.r1.x,
-               mTransformLocal.r1.y,
-               mTransformLocal.r1.z
-        };
-        float rotData[3] = {
-                mTransformLocal.r2.x,
-                mTransformLocal.r2.y,
-                mTransformLocal.r2.z
-        };
-        float scaleData[3] = {
-                mTransformLocal.r3.x,
-                mTransformLocal.r3.y,
-                mTransformLocal.r3.z
-        };
-        ImGui::InputFloat3("Position", posData);
-        ImGui::InputFloat3("Rotation", rotData);
-        ImGui::InputFloat3("Scale", scaleData);
+        ImGui::InputFloat3("Position", mTransformLocal.r1.v);
+        ImGui::InputFloat3("Rotation", mTransformLocal.r2.v);
+        ImGui::InputFloat3("Scale", mTransformLocal.r3.v);
 
     }
 
