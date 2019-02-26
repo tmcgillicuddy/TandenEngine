@@ -30,8 +30,6 @@ namespace TandenEngine {
 
         // Component Overrides
         void Register() override;
-
-        void GenGUI() override {};
     };
 }  // namespace TandenEngine
 
