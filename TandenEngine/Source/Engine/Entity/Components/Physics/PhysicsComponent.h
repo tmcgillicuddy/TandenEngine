@@ -15,6 +15,8 @@ namespace  TandenEngine {
      public:
         // Componenet Override
         void Register() override;
+
+        void GenGUI() override {};
     };
 
 }  // namespace TandenEngine

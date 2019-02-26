@@ -144,6 +144,7 @@ add_library(TandenEngine
         ./Source/Engine/RenderingSystem/GUI/GUIElements/Util/ToolTip.h
         ./Source/Engine/RenderingSystem/GUI/GUISystem.cpp
         ./Source/Engine/RenderingSystem/GUI/GUISystem.h
+        ./Source/Engine/RenderingSystem/GUI/ComponentGUI.cpp
         ./Source/Engine/RenderingSystem/LightBehaviors/LightBehavior.cpp
         ./Source/Engine/RenderingSystem/LightBehaviors/LightBehavior.h
         ./Source/Engine/RenderingSystem/RayTracingSystem.cpp

@@ -20,6 +20,8 @@ namespace TandenEngine {
 
         // Takes in some string data and will output a renderer object
         Component * ConvertFromString(std::vector<std::string>) override { return NULL;}
+
+        void GenGUI() override {}
     };
 
 }  // namespace TandenEngine

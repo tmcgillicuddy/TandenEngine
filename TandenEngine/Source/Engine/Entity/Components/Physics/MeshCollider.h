@@ -21,6 +21,7 @@ namespace TandenEngine {
         Component * ConvertFromString(std::vector<std::string> input) override;
 
         // Collider Overrides
+        void GenGUI() override;
     };
 }  // namespace TandenEngine
 
