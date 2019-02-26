@@ -24,8 +24,6 @@ namespace TandenEngine {
 
         // Call Raytrace on this camera
         void RayTraceThisCam();
-
-        void GenGUI() override;
     };
 }  // namespace TandenEngine
 

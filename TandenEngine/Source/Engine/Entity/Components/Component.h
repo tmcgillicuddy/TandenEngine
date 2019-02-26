@@ -51,7 +51,7 @@ namespace TandenEngine {
 
         virtual Component* ConvertFromString(std::vector<std::string> input) = 0;
 
-        virtual void GenGUI() = 0;
+        virtual void GenGUI();
     };
 
 

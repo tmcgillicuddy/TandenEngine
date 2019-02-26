@@ -19,8 +19,6 @@ namespace TandenEngine {
 
         // Takes in some string data and will output a Mesh Filter object
         Component * ConvertFromString(std::vector<std::string> input) override;
-
-        void GenGUI() override;
     };
 }  // namespace TandenEngine
 

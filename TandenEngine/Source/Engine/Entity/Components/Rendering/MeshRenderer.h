@@ -27,8 +27,6 @@ namespace TandenEngine {
         Component * ConvertFromString(std::vector<std::string> input) override;
 
         MeshFilter *mpMesh{};  // Pointer to mesh component to draw (must be on the same gameobject)
-
-        void GenGUI() override;
     };
 
 }  // namespace TandenEngine

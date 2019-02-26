@@ -20,8 +20,6 @@ namespace TandenEngine {
         // Takes in some string data and will output a mesh collider object
         Component * ConvertFromString(std::vector<std::string> input) override;
         void Register() override;  // Register light with rendering system
-
-        void GenGUI() override;
     };
 
 }  // namespace TandenEngine

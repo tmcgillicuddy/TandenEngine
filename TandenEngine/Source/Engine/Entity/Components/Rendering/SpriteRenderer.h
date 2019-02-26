@@ -19,8 +19,6 @@ namespace TandenEngine {
         std::string ToString() override;
         // Takes in some string data and will output a sprite renderer object
         Component * ConvertFromString(std::vector<std::string> input) override;
-
-        void GenGUI() override;
     };
 
 }  // namespace TandenEngine
