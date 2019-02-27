@@ -24,6 +24,18 @@ Tanden Engine uses these libraries:
  * [TinyObjLoader](https://github.com/syoyo/tinyobjloader) - Obj File Loading
  * [Stb](https://github.com/nothings/stb) - Image File Loading
 
+### Required Cygwin Packages
+
+* gcc-g++
+* gdb
+* libX11-devel
+* libXcursor-devel
+* libXi-devel
+* libXinermama-devel
+* libXrandr-devel
+* make
+* xorg-cf-files
+
 ## Compiling:
 Clone the repo and run 'git submodule update --init --recursive' to get the submodules
 
