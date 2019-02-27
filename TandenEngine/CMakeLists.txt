@@ -1,4 +1,7 @@
 cmake_minimum_required(VERSION 3.12)
+
+#-DCMAKE_SH="CMAKE_SH-NOTFOUND"
+
 project(TandenEngine)
 
 set(CMAKE_CXX_STANDARD 17)

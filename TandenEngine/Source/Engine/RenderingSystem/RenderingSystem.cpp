@@ -105,20 +105,6 @@ namespace TandenEngine {
     }
 
     void RenderingSystem::Render() {
-        // get next image from swapchain and trigger avaliable semaphore
-        VkResult result = vkAcquireNextImageKHR(
-                mVulkanInfo.logicalDevice,
-                mVulkanInfo.swapChain,
-                std::numeric_limits<uint64_t>::max(),
-                mVulkanInfo.imageAvailableSemaphores[mVulkanInfo.currentFrame],
-                VK_NULL_HANDLE, &mImageIndex);
-
-        if (result == VK_ERROR_OUT_OF_DATE_KHR) {
-            mVulkanInfo.framebufferResized = false;
-            return;
-        } else if (result != VK_SUCCESS && result != VK_SUBOPTIMAL_KHR) {
-            Debug::CheckVKResult(result);
-        }
 
         VkCommandBufferBeginInfo cmdBufInfo = {};
         cmdBufInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
@@ -222,6 +208,27 @@ namespace TandenEngine {
     }
 
     void RenderingSystem::Present() {
+
+        // reset fences
+        vkWaitForFences(mVulkanInfo.logicalDevice, 1, &mVulkanInfo.inFlightFences[mVulkanInfo.currentFrame], VK_TRUE, std::numeric_limits<uint64_t>::max());
+
+        // get next image from swapchain and trigger avaliable semaphore
+        VkResult result = vkAcquireNextImageKHR(
+                mVulkanInfo.logicalDevice,
+                mVulkanInfo.swapChain,
+                std::numeric_limits<uint64_t>::max(),
+                mVulkanInfo.imageAvailableSemaphores[mVulkanInfo.currentFrame],
+                VK_NULL_HANDLE, &mImageIndex);
+
+
+        if (result == VK_ERROR_OUT_OF_DATE_KHR) {
+            //mVulkanInfo.framebufferResized = false;
+            mVulkanInfo.RecreateSwapChain();
+            return;
+        } else if (result != VK_SUCCESS && result != VK_SUBOPTIMAL_KHR) {
+            Debug::CheckVKResult(result);
+        }
+
         // info for submission to queue
         VkSubmitInfo submitInfo = {};
         submitInfo.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
@@ -244,7 +251,6 @@ namespace TandenEngine {
         submitInfo.signalSemaphoreCount = 1;
         submitInfo.pSignalSemaphores = signalSemaphores;
 
-        // reset fences
         vkResetFences(
                 mVulkanInfo.logicalDevice,
                 1,
