@@ -25,12 +25,12 @@ namespace TandenEngine {
         friend class Serilizer;
      public:  // TODO(Thomas) make private
         MetaData() {
-            mGuid = reinterpret_cast<uint32_t>(this);
+            mGuid = reinterpret_cast<intptr_t>(this);
             mFileType = ResourceType::INVALID;
         }
 
         std::string mFileDir, mFileName;
-        uint32_t mGuid;
+        intptr_t mGuid;
 
         ResourceType mFileType;
 

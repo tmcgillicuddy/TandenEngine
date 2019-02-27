@@ -91,6 +91,8 @@ set(IMGUI_SOURCES ${IMGUI_DIR}/imgui.cpp ${IMGUI_DIR}/imgui_demo.cpp ${IMGUI_DIR
 #        ./Source/Engine/Entity/Components/Rendering/Renderer.h
 #        ./Source/Engine/Entity/Components/Rendering/SpriteRenderer.cpp
 #        ./Source/Engine/Entity/Components/Rendering/SpriteRenderer.h
+#        Source/Engine/Entity/Components/Rendering/MaterialComp.cpp
+#        Source/Engine/Entity/Components/Rendering/MaterialComp.h
 #        ./Source/Engine/Entity/Components/Transform.cpp
 #        ./Source/Engine/Entity/Components/Transform.h
 #        ./Source/Engine/Entity/GameObject.cpp
@@ -123,6 +125,8 @@ set(IMGUI_SOURCES ${IMGUI_DIR}/imgui.cpp ${IMGUI_DIR}/imgui_demo.cpp ${IMGUI_DIR
 #        ./Source/Engine/RenderingSystem/GUI/GUIElements/GUIElement.cpp
 #        ./Source/Engine/RenderingSystem/GUI/GUIElements/GUIElement.h
 #        ./Source/Engine/RenderingSystem/GUI/GUIElements/GUIHeader.h
+#        Source/Engine/RenderingSystem/GUI/GUIElements/GUIWindow.cpp
+#        Source/Engine/RenderingSystem/GUI/GUIElements/GUIWindow.h
 #        ./Source/Engine/RenderingSystem/GUI/GUIElements/InputField/FloatField.cpp
 #        ./Source/Engine/RenderingSystem/GUI/GUIElements/InputField/FloatField.h
 #        ./Source/Engine/RenderingSystem/GUI/GUIElements/InputField/IntField.cpp
@@ -143,6 +147,7 @@ set(IMGUI_SOURCES ${IMGUI_DIR}/imgui.cpp ${IMGUI_DIR}/imgui_demo.cpp ${IMGUI_DIR
 #        ./Source/Engine/RenderingSystem/GUI/GUIElements/Util/ToolTip.h
 #        ./Source/Engine/RenderingSystem/GUI/GUISystem.cpp
 #        ./Source/Engine/RenderingSystem/GUI/GUISystem.h
+#        ./Source/Engine/RenderingSystem/GUI/ComponentGUI.cpp
 #        ./Source/Engine/RenderingSystem/LightBehaviors/LightBehavior.cpp
 #        ./Source/Engine/RenderingSystem/LightBehaviors/LightBehavior.h
 #        ./Source/Engine/RenderingSystem/RayTracingSystem.cpp
@@ -230,7 +235,6 @@ find_package(Vulkan REQUIRED)
 #Link the SDK using GLFW's macros
 target_link_libraries(TandenEngine ${VULKAN_LIBRARY})
 
-
 #link glm
 #target_link_libraries(TandenEngine glm)
 
@@ -240,6 +244,8 @@ include_directories("Libraries/stb")
 #Link tinyobj library
 add_subdirectory(Libraries/tinyobjloader)
 target_link_libraries(TandenEngine tinyobjloader)
+
+target_link_libraries(${PROJECT_NAME} stdc++fs)
 
 #Export Important content files
 file(COPY  ./ContentFiles

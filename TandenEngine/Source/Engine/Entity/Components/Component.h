@@ -8,6 +8,7 @@
 #include <string>
 #include <vector>
 #include "NilsMath.h"
+#include <memory>
 
 namespace TandenEngine {
 

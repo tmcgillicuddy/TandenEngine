@@ -6,6 +6,7 @@
 #include <algorithm>
 #include "NilsMath.h"
 #include "../Entity/GameObject.h"
+#include <cmath>
 
 namespace TandenEngine {
 

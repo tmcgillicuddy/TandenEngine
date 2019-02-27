@@ -3,6 +3,7 @@
 //
 
 #include "CylinderModel.h"
+#include <cmath>
 
 namespace TandenEngine {
     CylinderModel::CylinderModel() {

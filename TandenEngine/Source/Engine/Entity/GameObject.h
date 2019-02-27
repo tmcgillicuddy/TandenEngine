@@ -42,7 +42,7 @@ namespace TandenEngine {
         template<typename T>
         bool RemoveComponent() {
             for (const auto &component : mComponents) {
-                if (dynamic_cast<T *>(component.get()) != nullptr) {
+                if (dynamic_cast<T *>(component.second.get()) != nullptr) {
                     mComponents.erase(std::remove(mComponents.begin(),
                             mComponents.end(), component), mComponents.end());
                     return true;
