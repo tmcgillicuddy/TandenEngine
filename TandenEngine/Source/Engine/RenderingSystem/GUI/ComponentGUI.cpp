@@ -11,6 +11,28 @@ namespace TandenEngine {
         ImGui::TextColored(ImVec4(1,0,0,1), "GENGUI NOT IMPLEMENTED");
     }
 
+    void MaterialComp::GenGUI() {
+        if(ImGui::TreeNode("Material")) {
+            if(mAlbedo == nullptr) {
+                ImGui::ColorEdit4("Albedo", mColor.v);
+            } else {
+                // TODO(Thomas) add file field
+            }
+            if(mMetallic == nullptr) {
+                ImGui::SliderFloat("Metallic", &mMetallicVal, 0,1);
+            } else {
+                // TODO(Thomas) add file field
+            }
+
+            if(mRoughness == nullptr) {
+                ImGui::SliderFloat("Roughness", &mRoughnessVal, 0,1);
+            } else {
+                // TODO(Thomas) add file field
+            }
+            ImGui::TreePop();
+        }
+    }
+
     void AudioSource::GenGUI() {
         if(ImGui::TreeNode("Audio Source")) {
             //TODO(Thomas) add vars
