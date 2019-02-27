@@ -31,7 +31,7 @@ Tanden Engine uses these libraries:
 * libX11-devel
 * libXcursor-devel
 * libXi-devel
-* libXinermama-devel
+* libXinerma-devel
 * libXrandr-devel
 * make
 * xorg-cf-files
