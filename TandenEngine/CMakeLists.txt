@@ -1,4 +1,7 @@
 cmake_minimum_required(VERSION 3.12)
+
+#-DCMAKE_SH="CMAKE_SH-NOTFOUND"
+
 project(TandenEngine)
 
 set(CMAKE_CXX_STANDARD 17)
@@ -224,7 +227,16 @@ include_directories("Source/Core/Debugger")
 target_link_libraries(TandenEngine glfw)
 
 #Locate the Vulkan SDKs
-target_link_libraries(${PROJECT_NAME} "$ENV{VULKAN_SDK}/Lib/vulkan-1.lib")
+find_package(Vulkan REQUIRED)
+
+#locate GLM
+#find_package(glm REQUIRED)
+
+#Link the SDK using GLFW's macros
+target_link_libraries(TandenEngine ${VULKAN_LIBRARY})
+
+#link glm
+#target_link_libraries(TandenEngine glm)
 
 #Include stb headers
 include_directories("Libraries/stb")

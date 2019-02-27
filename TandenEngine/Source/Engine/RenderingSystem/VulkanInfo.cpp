@@ -689,6 +689,8 @@ namespace TandenEngine {
         // local cleanup
         vkDestroyShaderModule(logicalDevice, fsModule, nullptr);
         vkDestroyShaderModule(logicalDevice, vsModule, nullptr);
+
+
     }
 
     void VulkanInfo::CreateFramebuffers() {

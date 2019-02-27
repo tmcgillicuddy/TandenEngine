@@ -15,6 +15,10 @@
 #include <cstdlib>
 #include "GUI/GUISystem.h"
 
+//#include "glm/glm.hpp"
+//#include "glm/gtc/matrix_transform.hpp"
+#include "../../../Libraries/GLM/glm/glm.hpp"
+
 #include "Window.h"
 #include "../Entity/Components/Rendering/Renderer.h"
 #include "../Entity/Components/Rendering/Camera.h"
@@ -25,11 +29,16 @@ const int windowHeight = 600;
 
 namespace TandenEngine {
 
-    struct mvpubo
+    struct mvpUniforms
     {
-        mat4 projection;
-        mat4 model;
-        mat4 view;
+        //mat4 projection;
+        //mat4 model;
+        //mat4 view;
+        //causes crashes
+        glm::mat4 model;
+        glm::mat4 view;
+        glm::mat4 projection;
+
     };
 
     struct VulkanInfo;

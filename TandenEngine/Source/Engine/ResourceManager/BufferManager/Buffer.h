@@ -51,7 +51,10 @@ namespace TandenEngine {
             mDescriptor.range = size;
         }
 
+        void CopyBufferTo(Buffer *destination); //copy buffer
+
         void destroy();  // Destroy buffer
+
 
     };
 
