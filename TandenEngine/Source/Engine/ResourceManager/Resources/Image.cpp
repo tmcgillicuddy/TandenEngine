@@ -24,6 +24,9 @@ namespace TandenEngine {
     }
 
     void Image::CreateTextureImage() {
+
+        VulkanInfo vkInfo = *RenderingSystem::GetVulkanInfo();
+
         int texWidth, texHeight, texChannels;
         // Load image file data into stb pixels
         stbi_uc *pixels = stbi_load(mMetaData->mFileDir.c_str(),
@@ -34,19 +37,24 @@ namespace TandenEngine {
             throw std::runtime_error("failed to load texture image!");
         }
 
-        VkBuffer stagingBuffer;
-        VkDeviceMemory stagingBufferMemory;
-        // TODO(Rosser) Require create buffer method
+        //create tmp staging buffer
+        Buffer *stagingBuffer;
         // Create a the buffer to hold the texture data
-        // CreateBuffer(imageSize, VK_BUFFER_USAGE_TRANSFER_SRC_BIT,
+        //TODO(Rosser) Re enable this for texture uniforms
+        //TODO(Rosser) notice that image size is in the wrong order paramwise
+        //BufferManager::CreateBuffer(imageSize, VK_BUFFER_USAGE_TRANSFER_SRC_BIT,
         //             VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT
-        //             | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT, stagingBuffer, stagingBufferMemory);
+        //             | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT, stagingBuffer->mBuffer, stagingBuffer->mMemory);
 
         void *data;
-        vkMapMemory(RenderingSystem::GetVulkanInfo()->logicalDevice,
-                stagingBufferMemory, 0, imageSize, 0, &data);
+
+        stagingBuffer->map(0, imageSize);
+
+        // vkMapMemory(vkInfo.logicalDevice,
+        //            stagingBuffer->mMemory, 0, imageSize, 0, &data);
         memcpy(data, pixels, static_cast<size_t>(imageSize));
-        vkUnmapMemory(RenderingSystem::GetVulkanInfo()->logicalDevice, stagingBufferMemory);
+        //vkUnmapMemory(vkInfo.logicalDevice, stagingBuffer->mMemory);
+        stagingBuffer->unmap();
 
         stbi_image_free(pixels);  // Free pixels
 

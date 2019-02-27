@@ -24,6 +24,7 @@ namespace TandenEngine {
     }
 
     void Model::LoadModel() {
+
         tinyobj::attrib_t attrib;
         std::vector<tinyobj::shape_t> shapes;
         std::vector<tinyobj::material_t> materials;
@@ -71,12 +72,15 @@ namespace TandenEngine {
                                     &mVertexBuffer,
                                     mVertices.size()*sizeof(MeshVertex),
                                     mVertices.data());
+
+
         // Index Buffer
         BufferManager::CreateBuffer(VK_BUFFER_USAGE_INDEX_BUFFER_BIT,
                                     VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT,
                                     &mIndexBuffer,
                                     mIndices.size()*sizeof(uint32_t),
                                     mIndices.data());
+
     }
 
 }  // namespace TandenEngine

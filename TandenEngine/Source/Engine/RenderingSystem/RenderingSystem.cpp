@@ -26,14 +26,28 @@ namespace TandenEngine {
 
             // Render Command buffers
             Debug::Log("Rendering Buffers %n");
+
+            std::cout << "render \n" ;
+            system("pause");
+
             Render();
+            std::cout << "success \n" ;
+
+
             Debug::Log("Finished Rendering Buffers %n");
             // Poll window events
             PollWindowEvents();
 
             // Present Render
             // Debug::LogPause("Presenting Render");
+            std::cout << "present \n" ;
+            system("pause");
+
+
             Present();
+            std::cout << "success  \n" ;
+
+
         }
         // vkDeviceWaitIdle(logicalDevice);
     }
@@ -91,20 +105,6 @@ namespace TandenEngine {
     }
 
     void RenderingSystem::Render() {
-        // get next image from swapchain and trigger avaliable semaphore
-        VkResult result = vkAcquireNextImageKHR(
-                mVulkanInfo.logicalDevice,
-                mVulkanInfo.swapChain,
-                std::numeric_limits<uint64_t>::max(),
-                mVulkanInfo.imageAvailableSemaphores[mVulkanInfo.currentFrame],
-                VK_NULL_HANDLE, &mImageIndex);
-
-        if (result == VK_ERROR_OUT_OF_DATE_KHR) {
-            mVulkanInfo.framebufferResized = false;
-            return;
-        } else if (result != VK_SUCCESS && result != VK_SUBOPTIMAL_KHR) {
-            Debug::CheckVKResult(result);
-        }
 
         VkCommandBufferBeginInfo cmdBufInfo = {};
         cmdBufInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
@@ -153,30 +153,53 @@ namespace TandenEngine {
             // TODO(Anyone) use shader(pipeline) attached to material on object(?)
             vkCmdBindPipeline(cmdBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS,
                     mVulkanInfo.graphicsPipeline);
+
             for (const auto &rend : mRenderers) {
                 if (MeshRenderer *meshRend = dynamic_cast<MeshRenderer *>(rend)) {
                     VkDeviceSize offsets[1] = {0};
-                    // TODO(Rosser) it's breaking here
-                    // Bind Uniform buffer on Mesh Renderer
-                    // vkCmdBindDescriptorSets(cmdBuffer,
-                    //         VK_PIPELINE_BIND_POINT_GRAPHICS, mVulkanInfo.pipelineLayout, 0, 1,
-                    //         &meshRend->mDescriptorSet, 0, NULL);
-                    
+
                     // Bind Vertex Buffer on Model
                     vkCmdBindVertexBuffers(cmdBuffer, 0, 1,
-                                           &meshRend->mpMesh
-                                           ->mModelResource->mVertexBuffer.mBuffer, offsets);
+                            &meshRend->mpMesh->mModelResource->mVertexBuffer.mBuffer, offsets);
+
+
+
+                    std::cout << "2 \n";
+
                     system("pause");
                     // Bind Index Buffer on Model
                     vkCmdBindIndexBuffer(cmdBuffer,
                             meshRend->mpMesh->mModelResource->mIndexBuffer.mBuffer,
                                          0, VK_INDEX_TYPE_UINT32);
+
+                    std::cout << "3 \n";
+
+                    system("pause");
+
+
+                    // TODO(Rosser) it's breaking here
+                    // Bind Uniform buffer on Mesh Renderer
+                    vkCmdBindDescriptorSets(cmdBuffer,
+                                            VK_PIPELINE_BIND_POINT_GRAPHICS, mVulkanInfo.pipelineLayout, 0, 1,
+                                            &meshRend->mDescriptorSet, 0, NULL);
+                    std::cout << "4 \n";
+
+                    system("pause");
+
+
                     vkCmdDrawIndexed(cmdBuffer,
                             meshRend->mpMesh->mModelResource->mIndices.size(), 1, 0, 0, 0);
+
+                    std::cout << "5 \n";
+
+                    system("pause");
+
                 }
             }
             // GUI uses different graphics pipeline, so draw buffers differently
             // GUI::GUISystem::DrawGUI(cmdBuffer);
+
+            std::cout << "10 \n";
 
             vkCmdEndRenderPass(cmdBuffer);
 
@@ -185,6 +208,27 @@ namespace TandenEngine {
     }
 
     void RenderingSystem::Present() {
+
+        // reset fences
+        vkWaitForFences(mVulkanInfo.logicalDevice, 1, &mVulkanInfo.inFlightFences[mVulkanInfo.currentFrame], VK_TRUE, std::numeric_limits<uint64_t>::max());
+
+        // get next image from swapchain and trigger avaliable semaphore
+        VkResult result = vkAcquireNextImageKHR(
+                mVulkanInfo.logicalDevice,
+                mVulkanInfo.swapChain,
+                std::numeric_limits<uint64_t>::max(),
+                mVulkanInfo.imageAvailableSemaphores[mVulkanInfo.currentFrame],
+                VK_NULL_HANDLE, &mImageIndex);
+
+
+        if (result == VK_ERROR_OUT_OF_DATE_KHR) {
+            //mVulkanInfo.framebufferResized = false;
+            mVulkanInfo.RecreateSwapChain();
+            return;
+        } else if (result != VK_SUCCESS && result != VK_SUBOPTIMAL_KHR) {
+            Debug::CheckVKResult(result);
+        }
+
         // info for submission to queue
         VkSubmitInfo submitInfo = {};
         submitInfo.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
@@ -207,7 +251,6 @@ namespace TandenEngine {
         submitInfo.signalSemaphoreCount = 1;
         submitInfo.pSignalSemaphores = signalSemaphores;
 
-        // reset fences
         vkResetFences(
                 mVulkanInfo.logicalDevice,
                 1,
@@ -246,7 +289,7 @@ namespace TandenEngine {
     }
 
     void RenderingSystem::UpdateBuffers() {
-        mvpubo ubo;
+        mvpUniforms ubo;
 
         // Set Main Camera Info for perspective
         if (mMainCam) {
@@ -258,7 +301,7 @@ namespace TandenEngine {
         // Update Uniform Buffers
         for (const auto &rend : mRenderers) {
             if (MeshRenderer *meshRend = dynamic_cast<MeshRenderer *>(rend)) {
-                ubo.model = mat4(1);
+//                ubo.model = mat4(1);
                 // TODO(Anyone) Set model to transform data of mesh renderer
                 memcpy(meshRend->mUniformBuffer.mMapped, &ubo, sizeof(ubo));
             }

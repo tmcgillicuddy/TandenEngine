@@ -17,10 +17,12 @@ namespace TandenEngine {
         Debug::CheckVKResult(BufferManager::CreateBuffer(VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT,
                 VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT,
                 &mUniformBuffer,
-                sizeof(mvpubo)));
+                sizeof(mvpUniforms)));
+
         mUniformBuffer.map();
 
         BufferManager::SetupDescriptorSet(mDescriptorSet, &mUniformBuffer.mDescriptor);
+
     }
 
     MeshRenderer::~MeshRenderer() {
