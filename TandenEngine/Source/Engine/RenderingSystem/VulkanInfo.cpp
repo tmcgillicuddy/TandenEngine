@@ -1,7 +1,10 @@
 // Created by thomas.mcgillicuddy on 1/19/2019.
 #define NOMINMAX
+#define _UNICODE
 #include "VulkanInfo.h"
 #include <Debug.h>
+#include <stdlib.h>
+
 namespace TandenEngine {
 
     void VulkanInfo::InitVulkan() {
@@ -946,7 +949,7 @@ namespace TandenEngine {
         poolInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_POOL_CREATE_INFO;
         poolInfo.flags = VK_DESCRIPTOR_POOL_CREATE_FREE_DESCRIPTOR_SET_BIT;
         poolInfo.maxSets = 1000;
-        poolInfo.poolSizeCount = _countof(poolSize);
+        poolInfo.poolSizeCount = sizeof(poolSize)/sizeof(VkDescriptorPoolSize);
         poolInfo.pPoolSizes = poolSize;
 
         if (vkCreateDescriptorPool(logicalDevice, &poolInfo,

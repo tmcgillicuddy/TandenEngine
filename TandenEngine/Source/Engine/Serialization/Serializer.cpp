@@ -2,6 +2,7 @@
 #include <sstream>
 #include <algorithm>
 #include <iterator>
+#include <experimental/filesystem>
 
 #include "../ResourceManager/ResourceManager.h"
 
@@ -117,7 +118,7 @@ namespace TandenEngine {
     void Serializer::GetMetaDataAtDir(std::string dir) {
         std::string extension = "*.meta";  // Extension for meta data
         std::string name, junk;
-        for (auto & p : std::filesystem::recursive_directory_iterator(dir)) {
+        for (auto & p : std::experimental::filesystem::recursive_directory_iterator(dir)) {
             name = p.path().u8string();
             if (name.substr(name.find_last_of(".") + 1) == "meta") {
                 std::ifstream fileStream;
@@ -213,7 +214,7 @@ namespace TandenEngine {
         std::string name;
         std::string tempDir = dir;
         std::replace(tempDir.begin(), tempDir.end(), '/', '\\');
-        for (auto & p : std::filesystem::recursive_directory_iterator(tempDir)) {
+        for (auto & p : std::experimental::filesystem::recursive_directory_iterator(tempDir)) {
             name = p.path().u8string();
             bool isCovered = false;  // Flag to know if meta file for this resource already exists
             if (name.substr(name.find_last_of(".") + 1) != "meta") {

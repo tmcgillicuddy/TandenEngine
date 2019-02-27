@@ -3,7 +3,7 @@
 //
 
 #include "SphereModel.h"
-
+#include <cmath>
 namespace TandenEngine {
     SphereModel::SphereModel() {
         for (int i = 0; i < mSlices + 1; i++) {

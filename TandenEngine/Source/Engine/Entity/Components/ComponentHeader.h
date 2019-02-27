@@ -6,6 +6,7 @@
 #define TANDENENGINE_COMPONENTHEADER_H
 
 #include <unordered_map>
+#include <algorithm>
 
 #include "Component.h"
 #include "Transform.h"

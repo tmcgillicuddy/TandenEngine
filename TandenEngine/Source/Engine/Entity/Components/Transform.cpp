@@ -1,5 +1,6 @@
 #include "Transform.h"
 #include "Debug.h"
+#include <algorithm>
 namespace TandenEngine {
 
     Transform::Transform() {

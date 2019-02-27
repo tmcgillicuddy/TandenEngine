@@ -56,7 +56,7 @@ namespace TandenEngine {
 }  // namespace TandenEngine
 
 namespace std {
-    template<> struct ::std::hash<TandenEngine::MeshVertex> {
+    template<> struct hash<TandenEngine::MeshVertex> {
         size_t operator()(TandenEngine::MeshVertex const& vertex) const {
             return ((::std::hash<TandenEngine::vec3>()(vertex.mPos  ) ^
                      (::std::hash<TandenEngine::vec3>()(vertex.mColor) << 1)) >> 1) ^
