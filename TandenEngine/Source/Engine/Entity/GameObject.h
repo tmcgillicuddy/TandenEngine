@@ -14,11 +14,9 @@ namespace TandenEngine {
 
     class GameObject {  // Game Objects always have at least a transform component
         friend class Prefab;
-     private:
+     public:
         std::string mName = "Test_Object";
         std::unordered_map<std::type_index, std::unique_ptr<Component>> mComponents;
-
-     public:
         Transform * mTransform;  // The locally held pointer to transform comp
 
         GameObject();

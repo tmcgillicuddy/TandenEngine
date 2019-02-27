@@ -7,13 +7,5 @@
 
 namespace TandenEngine {
     namespace GUI {
-        void GUIElement::RegisterGUI() {
-            GUISystem::RegisterGUIElement(this);
-        }
-
-        GUIElement::GUIElement() {
-            RegisterGUI();
-        }
-
     }  // namespace GUI
 }  // namespace TandenEngine

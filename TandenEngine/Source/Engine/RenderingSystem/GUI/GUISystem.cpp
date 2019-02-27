@@ -150,10 +150,6 @@ namespace TandenEngine {
             ImGui::DestroyContext();
         }
 
-        void GUISystem::RegisterGUIElement(GUIElement *newElement) {
-            mGuiElements.emplace_back(newElement);
-        }
-
         void GUISystem::DrawGUI(VkCommandBuffer commandBuffer) {
             ImGuiIO& io = ImGui::GetIO();
 

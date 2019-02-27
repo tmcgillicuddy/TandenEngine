@@ -26,6 +26,8 @@ namespace TandenEngine {
         std::string ToString() override;
         // Takes in some string data and will output a physicsComponent object
         Component * ConvertFromString(std::vector<std::string>) override;
+
+        void GenGUI() override;
     };
 
 }  // namespace TandenEngine

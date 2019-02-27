@@ -53,6 +53,8 @@ namespace TandenEngine {
         Component * ConvertFromString(std::vector<std::string> input) override;
 
         std::unique_ptr<Component> Clone() override;
+
+        void GenGUI() override;
     };
 }  // namespace TandenEngine
 

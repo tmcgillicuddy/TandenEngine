@@ -4,6 +4,8 @@
 
 #include "Material.h"
 #include "../ResourceManager.h"
+#include "../../Entity/Components/Rendering/MaterialComp.h"
+
 
 namespace TandenEngine {
 
