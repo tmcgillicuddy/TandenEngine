@@ -31,10 +31,11 @@ Tanden Engine uses these libraries:
 * libX11-devel
 * libXcursor-devel
 * libXi-devel
-* libXinerma-devel
+* libXinerama-devel
 * libXrandr-devel
 * make
 * xorg-cf-files
+* libstdc++6
 
 ## Compiling:
 Clone the repo and run 'git submodule update --init --recursive' to get the submodules
