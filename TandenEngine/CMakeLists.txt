@@ -227,13 +227,12 @@ include_directories("Source/Core/Debugger")
 target_link_libraries(TandenEngine glfw)
 
 #Locate the Vulkan SDKs
-find_package(Vulkan REQUIRED)
+target_link_libraries(${PROJECT_NAME} "$ENV{VULKAN_SDK}/Lib/vulkan-1.lib")
 
 #locate GLM
 #find_package(glm REQUIRED)
 
 #Link the SDK using GLFW's macros
-target_link_libraries(TandenEngine ${VULKAN_LIBRARY})
 
 #link glm
 #target_link_libraries(TandenEngine glm)

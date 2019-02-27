@@ -53,7 +53,7 @@ namespace TandenEngine {
 
         // copy
         VkBufferCopy copyRegion = {};
-        copyRegion.size = mMemory;
+        copyRegion.size = VK_WHOLE_SIZE;
         vkCmdCopyBuffer(commandBuffer, this->mBuffer, destination->mBuffer, 1, &copyRegion);
 
         // end copy
