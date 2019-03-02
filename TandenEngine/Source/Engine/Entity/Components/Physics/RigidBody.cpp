@@ -18,30 +18,34 @@ namespace TandenEngine {
     }
 
     void RigidBody::PhysicsUpdate() {
+        float dt = Timer::GetFrameTime();
+
         // update transforms based on velocity
         if (!mStatic) {
-            mTransform->mTransformLocal.r1.x += mVelocityLinear.x;
-            mTransform->mTransformLocal.r1.y += mVelocityLinear.y;
-            mTransform->mTransformLocal.r1.z += mVelocityLinear.z;
+            mTransform->mTransformLocal.r1.x += mVelocityLinear.x * dt;
+            mTransform->mTransformLocal.r1.y += mVelocityLinear.y * dt;
+            mTransform->mTransformLocal.r1.z += mVelocityLinear.z * dt;
 
-            mTransform->mTransformLocal.r2.x += mVelocityAngular.x;
-            mTransform->mTransformLocal.r2.y += mVelocityAngular.y;
-            mTransform->mTransformLocal.r2.z += mVelocityAngular.z;
+            mTransform->mTransformLocal.r2.x += mVelocityAngular.x * dt;
+            mTransform->mTransformLocal.r2.y += mVelocityAngular.y * dt;
+            mTransform->mTransformLocal.r2.z += mVelocityAngular.z * dt;
         }
 
-        // update velocities based on accelerations and drag force acting against it
-        mVelocityLinear.x += mAccelerationLinear.x + mDragForce.x;
-        mVelocityLinear.y += mAccelerationLinear.y + mDragForce.y;
-        mVelocityLinear.z += mAccelerationLinear.z + mDragForce.z;
 
-        mVelocityAngular.x += mAccelerationAngular.x + mDragForce.x;
-        mVelocityAngular.y += mAccelerationAngular.y + mDragForce.y;
-        mVelocityAngular.z += mAccelerationAngular.z + mDragForce.z;
-        // Debug::Log("%v3", mLinearVelocity);
+
+        // update velocities based on accelerations and drag force acting against it
+        mVelocityLinear.x += (mAccelerationLinear.x + mDragForce.x) * dt;
+        mVelocityLinear.y += (mAccelerationLinear.y + mDragForce.y) * dt;
+        mVelocityLinear.z += (mAccelerationLinear.z + mDragForce.z) * dt;
+
+        mVelocityAngular.x += (mAccelerationAngular.x + mDragForce.x) * dt;
+        mVelocityAngular.y += (mAccelerationAngular.y + mDragForce.y) * dt;
+        mVelocityAngular.z += (mAccelerationAngular.z + mDragForce.z) * dt;
+        // Debug::Log("%v3", mLinearVelocity);)
 
         // reset forces, because they're only applied for a frame
-        mAccelerationLinear -= mForceLinear * (1.0f / mMass);
-        mAccelerationLinear -= mForceAngular * (1.0f / mMass);
+        mAccelerationLinear -= mForceLinear * (1.0f / mMass) * dt;
+        mAccelerationLinear -= mForceAngular * (1.0f / mMass) * dt;
         mForceLinear = vec3(0.0, 0.0, 0.0);
         mForceAngular = vec3(0.0, 0.0, 0.0);
     }
