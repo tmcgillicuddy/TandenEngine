@@ -16,7 +16,7 @@ namespace TandenEngine {
 
      public:
         static float mCurrentTime;
-
+        static float GetFrameTime();
         static void WaitForFrameTime();
     };
 

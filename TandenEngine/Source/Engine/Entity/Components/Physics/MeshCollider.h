@@ -6,12 +6,17 @@
 #define TANDENENGINE_MESHCOLLIDER_H
 
 #include "Collider.h"
+#include "SphereCollider.h"
 
 namespace TandenEngine {
 
     class MeshCollider : public Collider {
      public:
         MeshCollider();
+        SphereCollider mBoundingSphere;
+
+        void ComputeBounds(vec3 v[], int numVerts);
+
 
         // Component Overrides
         void Update() override;
