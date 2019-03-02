@@ -248,9 +248,9 @@ include_directories("Libraries/stb")
 #Link tinyobj library
 add_subdirectory(Libraries/tinyobjloader)
 target_link_libraries(TandenEngine tinyobjloader)
-
-target_link_libraries(${PROJECT_NAME} stdc++fs)
-
+if (${CMAKE_SYSTEM_NAME} MATCHES "CYGWIN")
+    target_link_libraries(${PROJECT_NAME} stdc++fs)
+endif()
 #Export Important content files
 file(COPY  ./ContentFiles
         DESTINATION ${CMAKE_BINARY_DIR}/ )
