@@ -20,6 +20,14 @@ namespace TandenEngine {
     void RigidBody::PhysicsUpdate() {
         float dt = Timer::GetFrameTime();
 
+        vec3 resetAccLin = mAccelerationLinear;
+        vec3 resetAccAng = mAccelerationAngular;
+
+        // TODO(Nils) Possibly make these more precise, depending on precision vs. accuracy
+        // Add forces
+        mAccelerationLinear += mForceLinear * (1.0f / mMass) * dt;
+        mAccelerationAngular += mForceAngular * (1.0f / mMass);
+
         // update transforms based on velocity
         if (!mStatic) {
             mTransform->mTransformLocal.r1.x += mVelocityLinear.x * dt;
@@ -30,8 +38,6 @@ namespace TandenEngine {
             mTransform->mTransformLocal.r2.y += mVelocityAngular.y * dt;
             mTransform->mTransformLocal.r2.z += mVelocityAngular.z * dt;
         }
-
-
 
         // update velocities based on accelerations and drag force acting against it
         mVelocityLinear.x += (mAccelerationLinear.x + mDragForce.x) * dt;
@@ -44,10 +50,10 @@ namespace TandenEngine {
         // Debug::Log("%v3", mLinearVelocity);)
 
         // reset forces, because they're only applied for a frame
-        mAccelerationLinear -= mForceLinear * (1.0f / mMass) * dt;
-        mAccelerationLinear -= mForceAngular * (1.0f / mMass) * dt;
-        mForceLinear = vec3(0.0, 0.0, 0.0);
-        mForceAngular = vec3(0.0, 0.0, 0.0);
+        mAccelerationLinear = resetAccLin;
+        mAccelerationLinear = resetAccAng;
+        mForceLinear = vec3::ZERO;
+        mForceAngular = vec3::ZERO;
     }
 
     // Changes gravity to given amount, and updates acceleration accordingly
@@ -60,12 +66,10 @@ namespace TandenEngine {
     // Add force for a single update
     void RigidBody::AddForceLinear(const vec3& toAdd) {
         mForceLinear = toAdd;
-        mAccelerationLinear += mForceLinear * (1.0f / mMass);
     }
 
     void RigidBody::AddForceAngular(const vec3& toAdd) {
         mForceAngular = toAdd;
-        mAccelerationAngular += mForceAngular * (1.0f / mMass);
     }
 
     // Returns the calculated drag, in case you need it for anything
