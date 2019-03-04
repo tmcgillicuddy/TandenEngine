@@ -56,8 +56,6 @@ namespace TandenEngine {
         // give rend comp model
         tempFilter->mModelResource = &Primitive::Cube;
 
-        system("pause");
-
         tempComp->mpMesh = tempFilter;
 
         exitStatus = false;

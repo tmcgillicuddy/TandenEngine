@@ -151,7 +151,6 @@ namespace TandenEngine {
                     vkCmdBindVertexBuffers(cmdBuffer, 0, 1,
                             &meshRend->mpMesh->mModelResource->mVertexBuffer.mBuffer, offsets);
 
-
                     // Bind Index Buffer on Model
                     vkCmdBindIndexBuffer(cmdBuffer,
                             meshRend->mpMesh->mModelResource->mIndexBuffer.mBuffer,
@@ -159,11 +158,10 @@ namespace TandenEngine {
 
                     // TODO(Rosser) it's breaking here
                     // Bind Uniform buffer on Mesh Renderer
-                    //vkCmdBindDescriptorSets(cmdBuffer,
-                    //                        VK_PIPELINE_BIND_POINT_GRAPHICS, mVulkanInfo.pipelineLayout, 0, 1,
-                    //                        &meshRend->mDescriptorSet, 0, NULL);
+                    vkCmdBindDescriptorSets(cmdBuffer,
+                                            VK_PIPELINE_BIND_POINT_GRAPHICS, mVulkanInfo.pipelineLayout, 0, 1,
+                                            meshRend->mDescriptorSet, 0, NULL);
                     //std::cout << "bind descriptor sets successful, prepare to draw \n";
-
 
                     vkCmdDrawIndexed(cmdBuffer,
                             meshRend->mpMesh->mModelResource->mIndices.size(), 1, 0, 0, 0);
@@ -238,7 +236,7 @@ namespace TandenEngine {
         }
 
         // presentation info
-        VkPresentInfoKHR presentInfo = {};
+        VkPresentInfoKHR presentInfo = { };
         presentInfo.sType = VK_STRUCTURE_TYPE_PRESENT_INFO_KHR;
 
         // which semaphores to wait on for presentation
