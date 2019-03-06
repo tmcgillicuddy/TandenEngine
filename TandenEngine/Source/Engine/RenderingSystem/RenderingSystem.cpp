@@ -181,17 +181,20 @@ namespace TandenEngine {
         }
     }
 
-    void RenderingSystem::Present() {
+	void RenderingSystem::Present() {
 
-        // reset fences
-        vkWaitForFences(mVulkanInfo.logicalDevice, 1, &mVulkanInfo.inFlightFences[mVulkanInfo.currentFrame], VK_TRUE, std::numeric_limits<uint64_t>::max());
+		// reset fences
+		// vkWaitForFences(
+		// mVulkanInfo.logicalDevice, 1,
+		// &mVulkanInfo.inFlightFences[mVulkanInfo.currentFrame], 
+		// VK_TRUE, std::numeric_limits<uint64_t>::max());
 
-        // get next image from swapchain and trigger avaliable semaphore
-        VkResult result = vkAcquireNextImageKHR(
-                mVulkanInfo.logicalDevice,
-                mVulkanInfo.swapChain,
-                std::numeric_limits<uint64_t>::max(),
-                mVulkanInfo.imageAvailableSemaphores[mVulkanInfo.currentFrame],
+		// get next image from swapchain and trigger avaliable semaphore
+		VkResult result = vkAcquireNextImageKHR(
+			mVulkanInfo.logicalDevice,
+			mVulkanInfo.swapChain,
+			std::numeric_limits<uint64_t>::max(),
+			mVulkanInfo.imageAvailableSemaphores[0], //mVulkanInfo.currentFrame],
                 VK_NULL_HANDLE, &mImageIndex);
 
 
@@ -202,63 +205,54 @@ namespace TandenEngine {
         } else if (result != VK_SUCCESS && result != VK_SUBOPTIMAL_KHR) {
             Debug::CheckVKResult(result);
         }
+        
+		// determine which semaphores wait on eachother
+		VkSemaphore waitSemaphores[] =
+		{ mVulkanInfo.imageAvailableSemaphores[0] };//mVulkanInfo.currentFrame]}; //testing with 1 frame
+			VkSemaphore signalSemaphores[] =
+		{ mVulkanInfo.renderFinishedSemaphores[0] };//mVulkanInfo.currentFrame]}; //testing with 1 frame
+
+        VkPipelineStageFlags waitStages[] = {VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT};
 
         // info for submission to queue
         VkSubmitInfo submitInfo = {};
         submitInfo.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
-
-        // determine which semaphores wait on eachother
-        VkSemaphore waitSemaphores[] =
-                {mVulkanInfo.imageAvailableSemaphores[mVulkanInfo.currentFrame]};
-        VkPipelineStageFlags waitStages[] = {VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT};
         submitInfo.waitSemaphoreCount = 1;
         submitInfo.pWaitSemaphores = waitSemaphores;
-        submitInfo.pWaitDstStageMask = waitStages;
-
-        // determine which command buffers to bind for the color attachment
         submitInfo.commandBufferCount = 1;
-        submitInfo.pCommandBuffers = &mVulkanInfo.commandBuffers[mImageIndex];
-
-        // determine which semaphore will signal once command buffer finishes
-        VkSemaphore signalSemaphores[] =
-                {mVulkanInfo.renderFinishedSemaphores[mVulkanInfo.currentFrame]};
+		submitInfo.pCommandBuffers = &mVulkanInfo.commandBuffers[0]; //mImageIndex];
+        submitInfo.pWaitDstStageMask = waitStages;
         submitInfo.signalSemaphoreCount = 1;
         submitInfo.pSignalSemaphores = signalSemaphores;
 
-        vkResetFences(
-                mVulkanInfo.logicalDevice,
-                1,
-                &mVulkanInfo.inFlightFences[mVulkanInfo.currentFrame]);
+        // vkResetFences(
+        //        mVulkanInfo.logicalDevice,
+        //        1,
+        //        &mVulkanInfo.inFlightFences[mVulkanInfo.currentFrame]);
 
-        // failed to submit
+        // Submit To Queue
         if (vkQueueSubmit(mVulkanInfo.gfxQueue, 1, &submitInfo, VK_NULL_HANDLE) != VK_SUCCESS) {
             throw std::runtime_error("failed to submit draw command buffer!");
         }
 
         // presentation info
-        VkPresentInfoKHR presentInfo = { };
-        presentInfo.sType = VK_STRUCTURE_TYPE_PRESENT_INFO_KHR;
 
-        // which semaphores to wait on for presentation
-        presentInfo.waitSemaphoreCount = 1;
-        presentInfo.pWaitSemaphores = signalSemaphores;
-
-        // specify swap chain to present images and the index of the target image
-        VkSwapchainKHR swapChains[] = {mVulkanInfo.swapChain};
-        presentInfo.swapchainCount = 1;
-        presentInfo.pSwapchains = swapChains;
-        presentInfo.pImageIndices = &mImageIndex;
-
+        mVulkanInfo.presentInfo.sType = VK_STRUCTURE_TYPE_PRESENT_INFO_KHR;
+        mVulkanInfo.presentInfo.waitSemaphoreCount = 1;
+        mVulkanInfo.presentInfo.pWaitSemaphores = signalSemaphores;
+        mVulkanInfo.presentInfo.swapchainCount = 1;
+        mVulkanInfo.presentInfo.pSwapchains = &mVulkanInfo.swapChain;
+        mVulkanInfo.presentInfo.pImageIndices = &mImageIndex;
         // not necessary with one swapchain but this checks
         // if all swapchain presentation was successful or not
-        presentInfo.pResults = nullptr;  //  Optional
+		//mVulkanInfo.presentInfo.pResults = nullptr;
 
         // present image to swapchain
-        vkQueuePresentKHR(mVulkanInfo.presentationQueue, &presentInfo);
+        vkQueuePresentKHR(mVulkanInfo.presentationQueue, &mVulkanInfo.presentInfo);
 
-        vkQueueWaitIdle(mVulkanInfo.presentationQueue);
+        //vkQueueWaitIdle(mVulkanInfo.presentationQueue);
 
-        // increment frames
+        // increment frames (only needed for fences)
         mVulkanInfo.currentFrame = (mVulkanInfo.currentFrame + 1) % mVulkanInfo.maxFramesInFlight;
     }
 
