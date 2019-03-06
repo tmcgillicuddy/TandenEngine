@@ -18,32 +18,42 @@ namespace TandenEngine {
     }
 
     void RigidBody::PhysicsUpdate() {
+        float dt = Timer::GetFrameTime();
+
+        vec3 resetAccLin = mAccelerationLinear;
+        vec3 resetAccAng = mAccelerationAngular;
+
+        // TODO(Nils) Possibly make these more precise, depending on precision vs. accuracy
+        // Add forces
+        mAccelerationLinear += mForceLinear * (1.0f / mMass) * dt;
+        mAccelerationAngular += mForceAngular * (1.0f / mMass);
+
         // update transforms based on velocity
         if (!mStatic) {
-            mTransform->mTransformLocal.r1.x += mVelocityLinear.x;
-            mTransform->mTransformLocal.r1.y += mVelocityLinear.y;
-            mTransform->mTransformLocal.r1.z += mVelocityLinear.z;
+            mTransform->mTransformLocal.r1.x += mVelocityLinear.x * dt;
+            mTransform->mTransformLocal.r1.y += mVelocityLinear.y * dt;
+            mTransform->mTransformLocal.r1.z += mVelocityLinear.z * dt;
 
-            mTransform->mTransformLocal.r2.x += mVelocityAngular.x;
-            mTransform->mTransformLocal.r2.y += mVelocityAngular.y;
-            mTransform->mTransformLocal.r2.z += mVelocityAngular.z;
+            mTransform->mTransformLocal.r2.x += mVelocityAngular.x * dt;
+            mTransform->mTransformLocal.r2.y += mVelocityAngular.y * dt;
+            mTransform->mTransformLocal.r2.z += mVelocityAngular.z * dt;
         }
 
         // update velocities based on accelerations and drag force acting against it
-        mVelocityLinear.x += mAccelerationLinear.x + mDragForce.x;
-        mVelocityLinear.y += mAccelerationLinear.y + mDragForce.y;
-        mVelocityLinear.z += mAccelerationLinear.z + mDragForce.z;
+        mVelocityLinear.x += (mAccelerationLinear.x + mDragForce.x) * dt;
+        mVelocityLinear.y += (mAccelerationLinear.y + mDragForce.y) * dt;
+        mVelocityLinear.z += (mAccelerationLinear.z + mDragForce.z) * dt;
 
-        mVelocityAngular.x += mAccelerationAngular.x + mDragForce.x;
-        mVelocityAngular.y += mAccelerationAngular.y + mDragForce.y;
-        mVelocityAngular.z += mAccelerationAngular.z + mDragForce.z;
-        // Debug::Log("%v3", mLinearVelocity);
+        mVelocityAngular.x += (mAccelerationAngular.x + mDragForce.x) * dt;
+        mVelocityAngular.y += (mAccelerationAngular.y + mDragForce.y) * dt;
+        mVelocityAngular.z += (mAccelerationAngular.z + mDragForce.z) * dt;
+        // Debug::Log("%v3", mLinearVelocity);)
 
         // reset forces, because they're only applied for a frame
-        mAccelerationLinear -= mForceLinear * (1.0f / mMass);
-        mAccelerationLinear -= mForceAngular * (1.0f / mMass);
-        mForceLinear = vec3(0.0, 0.0, 0.0);
-        mForceAngular = vec3(0.0, 0.0, 0.0);
+        mAccelerationLinear = resetAccLin;
+        mAccelerationLinear = resetAccAng;
+        mForceLinear = vec3::ZERO;
+        mForceAngular = vec3::ZERO;
     }
 
     // Changes gravity to given amount, and updates acceleration accordingly
@@ -56,12 +66,10 @@ namespace TandenEngine {
     // Add force for a single update
     void RigidBody::AddForceLinear(const vec3& toAdd) {
         mForceLinear = toAdd;
-        mAccelerationLinear += mForceLinear * (1.0f / mMass);
     }
 
     void RigidBody::AddForceAngular(const vec3& toAdd) {
         mForceAngular = toAdd;
-        mAccelerationAngular += mForceAngular * (1.0f / mMass);
     }
 
     // Returns the calculated drag, in case you need it for anything

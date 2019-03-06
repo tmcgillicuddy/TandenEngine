@@ -9,8 +9,12 @@ namespace TandenEngine {
 
     float Timer::mCurrentTime = 0.0f;
 
+    float Timer::GetFrameTime() {
+        return FRAMETIME;
+    }
+
     void Timer::WaitForFrameTime() {
-        mCurrentTime += 0.166f;
+        mCurrentTime += 0.0166f;
         clock_t startTime = clock();
         bool wait = true;
         double secondsPassed;
