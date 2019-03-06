@@ -39,7 +39,7 @@ namespace TandenEngine {
                 VkDeviceSize size, void *data = nullptr);
 
         // General descriptor set Init function
-        static void SetupDescriptorSet(VkDescriptorSet dSet, VkDescriptorBufferInfo* bufferInfo);
+        static void SetupDescriptorSet(VkDescriptorSet *dSet, VkDescriptorBufferInfo* bufferInfo);
     };
 }  // namespace TandenEngine
 

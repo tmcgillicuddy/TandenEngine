@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.12)
+cmake_minimum_required(VERSION 3.6.2)
 
 #-DCMAKE_SH="CMAKE_SH-NOTFOUND"
 
@@ -9,6 +9,7 @@ set(CMAKE_CXX_STANDARD 17)
 # Only necessary under Windows
 include_directories("$ENV{VULKAN_SDK}/include")
 
+# Disable glfw Documentation, Tests and Examples
 # Disable glfw Documentation, Tests and Examples
 set(GLFW_BUILD_DOCS OFF CACHE BOOL "" FORCE)
 set(GLFW_BUILD_TESTS OFF CACHE BOOL "" FORCE)
@@ -231,7 +232,14 @@ include_directories("Source/Core/Debugger")
 #Link GLFW
 target_link_libraries(TandenEngine glfw)
 
+<<<<<<< HEAD
+#Locate the Vulkan SDKs
+find_package(Vulkan REQUIRED)
+=======
+>>>>>>> origin/develop
 
+#Link the SDK using GLFW's macros
+target_link_libraries(TandenEngine ${VULKAN_LIBRARY})
 #locate GLM
 #find_package(glm REQUIRED)
 
@@ -250,11 +258,15 @@ if (${CMAKE_SYSTEM_NAME} MATCHES "CYGWIN")
     #Locate the Vulkan SDKs
     target_link_libraries(${PROJECT_NAME} "$ENV{VULKAN_SDK}/Lib/vulkan-1.lib")
 
+<<<<<<< HEAD
+#target_link_libraries(${PROJECT_NAME} stdc++fs)
+=======
     target_link_libraries(${PROJECT_NAME} stdc++fs)
 elseif(TANDENEXE)
     message("Building on VS")
     #Locate the Vulkan SDKs
     find_package(Vulkan REQUIRED)
+>>>>>>> origin/develop
 
     #Link the SDK using GLFW's macros
     target_link_libraries(TandenEngine ${VULKAN_LIBRARY})

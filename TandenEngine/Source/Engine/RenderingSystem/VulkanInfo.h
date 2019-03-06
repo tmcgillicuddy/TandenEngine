@@ -73,6 +73,7 @@ namespace TandenEngine {
         VkDevice logicalDevice;                      // logical interface with graphics card
         VkQueue gfxQueue;                            // graphics queue for graphics events
         VkQueue presentationQueue;
+		VkPresentInfoKHR presentInfo;
         VkSurfaceKHR WindowSurface;                  // surface of window
         VkSwapchainKHR swapChain;                    // the infamous SWAP CHAIN
         VkFormat swapChainImageFormat;

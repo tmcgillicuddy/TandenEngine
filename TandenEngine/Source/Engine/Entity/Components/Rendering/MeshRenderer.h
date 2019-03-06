@@ -8,13 +8,14 @@
 #include "Renderer.h"
 #include "MeshFilter.h"
 #include "../../../ResourceManager/BufferManager/Buffer.h"
+#include "vulkan/vulkan.h"
 
 namespace TandenEngine {
 
     class MeshRenderer : public Renderer {
      public:
         Buffer mUniformBuffer;
-        VkDescriptorSet mDescriptorSet;
+        VkDescriptorSet *mDescriptorSet;
 
         MeshRenderer();
 

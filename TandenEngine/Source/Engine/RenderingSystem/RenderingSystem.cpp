@@ -25,28 +25,17 @@ namespace TandenEngine {
             UpdateBuffers();
 
             // Render Command buffers
-            Debug::Log("Rendering Buffers %n");
-
             std::cout << "render \n" ;
-            system("pause");
-
             Render();
             std::cout << "success \n" ;
 
-
-            Debug::Log("Finished Rendering Buffers %n");
             // Poll window events
             PollWindowEvents();
 
             // Present Render
-            // Debug::LogPause("Presenting Render");
             std::cout << "present \n" ;
-            system("pause");
-
-
             Present();
-            std::cout << "success  \n" ;
-
+            std::cout << "present successful \n" ;
 
         }
         // vkDeviceWaitIdle(logicalDevice);
@@ -162,44 +151,29 @@ namespace TandenEngine {
                     vkCmdBindVertexBuffers(cmdBuffer, 0, 1,
                             &meshRend->mpMesh->mModelResource->mVertexBuffer.mBuffer, offsets);
 
-
-
-                    std::cout << "2 \n";
-
-                    system("pause");
                     // Bind Index Buffer on Model
                     vkCmdBindIndexBuffer(cmdBuffer,
                             meshRend->mpMesh->mModelResource->mIndexBuffer.mBuffer,
                                          0, VK_INDEX_TYPE_UINT32);
 
-                    std::cout << "3 \n";
-
-                    system("pause");
-
-
                     // TODO(Rosser) it's breaking here
                     // Bind Uniform buffer on Mesh Renderer
                     vkCmdBindDescriptorSets(cmdBuffer,
                                             VK_PIPELINE_BIND_POINT_GRAPHICS, mVulkanInfo.pipelineLayout, 0, 1,
-                                            &meshRend->mDescriptorSet, 0, NULL);
-                    std::cout << "4 \n";
-
-                    system("pause");
-
+                                            meshRend->mDescriptorSet, 0, NULL);
+                    //std::cout << "bind descriptor sets successful, prepare to draw \n";
 
                     vkCmdDrawIndexed(cmdBuffer,
                             meshRend->mpMesh->mModelResource->mIndices.size(), 1, 0, 0, 0);
 
-                    std::cout << "5 \n";
+                    //std::cout << "draw indexed successful \n";
 
-                    system("pause");
+                    //system("pause");
 
                 }
             }
             // GUI uses different graphics pipeline, so draw buffers differently
             // GUI::GUISystem::DrawGUI(cmdBuffer);
-
-            std::cout << "10 \n";
 
             vkCmdEndRenderPass(cmdBuffer);
 
@@ -207,17 +181,20 @@ namespace TandenEngine {
         }
     }
 
-    void RenderingSystem::Present() {
+	void RenderingSystem::Present() {
 
-        // reset fences
-        vkWaitForFences(mVulkanInfo.logicalDevice, 1, &mVulkanInfo.inFlightFences[mVulkanInfo.currentFrame], VK_TRUE, std::numeric_limits<uint64_t>::max());
+		// reset fences
+		// vkWaitForFences(
+		// mVulkanInfo.logicalDevice, 1,
+		// &mVulkanInfo.inFlightFences[mVulkanInfo.currentFrame], 
+		// VK_TRUE, std::numeric_limits<uint64_t>::max());
 
-        // get next image from swapchain and trigger avaliable semaphore
-        VkResult result = vkAcquireNextImageKHR(
-                mVulkanInfo.logicalDevice,
-                mVulkanInfo.swapChain,
-                std::numeric_limits<uint64_t>::max(),
-                mVulkanInfo.imageAvailableSemaphores[mVulkanInfo.currentFrame],
+		// get next image from swapchain and trigger avaliable semaphore
+		VkResult result = vkAcquireNextImageKHR(
+			mVulkanInfo.logicalDevice,
+			mVulkanInfo.swapChain,
+			std::numeric_limits<uint64_t>::max(),
+			mVulkanInfo.imageAvailableSemaphores[0], //mVulkanInfo.currentFrame],
                 VK_NULL_HANDLE, &mImageIndex);
 
 
@@ -228,63 +205,54 @@ namespace TandenEngine {
         } else if (result != VK_SUCCESS && result != VK_SUBOPTIMAL_KHR) {
             Debug::CheckVKResult(result);
         }
+        
+		// determine which semaphores wait on eachother
+		VkSemaphore waitSemaphores[] =
+		{ mVulkanInfo.imageAvailableSemaphores[0] };//mVulkanInfo.currentFrame]}; //testing with 1 frame
+			VkSemaphore signalSemaphores[] =
+		{ mVulkanInfo.renderFinishedSemaphores[0] };//mVulkanInfo.currentFrame]}; //testing with 1 frame
+
+        VkPipelineStageFlags waitStages[] = {VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT};
 
         // info for submission to queue
         VkSubmitInfo submitInfo = {};
         submitInfo.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
-
-        // determine which semaphores wait on eachother
-        VkSemaphore waitSemaphores[] =
-                {mVulkanInfo.imageAvailableSemaphores[mVulkanInfo.currentFrame]};
-        VkPipelineStageFlags waitStages[] = {VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT};
         submitInfo.waitSemaphoreCount = 1;
         submitInfo.pWaitSemaphores = waitSemaphores;
-        submitInfo.pWaitDstStageMask = waitStages;
-
-        // determine which command buffers to bind for the color attachment
         submitInfo.commandBufferCount = 1;
-        submitInfo.pCommandBuffers = &mVulkanInfo.commandBuffers[mImageIndex];
-
-        // determine which semaphore will signal once command buffer finishes
-        VkSemaphore signalSemaphores[] =
-                {mVulkanInfo.renderFinishedSemaphores[mVulkanInfo.currentFrame]};
+		submitInfo.pCommandBuffers = &mVulkanInfo.commandBuffers[0]; //mImageIndex];
+        submitInfo.pWaitDstStageMask = waitStages;
         submitInfo.signalSemaphoreCount = 1;
         submitInfo.pSignalSemaphores = signalSemaphores;
 
-        vkResetFences(
-                mVulkanInfo.logicalDevice,
-                1,
-                &mVulkanInfo.inFlightFences[mVulkanInfo.currentFrame]);
+        // vkResetFences(
+        //        mVulkanInfo.logicalDevice,
+        //        1,
+        //        &mVulkanInfo.inFlightFences[mVulkanInfo.currentFrame]);
 
-        // failed to submit
+        // Submit To Queue
         if (vkQueueSubmit(mVulkanInfo.gfxQueue, 1, &submitInfo, VK_NULL_HANDLE) != VK_SUCCESS) {
             throw std::runtime_error("failed to submit draw command buffer!");
         }
 
         // presentation info
-        VkPresentInfoKHR presentInfo = {};
-        presentInfo.sType = VK_STRUCTURE_TYPE_PRESENT_INFO_KHR;
 
-        // which semaphores to wait on for presentation
-        presentInfo.waitSemaphoreCount = 1;
-        presentInfo.pWaitSemaphores = signalSemaphores;
-
-        // specify swap chain to present images and the index of the target image
-        VkSwapchainKHR swapChains[] = {mVulkanInfo.swapChain};
-        presentInfo.swapchainCount = 1;
-        presentInfo.pSwapchains = swapChains;
-        presentInfo.pImageIndices = &mImageIndex;
-
+        mVulkanInfo.presentInfo.sType = VK_STRUCTURE_TYPE_PRESENT_INFO_KHR;
+        mVulkanInfo.presentInfo.waitSemaphoreCount = 1;
+        mVulkanInfo.presentInfo.pWaitSemaphores = signalSemaphores;
+        mVulkanInfo.presentInfo.swapchainCount = 1;
+        mVulkanInfo.presentInfo.pSwapchains = &mVulkanInfo.swapChain;
+        mVulkanInfo.presentInfo.pImageIndices = &mImageIndex;
         // not necessary with one swapchain but this checks
         // if all swapchain presentation was successful or not
-        presentInfo.pResults = nullptr;  //  Optional
+		//mVulkanInfo.presentInfo.pResults = nullptr;
 
         // present image to swapchain
-        vkQueuePresentKHR(mVulkanInfo.presentationQueue, &presentInfo);
+        vkQueuePresentKHR(mVulkanInfo.presentationQueue, &mVulkanInfo.presentInfo);
 
-        vkQueueWaitIdle(mVulkanInfo.presentationQueue);
+        //vkQueueWaitIdle(mVulkanInfo.presentationQueue);
 
-        // increment frames
+        // increment frames (only needed for fences)
         mVulkanInfo.currentFrame = (mVulkanInfo.currentFrame + 1) % mVulkanInfo.maxFramesInFlight;
     }
 

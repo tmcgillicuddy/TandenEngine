@@ -79,8 +79,9 @@ namespace TandenEngine {
         return buffer->bind();
     }
 
-    void BufferManager::SetupDescriptorSet(VkDescriptorSet dSet,
+    void BufferManager::SetupDescriptorSet(VkDescriptorSet *dSet,
             VkDescriptorBufferInfo* bufferInfo) {
+
         VulkanInfo vInfo = *RenderingSystem::GetVulkanInfo();
 
         VkDescriptorSetAllocateInfo allocInfo = {};
@@ -89,12 +90,12 @@ namespace TandenEngine {
         allocInfo.pSetLayouts = &vInfo.descriptorSetLayout;
         allocInfo.descriptorSetCount = 1;
 
-        Debug::CheckVKResult(vkAllocateDescriptorSets(vInfo.logicalDevice, &allocInfo, &dSet));
+        Debug::CheckVKResult(vkAllocateDescriptorSets(vInfo.logicalDevice, &allocInfo, dSet));
 
         // Binding 0 : Vertex shader uniform buffer
         VkWriteDescriptorSet writeDescriptorSet = {};
         writeDescriptorSet.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
-        writeDescriptorSet.dstSet = dSet;
+        writeDescriptorSet.dstSet = *dSet;
         writeDescriptorSet.descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
         writeDescriptorSet.dstBinding = 0;
         writeDescriptorSet.pBufferInfo = bufferInfo;
