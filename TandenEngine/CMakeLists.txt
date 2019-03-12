@@ -232,12 +232,6 @@ include_directories("Source/Core/Debugger")
 #Link GLFW
 target_link_libraries(TandenEngine glfw)
 
-<<<<<<< HEAD
-#Locate the Vulkan SDKs
-find_package(Vulkan REQUIRED)
-=======
->>>>>>> origin/develop
-
 #Link the SDK using GLFW's macros
 target_link_libraries(TandenEngine ${VULKAN_LIBRARY})
 #locate GLM
@@ -258,15 +252,12 @@ if (${CMAKE_SYSTEM_NAME} MATCHES "CYGWIN")
     #Locate the Vulkan SDKs
     target_link_libraries(${PROJECT_NAME} "$ENV{VULKAN_SDK}/Lib/vulkan-1.lib")
 
-<<<<<<< HEAD
-#target_link_libraries(${PROJECT_NAME} stdc++fs)
-=======
+
     target_link_libraries(${PROJECT_NAME} stdc++fs)
 elseif(TANDENEXE)
     message("Building on VS")
     #Locate the Vulkan SDKs
     find_package(Vulkan REQUIRED)
->>>>>>> origin/develop
 
     #Link the SDK using GLFW's macros
     target_link_libraries(TandenEngine ${VULKAN_LIBRARY})

@@ -751,6 +751,119 @@ namespace TandenEngine {
                 commandBuffers.data()));
     }
 
+	void VulkanInfo::RecordCommandBuffers() {
+
+		//create start info for each command buffer
+		VkCommandBufferBeginInfo cmdBufInfo = {};
+		cmdBufInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
+
+		// configure render pass for command buffer
+		VkRenderPassBeginInfo renderPassInfo = {};
+		renderPassInfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
+		renderPassInfo.renderPass = mVulkanInfo.mRenderPass;
+		// size of render area on screen
+		renderPassInfo.renderArea.offset = { 0, 0 };
+		renderPassInfo.renderArea.extent = mVulkanInfo.swapChainExtent;
+
+		// clear color for render pass
+		VkClearValue clearColor = { 0.0f, 0.0f, 0.0f, 1.0f };
+		renderPassInfo.clearValueCount = 1;
+		renderPassInfo.pClearValues = &clearColor;
+
+
+		for (int32_t i = 0; i < mVulkanInfo.commandBuffers.size(); ++i) {
+			// Current Command Buffer
+			VkCommandBuffer cmdBuffer = mVulkanInfo.commandBuffers[i];
+
+			renderPassInfo.framebuffer = mVulkanInfo.swapChainFramebuffers[i];
+
+			Debug::CheckVKResult(vkBeginCommandBuffer(cmdBuffer, &cmdBufInfo));
+
+			vkCmdBeginRenderPass(cmdBuffer, &renderPassInfo, VK_SUBPASS_CONTENTS_INLINE);
+
+			VkViewport viewport = {};
+			viewport.width = windowWidth;
+			viewport.height = windowHeight;
+			viewport.minDepth = 0.0f;
+			viewport.maxDepth = 1.0f;
+			vkCmdSetViewport(cmdBuffer, 0, 1, &viewport);
+
+			VkRect2D scissor = {};
+			scissor.extent.width = windowWidth;
+			scissor.extent.height = windowHeight;
+			scissor.offset.x = 0;
+			scissor.offset.y = 0;
+			vkCmdSetScissor(cmdBuffer, 0, 1, &scissor);
+
+			// Foreach renderer
+			// - Bind Vertex Buffer
+			// - Draw Indexed Buffer
+			// TODO(Anyone) use shader(pipeline) attached to material on object(?)
+			vkCmdBindPipeline(cmdBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS,
+				mVulkanInfo.graphicsPipeline);
+
+			for (const auto &rend : mRenderers) {
+				if (MeshRenderer *meshRend = dynamic_cast<MeshRenderer *>(rend)) {
+					VkDeviceSize offsets[1] = { 0 };
+
+					// Bind Vertex Buffer on Model
+					//vkCmdBindVertexBuffers(cmdBuffer, 0, 1,
+					//	&meshRend->mpMesh->mModelResource->mVertexBuffer.mBuffer, offsets);
+
+					// Bind Index Buffer on Model
+					//vkCmdBindIndexBuffer(cmdBuffer,
+					//	meshRend->mpMesh->mModelResource->mIndexBuffer.mBuffer,
+					//	0, VK_INDEX_TYPE_UINT32);
+
+					// TODO(Rosser) it's breaking here
+					// Bind Uniform buffer on Mesh Renderer
+					// vkCmdBindDescriptorSets(cmdBuffer,
+					//	VK_PIPELINE_BIND_POINT_GRAPHICS, mVulkanInfo.pipelineLayout, 0, 1,
+					//	meshRend->mDescriptorSet, 0, NULL);
+					//std::cout << "bind descriptor sets successful, prepare to draw \n";
+
+					// vkCmdDrawIndexed(cmdBuffer,
+					//	meshRend->mpMesh->mModelResource->mIndices.size(), 1, 0, 0, 0);
+
+					BindAndDrawTargetMeshRend(cmdBuffer, meshRend);
+
+					//std::cout << "draw indexed successful \n";
+
+					//system("pause");
+
+				}
+			}
+			// GUI uses different graphics pipeline, so draw buffers differently
+			// GUI::GUISystem::DrawGUI(cmdBuffer);
+
+			vkCmdEndRenderPass(cmdBuffer);
+
+			Debug::CheckVKResult(vkEndCommandBuffer(cmdBuffer));
+		}
+
+	}
+
+	void VulkanInfo::BindAndDrawTargetMeshRend(VkCommandBuffer commandBuffer, MeshRenderer *meshRend)
+	{
+		vkCmdBindVertexBuffers(cmdBuffer, 0, 1,
+			&meshRend->mpMesh->mModelResource->mVertexBuffer.mBuffer, offsets);
+
+		// Bind Index Buffer on Model
+		vkCmdBindIndexBuffer(cmdBuffer,
+			meshRend->mpMesh->mModelResource->mIndexBuffer.mBuffer,
+			0, VK_INDEX_TYPE_UINT32);
+
+		// TODO(Rosser) it's breaking here
+		// Bind Uniform buffer on Mesh Renderer
+		vkCmdBindDescriptorSets(cmdBuffer,
+			VK_PIPELINE_BIND_POINT_GRAPHICS, pipelineLayout, 0, 1,
+			meshRend->mDescriptorSet, 0, NULL);
+		//std::cout << "bind descriptor sets successful, prepare to draw \n";
+
+		vkCmdDrawIndexed(cmdBuffer,
+			meshRend->mpMesh->mModelResource->mIndices.size(), 1, 0, 0, 0);
+	}
+
     void VulkanInfo::CreateSyncObjects() {
         // fill vectors for multiple
         imageAvailableSemaphores.resize(maxFramesInFlight);
