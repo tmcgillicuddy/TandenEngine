@@ -181,6 +181,11 @@ namespace TandenEngine {
         }
     }
 
+	std::vector<Renderer *> RenderingSystem::GetRenderers()
+	{
+		return mRenderers;
+	}
+
 	void RenderingSystem::Present() {
 
 		// reset fences

@@ -23,6 +23,7 @@
 
 #include "../ResourceManager/BufferManager/BufferManager.h"
 #include "../ResourceManager/Resources/Model/Model.h"
+#include "../../Engine/Entity/Components/Rendering/MeshRenderer.h"
 
 #include "GLFW/glfw3.h"
 
@@ -84,7 +85,7 @@ namespace TandenEngine {
         VkDescriptorPool descriptorPool;
 
         VkPipelineLayout pipelineLayout;
-        VkRenderPass mRenderPass;
+        VkRenderPass renderPass;
         VkPipeline graphicsPipeline;
         std::vector<VkFramebuffer> swapChainFramebuffers;
         VkCommandPool commandPool;
@@ -153,6 +154,7 @@ namespace TandenEngine {
         void CreateFramebuffers();
         void CreateCommandPool();
         void CreateCommandBuffers();
+		void BuildCommandBuffers();
         void CreateSyncObjects();
     };
 
