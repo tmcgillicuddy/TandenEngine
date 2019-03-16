@@ -104,7 +104,7 @@ namespace TandenEngine {
         void GUISystem::InitGUIPipeline() {
             VulkanInfo vInfo = *RenderingSystem::GetVulkanInfo();
 
-            VkRenderPass renderPass = vInfo.mRenderPass;
+            VkRenderPass renderPass = vInfo.renderPass;
             ImGuiIO& io = ImGui::GetIO();
 
             // Create font texture

@@ -17,7 +17,7 @@
 
 //#include "glm/glm.hpp"
 //#include "glm/gtc/matrix_transform.hpp"
-#include "../../../Libraries/GLM/glm/glm.hpp"
+//#include "../../../Libraries/GLM/glm/glm.hpp"
 #include "vulkan/vulkan.h"
 
 #include "Window.h"
@@ -32,13 +32,13 @@ namespace TandenEngine {
 
     struct mvpUniforms
     {
-        //mat4 projection;
-        //mat4 model;
-        //mat4 view;
+        mat4 projection;
+        mat4 model;
+        mat4 view;
         //causes crashes
-        glm::mat4 model;
-        glm::mat4 view;
-        glm::mat4 projection;
+        //glm::mat4 model;
+        //glm::mat4 view;
+        //glm::mat4 projection;
 
     };
 

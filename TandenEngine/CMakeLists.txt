@@ -240,7 +240,8 @@ target_link_libraries(TandenEngine ${VULKAN_LIBRARY})
 #Link the SDK using GLFW's macros
 
 #link glm
-#target_link_libraries(TandenEngine glm)
+add_subdirectory(Libraries/GLM)
+target_link_libraries(TandenEngine glm)
 
 #Include stb headers
 include_directories("Libraries/stb")
