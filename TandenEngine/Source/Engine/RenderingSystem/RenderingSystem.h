@@ -58,8 +58,8 @@ namespace TandenEngine {
         static void PollWindowEvents();
 
         static void Render();  // Render command buffers
-        static void Present();  // Present the final render
-        static void UpdateBuffers();  // Update buffers
+        static void SubmitFrame();  // Present the final render
+       
 
      public:
         static Camera * mMainCam;  // Main Camera
@@ -68,11 +68,15 @@ namespace TandenEngine {
         static void RegisterRenderer(Renderer *newRenderer);
         // Accessor
         static const VulkanInfo * GetVulkanInfo();
+		static std::vector<Renderer *> GetRenderers();
         static Window * GetWindow();
 
         static void InitSystem();
 
         static void InitGraphicsPipeline();
+		static void UpdateUniformBuffers();  // Update uniform buffers
+		static void UpdateCommandBuffers();  // Update command buffers
+
 
         static void Cleanup();
     };

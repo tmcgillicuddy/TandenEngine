@@ -22,19 +22,19 @@ namespace TandenEngine {
     void RenderingSystem::DrawWindow() {
         if (!glfwWindowShouldClose(mWindow->GetWindowRef())) {
             // Update Uniforms/Command Buffers
-            UpdateBuffers();
+            UpdateUniformBuffers();
 
             // Render Command buffers
-            std::cout << "render \n" ;
-            Render();
-            std::cout << "success \n" ;
+            // std::cout << "render \n" ;
+            // Render();
+            // std::cout << "success \n" ;
 
             // Poll window events
             PollWindowEvents();
 
             // Present Render
             std::cout << "present \n" ;
-            Present();
+            SubmitFrame();
             std::cout << "present successful \n" ;
 
         }
@@ -101,7 +101,7 @@ namespace TandenEngine {
         // configure render pass for command buffer
         VkRenderPassBeginInfo renderPassInfo = {};
         renderPassInfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
-        renderPassInfo.renderPass = mVulkanInfo.mRenderPass;
+        renderPassInfo.renderPass = mVulkanInfo.renderPass;
         // size of render area on screen
         renderPassInfo.renderArea.offset = {0, 0};
         renderPassInfo.renderArea.extent = mVulkanInfo.swapChainExtent;
@@ -167,7 +167,6 @@ namespace TandenEngine {
                             meshRend->mpMesh->mModelResource->mIndices.size(), 1, 0, 0, 0);
 
                     //std::cout << "draw indexed successful \n";
-
                     //system("pause");
 
                 }
@@ -181,12 +180,17 @@ namespace TandenEngine {
         }
     }
 
+	void RenderingSystem::UpdateCommandBuffers()
+	{
+		mVulkanInfo.UpdateCommandBuffers();
+	}
+
 	std::vector<Renderer *> RenderingSystem::GetRenderers()
 	{
 		return mRenderers;
 	}
 
-	void RenderingSystem::Present() {
+	void RenderingSystem::SubmitFrame() {
 
 		// reset fences
 		// vkWaitForFences(
@@ -261,12 +265,13 @@ namespace TandenEngine {
         mVulkanInfo.currentFrame = (mVulkanInfo.currentFrame + 1) % mVulkanInfo.maxFramesInFlight;
     }
 
-    void RenderingSystem::UpdateBuffers() {
+    void RenderingSystem::UpdateUniformBuffers() {
         mvpUniforms ubo;
 
         // Set Main Camera Info for perspective
         if (mMainCam) {
-        } else {  // Use default vals
+        } else {  
+			// Use default vals
             // TODO(Nils/Rosser) Set projection and view matrix
             // ubo.projection // Default to 60 degree FOV
             // ubo.view  // Default to origin

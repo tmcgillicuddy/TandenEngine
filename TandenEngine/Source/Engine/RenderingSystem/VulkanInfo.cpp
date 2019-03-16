@@ -95,6 +95,7 @@ namespace TandenEngine {
         CreateDescriptorPool();
 
         CreateCommandBuffers(); // Create
+		//UpdateCommandBuffers();
         CreateSyncObjects();
     }
 
@@ -893,6 +894,23 @@ namespace TandenEngine {
 		}
 	}
 
+	void VulkanInfo::UpdateCommandBuffers() {
+
+		//destroy, reallocate and rebuild for new item sets
+		DestroyCommandBuffers();
+		CreateCommandBuffers();
+		BuildCommandBuffers();
+	}
+
+	void VulkanInfo::DestroyCommandBuffers() {
+
+		// free command buffers
+		vkFreeCommandBuffers(
+			logicalDevice,
+			commandPool,
+			static_cast<uint32_t>(commandBuffers.size()), commandBuffers.data());
+	}
+
     void VulkanInfo::CreateRenderPass() {
         // render color in one of the images of the swapchain
         // format of attachment must match format of swap chain images
@@ -1059,11 +1077,7 @@ namespace TandenEngine {
 
         vkDestroyDescriptorSetLayout(logicalDevice, descriptorSetLayout, nullptr);
 
-        // free command buffers
-        vkFreeCommandBuffers(
-                logicalDevice,
-                commandPool,
-                static_cast<uint32_t>(commandBuffers.size()), commandBuffers.data());
+        
 
         for (size_t i = 0; i < swapChainImageViews.size(); i++) {
             vkDestroyImageView(logicalDevice, swapChainImageViews[i], nullptr);

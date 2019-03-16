@@ -58,6 +58,8 @@ namespace TandenEngine {
 
         tempComp->mpMesh = tempFilter;
 
+		RenderingSystem::UpdateCommandBuffers();
+
         exitStatus = false;
         //Debug::Log("ENGINE INITIALIZATION COMPLETE%n");
     }

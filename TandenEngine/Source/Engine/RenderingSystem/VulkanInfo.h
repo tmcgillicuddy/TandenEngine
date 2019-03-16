@@ -102,6 +102,7 @@ namespace TandenEngine {
         void InitVulkan();
         void InitVulkanPipeline();
         void RecreateSwapChain();
+		void UpdateCommandBuffers();
         void CleanupVulkan();
 
      private:
@@ -156,6 +157,8 @@ namespace TandenEngine {
         void CreateCommandBuffers();
 		void BuildCommandBuffers();
         void CreateSyncObjects();
+
+		void DestroyCommandBuffers();
     };
 
 }  // namespace TandenEngine
