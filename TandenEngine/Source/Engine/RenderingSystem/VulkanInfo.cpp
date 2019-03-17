@@ -890,7 +890,7 @@ namespace TandenEngine {
 
 			vkCmdEndRenderPass(cmdBuffer);
 
-			Debug::CheckVKResult(vkEndCommandBuffer(cmdBuffer));
+			vkEndCommandBuffer(cmdBuffer);
 		}
 	}
 

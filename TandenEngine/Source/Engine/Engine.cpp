@@ -90,12 +90,12 @@ namespace TandenEngine {
                 mGame->UpdateGame();
 
             // Render
-            Debug::LogPause("Rendering%n");
+            //Debug::LogPause("Rendering%n");
             RenderingSystem::DrawWindow();
 
 
 
-            Debug::LogPause("Finish Rendering%n");
+            //Debug::LogPause("Finish Rendering%n");
             // Wait for frame time
             Timer::WaitForFrameTime();
         }

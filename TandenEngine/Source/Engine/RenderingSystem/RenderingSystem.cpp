@@ -176,7 +176,7 @@ namespace TandenEngine {
 
             vkCmdEndRenderPass(cmdBuffer);
 
-            Debug::CheckVKResult(vkEndCommandBuffer(cmdBuffer));
+			vkEndCommandBuffer(cmdBuffer);
         }
     }
 
@@ -240,12 +240,13 @@ namespace TandenEngine {
         //        &mVulkanInfo.inFlightFences[mVulkanInfo.currentFrame]);
 
         // Submit To Queue
-        if (vkQueueSubmit(mVulkanInfo.gfxQueue, 1, &submitInfo, VK_NULL_HANDLE) != VK_SUCCESS) {
+		VkResult submitResult = vkQueueSubmit(mVulkanInfo.gfxQueue, 1, &submitInfo, VK_NULL_HANDLE);
+
+        if (submitResult != VK_SUCCESS) {
             throw std::runtime_error("failed to submit draw command buffer!");
         }
 
         // presentation info
-
         mVulkanInfo.presentInfo.sType = VK_STRUCTURE_TYPE_PRESENT_INFO_KHR;
         mVulkanInfo.presentInfo.waitSemaphoreCount = 1;
         mVulkanInfo.presentInfo.pWaitSemaphores = signalSemaphores;
@@ -254,7 +255,7 @@ namespace TandenEngine {
         mVulkanInfo.presentInfo.pImageIndices = &mImageIndex;
         // not necessary with one swapchain but this checks
         // if all swapchain presentation was successful or not
-		//mVulkanInfo.presentInfo.pResults = nullptr;
+		mVulkanInfo.presentInfo.pResults = nullptr;
 
         // present image to swapchain
         vkQueuePresentKHR(mVulkanInfo.presentationQueue, &mVulkanInfo.presentInfo);
