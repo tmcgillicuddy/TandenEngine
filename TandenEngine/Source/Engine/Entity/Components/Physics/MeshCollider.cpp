@@ -8,9 +8,11 @@ namespace TandenEngine {
     MeshCollider::MeshCollider() {
     }
 
+    // Ritter Formula, adapted from Real-Time Collision Detection by Christer Ericson
     void MeshCollider::ComputeBounds(vec3 v[], int numVerts) {
         int minX = 0, minY = 0, minZ = 0, maxX = 0, maxY = 0, maxZ = 0;
 
+        // Find min and max points in all dimensions
         for(int i = 1; i < numVerts; ++i) {
             if(v[i].x < v[minX].x) minX = i;
             if(v[i].y < v[minY].x) minY = i;
@@ -20,38 +22,38 @@ namespace TandenEngine {
             if(v[i].z > v[maxZ].x) maxZ = i;
         }
 
-        // more to do
-    }
+        // Distances between opposing points
+        float distX = NilsMath::Dot(v[maxX] - v[minX], v[maxX] - v[minX]);
+        float distY = NilsMath::Dot(v[maxY] - v[minY], v[maxY] - v[minY]);
+        float distZ = NilsMath::Dot(v[maxZ] - v[minZ], v[maxZ] - v[minZ]);
 
-    // TODO(Nils) Rest of bound computation
-    /*
-    // Compute the squared distances for the three pairs of points
-    float dist2x = Dot(pt[maxx] - pt[minx], pt[maxx] - pt[minx]);
-    float dist2y = Dot(pt[maxy] - pt[miny], pt[maxy] - pt[miny]);
-    float dist2z = Dot(pt[maxz] - pt[minz], pt[maxz] - pt[minz]);
-    // Pick the pair (min,max) of points most distant
-    min = minx;
-    max = maxx;
-    if (dist2y > dist2x && dist2y > dist2z) {
-    max = maxy;
-    min = miny;
+        int min = minX, max = maxX;
+        if(distY > distX && distY > distZ)
+        {
+            min = minY, max = maxY;
+        }
+        else if(distZ > distX && distZ > distY)
+        {
+            min = minZ, max = maxZ;
+        }
+
+        // Create approximate Sphere
+        mBoundingSphere.mGlobalPosition = ((v[min] + v[max]) * 0.5f);
+        mBoundingSphere.mRadius = mBoundingSphere.mGlobalPosition.Distance(v[max]);
+
+        // Second Pass to Expand Sphere
+        for(int i = 1; i < numVerts; ++i) {
+            vec3 pointToSphere = v[i] - mBoundingSphere.mGlobalPosition;
+            float distSqd = NilsMath::Dot(pointToSphere, pointToSphere);
+            if(distSqd > mBoundingSphere.mRadius * mBoundingSphere.mRadius) {
+                float dist = sqrt(distSqd);
+                float newRad = (mBoundingSphere.mRadius + dist) * 0.5f;
+                float change = (newRad - mBoundingSphere.mRadius) / dist;
+                mBoundingSphere.mRadius = newRad;
+                mBoundingSphere.mGlobalPosition += pointToSphere * change;
+            }
+        }
     }
-    if (dist2z > dist2x && dist2z > dist2y) {
-    max = maxz;
-    min = minz;
-    }
-    }
-    void SphereFromDistantPoints(Sphere &s, Point pt[], int numPts)
-    {
-    // Find the most separated point pair defining the encompassing AABB
-    int min, max;
-    MostSeparatedPointsOnAABB(min, max, pt, numPts);
-    // Set up sphere to just encompass these two points
-    s.c = (pt[min] + pt[max]) * 0.5f;
-    s.r = Dot(pt[max] - s.c, pt[max] - s.c);
-    s.r = Sqrt(s.r);
-    }
-    */
 
     void MeshCollider::Update() {
     }
