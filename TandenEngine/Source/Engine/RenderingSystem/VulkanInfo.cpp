@@ -375,14 +375,15 @@ namespace TandenEngine {
     VkPresentModeKHR VulkanInfo::ChooseSwapPresentMode(
             const std::vector<VkPresentModeKHR> availablePresentModes) {
         VkPresentModeKHR bestMode = VK_PRESENT_MODE_FIFO_KHR;
-
-        for (const auto& availablePresentMode : availablePresentModes) {
-            if (availablePresentMode == VK_PRESENT_MODE_MAILBOX_KHR) {
-                return availablePresentMode;
-            } else if (availablePresentMode == VK_PRESENT_MODE_IMMEDIATE_KHR) {
-                bestMode = availablePresentMode;
-            }
-        }
+		
+		//always fifo
+       //for (const auto& availablePresentMode : availablePresentModes) {
+       //    if (availablePresentMode == VK_PRESENT_MODE_MAILBOX_KHR) {
+       //        return availablePresentMode;
+       //    } else if (availablePresentMode == VK_PRESENT_MODE_IMMEDIATE_KHR) {
+       //        bestMode = availablePresentMode;
+       //    }
+       //}
         return bestMode;
     }
 
@@ -410,7 +411,7 @@ namespace TandenEngine {
         VkExtent2D extent = ChooseSwapExtent(swapChainSupport.capabilities);
 
 
-        uint32_t imageCount = swapChainSupport.capabilities.minImageCount + 1;
+        uint32_t imageCount = swapChainSupport.capabilities.minImageCount;
         if (swapChainSupport.capabilities.maxImageCount > 0 &&
             imageCount > swapChainSupport.capabilities.maxImageCount) {
             imageCount = swapChainSupport.capabilities.maxImageCount;
@@ -810,28 +811,30 @@ namespace TandenEngine {
 	{
 		VkCommandBufferBeginInfo cmdBufInfo = {};
 		cmdBufInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
-
-		// configure render pass for command buffer
-		VkRenderPassBeginInfo renderPassInfo = {};
-		renderPassInfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
-		renderPassInfo.renderPass = renderPass;
-		// size of render area on screen
-		renderPassInfo.renderArea.offset = { 0, 0 };
-		renderPassInfo.renderArea.extent = swapChainExtent;
-
-		// clear color for render pass
-		VkClearValue clearColor = { 0.0f, 0.0f, 0.0f, 1.0f };
-		renderPassInfo.clearValueCount = 1;
-		renderPassInfo.pClearValues = &clearColor;
+		cmdBufInfo.flags = VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT;
 
 		// Draw each model
 		for (int32_t i = 0; i < commandBuffers.size(); ++i) {
 			// Current Command Buffer
 			VkCommandBuffer cmdBuffer = commandBuffers[i];
 
+			vkBeginCommandBuffer(cmdBuffer, &cmdBufInfo);
+
+			// configure render pass for command buffer
+			VkRenderPassBeginInfo renderPassInfo = {};
+			renderPassInfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
+			renderPassInfo.renderPass = renderPass;
+			// size of render area on screen
+			renderPassInfo.renderArea.offset = { 0, 0 };
+			renderPassInfo.renderArea.extent = swapChainExtent;
+
+			// clear color for render pass
+			VkClearValue clearColor = { 0.0f, 0.0f, 0.0f, 1.0f };
+			renderPassInfo.clearValueCount = 1;
+			renderPassInfo.pClearValues = &clearColor;
+
 			renderPassInfo.framebuffer = swapChainFramebuffers[i];
 
-			Debug::CheckVKResult(vkBeginCommandBuffer(cmdBuffer, &cmdBufInfo));
 
 			vkCmdBeginRenderPass(cmdBuffer, &renderPassInfo, VK_SUBPASS_CONTENTS_INLINE);
 
@@ -860,6 +863,13 @@ namespace TandenEngine {
 				if (MeshRenderer *meshRend = dynamic_cast<MeshRenderer *>(rend)) {
 					VkDeviceSize offsets[1] = { 0 };
 
+					// TODO(Rosser) it's breaking here
+					// Bind Uniform buffer on Mesh Renderer
+					//std::cout << "bind descriptor sets successful, prepare to draw \n";
+					vkCmdBindDescriptorSets(cmdBuffer,
+						VK_PIPELINE_BIND_POINT_GRAPHICS, pipelineLayout, 0, 1,
+						meshRend->mDescriptorSet, 0, NULL);
+
 					// Bind Vertex Buffer on Model
 					vkCmdBindVertexBuffers(cmdBuffer, 0, 1,
 						&meshRend->mpMesh->mModelResource->mVertexBuffer.mBuffer, offsets);
@@ -868,13 +878,6 @@ namespace TandenEngine {
 					vkCmdBindIndexBuffer(cmdBuffer,
 						meshRend->mpMesh->mModelResource->mIndexBuffer.mBuffer,
 						0, VK_INDEX_TYPE_UINT32);
-
-					// TODO(Rosser) it's breaking here
-					// Bind Uniform buffer on Mesh Renderer
-					vkCmdBindDescriptorSets(cmdBuffer,
-						VK_PIPELINE_BIND_POINT_GRAPHICS, pipelineLayout, 0, 1,
-						meshRend->mDescriptorSet, 0, NULL);
-					//std::cout << "bind descriptor sets successful, prepare to draw \n";
 
 					vkCmdDrawIndexed(cmdBuffer,
 						meshRend->mpMesh->mModelResource->mIndices.size(), 1, 0, 0, 0);

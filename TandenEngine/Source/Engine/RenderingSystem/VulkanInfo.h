@@ -96,7 +96,7 @@ namespace TandenEngine {
         std::vector<VkFence> inFlightFences;
         VkAllocationCallbacks* mAllocator;
         size_t currentFrame = 0;
-        const int maxFramesInFlight = 2;  // max concurrent frames to be processed
+        const int maxFramesInFlight = 2;  // max concurrent frames to be processed, base on image count
         bool framebufferResized = false;
 
         void InitVulkan();
