@@ -38,7 +38,7 @@ namespace TandenEngine {
             std::cout << "present successful \n" ;
 
         }
-        // vkDeviceWaitIdle(logicalDevice);
+        //vkDeviceWaitIdle(mVulkanInfo.logicalDevice);
     }
 
     void RenderingSystem::RegisterRenderer(Renderer *newRenderer) {
@@ -192,36 +192,32 @@ namespace TandenEngine {
 
 	void RenderingSystem::SubmitFrame() {
 
-		// reset fences
-		// vkWaitForFences(
-		// mVulkanInfo.logicalDevice, 1,
-		// &mVulkanInfo.inFlightFences[mVulkanInfo.currentFrame], 
-		// VK_TRUE, std::numeric_limits<uint64_t>::max());
+		VkResult checkFence = vkGetFenceStatus(mVulkanInfo.logicalDevice, 
+			mVulkanInfo.inFlightFences[mVulkanInfo.currentFrame]);
+
+		// determine which semaphores wait on eachother
+		VkSemaphore waitSemaphores[] =
+		{ mVulkanInfo.imageAvailableSemaphores[mVulkanInfo.currentFrame]}; //testing with 1 frame
+			VkSemaphore signalSemaphores[] =
+		{ mVulkanInfo.renderFinishedSemaphores[mVulkanInfo.currentFrame]}; //testing with 1 frame
+
+        VkPipelineStageFlags waitStages[] = {VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT};
 
 		// get next image from swapchain and trigger avaliable semaphore
 		VkResult result = vkAcquireNextImageKHR(
 			mVulkanInfo.logicalDevice,
 			mVulkanInfo.swapChain,
 			std::numeric_limits<uint64_t>::max(),
-			mVulkanInfo.imageAvailableSemaphores[0], //mVulkanInfo.currentFrame],
+			mVulkanInfo.imageAvailableSemaphores[mVulkanInfo.currentFrame],
                 VK_NULL_HANDLE, &mImageIndex);
-
-
-        if (result == VK_ERROR_OUT_OF_DATE_KHR) {
+        
+		if (result == VK_ERROR_OUT_OF_DATE_KHR) {
             //mVulkanInfo.framebufferResized = false;
             mVulkanInfo.RecreateSwapChain();
             return;
-        } else if (result != VK_SUCCESS && result != VK_SUBOPTIMAL_KHR) {
-            Debug::CheckVKResult(result);
-        }
-        
-		// determine which semaphores wait on eachother
-		VkSemaphore waitSemaphores[] =
-		{ mVulkanInfo.imageAvailableSemaphores[0] };//mVulkanInfo.currentFrame]}; //testing with 1 frame
-			VkSemaphore signalSemaphores[] =
-		{ mVulkanInfo.renderFinishedSemaphores[0] };//mVulkanInfo.currentFrame]}; //testing with 1 frame
-
-        VkPipelineStageFlags waitStages[] = {VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT};
+		} else if (result != VK_SUCCESS && result != VK_SUBOPTIMAL_KHR) {
+			Debug::CheckVKResult(result);
+		}
 
         // info for submission to queue
         VkSubmitInfo submitInfo = {};
@@ -229,22 +225,32 @@ namespace TandenEngine {
         submitInfo.waitSemaphoreCount = 1;
         submitInfo.pWaitSemaphores = waitSemaphores;
         submitInfo.commandBufferCount = 1;
-		submitInfo.pCommandBuffers = &mVulkanInfo.commandBuffers[0]; //mImageIndex];
+		submitInfo.pCommandBuffers = &mVulkanInfo.commandBuffers[mImageIndex];
         submitInfo.pWaitDstStageMask = waitStages;
         submitInfo.signalSemaphoreCount = 1;
         submitInfo.pSignalSemaphores = signalSemaphores;
+         
+		VkResult waiting = vkWaitForFences(
+		mVulkanInfo.logicalDevice, 1,
+		&mVulkanInfo.inFlightFences[mVulkanInfo.currentFrame], 
+		VK_TRUE, std::numeric_limits<uint64_t>::max());
 
-        // vkResetFences(
-        //        mVulkanInfo.logicalDevice,
-        //        1,
-        //        &mVulkanInfo.inFlightFences[mVulkanInfo.currentFrame]);
+		VkResult reset = vkResetFences(
+			 mVulkanInfo.logicalDevice,
+			 1,
+			 &mVulkanInfo.inFlightFences[mVulkanInfo.currentFrame]);
 
-        // Submit To Queue
-		VkResult submitResult = vkQueueSubmit(mVulkanInfo.gfxQueue, 1, &submitInfo, VK_NULL_HANDLE);
+		// Submit To Queue
+		VkResult submitResult = vkQueueSubmit(mVulkanInfo.gfxQueue, 1, &submitInfo, mVulkanInfo.inFlightFences[mVulkanInfo.currentFrame]);
+		
+		 if (submitResult != VK_SUCCESS) {
+		     throw std::runtime_error("failed to submit draw command buffer!");
+		 }
+		//vkQueueWaitIdle(mVulkanInfo.gfxQueue);
+		
+		 VkResult goodMeasure = vkGetFenceStatus(mVulkanInfo.logicalDevice,
+			 mVulkanInfo.inFlightFences[mVulkanInfo.currentFrame]);
 
-        if (submitResult != VK_SUCCESS) {
-            throw std::runtime_error("failed to submit draw command buffer!");
-        }
 
         // presentation info
         mVulkanInfo.presentInfo.sType = VK_STRUCTURE_TYPE_PRESENT_INFO_KHR;
@@ -258,7 +264,16 @@ namespace TandenEngine {
 		mVulkanInfo.presentInfo.pResults = nullptr;
 
         // present image to swapchain
-        vkQueuePresentKHR(mVulkanInfo.presentationQueue, &mVulkanInfo.presentInfo);
+		VkResult presentResult = vkQueuePresentKHR(mVulkanInfo.presentationQueue, &mVulkanInfo.presentInfo);
+
+		if (presentResult == VK_ERROR_OUT_OF_DATE_KHR || presentResult == VK_SUBOPTIMAL_KHR) {
+			//mVulkanInfo.framebufferResized = false;
+			mVulkanInfo.RecreateSwapChain();
+			return;
+		}
+		else if (presentResult != VK_SUCCESS && presentResult != VK_SUBOPTIMAL_KHR) {
+			Debug::CheckVKResult(result);
+		}
 
         //vkQueueWaitIdle(mVulkanInfo.presentationQueue);
 
@@ -282,7 +297,7 @@ namespace TandenEngine {
             if (MeshRenderer *meshRend = dynamic_cast<MeshRenderer *>(rend)) {
 //                ubo.model = mat4(1);
                 // TODO(Anyone) Set model to transform data of mesh renderer
-                memcpy(meshRend->mUniformBuffer.mMapped, &ubo, sizeof(ubo));
+           //     memcpy(meshRend->mUniformBuffer.mMapped, &ubo, sizeof(ubo));
             }
         }
     }

@@ -765,7 +765,7 @@ namespace TandenEngine {
         // fence info
         VkFenceCreateInfo fenceInfo = {};
         fenceInfo.sType = VK_STRUCTURE_TYPE_FENCE_CREATE_INFO;
-        fenceInfo.flags = VK_FENCE_CREATE_SIGNALED_BIT;
+		fenceInfo.flags = VK_FENCE_CREATE_SIGNALED_BIT;
 
         for (size_t i = 0; i < (size_t)maxFramesInFlight; i++) {
             if (vkCreateSemaphore(

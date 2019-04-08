@@ -14,7 +14,7 @@ namespace TandenEngine {
     void MaterialComp::GenGUI() {
         if(ImGui::TreeNode("Material")) {
             if(mAlbedo == nullptr) {
-                ImGui::ColorEdit4("Albedo", mColor.v);
+       //         ImGui::ColorEdit4("Albedo", mColor.v);
             } else {
                 // TODO(Thomas) add file field
             }
@@ -68,16 +68,16 @@ namespace TandenEngine {
             ImGui::SliderFloat("FOV", &mFOV, 0, 90);
             ImGui::InputFloat("Near Clip Dist", &mNearClipDist);
             ImGui::InputFloat("Far Clip Dist", &mFarClipDist);
-            ImGui::ColorEdit4("Clear Color", mClearColor.v);
+      //      ImGui::ColorEdit4("Clear Color", mClearColor.v);
             ImGui::TreePop();
         }
     }
 
     void Transform::GenGUI() {
         if(ImGui::TreeNode("Transform")) {
-            ImGui::InputFloat3("Position", mTransformLocal.r1.v);
-            ImGui::InputFloat3("Rotation", mTransformLocal.r2.v);
-            ImGui::InputFloat3("Scale", mTransformLocal.r3.v);
+      //      ImGui::InputFloat3("Position", mTransformLocal.r1.v);
+      //      ImGui::InputFloat3("Rotation", mTransformLocal.r2.v);
+      //      ImGui::InputFloat3("Scale", mTransformLocal.r3.v);
             ImGui::TreePop();
         }
     }
