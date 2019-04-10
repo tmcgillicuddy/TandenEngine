@@ -1,9 +1,15 @@
-# Tanden Engine
 
-<img src="https://github.com/tmcgillicuddy/TandenEngine/blob/develop/Documents/TandenLogo.png" width="400" />
+<h1 align="center">
+  <br>
+  <img src="https://github.com/tmcgillicuddy/TandenEngine/blob/develop/Documents/TandenLogo.png" width="500" />
+</h1>
 
-[![Build](https://ci.appveyor.com/api/projects/status/32r7s2skrgm9ubva?svg=true)](https://ci.appveyor.com/project/tmcgillicuddy/TandenEngine)
-[![CircleCI](https://circleci.com/gh/tmcgillicuddy/TandenEngine/tree/develop.svg?style=svg)](https://circleci.com/gh/tmcgillicuddy/TandenEngine/tree/develop)
+<h4 align="center">An open source, crossplatform, modern game engine.</h4>
+
+<p align="center">
+  <a href="https://circleci.com/gh/tmcgillicuddy/TandenEngine/tree/develop"><img src="https://circleci.com/gh/tmcgillicuddy/TandenEngine/tree/develop.svg?style=svg" alt="gitter"></a>
+  <a href="https://ci.appveyor.com/project/tmcgillicuddy/TandenEngine"><img src="https://ci.appveyor.com/api/projects/status/32r7s2skrgm9ubva?svg=true" alt="travis"></a>
+</p>
 
 ## Features
 Current Features Supported:
