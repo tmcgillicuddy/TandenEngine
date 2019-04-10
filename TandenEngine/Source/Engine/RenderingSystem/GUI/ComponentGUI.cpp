@@ -2,6 +2,7 @@
 // Created by thomas.mcgillicuddy on 2/25/2019.
 //
 
+#include "../../Entity/GameObject.h"
 #include "../../Entity/Components/ComponentHeader.h"
 #include <imgui.h>
 
@@ -12,7 +13,14 @@ namespace TandenEngine {
     }
 
     void MaterialComp::GenGUI() {
-        if(ImGui::TreeNode("Material")) {
+        bool open = ImGui::TreeNode("Material");
+        if(ImGui::BeginPopupContextItem())
+        {
+            if (ImGui::Selectable("Remove Component"))
+                mParentObject->RemoveComponent<MaterialComp>();
+            ImGui::EndPopup();
+        }
+        if(open) {
             if(mAlbedo == nullptr) {
                 ImGui::ColorEdit4("Albedo", mColor.v);
             } else {
@@ -34,28 +42,57 @@ namespace TandenEngine {
     }
 
     void AudioSource::GenGUI() {
-        if(ImGui::TreeNode("Audio Source")) {
+        bool open = ImGui::TreeNode("Audio Source");
+        if(ImGui::BeginPopupContextItem())
+        {
+            if (ImGui::Selectable("Remove Component"))
+                mParentObject->RemoveComponent<AudioSource>();
+            ImGui::EndPopup();
+        }
+        if(open) {
             //TODO(Thomas) add vars
             ImGui::TreePop();
         }
     }
 
     void BoxCollider::GenGUI() {
-        if(ImGui::TreeNode("Box Collider")) {
+        bool open = ImGui::TreeNode("Box Collider");
+        if(ImGui::BeginPopupContextItem())
+        {
+            if (ImGui::Selectable("Remove Component"))
+                mParentObject->RemoveComponent<BoxCollider>();
+            ImGui::EndPopup();
+        }
+        if(open) {
             //TODO(Thomas) add vars
             ImGui::TreePop();
         }
     }
 
     void SphereCollider::GenGUI() {
-        if(ImGui::TreeNode("Sphere Collider")) {
+        bool open = ImGui::TreeNode("Sphere Collider");
+        if(ImGui::BeginPopupContextItem())
+        {
+            if (ImGui::Selectable("Remove Component"))
+                mParentObject->RemoveComponent<SphereCollider>();
+            ImGui::EndPopup();
+        }
+        if(open) {
             ImGui::InputFloat("Radius", &mRadius);
             ImGui::TreePop();
         }
     }
 
-    void RigidBody::GenGUI() {
-        if(ImGui::TreeNode("Rigidbody")) {
+    void RigidBody::GenGUI()
+    {
+        bool open = ImGui::TreeNode("Rigidbody");
+        if(ImGui::BeginPopupContextItem())
+        {
+            if (ImGui::Selectable("Remove Component"))
+                mParentObject->RemoveComponent<RigidBody>();
+            ImGui::EndPopup();
+        }
+        if(open) {
             ImGui::Checkbox("Static", &mStatic);
             ImGui::InputFloat("Mass", &mMass);
             ImGui::InputFloat("Friction", &mFriction);
@@ -64,7 +101,16 @@ namespace TandenEngine {
     }
 
     void Camera::GenGUI() {
-        if(ImGui::TreeNode("Camera")) {
+        bool open = ImGui::TreeNode("Camera");
+        if(ImGui::BeginPopupContextItem())
+        {
+            if (ImGui::Selectable("Remove Component"))
+            {
+                mParentObject->RemoveComponent<Camera>();
+            }
+            ImGui::EndPopup();
+        }
+        if(open) {
             ImGui::SliderFloat("FOV", &mFOV, 0, 90);
             ImGui::InputFloat("Near Clip Dist", &mNearClipDist);
             ImGui::InputFloat("Far Clip Dist", &mFarClipDist);
@@ -74,7 +120,14 @@ namespace TandenEngine {
     }
 
     void Transform::GenGUI() {
-        if(ImGui::TreeNode("Transform")) {
+        bool open = ImGui::TreeNode("Transform");
+        if(ImGui::BeginPopupContextItem())
+        {
+            if (ImGui::Selectable("Remove Component"))
+                mParentObject->RemoveComponent<Transform>();
+            ImGui::EndPopup();
+        }
+        if(open) {
             ImGui::InputFloat3("Position", mTransformLocal.r1.v);
             ImGui::InputFloat3("Rotation", mTransformLocal.r2.v);
             ImGui::InputFloat3("Scale", mTransformLocal.r3.v);
