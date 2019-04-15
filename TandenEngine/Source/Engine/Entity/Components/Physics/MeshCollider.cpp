@@ -5,11 +5,22 @@
 #include "MeshCollider.h"
 
 namespace TandenEngine {
-    MeshCollider::MeshCollider() {
+    MeshCollider::MeshCollider(std::vector<vec3> v) {
+        ComputeBounds(v, v.size());
+        ComputeTriangles(v, v.size());
+    }
+
+    void MeshCollider::ComputeTriangles(std::vector<vec3> v, int numVerts) {
+        for(int i = 2; i < numVerts; ++i) {
+            // Not sure if I'm taking the data in correctly, but we'll see
+            Triangle tempTri(v[i-2], v[i-1], v[1]);
+            mTriangles.push_back(tempTri);
+        }
     }
 
     // Ritter Formula, adapted from Real-Time Collision Detection by Christer Ericson
-    void MeshCollider::ComputeBounds(vec3 v[], int numVerts) {
+    void MeshCollider::ComputeBounds(std::vector<vec3> v, int numVerts) {
+        mBoundingSphere.isMeshBound = true;
         int minX = 0, minY = 0, minZ = 0, maxX = 0, maxY = 0, maxZ = 0;
 
         // Find min and max points in all dimensions

@@ -57,6 +57,14 @@ namespace TandenEngine {
                 } else if ((colA->mType == BOXCOLLIDER && colB->mType == SPHERECOLLIDER) ||
                         (colA->mType == SPHERECOLLIDER && colB->mType == BOXCOLLIDER)) {
                     BoxSphereCollision(colA, colB);
+                } else if (colA->mType == MESHCOLLIDER && colB->mType == MESHCOLLIDER) {
+                    MeshMeshCollision(colA, colB);
+                } else if ((colA->mType == MESHCOLLIDER && colB->mType == SPHERECOLLIDER) ||
+                        (colA->mType == SPHERECOLLIDER && colB->mType == MESHCOLLIDER)) {
+                    MeshSphereCollision(colA, colB);
+                } else if ((colA->mType == BOXCOLLIDER && colB->mType == MESHCOLLIDER) ||
+                        (colA->mType == MESHCOLLIDER && colB->mType == BOXCOLLIDER)) {
+                    MeshBoxCollision(colA, colB);
                 }
             }
         }
@@ -126,5 +134,14 @@ namespace TandenEngine {
                         << colB->mParentObject->GetName() << std::endl;
             }
         }
+    }
+    void PhysicsSystem::MeshMeshCollision(Collider * colA, Collider * colB) {
+        // Do the collision tests
+    }
+    void PhysicsSystem::MeshSphereCollision(Collider * colA, Collider * colB) {
+        // Do the collision tests
+    }
+    void PhysicsSystem::MeshBoxCollision(Collider * colA, Collider * colB) {
+        // Do the collision tests
     }
 }  // namespace TandenEngine

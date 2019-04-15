@@ -7,16 +7,26 @@
 
 #include "Collider.h"
 #include "SphereCollider.h"
+#include <vector>
 
 namespace TandenEngine {
 
+    struct Triangle {
+        Triangle(vec3 p1, vec3 p2, vec3 p3) { mVert1 = p1; mVert2 = p2; mVert3 = p3; };
+        ~Triangle() {};
+        vec3 mVert1;
+        vec3 mVert2;
+        vec3 mVert3;
+    };
+
     class MeshCollider : public Collider {
      public:
-        MeshCollider();
+        MeshCollider(std::vector<vec3> v);
         SphereCollider mBoundingSphere;
+        std::vector<Triangle> mTriangles;
 
-        void ComputeBounds(vec3 v[], int numVerts);
-
+        void ComputeBounds(std::vector<vec3> v, int numVerts);
+        void ComputeTriangles(std::vector<vec3> v, int numVerts);
 
         // Component Overrides
         void Update() override;

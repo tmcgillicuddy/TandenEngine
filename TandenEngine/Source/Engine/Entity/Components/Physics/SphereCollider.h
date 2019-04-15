@@ -20,6 +20,7 @@ namespace TandenEngine {
         void Update() override;
 
         float mRadius = 1.0;
+        bool isMeshBound = false;
 
         std::unique_ptr<Component> Clone() override;
 
