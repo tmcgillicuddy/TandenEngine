@@ -36,6 +36,7 @@ namespace TandenEngine {
 
     class Component {
      public:
+        bool enabled = 1;
         ComponentType mType;
         GameObject *mParentObject;
         Transform *mTransform;

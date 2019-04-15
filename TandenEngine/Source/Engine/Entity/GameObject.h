@@ -41,15 +41,9 @@ namespace TandenEngine {
 
         template<typename T>
         bool RemoveComponent() {
-            for (const auto &component : mComponents) {
-                if (dynamic_cast<T *>(component.second.get()) != nullptr) {
-                    mComponents.erase(std::remove(mComponents.begin(),
-                            mComponents.end(), component), mComponents.end());
-                    return true;
-                }
-            }
+            mComponents[typeid(T)].get()->enabled = false;
 
-            return false;  // There was no component of that type on the object
+            return true;  // There was no component of that type on the object
         }
 
         void Update();
